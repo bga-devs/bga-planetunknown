@@ -1,0 +1,10 @@
+.planetunknown-meeple {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.action-button {
+    .icon-container ~ .planetunknown-meeple {
+        margin-left: 0.5em;
+    }
+}

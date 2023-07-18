@@ -1,0 +1,48 @@
+<style type="text/css">
+  * {
+    box-sizing: border-box;
+  }
+</style>
+
+<div class="container">
+  <textarea id="src" style="width: 300px; height: 600px"></textarea>
+  <button id="go" type="button">Go</button>
+  <textarea id="output" style="width: 300px; height: 600px"></textarea>
+</div>
+
+<script type="text/javascript">
+  function roundUp(num, precision) {
+    precision = Math.pow(10, precision);
+    return Math.ceil(num * precision) / precision;
+  }
+
+  document.getElementById("go").addEventListener("click", () => {
+    let content = document.getElementById("src").value;
+
+    let output = document.getElementById("output");
+    output.value = `
+    .planetunknown-icon {
+      background: url('img/icons.png');
+      background-repeat: no-repeat;
+`;
+
+    const re = new RegExp(
+      "\\.([a-zA-Z0-9\-]+) \\{\\s*width:\\s?([0-9]+)px;\\s?height:\\s?([0-9]+)px;([^\\}]+)\\}",
+      "g"
+    );
+
+    let t = [...content.matchAll(re)];
+    t.forEach((match) => {
+      let type = match[1];
+      let w = parseInt(match[2]);
+      let h = parseInt(match[3]);
+      output.value += `
+&.icon-${type} {
+  ${match[4]}
+}
+            `;
+    });
+
+    output.value += "}";
+  });
+</script>
