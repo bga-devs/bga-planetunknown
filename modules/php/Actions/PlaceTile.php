@@ -20,7 +20,19 @@ class PlaceTile extends \PU\Models\Action
     return [];
   }
 
-  public function actPlaceTile()
+  public function actPlaceTile($n)
   {
+    $t = [
+      0 => FOO_A,
+      1 => FOO_B,
+      2 => FOO_C,
+    ];
+    $action = $t[$n];
+
+    $this->insertAsChild([
+      'action' => $action,
+    ]);
+
+    $this->resolveAction([$n]);
   }
 }

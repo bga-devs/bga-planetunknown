@@ -168,8 +168,8 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       this.empty('customActions');
       this.empty('restartAction');
       this.empty('anytimeActions');
-      $('gameaction_status').innerHTML = '';
-      $('pagemaintitletext').innerHTML = '';
+      // $('gameaction_status').innerHTML = '';
+      // $('pagemaintitletext').innerHTML = '';
     },
     clearPossible() {
       this.clearTitleBar();

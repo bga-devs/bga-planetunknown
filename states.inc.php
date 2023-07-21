@@ -57,10 +57,8 @@ $machinestates = [
 
   ST_START_PARALLEL => [
     'name' => 'startParallel',
-    'type' => 'multipleactiveplayer',
-    'description' => clienttranslate('FOO'),
-    'descriptionmyturn' => clienttranslate('FOO'),
-    'possibleactions' => ['actBreakDiscardSelectCards', 'actCancelBreakDiscardSelection'],
+    'type' => 'game',
+    'action' => 'stStartParallel',
   ],
 
   ////////////////////////////////////
@@ -71,6 +69,28 @@ $machinestates = [
   // |_____|_| |_|\__, |_|_| |_|\___|
   //              |___/
   ////////////////////////////////////
+  ST_SETUP_PRIVATE_ENGINE => [
+    'name' => 'setupEngine',
+    'type' => 'multipleactiveplayer',
+    'description' => clienttranslate('Waiting for everyone to confirm their moves'),
+    'descriptionmyturn' => '',
+    'initialprivate' => ST_INIT_PRIVATE_ENGINE,
+    'possibleactions' => ['actCancel'],
+    'transitions' => ['done' => ST_APPLY_ENGINE],
+  ],
+
+  ST_APPLY_ENGINE => [
+    'name' => 'applyEngine',
+    'type' => 'game',
+    'action' => 'stApplyEngine',
+  ],
+
+  ST_INIT_PRIVATE_ENGINE => [
+    'name' => 'initPrivateEngine',
+    'descriptionmyturn' => '',
+    'type' => 'private',
+  ],
+
   ST_RESOLVE_STACK => [
     'name' => 'resolveStack',
     'type' => 'game',
@@ -80,9 +100,8 @@ $machinestates = [
 
   ST_CONFIRM_TURN => [
     'name' => 'confirmTurn',
-    'description' => clienttranslate('${actplayer} must confirm or restart their turn'),
     'descriptionmyturn' => clienttranslate('${you} must confirm or restart your turn'),
-    'type' => 'activeplayer',
+    'type' => 'private',
     'args' => 'argsConfirmTurn',
     'action' => 'stConfirmTurn',
     'possibleactions' => ['actConfirmTurn', 'actRestart'],
@@ -129,6 +148,41 @@ $machinestates = [
   // /_/   \_\__\___/|_| |_| |_|_|\___/_/   \_\___|\__|_|\___/|_| |_|___/
   //
   ////////////////////////////////////////////////////////////////////////////
+  ST_PLACE_TILE => [
+    'name' => 'placeTile',
+    'descriptionmyturn' => clienttranslate('${you} must place a tile'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actPlaceTile', 'actRestart'],
+  ],
+
+  ST_FOO_A => [
+    'name' => 'fooA',
+    'descriptionmyturn' => clienttranslate('${you} must fooA'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actFooA', 'actRestart'],
+  ],
+
+  ST_FOO_B => [
+    'name' => 'fooB',
+    'descriptionmyturn' => clienttranslate('${you} must fooB'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actFooB', 'actRestart'],
+  ],
+
+  ST_FOO_C => [
+    'name' => 'fooC',
+    'descriptionmyturn' => clienttranslate('${you} must fooC'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actFooC', 'actRestart'],
+  ],
 
   //////////////////////////////////////////////////////////////////
   //  _____           _    ___   __    ____

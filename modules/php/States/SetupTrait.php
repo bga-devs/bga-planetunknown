@@ -29,7 +29,6 @@ trait SetupTrait
 
     Globals::setFirstPlayer($this->getNextPlayerTable()[0]);
 
-    $this->setGameStateInitialValue('logging', false);
     $this->activeNextPlayer();
   }
 

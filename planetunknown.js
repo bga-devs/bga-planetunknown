@@ -374,6 +374,20 @@ define([
     // |_____|_| |_|\__, |_|_| |_|\___|
     //              |___/
     ////////////////////////////////////////
+    onEnteringStateSetupEngine(args) {
+      if (!this.isCurrentPlayerActive()) {
+        this.addSecondaryActionButton('btnCancel', _('Cancel'), () => this.takeAction('actCancel', {}, false));
+      }
+    },
+
+    onUpdateActivitySetupEngine(args, status) {
+      if (status) {
+        if ($('btnCancel')) $('btnCancel').remove();
+      } else {
+        this.clearPossible();
+        this.addSecondaryActionButton('btnCancel', _('Cancel'), () => this.takeAction('actCancel', {}, false));
+      }
+    },
 
     addActionChoiceBtn(choice, disabled = false) {
       if ($('btnChoice' + choice.id)) return;
@@ -489,6 +503,15 @@ define([
     // | |___|  _|  _|  __/ (__| |_\__ \
     // |_____|_| |_|  \___|\___|\__|___/
     ///////////////////////////////////////
+    onEnteringStatePlaceTile(args) {
+      this.addPrimaryActionButton('actionA', 'Action A', () => this.takeAtomicAction('actPlaceTile', [0]));
+      this.addPrimaryActionButton('actionB', 'Action B', () => this.takeAtomicAction('actPlaceTile', [1]));
+      this.addPrimaryActionButton('actionC', 'Action C', () => this.takeAtomicAction('actPlaceTile', [2]));
+    },
+
+    onEnteringStateFooA(args) {
+      this.addPrimaryActionButton('actionA', 'Done A', () => this.takeAtomicAction('actFooA', []));
+    },
 
     ////////////////////////////////////////////////////////////
     // _____                          _   _   _

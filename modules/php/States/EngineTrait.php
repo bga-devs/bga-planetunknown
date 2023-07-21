@@ -1,67 +1,43 @@
 <?php
 namespace PU\States;
 use PU\Core\Globals;
+use PU\Core\PGlobals;
 use PU\Core\Engine;
 use PU\Core\Game;
 use PU\Core\Notifications;
 use PU\Managers\Players;
 use PU\Managers\Meeples;
-use PU\Managers\Fences;
 use PU\Managers\Actions;
-use PU\Managers\ZooCards;
-use PU\Models\PlayerBoard;
-use PU\Actions\Effects\VenomPay;
-use PU\Actions\Animals;
 use PU\Helpers\Log;
 
 trait EngineTrait
 {
-  function addCommonArgs(&$args)
+  function addCommonArgs($pId, &$args)
   {
-    $args['previousEngineChoices'] = Globals::getEngineChoices();
-    $args['previousSteps'] = Log::getUndoableSteps();
-    if (!($args['automaticAction'] ?? false)) {
-      if (isset($args['_private']['active'])) {
-        $args['_private'][Players::getActiveId()] = $args['_private']['active'];
-        unset($args['_private']['active']);
-      }
-
-      foreach (Players::getAll() as $pId => $player) {
-        $args['_private'][$pId]['statuses'] = Animals::getPlayableStatuses($player);
-      }
-    }
+    $args['previousEngineChoices'] = PGlobals::getEngineChoices($pId);
+    // $args['previousSteps'] = Log::getUndoableSteps();
   }
 
   /**
    * Trying to get the atomic action corresponding to the state where the game is
    */
-  function getCurrentAtomicAction()
+  function getCurrentAtomicAction($pId)
   {
-    $stateId = $this->gamestate->state_id();
+    $stateId = PGlobals::getState($pId);
     return Actions::getActionOfState($stateId);
   }
 
   /**
    * Ask the corresponding atomic action for its args
    */
-  function argsAtomicAction()
+  function argsAtomicAction($pId)
   {
-    $player = Players::getActive();
-    $action = $this->getCurrentAtomicAction();
-    $node = Engine::getNextUnresolved();
+    $player = Players::get($pId);
+    $action = $this->getCurrentAtomicAction($pId);
+    $node = Engine::getNextUnresolved($pId);
     $args = Actions::getArgs($action, $node);
     $args['automaticAction'] = Actions::get($action, $node)->isAutomatic($player);
-    $this->addArgsAnytimeAction($args, $action);
-
-    $sourceId = $node->getSourceId() ?? null;
-    if (!isset($args['source']) && !is_null($sourceId)) {
-      $args['sourceId'] = $sourceId;
-      $args['source'] = ZooCards::get($sourceId)->getName();
-    }
-    $source = $node->getSource() ?? null;
-    if (!isset($args['source']) && !is_null($source)) {
-      $args['source'] = $source;
-    }
+    $this->addArgsAnytimeAction($pId, $args, $action);
 
     return $args;
   }
@@ -69,62 +45,46 @@ trait EngineTrait
   /**
    * Add anytime actions
    */
-  function addArgsAnytimeAction(&$args, $action)
+  function addArgsAnytimeAction($pId, &$args, $action)
   {
-    $this->addCommonArgs($args);
+    //   $this->addCommonArgs($args);
 
-    // If the action is auto => don't display anytime buttons
-    if ($args['automaticAction'] ?? false) {
-      return;
-    }
-    $player = Players::getActive();
-    $actions = [];
+    //   // If the action is auto => don't display anytime buttons
+    //   if ($args['automaticAction'] ?? false) {
+    //     return;
+    //   }
+    //   $player = Players::getActive();
+    //   $actions = [];
 
-    // Player may pay venom upfront
-    if (Globals::isVenomTriggered() && VenomPay::needToPay($player) && $this->gamestate->state_id() != ST_DISCARD_SCORING) {
-      $actions[] = [
-        'action' => \VENOM_PAY,
-        'pId' => $player->getId(),
-      ];
-    }
+    //   // Keep only doable actions
+    //   $anytimeActions = [];
+    //   foreach ($actions as $flow) {
+    //     $tree = Engine::buildTree($flow);
+    //     if ($tree->isDoable($player)) {
+    //       $anytimeActions[] = [
+    //         'flow' => $flow,
+    //         'desc' => $flow['desc'] ?? $tree->getDescription(true),
+    //         'optionalAction' => $tree->isOptional(),
+    //         'independentAction' => $tree->isIndependent($player),
+    //       ];
+    //     }
+    //   }
+    //   $args['anytimeActions'] = $anytimeActions;
+    // }
 
-    // Map 4 anytime action : discard 1 card for 3 money
-    if ($player->canUseMap(4) && !in_array($this->gamestate->state_id(), MAP4_FORBIDDEN) && !Globals::isBreak()) {
-      $actions[] = [
-        'action' => \MAP4,
-        'pId' => $player->getId(),
-      ];
-    }
+    // function actAnytimeAction($choiceId, $auto = false)
+    // {
+    //   $args = $this->gamestate->state()['args'];
+    //   if (!isset($args['anytimeActions'][$choiceId])) {
+    //     throw new \BgaVisibleSystemException('You can\'t take this anytime action');
+    //   }
 
-    // Keep only doable actions
-    $anytimeActions = [];
-    foreach ($actions as $flow) {
-      $tree = Engine::buildTree($flow);
-      if ($tree->isDoable($player)) {
-        $anytimeActions[] = [
-          'flow' => $flow,
-          'desc' => $flow['desc'] ?? $tree->getDescription(true),
-          'optionalAction' => $tree->isOptional(),
-          'independentAction' => $tree->isIndependent($player),
-        ];
-      }
-    }
-    $args['anytimeActions'] = $anytimeActions;
-  }
-
-  function actAnytimeAction($choiceId, $auto = false)
-  {
-    $args = $this->gamestate->state()['args'];
-    if (!isset($args['anytimeActions'][$choiceId])) {
-      throw new \BgaVisibleSystemException('You can\'t take this anytime action');
-    }
-
-    $flow = $args['anytimeActions'][$choiceId]['flow'];
-    if (!$auto) {
-      Globals::incEngineChoices();
-    }
-    Engine::insertAtRoot($flow, false);
-    Engine::proceed();
+    //   $flow = $args['anytimeActions'][$choiceId]['flow'];
+    //   if (!$auto) {
+    //     Globals::incEngineChoices();
+    //   }
+    //   Engine::insertAtRoot($flow, false);
+    //   Engine::proceed();
   }
 
   /**
@@ -133,8 +93,9 @@ trait EngineTrait
   function actTakeAtomicAction($actionName, $args)
   {
     self::checkAction($actionName);
-    $action = $this->getCurrentAtomicAction();
-    Actions::takeAction($action, $actionName, $args, Engine::getNextUnresolved());
+    $pId = Players::getCurrentId();
+    $action = $this->getCurrentAtomicAction($pId);
+    Actions::takeAction($action, $actionName, $args, Engine::getNextUnresolved($pId));
   }
 
   /**
@@ -155,10 +116,10 @@ trait EngineTrait
   /**
    * Pass the argument of the action to the atomic action
    */
-  function stAtomicAction()
+  function stAtomicAction($pId)
   {
-    $action = $this->getCurrentAtomicAction();
-    Actions::stAction($action, Engine::getNextUnresolved());
+    $action = $this->getCurrentAtomicAction($pId);
+    Actions::stAction($action, Engine::getNextUnresolved($pId));
   }
 
   /********************************
@@ -200,47 +161,46 @@ trait EngineTrait
   {
   }
 
-  function argsImpossibleAction()
+  function argsImpossibleAction($pId)
   {
-    $player = Players::getActive();
-    $node = Engine::getNextUnresolved();
-
+    $node = Engine::getNextUnresolved($pId);
     $args = [
       'desc' => $node->getDescription(),
     ];
-    $this->addArgsAnytimeAction($args, 'impossibleAction');
+    $this->addArgsAnytimeAction($pId, $args, 'impossibleAction');
     return $args;
   }
 
   /*******************************
    ******* CONFIRM / RESTART ******
    ********************************/
-  public function argsConfirmTurn()
+  public function argsConfirmTurn($pId)
   {
     $data = [
-      'previousEngineChoices' => Globals::getEngineChoices(),
-      'previousSteps' => Log::getUndoableSteps(),
+      'previousEngineChoices' => PGlobals::getEngineChoices($pId),
+      // 'previousSteps' => Log::getUndoableSteps(),
       'automaticAction' => false,
     ];
-    $this->addArgsAnytimeAction($data, 'confirmTurn');
+    $this->addArgsAnytimeAction($pId, $data, 'confirmTurn');
     return $data;
   }
 
-  public function stConfirmTurn()
+  public function stConfirmTurn($pId)
   {
     // Check user preference to bypass if DISABLED is picked
-    $pref = Players::getActive()->getPref(OPTION_CONFIRM);
-    if ($pref == OPTION_CONFIRM_DISABLED && !Players::getActive()->canUseMap(4)) {
-      $this->actConfirmTurn(true);
+    $pref = Players::get($pId)->getPref(OPTION_CONFIRM);
+    if ($pref == OPTION_CONFIRM_DISABLED) {
+      $this->actConfirmTurn(true, $pId);
     }
   }
 
-  public function actConfirmTurn($auto = false)
+  public function actConfirmTurn($auto = false, $pId = null)
   {
     if (!$auto) {
       self::checkAction('actConfirmTurn');
+      $pId = Players::getCurrentId();
     }
-    Engine::confirm();
+    Engine::confirm($pId);
   }
 
   public function actConfirmPartialTurn($auto = false)
@@ -264,5 +224,20 @@ trait EngineTrait
   {
     self::checkAction('actRestart');
     Engine::undoToStep($stepId);
+  }
+
+  public function actCancelEngine()
+  {
+    $pId = Players::getCurrentId();
+    $this->gamestate->setPlayersMultiactive([$pId], '');
+    $state = PGlobals::getState($pId);
+    $this->gamestate->setPrivateState($pId, $state);
+  }
+
+  public function stApplyEngine()
+  {
+    // TODO : apply engine
+
+    Engine::callback();
   }
 }

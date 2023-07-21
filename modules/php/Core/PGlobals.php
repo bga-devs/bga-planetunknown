@@ -3,38 +3,37 @@ namespace PU\Core;
 
 use PU\Core\Game;
 use PU\Helpers\Utils;
+use PU\Managers\Players;
 
 /*
- * Globals
+ * PGlobals: private globals => reduce potential deadlock
  */
-class Globals extends \PU\Helpers\DB_Manager
+class PGlobals extends \PU\Helpers\DB_Manager
 {
   protected static $initialized = false;
   protected static $variables = [
+    'state' => 'obj', // DO NOT MODIFY, USED IN ENGINE MODULE
+    'engine' => 'obj', // DO NOT MODIFY, USED IN ENGINE MODULE
+    'engineChoices' => 'int', // DO NOT MODIFY, USED IN ENGINE MODULE
     'callbackEngineResolved' => 'obj', // DO NOT MODIFY, USED IN ENGINE MODULE
+
     'anytimeRecursion' => 'int', // DO NOT MODIFY, USED IN ENGINE MODULE
     'customTurnOrders' => 'obj', // DO NOT MODIFY, USED FOR CUSTOM TURN ORDER FEATURE
-
-    'firstPlayer' => 'int',
-
-    // Setup
-
-    // Game options
-    'solo' => 'bool',
   ];
 
-  protected static $table = 'global_variables';
-  protected static $primary = 'name';
+  protected static $table = 'pglobal_variables';
+  protected static $primary = 'name'; // Name is actually name-pId
   protected static function cast($row)
   {
+    list($name, $pId) = explode('-', $row['name']);
     $val = json_decode(\stripslashes($row['value']), true);
-    return self::$variables[$row['name']] == 'int' ? ((int) $val) : $val;
+    return self::$variables[$name] == 'int' ? ((int) $val) : $val;
   }
 
   /*
    * Fetch all existings variables from DB
    */
-  protected static $data = [];
+  protected static $datas = [];
   public static function fetch()
   {
     // Turn of LOG to avoid infinite loop (Globals::isLogging() calling itself for fetching)
@@ -45,10 +44,12 @@ class Globals extends \PU\Helpers\DB_Manager
       self::DB()
         ->select(['value', 'name'])
         ->get(false)
-      as $name => $variable
+      as $uid => $variable
     ) {
+      list($name, $pId) = explode('-', $uid);
+
       if (\array_key_exists($name, self::$variables)) {
-        self::$data[$name] = $variable;
+        self::$datas[$pId][$name] = $variable;
       }
     }
     self::$initialized = true;
@@ -59,7 +60,7 @@ class Globals extends \PU\Helpers\DB_Manager
    * Create and store a global variable declared in this file but not present in DB yet
    *  (only happens when adding globals while a game is running)
    */
-  public static function create($name)
+  public static function create($name, $pId)
   {
     if (!\array_key_exists($name, self::$variables)) {
       return;
@@ -74,12 +75,30 @@ class Globals extends \PU\Helpers\DB_Manager
     $val = $default[self::$variables[$name]];
     self::DB()->insert(
       [
-        'name' => $name,
+        'name' => $name . '-' . $pId,
         'value' => \json_encode($val),
       ],
       true
     );
-    self::$data[$name] = $val;
+    self::$datas[$pId][$name] = $val;
+  }
+
+  /**
+   * get all the variables of a given name
+   */
+  public static function getAll($name)
+  {
+    if (!self::$initialized) {
+      self::fetch();
+    }
+
+    $t = [];
+    foreach (self::$datas as $pId => $data) {
+      if (isset($data[$name])) {
+        $t[$pId] = $data[$name];
+      }
+    }
+    return $t;
   }
 
   /*
@@ -91,6 +110,9 @@ class Globals extends \PU\Helpers\DB_Manager
       self::fetch();
     }
 
+    // First arguement is always pId
+    $pId = $args[0];
+
     if (preg_match('/^([gs]et|inc|is)([A-Z])(.*)$/', $method, $match)) {
       // Sanity check : does the name correspond to a declared variable ?
       $name = mb_strtolower($match[2]) . $match[3];
@@ -99,36 +121,31 @@ class Globals extends \PU\Helpers\DB_Manager
       }
 
       // Create in DB if don't exist yet
-      if (!\array_key_exists($name, self::$data)) {
-        self::create($name);
+      if (!\array_key_exists($name, self::$datas[$pId] ?? [])) {
+        self::create($name, $pId);
       }
 
       if ($match[1] == 'get') {
         // Basic getters
-        $t = self::$data[$name];
-        return isset($args[0]) && is_array($t) ? $t[$args[0]] : $t;
+        return self::$datas[$pId][$name];
       } elseif ($match[1] == 'is') {
         // Boolean getter
         if (self::$variables[$name] != 'bool') {
           throw new \InvalidArgumentException("Property {$name} is not of type bool");
         }
-        return (bool) self::$data[$name];
+        return (bool) self::$datas[$pId][$name];
       } elseif ($match[1] == 'set') {
         // Setters in DB and update cache
-        $value = $args[0];
+        $value = $args[1];
         if (self::$variables[$name] == 'int') {
           $value = (int) $value;
         }
         if (self::$variables[$name] == 'bool') {
           $value = (bool) $value;
         }
-        if (self::$variables[$name] == 'obj' && isset($args[1])) {
-          self::$data[$name][$args[0]] = $args[1];
-          $value = self::$data[$name];
-        }
 
-        self::$data[$name] = $value;
-        self::DB()->update(['value' => \addslashes(\json_encode($value))], $name);
+        self::$datas[$pId][$name] = $value;
+        self::DB()->update(['value' => \addslashes(\json_encode($value))], $name . '-' . $pId);
         return $value;
       } elseif ($match[1] == 'inc') {
         if (self::$variables[$name] != 'int') {
@@ -137,11 +154,7 @@ class Globals extends \PU\Helpers\DB_Manager
 
         $getter = 'get' . $match[2] . $match[3];
         $setter = 'set' . $match[2] . $match[3];
-        if (count($args) == 2) {
-          return self::$setter($args[0], self::$getter($args[0]) + $args[1]);
-        } else {
-          return self::$setter(self::$getter() + (empty($args) ? 1 : $args[0]));
-        }
+        return self::$setter($args[0], self::$getter($args[0]) + ($args[1] ?? 1));
       }
     }
     throw new \feException(print_r(debug_print_backtrace()));
@@ -153,6 +166,5 @@ class Globals extends \PU\Helpers\DB_Manager
    */
   public static function setupNewGame($players, $options)
   {
-    self::setSolo(count($players) == 1);
   }
 }

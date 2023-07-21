@@ -10,72 +10,12 @@ use PU\Core\Globals;
 class Actions
 {
   static $classes = [
-    GAIN => 'Gain',
+    PLACE_TILE => 'PlaceTile',
     // PAY => 'Pay',
-    ACTIVATE_CARD => 'ActivateCard',
-    SPECIAL_EFFECT => 'SpecialEffect',
-    CHOOSE_ACTION_CARD => 'ChooseActionCard',
 
-    // Action cards
-    ANIMALS => 'Animals',
-    ASSOCIATION => 'Association',
-    BUILD => 'Build',
-    CARDS => 'Cards',
-    SPONSORS => 'Sponsors',
-
-    // Animals powers
-    SPRINT => 'Effects\Sprint',
-    HUNTER => 'Effects\Hunter',
-    INVENTIVE => 'Effects\Inventive',
-    JUMPING => 'Effects\Jumping',
-    SUNBATHING => 'Effects\Sunbathing',
-    POUCH => 'Effects\Pouch',
-    DIGGING => 'Effects\Digging',
-    VENOM => 'Effects\Venom',
-    VENOM_PAY => 'Effects\VenomPay',
-    PILFERING => 'Effects\Pilfering',
-    PILFERING_EXECUTE => 'Effects\PilferingExecute',
-    SNAPPING => 'Effects\Snapping',
-    HYPNOSIS => 'Effects\Hypnosis',
-    SCAVENGING => 'Effects\Scavenging',
-    POSTURING => 'Effects\Posturing',
-    PERCEPTION => 'Effects\Perception',
-    PACK => 'Effects\Pack',
-    CLEVER => 'Effects\Clever',
-    BOOST => 'Effects\Boost',
-    ACTION => 'Effects\Action',
-    MULTIPLIER => 'Effects\Multiplier',
-    FULL_THROATED => 'Effects\FullThroated',
-    ICONIC_ANIMAL => 'Effects\IconicAnimal',
-    RESISTANCE => 'Effects\Resistance',
-    ASSERTION => 'Effects\Assertion',
-    SPONSOR_MAGNET => 'Effects\SponsorMagnet',
-    CONSTRICTION => 'Effects\Constriction',
-    DETERMINATION => 'Effects\Determination',
-    PEACOCKING => 'Effects\Peacocking',
-    PETTING_ZOO_ANIMAL => 'Effects\PettingZooAnimal',
-    DOMINANCE => 'Effects\Dominance',
-    MAP4 => 'Effects\Map4Effect',
-    MAP8 => 'Effects\Map8Effect',
-
-    // Bonuses
-    GAIN_UNIVERSITY => 'Bonuses\GainUniversity',
-    GAIN_PARTNER_ZOO => 'Bonuses\GainPartnerZoo',
-    BUY_SPONSOR => 'Bonuses\BuySponsor',
-    WAZA_SPECIAL => 'Bonuses\WazaSpecial',
-
-    // Other
-    ADVANCE_BREAK => 'AdvanceBreak',
-    CLEANUP => 'Cleanup',
-    DISCARD => 'Discard',
-    UPGRADE_CARD => 'UpgradeCard',
-    RELEASE => 'Release',
-    TAKE_BONUS => 'TakeBonus',
-    MOVE_ANIMALS => 'MoveAnimals',
-    TAKE_IN_RANGE => 'TakeInRange',
-    DISCARD_SCORING => 'DiscardScoring',
-    REMOVE_BONUS => 'RemoveBonus',
-    MONEY_INCOME => 'MoneyIncome',
+    FOO_A => 'FooA',
+    FOO_B => 'FooB',
+    FOO_C => 'FooC',
   ];
 
   public static function get($actionId, $ctx = null)

@@ -33,12 +33,18 @@ const ST_CHOOSE_ROTATION = 21;
 const ST_START_PARALLEL = 22;
 
 const ST_PLACE_TILE = 23;
+const ST_FOO_A = 24;
+const ST_FOO_B = 25;
+const ST_FOO_C = 26;
 
+const ST_SETUP_PRIVATE_ENGINE = 89;
 const ST_RESOLVE_STACK = 90;
 const ST_RESOLVE_CHOICE = 91;
 const ST_IMPOSSIBLE_MANDATORY_ACTION = 92;
 const ST_CONFIRM_TURN = 93;
 const ST_CONFIRM_PARTIAL_TURN = 94;
+const ST_INIT_PRIVATE_ENGINE = 95;
+const ST_APPLY_ENGINE = 96;
 
 const ST_GENERIC_NEXT_PLAYER = 97;
 const ST_PRE_END_OF_GAME = 98;
@@ -61,6 +67,10 @@ const PASS = 99;
  */
 
 const PLACE_TILE = 'PLACE_TILE';
+
+const FOO_A = 'FOO_A';
+const FOO_B = 'FOO_B';
+const FOO_C = 'FOO_C';
 
 /*
  * Resources

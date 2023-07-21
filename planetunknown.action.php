@@ -45,6 +45,13 @@ class action_planetunknown extends APP_GameAction
     self::ajaxResponse();
   }
 
+  public function actCancel()
+  {
+    self::setAjaxMode();
+    $this->game->actCancelEngine();
+    self::ajaxResponse();
+  }
+
   public function actConfirmTurn()
   {
     self::setAjaxMode();

@@ -100,6 +100,11 @@ class AbstractNode
     return $this->parent;
   }
 
+  public function getRoot()
+  {
+    return is_null($this->parent) ? $this : $this->parent->getRoot();
+  }
+
   public function getChilds()
   {
     return $this->childs;
@@ -244,11 +249,6 @@ class AbstractNode
   public function forceConfirmation()
   {
     return $this->infos['forceConfirmation'] ?? false;
-  }
-
-  public function isReUsable()
-  {
-    return $this->infos['reusable'] ?? false;
   }
 
   public function isResolvingParent()

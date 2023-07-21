@@ -77,23 +77,6 @@ class LeafNode extends AbstractNode
   }
 
   /**
-   * The state is either hardcoded into the leaf, or correspond to the attached action
-   */
-  public function getState()
-  {
-    if (isset($this->infos['state'])) {
-      return $this->infos['state'];
-    }
-
-    if (isset($this->infos['action'])) {
-      return Actions::getState($this->infos['action'], $this);
-    }
-
-    var_dump(\PU\Core\Engine::$tree->toArray());
-    throw new \BgaVisibleSystemException('Trying to get state on a leaf without state nor action');
-  }
-
-  /**
    * The description is given by the corresponding action
    */
   public function getDescription()

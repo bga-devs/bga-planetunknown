@@ -57,11 +57,9 @@ class planetunknown extends Table
   {
     parent::__construct();
     self::$instance = $this;
-    self::initGameStateLabels([
-      'logging' => 10,
-    ]);
+    self::initGameStateLabels([]);
     Engine::boot();
-    Stats::checkExistence();
+    // Stats::checkExistence();
   }
 
   public static function get()

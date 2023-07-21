@@ -186,7 +186,7 @@ abstract class DB_Model extends \APP_DbObject implements \JsonSerializable
 
     $log = null;
 
-    if (static::$log ?? Game::get()->getGameStateValue('logging') == 1) {
+    if (static::$log ?? true) {
       $log = new Log($this->table, $this->primary);
     }
 
