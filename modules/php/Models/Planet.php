@@ -27,12 +27,6 @@ class Planet
   protected $name = '';
   protected $desc = '';
   protected $terrains = [];
-  protected $bonuses = [];
-  protected $upgradeNeeded = [];
-  protected $lastWorkerBonus = null;
-  protected $partnerZooBonuses = [];
-  protected $facBonuses = [];
-  protected $bonusSpaces = [];
 
   // CONSTRUCT
   protected $player = null;
@@ -66,33 +60,6 @@ class Planet
     return $this->name;
   }
 
-  public function getPartnerZooBonuses()
-  {
-    return $this->partnerZooBonuses;
-  }
-
-  public function getFacBonuses()
-  {
-    return $this->facBonuses;
-  }
-
-  public function getBonusSpaces()
-  {
-    return $this->bonusSpaces;
-  }
-
-  public function getLastWorkerBonus()
-  {
-    return $this->lastWorkerBonus;
-  }
-
-  public function getIncomeBonuses()
-  {
-    return array_filter($this->bonusSpaces, function ($space) {
-      return $space['type'] == INCOME;
-    });
-  }
-
   public function getUiData()
   {
     return [
@@ -100,12 +67,6 @@ class Planet
       'name' => $this->name,
       'desc' => $this->desc,
       'terrains' => $this->terrains,
-      'upgradeNeeded' => $this->upgradeNeeded,
-      'bonuses' => $this->bonuses,
-      'bonusSpaces' => $this->bonusSpaces,
-      'lastWorkerBonus' => $this->lastWorkerBonus,
-      'partnerZooBonuses' => $this->partnerZooBonuses,
-      'facBonuses' => $this->facBonuses,
     ];
   }
 
