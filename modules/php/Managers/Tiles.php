@@ -21,7 +21,20 @@ class Tiles extends \PU\Helpers\CachedPieces
   }
   public static function getUiData()
   {
-    return self::getAll()->toArray();
+    $tiles = self::getInLocation('board');
+    for ($j = 0; $j < 6; $j++) {
+      $tile = self::getTopOf("interior-$j")->first();
+      if (!is_null($tile)) {
+        $tiles[] = $tile;
+      }
+
+      $tile = self::getTopOf("exterior-$j")->first();
+      if (!is_null($tile)) {
+        $tiles[] = $tile;
+      }
+    }
+
+    return $tiles->toArray();
   }
 
   ////////////////////////////////////
@@ -36,5 +49,30 @@ class Tiles extends \PU\Helpers\CachedPieces
   /* Creation of various meeples */
   public static function setupNewGame($players, $options)
   {
+    $interior = [8, 3, 10, 4, 2, 6];
+    $exterior = [9, 5, 7, 1, 0, 11];
+    $tiles = [];
+    foreach ($interior as $j => $shapeId) {
+      for ($i = 0; $i < 12; $i++) {
+        $tiles[] = [
+          'type' => $i * 12 + $shapeId,
+          'location' => "interior-$j",
+        ];
+      }
+    }
+    foreach ($exterior as $j => $shapeId) {
+      for ($i = 0; $i < 12; $i++) {
+        $tiles[] = [
+          'type' => $i * 12 + $shapeId,
+          'location' => "exterior-$j",
+        ];
+      }
+    }
+
+    self::create($tiles);
+    for ($j = 0; $j < 6; $j++) {
+      self::shuffle("interior-$j");
+      self::shuffle("exterior-$j");
+    }
   }
 }

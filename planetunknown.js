@@ -132,12 +132,28 @@ define([
       $('ebd-body').dataset.startingAppeal = gamedatas.startingAppeal;
       this.setupInfoPanel();
 
+      this.setupSusan();
       // this.setupScoreBoard();
       this.setupPlayers();
-      // this.setupBuildings();
+      this.setupTiles();
       this.setupMeeples();
       // this.setupTour();
       this.inherited(arguments);
+    },
+
+    setupSusan() {
+      $('planetunknown-main-container').insertAdjacentHTML(
+        'beforeend',
+        `<div id="susan-container">
+          <div id="susan-exterior"></div>
+          <div id="susan-interior"></div>
+        </div>`
+      );
+
+      for (let j = 0; j < 6; j++) {
+        $('susan-exterior').insertAdjacentHTML('beforeend', `<div class="susan-space" id='exterior-${j}'></div>`);
+        $('susan-interior').insertAdjacentHTML('beforeend', `<div class="susan-space" id='interior-${j}'></div>`);
+      }
     },
 
     onLoadingComplete() {

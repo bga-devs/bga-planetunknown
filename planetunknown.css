@@ -290,6 +290,23 @@
 .action-button .icon-container ~ .planetunknown-meeple {
   margin-left: 0.5em; }
 
+#susan-container {
+  width: 100%;
+  background: white;
+  border-radius: 7px;
+  border: 1px solid black; }
+  #susan-container #susan-exterior,
+  #susan-container #susan-interior {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 7px 0px; }
+    #susan-container #susan-exterior .tile-container,
+    #susan-container #susan-interior .tile-container {
+      margin: 0; }
+  #susan-container #susan-exterior {
+    border-bottom: 1px solid black; }
+
 .player-name svg {
   width: 25px;
   height: 21px;
@@ -304,157 +321,265 @@
   display: flex;
   justify-content: space-between; }
 
-#pagesubtitle #building-selector {
-  margin: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap; }
-  #pagesubtitle #building-selector .building-container {
-    margin: 0;
-    transform: scale(0.9);
-    transform-origin: center center; }
-    #pagesubtitle #building-selector .building-container:hover {
-      transform: scale(0.95); }
-    #pagesubtitle #building-selector .building-container.selected {
-      transform: scale(0.95); }
-      #pagesubtitle #building-selector .building-container.selected .building-border {
-        background: green; }
-    #pagesubtitle #building-selector .building-container .building-crosshairs {
-      visibility: visible; }
-    #pagesubtitle #building-selector .building-container.unplacable {
-      cursor: not-allowed;
-      filter: grayscale(1);
-      -webkit-transform: translateZ(0);
-      -webkit-perspective: 1000;
-      -webkit-backface-visibility: hidden;
-      opacity: 0.7; }
-      #pagesubtitle #building-selector .building-container.unplacable:hover {
-        transform: scale(0.9); }
+/*
+#pagesubtitle #tile-selector {
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 
-#building-controls {
-  grid-row-end: span 2;
-  grid-column-end: span 4;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  pointer-events: none; }
-  #building-controls.inactive, [data-rotation-arrows="1"] #building-controls, [data-rotation-arrows="2"] #building-controls {
-    display: none; }
-  #building-controls #building-controls-circle {
-    width: 0px;
-    height: 0px;
-    flex-shrink: 0;
-    border-radius: 50%;
-    border: 4px dotted black;
-    z-index: 4;
+    .tile-container {
+        margin: 0;
+        transform: scale(0.9);
+        transform-origin: center center;
+        &:hover {
+            transform: scale(0.95);
+        }
+
+        &.selected {
+            transform: scale(0.95);
+            .tile-border {
+                background: green;
+            }
+        }
+
+        .tile-crosshairs {
+            visibility: visible;
+        }
+
+        &.unplacable {
+            cursor: not-allowed;
+            // [data-filter="0"] & {
+            filter: grayscale(1);
+            -webkit-transform: translateZ(0);
+            -webkit-perspective: 1000;
+            -webkit-backface-visibility: hidden;
+            // }
+            opacity: 0.7;
+
+            &:hover {
+                transform: scale(0.9);
+            }
+        }
+    }
+}
+
+#tile-controls {
+    grid-row-end: span 2;
+    grid-column-end: span 4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     pointer-events: none;
-    background: #7d7d7d1f;
-    position: relative; }
-    #building-controls #building-controls-circle #building-rotate-clockwise,
-    #building-controls #building-controls-circle #building-rotate-cclockwise,
-    #building-controls #building-controls-circle #building-confirm-btn {
-      position: absolute;
-      top: calc(50% - 20px);
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: white;
-      border: 1px solid black;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      pointer-events: all;
-      cursor: pointer; }
-      #building-controls #building-controls-circle #building-rotate-clockwise svg,
-      #building-controls #building-controls-circle #building-rotate-cclockwise svg,
-      #building-controls #building-controls-circle #building-confirm-btn svg {
-        height: 31px;
-        width: 40px; }
-    #building-controls #building-controls-circle #building-rotate-clockwise {
-      right: -21px; }
-    #building-controls #building-controls-circle #building-rotate-cclockwise {
-      left: -21px; }
-    #building-controls #building-controls-circle #building-confirm-btn {
-      top: calc(85% - 15px);
-      left: calc(85% - 15px);
-      color: white;
-      background: #4871b6;
-      padding: 0px;
-      margin: 0px;
-      font-size: 20px; }
-      #building-controls #building-controls-circle #building-confirm-btn.disabled {
-        opacity: 1;
-        background: linear-gradient(rgba(189, 189, 189, 0.8), rgba(166, 165, 165, 0.9));
-        cursor: not-allowed;
-        pointer-events: all; }
-    #building-controls #building-controls-circle.bottom #building-confirm-btn {
-      top: calc(15% - 15px); }
-  #building-controls[data-type="kiosk"] #building-controls-circle #building-rotate-clockwise,
-  #building-controls[data-type="kiosk"] #building-controls-circle #building-rotate-cclockwise, #building-controls[data-type="pavilion"] #building-controls-circle #building-rotate-clockwise,
-  #building-controls[data-type="pavilion"] #building-controls-circle #building-rotate-cclockwise, #building-controls[data-type="size-1"] #building-controls-circle #building-rotate-clockwise,
-  #building-controls[data-type="size-1"] #building-controls-circle #building-rotate-cclockwise {
-    display: none; }
-  #building-controls.hovering #building-controls-circle #building-confirm-btn {
-    display: none; }
+    &.inactive,
+    [data-rotation-arrows="1"] &,
+    [data-rotation-arrows="2"] & {
+        display: none;
+    }
 
-.building-container {
+    #tile-controls-circle {
+        width: 0px;
+        height: 0px;
+        flex-shrink: 0;
+        border-radius: 50%;
+        border: 4px dotted black;
+        z-index: 4;
+        pointer-events: none;
+        background: #7d7d7d1f;
+        position: relative;
+
+        #tile-rotate-clockwise,
+        #tile-rotate-cclockwise,
+        #tile-confirm-btn {
+            position: absolute;
+            top: calc(50% - 20px);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            border: 1px solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: all;
+            cursor: pointer;
+
+            svg {
+                height: 31px;
+                width: 40px;
+            }
+        }
+        #tile-rotate-clockwise {
+            right: -21px;
+        }
+        #tile-rotate-cclockwise {
+            left: -21px;
+        }
+
+        #tile-confirm-btn {
+            top: calc(85% - 15px);
+            left: calc(85% - 15px);
+            color: white;
+            background: #4871b6;
+            padding: 0px;
+            margin: 0px;
+            font-size: 20px;
+
+            &.disabled {
+                opacity: 1;
+                background: linear-gradient(rgba(189, 189, 189, 0.8), rgba(166, 165, 165, 0.9));
+                cursor: not-allowed;
+                pointer-events: all;
+            }
+        }
+        &.bottom #tile-confirm-btn {
+            top: calc(15% - 15px);
+        }
+    }
+
+    &[data-type="kiosk"],
+    &[data-type="pavilion"],
+    &[data-type="size-1"] {
+        //    [data-rotation-arrows="1"] & {
+        #tile-controls-circle {
+            #tile-rotate-clockwise,
+            #tile-rotate-cclockwise {
+                display: none;
+            }
+        }
+    }
+
+    &.hovering #tile-controls-circle #tile-confirm-btn {
+        display: none;
+    }
+}
+*/
+.tile-container {
   position: relative;
-  flex-shrink: 0; }
-  .building-container.phantom {
+  flex-shrink: 0;
+  /*
+  [data-tiles-borders] &.selectable {
+      cursor: pointer;
+      .tile-border {
+          background: black;
+      }
+  }
+  [data-tiles-borders] &.selected {
+      .tile-border {
+          background: #004cff;
+      }
+  }
+  */
+  /*
+  [data-tiles-borders="1"] & .tile-border {
+      background: #a68731;
+  }
+  */
+    /*
+    &#tile-hover {
+        transition: transform 0.4s;
+        pointer-events: none;
+        z-index: 6;
+        .tile-border {
+            background: #085f08;
+        }
+        .tile-crosshairs {
+            fill: #085f08;
+            &::before {
+                display: none;
+            }
+        }
+
+        &.hovering {
+            .tile-border {
+                background: black;
+            }
+            .tile-crosshairs {
+                fill: black;
+            }
+        }
+        &.invalid {
+            .tile-border {
+                background: red;
+            }
+            .tile-crosshairs {
+                fill: red;
+            }
+        }
+
+        .tile-inner {
+            display: none;
+        }
+
+        [data-rotation-arrows="0"] & .tile-crosshairs {
+            visibility: visible;
+            #tile-rotate-clockwise-on-tile,
+            #tile-rotate-cclockwise-on-tile {
+                visibility: hidden;
+            }
+        }
+
+        [data-rotation-arrows="1"] &,
+        [data-rotation-arrows="2"] & {
+            .tile-crosshairs {
+                visibility: visible;
+                transition: transform 0.4s;
+                #tile-rotate-clockwise-on-tile,
+                #tile-rotate-cclockwise-on-tile {
+                    pointer-events: all;
+                    position: absolute;
+                    left: -27px;
+                    top: -23px;
+                    width: 33px;
+                    height: 73px;
+
+                    svg {
+                        width: 50%;
+                        margin-left: 11px;
+                    }
+                }
+                #tile-rotate-clockwise-on-tile {
+                    left: 25px;
+                    svg {
+                        margin-left: 3px;
+                    }
+                }
+            }
+        }
+    }
+    */ }
+  .tile-container.phantom {
     visibility: hidden; }
-  .building-container[data-rotation="0"] {
+  .tile-container[data-rotation="0"] {
     transform: rotate(0deg); }
-    .building-container[data-rotation="0"] .building-crosshairs {
+    .tile-container[data-rotation="0"] .tile-crosshairs {
       transform: rotate(0deg); }
-  .building-container[data-rotation="1"] {
-    transform: rotate(60deg); }
-    .building-container[data-rotation="1"] .building-crosshairs {
-      transform: rotate(-60deg); }
-  .building-container[data-rotation="2"] {
-    transform: rotate(120deg); }
-    .building-container[data-rotation="2"] .building-crosshairs {
-      transform: rotate(-120deg); }
-  .building-container[data-rotation="3"] {
+  .tile-container[data-rotation="1"] {
+    transform: rotate(90deg); }
+    .tile-container[data-rotation="1"] .tile-crosshairs {
+      transform: rotate(-90deg); }
+  .tile-container[data-rotation="2"] {
     transform: rotate(180deg); }
-    .building-container[data-rotation="3"] .building-crosshairs {
+    .tile-container[data-rotation="2"] .tile-crosshairs {
       transform: rotate(-180deg); }
-  .building-container[data-rotation="4"] {
-    transform: rotate(240deg); }
-    .building-container[data-rotation="4"] .building-crosshairs {
-      transform: rotate(-240deg); }
-  .building-container[data-rotation="5"] {
-    transform: rotate(300deg); }
-    .building-container[data-rotation="5"] .building-crosshairs {
-      transform: rotate(-300deg); }
-  .building-container[data-type="kiosk"] .building-crosshairs #building-rotate-clockwise-on-tile,
-  .building-container[data-type="kiosk"] .building-crosshairs #building-rotate-cclockwise-on-tile, .building-container[data-type="pavilion"] .building-crosshairs #building-rotate-clockwise-on-tile,
-  .building-container[data-type="pavilion"] .building-crosshairs #building-rotate-cclockwise-on-tile, .building-container[data-type="size-1"] .building-crosshairs #building-rotate-clockwise-on-tile,
-  .building-container[data-type="size-1"] .building-crosshairs #building-rotate-cclockwise-on-tile, [data-rotation-arrows="2"] .building-container .building-crosshairs #building-rotate-clockwise-on-tile,
-  [data-rotation-arrows="2"] .building-container .building-crosshairs #building-rotate-cclockwise-on-tile {
-    display: none; }
-  [data-buildings-borders] .building-container.selectable {
-    cursor: pointer; }
-    [data-buildings-borders] .building-container.selectable .building-border {
-      background: black; }
-  [data-buildings-borders] .building-container.selected .building-border {
-    background: #004cff; }
-  .building-container .building-border,
-  .building-container .building-inner {
+  .tile-container[data-rotation="3"] {
+    transform: rotate(270deg); }
+    .tile-container[data-rotation="3"] .tile-crosshairs {
+      transform: rotate(-270deg); }
+  .tile-container .tile-border,
+  .tile-container .tile-inner {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%; }
-  [data-buildings-borders="1"] .building-container .building-border {
-    background: #a68731; }
-  .building-container .building-inner {
-    background: url("img/enclosures.jpg");
-    background-size: 831px;
+  .tile-container .tile-inner {
+    background-size: 688.8px;
     background-repeat: no-repeat; }
-    .building-container .building-inner .planetunknown-meeple {
+    .tile-container .tile-inner .planetunknown-meeple {
       position: absolute; }
-  .building-container .building-crosshairs {
+  .tile-container .tile-crosshairs {
     visibility: hidden;
     pointer-events: none;
     position: absolute;
@@ -462,634 +587,476 @@
     height: 30px;
     margin-left: -15px;
     margin-top: -15px; }
-    .building-container .building-crosshairs svg {
+    .tile-container .tile-crosshairs svg {
       width: 100%;
       height: 100%; }
-  [data-enclosure-size="1"] .building-container[data-state="0"][data-type="size-1"] .building-crosshairs::before, [data-enclosure-size="1"] .building-container[data-state="0"][data-type="size-2"] .building-crosshairs::before, [data-enclosure-size="1"] .building-container[data-state="0"][data-type="size-3"] .building-crosshairs::before, [data-enclosure-size="1"] .building-container[data-state="0"][data-type="size-4"] .building-crosshairs::before, [data-enclosure-size="1"] .building-container[data-state="0"][data-type="size-5"] .building-crosshairs::before {
-    visibility: visible;
-    display: block;
-    position: absolute;
-    width: 41px;
-    height: 36px;
-    top: -4px;
-    left: -6px;
-    background: url("img/icons.png");
-    background-position: 12.596999482669426% 67.37012987012987%;
-    background-size: 1780.8695652173913%;
-    color: white;
-    font-family: "MyriadPro-Bold";
-    font-size: 25px;
-    text-align: center;
-    line-height: 34px; }
-  [data-enclosure-size="1"] .building-container[data-type="size-1"] .building-crosshairs::before {
-    content: "1"; }
-  [data-enclosure-size="1"] .building-container[data-type="size-2"] .building-crosshairs::before {
-    content: "2"; }
-  [data-enclosure-size="1"] .building-container[data-type="size-3"] .building-crosshairs::before {
-    content: "3"; }
-  [data-enclosure-size="1"] .building-container[data-type="size-4"] .building-crosshairs::before {
-    content: "4"; }
-  [data-enclosure-size="1"] .building-container[data-type="size-5"] .building-crosshairs::before {
-    content: "5"; }
-  .building-container#building-hover {
-    transition: transform 0.4s;
-    pointer-events: none;
-    z-index: 6; }
-    .building-container#building-hover .building-border {
-      background: #085f08; }
-    .building-container#building-hover .building-crosshairs {
-      fill: #085f08; }
-      .building-container#building-hover .building-crosshairs::before {
-        display: none; }
-    .building-container#building-hover.hovering .building-border {
-      background: black; }
-    .building-container#building-hover.hovering .building-crosshairs {
-      fill: black; }
-    .building-container#building-hover.invalid .building-border {
-      background: red; }
-    .building-container#building-hover.invalid .building-crosshairs {
-      fill: red; }
-    .building-container#building-hover .building-inner {
-      display: none; }
-    [data-rotation-arrows="0"] .building-container#building-hover .building-crosshairs {
-      visibility: visible; }
-      [data-rotation-arrows="0"] .building-container#building-hover .building-crosshairs #building-rotate-clockwise-on-tile,
-      [data-rotation-arrows="0"] .building-container#building-hover .building-crosshairs #building-rotate-cclockwise-on-tile {
-        visibility: hidden; }
-    [data-rotation-arrows="1"] .building-container#building-hover .building-crosshairs, [data-rotation-arrows="2"] .building-container#building-hover .building-crosshairs {
-      visibility: visible;
-      transition: transform 0.4s; }
-      [data-rotation-arrows="1"] .building-container#building-hover .building-crosshairs #building-rotate-clockwise-on-tile,
-      [data-rotation-arrows="1"] .building-container#building-hover .building-crosshairs #building-rotate-cclockwise-on-tile, [data-rotation-arrows="2"] .building-container#building-hover .building-crosshairs #building-rotate-clockwise-on-tile,
-      [data-rotation-arrows="2"] .building-container#building-hover .building-crosshairs #building-rotate-cclockwise-on-tile {
-        pointer-events: all;
-        position: absolute;
-        left: -27px;
-        top: -23px;
-        width: 33px;
-        height: 73px; }
-        [data-rotation-arrows="1"] .building-container#building-hover .building-crosshairs #building-rotate-clockwise-on-tile svg,
-        [data-rotation-arrows="1"] .building-container#building-hover .building-crosshairs #building-rotate-cclockwise-on-tile svg, [data-rotation-arrows="2"] .building-container#building-hover .building-crosshairs #building-rotate-clockwise-on-tile svg,
-        [data-rotation-arrows="2"] .building-container#building-hover .building-crosshairs #building-rotate-cclockwise-on-tile svg {
-          width: 50%;
-          margin-left: 11px; }
-      [data-rotation-arrows="1"] .building-container#building-hover .building-crosshairs #building-rotate-clockwise-on-tile, [data-rotation-arrows="2"] .building-container#building-hover .building-crosshairs #building-rotate-clockwise-on-tile {
-        left: 25px; }
-        [data-rotation-arrows="1"] .building-container#building-hover .building-crosshairs #building-rotate-clockwise-on-tile svg, [data-rotation-arrows="2"] .building-container#building-hover .building-crosshairs #building-rotate-clockwise-on-tile svg {
-          margin-left: 3px; }
-  .building-container:not([data-type]), .building-container[data-type=""] {
+  .tile-container:not([data-type]), .tile-container[data-type=""] {
     display: none; }
 
-.building-container[data-type="size-1"][data-state="0"] {
-  width: 90px;
-  height: 78px;
-  margin-left: 0%;
-  margin-top: 0%;
-  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%, 25% 0%);
+.tile-container .tile-inner {
+  background-image: url("img/tiles-0.png");
+  background-repeat: no-repeat; }
+.tile-container[data-sprite="1"] .tile-inner {
+  background-image: url("img/tiles-1.png"); }
+.tile-container[data-sprite="2"] .tile-inner {
+  background-image: url("img/tiles-2.png"); }
+.tile-container[data-shape="0"] {
+  width: 196.8px;
+  height: 98.4px;
+  margin-left: -300%;
+  margin-top: -346.41016151377545%;
+  clip-path: polygon(75% 50%, 75% 100%, 50% 100%, 25% 100%, 0% 100%, 0% 50%, 25% 50%, 50% 50%, 50% 0%, 75% 0%, 100% 0%, 100% 50%, 75% 50%);
+  transform-origin: 62.5% 75%; }
+  .tile-container[data-shape="0"] .building-inner {
+    clip-path: polygon(75% 50%, 75% 100%, 50% 100%, 25% 100%, 0% 100%, 0% 50%, 25% 50%, 50% 50%, 50% 0%, 75% 0%, 100% 0%, 100% 50%, 75% 50%); }
+  .tile-container[data-shape="0"] .building-border {
+    clip-path: polygon(75% 50%, 75% 100%, 50% 100%, 25% 100%, 0% 100%, 0% 50%, 25% 50%, 50% 50%, 50% 0%, 75% 0%, 100% 0%, 100% 50%, 75% 50%); }
+  .tile-container[data-shape="0"] .building-crosshairs {
+    left: 62.5%;
+    top: 75%; }
+.tile-container[data-shape="1"] {
+  width: 147.6px;
+  height: 147.6px;
+  margin-left: -100%;
+  margin-top: -346.41016151377545%;
+  clip-path: polygon(33.3333333333% 33.3333333333%, 66.6666666667% 33.3333333333%, 66.6666666667% 0%, 100% 0%, 100% 33.3333333333%, 100% 66.6666666667%, 66.6666666667% 66.6666666667%, 66.6666666667% 100%, 33.3333333333% 100%, 33.3333333333% 66.6666666667%, 0% 66.6666666667%, 0% 33.3333333333%, 33.3333333333% 33.3333333333%);
   transform-origin: 50% 50%; }
-  .building-container[data-type="size-1"][data-state="0"] .building-inner {
-    background-position: 0% 0%;
-    clip-path: polygon(26.25% 2.5%, 73.75% 2.5%, 97.5% 50%, 73.75% 97.5%, 26.25% 97.5%, 2.5% 50%, 26.25% 2.5%); }
-  .building-container[data-type="size-1"][data-state="0"] .building-border {
-    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%, 25% 0%, 25% 0%, 28.125% 6.25%, 28.125% 6.25%, 6.25% 50%, 28.125% 93.75%, 71.875% 93.75%, 93.75% 50%, 71.875% 6.25%, 28.125% 6.25%); }
-  .building-container[data-type="size-1"][data-state="0"] .building-crosshairs {
+  .tile-container[data-shape="1"] .building-inner {
+    clip-path: polygon(33.3333333333% 33.3333333333%, 66.6666666667% 33.3333333333%, 66.6666666667% 0%, 100% 0%, 100% 33.3333333333%, 100% 66.6666666667%, 66.6666666667% 66.6666666667%, 66.6666666667% 100%, 33.3333333333% 100%, 33.3333333333% 66.6666666667%, 0% 66.6666666667%, 0% 33.3333333333%, 33.3333333333% 33.3333333333%); }
+  .tile-container[data-shape="1"] .building-border {
+    clip-path: polygon(33.3333333333% 33.3333333333%, 66.6666666667% 33.3333333333%, 66.6666666667% 0%, 100% 0%, 100% 33.3333333333%, 100% 66.6666666667%, 66.6666666667% 66.6666666667%, 66.6666666667% 100%, 33.3333333333% 100%, 33.3333333333% 66.6666666667%, 0% 66.6666666667%, 0% 33.3333333333%, 33.3333333333% 33.3333333333%); }
+  .tile-container[data-shape="1"] .building-crosshairs {
     left: 50%;
     top: 50%; }
-.building-container[data-type="size-2"][data-state="0"] {
-  width: 90px;
-  height: 157px;
-  margin-left: 0%;
+.tile-container[data-shape="2"] {
+  width: 49.2px;
+  height: 144px;
+  margin-left: 100%;
+  margin-top: -346.41016151377545%;
+  clip-path: polygon(100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 0% 100%, 0% 66.6666666667%, 0% 33.3333333333%, 0% 0%, 100% 0%, 100% 33.3333333333%);
+  transform-origin: 50% 50%; }
+  .tile-container[data-shape="2"] .building-inner {
+    clip-path: polygon(100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 0% 100%, 0% 66.6666666667%, 0% 33.3333333333%, 0% 0%, 100% 0%, 100% 33.3333333333%); }
+  .tile-container[data-shape="2"] .building-border {
+    clip-path: polygon(100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 0% 100%, 0% 66.6666666667%, 0% 33.3333333333%, 0% 0%, 100% 0%, 100% 33.3333333333%); }
+  .tile-container[data-shape="2"] .building-crosshairs {
+    left: 50%;
+    top: 50%; }
+.tile-container[data-shape="3"] {
+  width: 98.4px;
+  height: 98.4px;
+  margin-left: -100%;
   margin-top: 0%;
-  clip-path: polygon(25% 0%, 75% 0%, 100% 25%, 75% 50%, 100% 75%, 75% 100%, 25% 100%, 0% 75%, 25% 50%, 0% 25%, 25% 0%);
+  clip-path: polygon(50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 50% 50%, 0% 50%, 0% 0%, 50% 0%);
+  transform-origin: 75% 25%; }
+  .tile-container[data-shape="3"] .building-inner {
+    clip-path: polygon(50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 50% 50%, 0% 50%, 0% 0%, 50% 0%); }
+  .tile-container[data-shape="3"] .building-border {
+    clip-path: polygon(50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 50% 50%, 0% 50%, 0% 0%, 50% 0%); }
+  .tile-container[data-shape="3"] .building-crosshairs {
+    left: 75%;
+    top: 25%; }
+.tile-container[data-shape="4"] {
+  width: 147.6px;
+  height: 98.4px;
+  margin-left: -100%;
+  margin-top: 0%;
+  clip-path: polygon(33.3333333333% 0%, 66.6666666667% 0%, 100% 0%, 100% 50%, 66.6666666667% 50%, 66.6666666667% 100%, 33.3333333333% 100%, 33.3333333333% 50%, 0% 50%, 0% 0%, 33.3333333333% 0%);
   transform-origin: 50% 25%; }
-  .building-container[data-type="size-2"][data-state="0"] .building-inner {
-    background-position: 0% 14.285714285714285%;
-    clip-path: polygon(26.25% 1.25%, 73.75% 1.25%, 97.5% 25%, 72.5% 50%, 97.5% 75%, 73.75% 98.75%, 26.25% 98.75%, 2.5% 75%, 27.5% 50%, 2.5% 25%, 26.25% 1.25%); }
-  .building-container[data-type="size-2"][data-state="0"] .building-border {
-    clip-path: polygon(25% 0%, 75% 0%, 100% 25%, 75% 50%, 100% 75%, 75% 100%, 25% 100%, 0% 75%, 25% 50%, 0% 25%, 25% 0%, 25% 0%, 28.125% 3.125%, 28.125% 3.125%, 6.25% 25%, 31.25% 50%, 6.25% 75%, 28.125% 96.875%, 71.875% 96.875%, 93.75% 75%, 68.75% 50%, 93.75% 25%, 71.875% 3.125%, 28.125% 3.125%); }
-  .building-container[data-type="size-2"][data-state="0"] .building-crosshairs {
+  .tile-container[data-shape="4"] .building-inner {
+    clip-path: polygon(33.3333333333% 0%, 66.6666666667% 0%, 100% 0%, 100% 50%, 66.6666666667% 50%, 66.6666666667% 100%, 33.3333333333% 100%, 33.3333333333% 50%, 0% 50%, 0% 0%, 33.3333333333% 0%); }
+  .tile-container[data-shape="4"] .building-border {
+    clip-path: polygon(33.3333333333% 0%, 66.6666666667% 0%, 100% 0%, 100% 50%, 66.6666666667% 50%, 66.6666666667% 100%, 33.3333333333% 100%, 33.3333333333% 50%, 0% 50%, 0% 0%, 33.3333333333% 0%); }
+  .tile-container[data-shape="4"] .building-crosshairs {
     left: 50%;
     top: 25%; }
-.building-container[data-type="size-3"][data-state="0"] {
-  width: 158px;
-  height: 157px;
-  margin-left: 0%;
+.tile-container[data-shape="5"] {
+  width: 147.6px;
+  height: 98.4px;
+  margin-left: -100%;
   margin-top: 0%;
-  clip-path: polygon(14.2857142857% 0%, 42.8571428571% 0%, 57.1428571429% 25%, 85.7142857143% 25%, 100% 50%, 85.7142857143% 75%, 57.1428571429% 75%, 42.8571428571% 100%, 14.2857142857% 100%, 0% 75%, 14.2857142857% 50%, 0% 25%, 14.2857142857% 0%);
-  transform-origin: 28.57142857142857% 25%; }
-  .building-container[data-type="size-3"][data-state="0"] .building-inner {
-    background-position: 10% 7.142857142857142%;
-    clip-path: polygon(15% 1.25%, 42.1428571429% 1.25%, 56.4285714286% 26.25%, 85% 26.25%, 98.5714285714% 50%, 85% 73.75%, 56.4285714286% 73.75%, 42.1428571429% 98.75%, 15% 98.75%, 1.4285714286% 75%, 15.7142857143% 50%, 1.4285714286% 25%, 15% 1.25%); }
-  .building-container[data-type="size-3"][data-state="0"] .building-border {
-    clip-path: polygon(14.2857142857% 0%, 42.8571428571% 0%, 57.1428571429% 25%, 85.7142857143% 25%, 100% 50%, 85.7142857143% 75%, 57.1428571429% 75%, 42.8571428571% 100%, 14.2857142857% 100%, 0% 75%, 14.2857142857% 50%, 0% 25%, 14.2857142857% 0%, 14.2857142857% 0%, 16.0714285714% 3.125%, 16.0714285714% 3.125%, 3.5714285714% 25%, 17.8571428571% 50%, 3.5714285714% 75%, 16.0714285714% 96.875%, 41.0714285714% 96.875%, 55.3571428571% 71.875%, 83.9285714286% 71.875%, 96.4285714286% 50%, 83.9285714286% 28.125%, 55.3571428571% 28.125%, 41.0714285714% 3.125%, 16.0714285714% 3.125%); }
-  .building-container[data-type="size-3"][data-state="0"] .building-crosshairs {
-    left: 28.57142857142857%;
-    top: 25%; }
-.building-container[data-type="size-4"][data-state="0"] {
-  width: 158px;
-  height: 196px;
-  margin-left: 0%;
-  margin-top: -346.41016151377545%;
-  clip-path: polygon(14.2857142857% 40%, 0% 60%, 14.2857142857% 80%, 42.8571428571% 80%, 57.1428571429% 100%, 85.7142857143% 100%, 100% 80%, 85.7142857143% 60%, 100% 40%, 85.7142857143% 20%, 57.1428571429% 20%, 42.8571428571% 0%, 14.2857142857% 0%, 0% 20%, 14.2857142857% 40%);
-  transform-origin: 28.57142857142857% 60%; }
-  .building-container[data-type="size-4"][data-state="0"] .building-inner {
-    background-position: 30% 7.6923076923076925%;
-    clip-path: polygon(15.7142857143% 40%, 1.4285714286% 60%, 15% 79%, 43.5714285714% 79%, 57.8571428571% 99%, 85% 99%, 98.5714285714% 80%, 84.2857142857% 60%, 98.5714285714% 40%, 85% 21%, 56.4285714286% 21%, 42.1428571429% 1%, 15% 1%, 1.4285714286% 20%, 15.7142857143% 40%); }
-  .building-container[data-type="size-4"][data-state="0"] .building-border {
-    clip-path: polygon(14.2857142857% 40%, 0% 60%, 14.2857142857% 80%, 42.8571428571% 80%, 57.1428571429% 100%, 85.7142857143% 100%, 100% 80%, 85.7142857143% 60%, 100% 40%, 85.7142857143% 20%, 57.1428571429% 20%, 42.8571428571% 0%, 14.2857142857% 0%, 0% 20%, 14.2857142857% 40%, 14.2857142857% 40%, 17.8571428571% 40%, 17.8571428571% 40%, 3.5714285714% 20%, 16.0714285714% 2.5%, 41.0714285714% 2.5%, 55.3571428571% 22.5%, 83.9285714286% 22.5%, 96.4285714286% 40%, 82.1428571429% 60%, 96.4285714286% 80%, 83.9285714286% 97.5%, 58.9285714286% 97.5%, 44.6428571429% 77.5%, 16.0714285714% 77.5%, 3.5714285714% 60%, 17.8571428571% 40%); }
-  .building-container[data-type="size-4"][data-state="0"] .building-crosshairs {
-    left: 28.57142857142857%;
-    top: 60%; }
-.building-container[data-type="size-5"][data-state="0"] {
-  width: 158px;
-  height: 235px;
-  margin-left: -300%;
-  margin-top: -346.41016151377545%;
-  clip-path: polygon(85.7142857143% 33.3333333333%, 100% 50%, 85.7142857143% 66.6666666667%, 100% 83.3333333333%, 85.7142857143% 100%, 57.1428571429% 100%, 42.8571428571% 83.3333333333%, 14.2857142857% 83.3333333333%, 0% 66.6666666667%, 14.2857142857% 50%, 0% 33.3333333333%, 14.2857142857% 16.6666666667%, 42.8571428571% 16.6666666667%, 57.1428571429% 0%, 85.7142857143% 0%, 100% 16.6666666667%, 85.7142857143% 33.3333333333%);
-  transform-origin: 71.42857142857143% 50%; }
-  .building-container[data-type="size-5"][data-state="0"] .building-inner {
-    background-position: 50% 0%;
-    clip-path: polygon(84.2857142857% 33.3333333333%, 98.5714285714% 50%, 84.2857142857% 66.6666666667%, 98.5714285714% 83.3333333333%, 85% 99.1666666667%, 57.8571428571% 99.1666666667%, 43.5714285714% 82.5%, 15% 82.5%, 1.4285714286% 66.6666666667%, 15.7142857143% 50%, 1.4285714286% 33.3333333333%, 15% 17.5%, 43.5714285714% 17.5%, 57.8571428571% 0.8333333333%, 85% 0.8333333333%, 98.5714285714% 16.6666666667%, 84.2857142857% 33.3333333333%); }
-  .building-container[data-type="size-5"][data-state="0"] .building-border {
-    clip-path: polygon(85.7142857143% 33.3333333333%, 100% 50%, 85.7142857143% 66.6666666667%, 100% 83.3333333333%, 85.7142857143% 100%, 57.1428571429% 100%, 42.8571428571% 83.3333333333%, 14.2857142857% 83.3333333333%, 0% 66.6666666667%, 14.2857142857% 50%, 0% 33.3333333333%, 14.2857142857% 16.6666666667%, 42.8571428571% 16.6666666667%, 57.1428571429% 0%, 85.7142857143% 0%, 100% 16.6666666667%, 85.7142857143% 33.3333333333%, 85.7142857143% 33.3333333333%, 82.1428571429% 33.3333333333%, 82.1428571429% 33.3333333333%, 96.4285714286% 16.6666666667%, 83.9285714286% 2.0833333333%, 58.9285714286% 2.0833333333%, 44.6428571429% 18.75%, 16.0714285714% 18.75%, 3.5714285714% 33.3333333333%, 17.8571428571% 50%, 3.5714285714% 66.6666666667%, 16.0714285714% 81.25%, 44.6428571429% 81.25%, 58.9285714286% 97.9166666667%, 83.9285714286% 97.9166666667%, 96.4285714286% 83.3333333333%, 82.1428571429% 66.6666666667%, 96.4285714286% 50%, 82.1428571429% 33.3333333333%); }
-  .building-container[data-type="size-5"][data-state="0"] .building-crosshairs {
-    left: 71.42857142857143%;
-    top: 50%; }
-.building-container[data-type="size-1"][data-state="1"] {
-  width: 90px;
-  height: 78px;
-  margin-left: 0%;
-  margin-top: 0%;
-  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%, 25% 0%);
-  transform-origin: 50% 50%; }
-  .building-container[data-type="size-1"][data-state="1"] .building-inner {
-    background-position: 0% 37.5%;
-    clip-path: polygon(26.25% 2.5%, 73.75% 2.5%, 97.5% 50%, 73.75% 97.5%, 26.25% 97.5%, 2.5% 50%, 26.25% 2.5%); }
-  .building-container[data-type="size-1"][data-state="1"] .building-border {
-    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%, 25% 0%, 25% 0%, 28.125% 6.25%, 28.125% 6.25%, 6.25% 50%, 28.125% 93.75%, 71.875% 93.75%, 93.75% 50%, 71.875% 6.25%, 28.125% 6.25%); }
-  .building-container[data-type="size-1"][data-state="1"] .building-crosshairs {
-    left: 50%;
-    top: 50%; }
-.building-container[data-type="size-2"][data-state="1"] {
-  width: 90px;
-  height: 157px;
-  margin-left: 0%;
-  margin-top: 0%;
-  clip-path: polygon(25% 0%, 75% 0%, 100% 25%, 75% 50%, 100% 75%, 75% 100%, 25% 100%, 0% 75%, 25% 50%, 0% 25%, 25% 0%);
+  clip-path: polygon(33.3333333333% 0%, 66.6666666667% 0%, 100% 0%, 100% 50%, 66.6666666667% 50%, 66.6666666667% 100%, 33.3333333333% 100%, 0% 100%, 0% 50%, 33.3333333333% 50%, 33.3333333333% 0%);
   transform-origin: 50% 25%; }
-  .building-container[data-type="size-2"][data-state="1"] .building-inner {
-    background-position: 0% 57.14285714285714%;
-    clip-path: polygon(26.25% 1.25%, 73.75% 1.25%, 97.5% 25%, 72.5% 50%, 97.5% 75%, 73.75% 98.75%, 26.25% 98.75%, 2.5% 75%, 27.5% 50%, 2.5% 25%, 26.25% 1.25%); }
-  .building-container[data-type="size-2"][data-state="1"] .building-border {
-    clip-path: polygon(25% 0%, 75% 0%, 100% 25%, 75% 50%, 100% 75%, 75% 100%, 25% 100%, 0% 75%, 25% 50%, 0% 25%, 25% 0%, 25% 0%, 28.125% 3.125%, 28.125% 3.125%, 6.25% 25%, 31.25% 50%, 6.25% 75%, 28.125% 96.875%, 71.875% 96.875%, 93.75% 75%, 68.75% 50%, 93.75% 25%, 71.875% 3.125%, 28.125% 3.125%); }
-  .building-container[data-type="size-2"][data-state="1"] .building-crosshairs {
+  .tile-container[data-shape="5"] .building-inner {
+    clip-path: polygon(33.3333333333% 0%, 66.6666666667% 0%, 100% 0%, 100% 50%, 66.6666666667% 50%, 66.6666666667% 100%, 33.3333333333% 100%, 0% 100%, 0% 50%, 33.3333333333% 50%, 33.3333333333% 0%); }
+  .tile-container[data-shape="5"] .building-border {
+    clip-path: polygon(33.3333333333% 0%, 66.6666666667% 0%, 100% 0%, 100% 50%, 66.6666666667% 50%, 66.6666666667% 100%, 33.3333333333% 100%, 0% 100%, 0% 50%, 33.3333333333% 50%, 33.3333333333% 0%); }
+  .tile-container[data-shape="5"] .building-crosshairs {
     left: 50%;
     top: 25%; }
-.building-container[data-type="size-3"][data-state="1"] {
-  width: 158px;
-  height: 157px;
-  margin-left: 0%;
-  margin-top: 0%;
-  clip-path: polygon(14.2857142857% 0%, 42.8571428571% 0%, 57.1428571429% 25%, 85.7142857143% 25%, 100% 50%, 85.7142857143% 75%, 57.1428571429% 75%, 42.8571428571% 100%, 14.2857142857% 100%, 0% 75%, 14.2857142857% 50%, 0% 25%, 14.2857142857% 0%);
-  transform-origin: 28.57142857142857% 25%; }
-  .building-container[data-type="size-3"][data-state="1"] .building-inner {
-    background-position: 10% 35.714285714285715%;
-    clip-path: polygon(15% 1.25%, 42.1428571429% 1.25%, 56.4285714286% 26.25%, 85% 26.25%, 98.5714285714% 50%, 85% 73.75%, 56.4285714286% 73.75%, 42.1428571429% 98.75%, 15% 98.75%, 1.4285714286% 75%, 15.7142857143% 50%, 1.4285714286% 25%, 15% 1.25%); }
-  .building-container[data-type="size-3"][data-state="1"] .building-border {
-    clip-path: polygon(14.2857142857% 0%, 42.8571428571% 0%, 57.1428571429% 25%, 85.7142857143% 25%, 100% 50%, 85.7142857143% 75%, 57.1428571429% 75%, 42.8571428571% 100%, 14.2857142857% 100%, 0% 75%, 14.2857142857% 50%, 0% 25%, 14.2857142857% 0%, 14.2857142857% 0%, 16.0714285714% 3.125%, 16.0714285714% 3.125%, 3.5714285714% 25%, 17.8571428571% 50%, 3.5714285714% 75%, 16.0714285714% 96.875%, 41.0714285714% 96.875%, 55.3571428571% 71.875%, 83.9285714286% 71.875%, 96.4285714286% 50%, 83.9285714286% 28.125%, 55.3571428571% 28.125%, 41.0714285714% 3.125%, 16.0714285714% 3.125%); }
-  .building-container[data-type="size-3"][data-state="1"] .building-crosshairs {
-    left: 28.57142857142857%;
-    top: 25%; }
-.building-container[data-type="size-4"][data-state="1"] {
-  width: 158px;
-  height: 196px;
-  margin-left: 0%;
+.tile-container[data-shape="6"] {
+  width: 98.4px;
+  height: 147.6px;
+  margin-left: -100%;
   margin-top: -346.41016151377545%;
-  clip-path: polygon(14.2857142857% 40%, 0% 60%, 14.2857142857% 80%, 42.8571428571% 80%, 57.1428571429% 100%, 85.7142857143% 100%, 100% 80%, 85.7142857143% 60%, 100% 40%, 85.7142857143% 20%, 57.1428571429% 20%, 42.8571428571% 0%, 14.2857142857% 0%, 0% 20%, 14.2857142857% 40%);
-  transform-origin: 28.57142857142857% 60%; }
-  .building-container[data-type="size-4"][data-state="1"] .building-inner {
-    background-position: 30% 38.46153846153847%;
-    clip-path: polygon(15.7142857143% 40%, 1.4285714286% 60%, 15% 79%, 43.5714285714% 79%, 57.8571428571% 99%, 85% 99%, 98.5714285714% 80%, 84.2857142857% 60%, 98.5714285714% 40%, 85% 21%, 56.4285714286% 21%, 42.1428571429% 1%, 15% 1%, 1.4285714286% 20%, 15.7142857143% 40%); }
-  .building-container[data-type="size-4"][data-state="1"] .building-border {
-    clip-path: polygon(14.2857142857% 40%, 0% 60%, 14.2857142857% 80%, 42.8571428571% 80%, 57.1428571429% 100%, 85.7142857143% 100%, 100% 80%, 85.7142857143% 60%, 100% 40%, 85.7142857143% 20%, 57.1428571429% 20%, 42.8571428571% 0%, 14.2857142857% 0%, 0% 20%, 14.2857142857% 40%, 14.2857142857% 40%, 17.8571428571% 40%, 17.8571428571% 40%, 3.5714285714% 20%, 16.0714285714% 2.5%, 41.0714285714% 2.5%, 55.3571428571% 22.5%, 83.9285714286% 22.5%, 96.4285714286% 40%, 82.1428571429% 60%, 96.4285714286% 80%, 83.9285714286% 97.5%, 58.9285714286% 97.5%, 44.6428571429% 77.5%, 16.0714285714% 77.5%, 3.5714285714% 60%, 17.8571428571% 40%); }
-  .building-container[data-type="size-4"][data-state="1"] .building-crosshairs {
-    left: 28.57142857142857%;
-    top: 60%; }
-.building-container[data-type="size-5"][data-state="1"] {
-  width: 158px;
-  height: 235px;
-  margin-left: -300%;
+  clip-path: polygon(100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 50% 100%, 0% 100%, 0% 66.6666666667%, 50% 66.6666666667%, 50% 33.3333333333%, 50% 0%, 100% 0%, 100% 33.3333333333%);
+  transform-origin: 75% 50%; }
+  .tile-container[data-shape="6"] .building-inner {
+    clip-path: polygon(100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 50% 100%, 0% 100%, 0% 66.6666666667%, 50% 66.6666666667%, 50% 33.3333333333%, 50% 0%, 100% 0%, 100% 33.3333333333%); }
+  .tile-container[data-shape="6"] .building-border {
+    clip-path: polygon(100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 50% 100%, 0% 100%, 0% 66.6666666667%, 50% 66.6666666667%, 50% 33.3333333333%, 50% 0%, 100% 0%, 100% 33.3333333333%); }
+  .tile-container[data-shape="6"] .building-crosshairs {
+    left: 75%;
+    top: 50%; }
+.tile-container[data-shape="7"] {
+  width: 147.6px;
+  height: 98.4px;
+  margin-left: -100%;
   margin-top: -346.41016151377545%;
-  clip-path: polygon(85.7142857143% 33.3333333333%, 100% 50%, 85.7142857143% 66.6666666667%, 100% 83.3333333333%, 85.7142857143% 100%, 57.1428571429% 100%, 42.8571428571% 83.3333333333%, 14.2857142857% 83.3333333333%, 0% 66.6666666667%, 14.2857142857% 50%, 0% 33.3333333333%, 14.2857142857% 16.6666666667%, 42.8571428571% 16.6666666667%, 57.1428571429% 0%, 85.7142857143% 0%, 100% 16.6666666667%, 85.7142857143% 33.3333333333%);
-  transform-origin: 71.42857142857143% 50%; }
-  .building-container[data-type="size-5"][data-state="1"] .building-inner {
-    background-position: 50% 50%;
-    clip-path: polygon(84.2857142857% 33.3333333333%, 98.5714285714% 50%, 84.2857142857% 66.6666666667%, 98.5714285714% 83.3333333333%, 85% 99.1666666667%, 57.8571428571% 99.1666666667%, 43.5714285714% 82.5%, 15% 82.5%, 1.4285714286% 66.6666666667%, 15.7142857143% 50%, 1.4285714286% 33.3333333333%, 15% 17.5%, 43.5714285714% 17.5%, 57.8571428571% 0.8333333333%, 85% 0.8333333333%, 98.5714285714% 16.6666666667%, 84.2857142857% 33.3333333333%); }
-  .building-container[data-type="size-5"][data-state="1"] .building-border {
-    clip-path: polygon(85.7142857143% 33.3333333333%, 100% 50%, 85.7142857143% 66.6666666667%, 100% 83.3333333333%, 85.7142857143% 100%, 57.1428571429% 100%, 42.8571428571% 83.3333333333%, 14.2857142857% 83.3333333333%, 0% 66.6666666667%, 14.2857142857% 50%, 0% 33.3333333333%, 14.2857142857% 16.6666666667%, 42.8571428571% 16.6666666667%, 57.1428571429% 0%, 85.7142857143% 0%, 100% 16.6666666667%, 85.7142857143% 33.3333333333%, 85.7142857143% 33.3333333333%, 82.1428571429% 33.3333333333%, 82.1428571429% 33.3333333333%, 96.4285714286% 16.6666666667%, 83.9285714286% 2.0833333333%, 58.9285714286% 2.0833333333%, 44.6428571429% 18.75%, 16.0714285714% 18.75%, 3.5714285714% 33.3333333333%, 17.8571428571% 50%, 3.5714285714% 66.6666666667%, 16.0714285714% 81.25%, 44.6428571429% 81.25%, 58.9285714286% 97.9166666667%, 83.9285714286% 97.9166666667%, 96.4285714286% 83.3333333333%, 82.1428571429% 66.6666666667%, 96.4285714286% 50%, 82.1428571429% 33.3333333333%); }
-  .building-container[data-type="size-5"][data-state="1"] .building-crosshairs {
-    left: 71.42857142857143%;
-    top: 50%; }
-.building-container[data-type="large-bird-aviary"] {
-  width: 226px;
-  height: 196px;
-  margin-left: -300%;
-  margin-top: -173.20508075688772%;
-  clip-path: polygon(40% 20%, 60% 20%, 70% 0%, 90% 0%, 100% 20%, 90% 40%, 70% 40%, 60% 60%, 70% 80%, 60% 100%, 40% 100%, 30% 80%, 10% 80%, 0% 60%, 10% 40%, 0% 20%, 10% 0%, 30% 0%, 40% 20%);
-  transform-origin: 50% 40%; }
-  .building-container[data-type="large-bird-aviary"] .building-inner {
-    background-position: 33.33333333333333% 84.61538461538461%;
-    clip-path: polygon(39.5% 21%, 60.5% 21%, 70.5% 1%, 89.5% 1%, 99% 20%, 89.5% 39%, 69.5% 39%, 59% 60%, 69% 80%, 59.5% 99%, 40.5% 99%, 30.5% 79%, 10.5% 79%, 1% 60%, 11% 40%, 1% 20%, 10.5% 1%, 29.5% 1%, 39.5% 21%); }
-  .building-container[data-type="large-bird-aviary"] .building-border {
-    clip-path: polygon(40% 20%, 60% 20%, 70% 0%, 90% 0%, 100% 20%, 90% 40%, 70% 40%, 60% 60%, 70% 80%, 60% 100%, 40% 100%, 30% 80%, 10% 80%, 0% 60%, 10% 40%, 0% 20%, 10% 0%, 30% 0%, 40% 20%, 40% 20%, 38.75% 22.5%, 38.75% 22.5%, 28.75% 2.5%, 11.25% 2.5%, 2.5% 20%, 12.5% 40%, 2.5% 60%, 11.25% 77.5%, 31.25% 77.5%, 41.25% 97.5%, 58.75% 97.5%, 67.5% 80%, 57.5% 60%, 68.75% 37.5%, 88.75% 37.5%, 97.5% 20%, 88.75% 2.5%, 71.25% 2.5%, 61.25% 22.5%, 38.75% 22.5%); }
-  .building-container[data-type="large-bird-aviary"] .building-crosshairs {
+  clip-path: polygon(33.3333333333% 50%, 66.6666666667% 50%, 66.6666666667% 0%, 100% 0%, 100% 50%, 100% 100%, 66.6666666667% 100%, 33.3333333333% 100%, 0% 100%, 0% 50%, 0% 0%, 33.3333333333% 0%, 33.3333333333% 50%);
+  transform-origin: 50% 75%; }
+  .tile-container[data-shape="7"] .building-inner {
+    clip-path: polygon(33.3333333333% 50%, 66.6666666667% 50%, 66.6666666667% 0%, 100% 0%, 100% 50%, 100% 100%, 66.6666666667% 100%, 33.3333333333% 100%, 0% 100%, 0% 50%, 0% 0%, 33.3333333333% 0%, 33.3333333333% 50%); }
+  .tile-container[data-shape="7"] .building-border {
+    clip-path: polygon(33.3333333333% 50%, 66.6666666667% 50%, 66.6666666667% 0%, 100% 0%, 100% 50%, 100% 100%, 66.6666666667% 100%, 33.3333333333% 100%, 0% 100%, 0% 50%, 0% 0%, 33.3333333333% 0%, 33.3333333333% 50%); }
+  .tile-container[data-shape="7"] .building-crosshairs {
     left: 50%;
-    top: 40%; }
-.building-container[data-type="petting-zoo"] {
-  width: 158px;
-  height: 196px;
-  margin-left: 0%;
-  margin-top: -173.20508075688772%;
-  clip-path: polygon(14.2857142857% 20%, 42.8571428571% 20%, 57.1428571429% 0%, 85.7142857143% 0%, 100% 20%, 85.7142857143% 40%, 57.1428571429% 40%, 42.8571428571% 60%, 57.1428571429% 80%, 42.8571428571% 100%, 14.2857142857% 100%, 0% 80%, 14.2857142857% 60%, 0% 40%, 14.2857142857% 20%);
-  transform-origin: 28.57142857142857% 40%; }
-  .building-container[data-type="petting-zoo"] .building-inner {
-    background-position: 10% 61.53846153846154%;
-    clip-path: polygon(15% 21%, 43.5714285714% 21%, 57.8571428571% 1%, 85% 1%, 98.5714285714% 20%, 85% 39%, 56.4285714286% 39%, 41.4285714286% 60%, 55.7142857143% 80%, 42.1428571429% 99%, 15% 99%, 1.4285714286% 80%, 15.7142857143% 60%, 1.4285714286% 40%, 15% 21%); }
-  .building-container[data-type="petting-zoo"] .building-border {
-    clip-path: polygon(14.2857142857% 20%, 42.8571428571% 20%, 57.1428571429% 0%, 85.7142857143% 0%, 100% 20%, 85.7142857143% 40%, 57.1428571429% 40%, 42.8571428571% 60%, 57.1428571429% 80%, 42.8571428571% 100%, 14.2857142857% 100%, 0% 80%, 14.2857142857% 60%, 0% 40%, 14.2857142857% 20%, 14.2857142857% 20%, 16.0714285714% 22.5%, 16.0714285714% 22.5%, 3.5714285714% 40%, 17.8571428571% 60%, 3.5714285714% 80%, 16.0714285714% 97.5%, 41.0714285714% 97.5%, 53.5714285714% 80%, 39.2857142857% 60%, 55.3571428571% 37.5%, 83.9285714286% 37.5%, 96.4285714286% 20%, 83.9285714286% 2.5%, 58.9285714286% 2.5%, 44.6428571429% 22.5%, 16.0714285714% 22.5%); }
-  .building-container[data-type="petting-zoo"] .building-crosshairs {
-    left: 28.57142857142857%;
-    top: 40%; }
-.building-container[data-type="reptile-house"] {
-  width: 226px;
-  height: 157px;
-  margin-left: -300%;
-  margin-top: -173.20508075688772%;
-  clip-path: polygon(40% 25%, 60% 25%, 70% 0%, 90% 0%, 100% 25%, 90% 50%, 100% 75%, 90% 100%, 70% 100%, 60% 75%, 40% 75%, 30% 100%, 10% 100%, 0% 75%, 10% 50%, 0% 25%, 10% 0%, 30% 0%, 40% 25%);
-  transform-origin: 50% 50%; }
-  .building-container[data-type="reptile-house"] .building-inner {
-    background-position: 0% 85.71428571428571%;
-    clip-path: polygon(39.5% 26.25%, 60.5% 26.25%, 70.5% 1.25%, 89.5% 1.25%, 99% 25%, 89% 50%, 99% 75%, 89.5% 98.75%, 70.5% 98.75%, 60.5% 73.75%, 39.5% 73.75%, 29.5% 98.75%, 10.5% 98.75%, 1% 75%, 11% 50%, 1% 25%, 10.5% 1.25%, 29.5% 1.25%, 39.5% 26.25%); }
-  .building-container[data-type="reptile-house"] .building-border {
-    clip-path: polygon(40% 25%, 60% 25%, 70% 0%, 90% 0%, 100% 25%, 90% 50%, 100% 75%, 90% 100%, 70% 100%, 60% 75%, 40% 75%, 30% 100%, 10% 100%, 0% 75%, 10% 50%, 0% 25%, 10% 0%, 30% 0%, 40% 25%, 40% 25%, 38.75% 28.125%, 38.75% 28.125%, 28.75% 3.125%, 11.25% 3.125%, 2.5% 25%, 12.5% 50%, 2.5% 75%, 11.25% 96.875%, 28.75% 96.875%, 38.75% 71.875%, 61.25% 71.875%, 71.25% 96.875%, 88.75% 96.875%, 97.5% 75%, 87.5% 50%, 97.5% 25%, 88.75% 3.125%, 71.25% 3.125%, 61.25% 28.125%, 38.75% 28.125%); }
-  .building-container[data-type="reptile-house"] .building-crosshairs {
-    left: 50%;
-    top: 50%; }
-.building-container[data-type="kiosk"] {
-  width: 90px;
-  height: 78px;
-  margin-left: 0%;
+    top: 75%; }
+.tile-container[data-shape="8"] {
+  width: 49.2px;
+  height: 98.4px;
+  margin-left: 100%;
   margin-top: 0%;
-  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%, 25% 0%);
-  transform-origin: 50% 50%; }
-  .building-container[data-type="kiosk"] .building-inner {
-    background-position: 18.181818181818183% 25%;
-    clip-path: polygon(26.25% 2.5%, 73.75% 2.5%, 97.5% 50%, 73.75% 97.5%, 26.25% 97.5%, 2.5% 50%, 26.25% 2.5%); }
-  .building-container[data-type="kiosk"] .building-border {
-    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%, 25% 0%, 25% 0%, 28.125% 6.25%, 28.125% 6.25%, 6.25% 50%, 28.125% 93.75%, 71.875% 93.75%, 93.75% 50%, 71.875% 6.25%, 28.125% 6.25%); }
-  .building-container[data-type="kiosk"] .building-crosshairs {
-    left: 50%;
-    top: 50%; }
-.building-container[data-type="monkey"] {
-  width: 158px;
-  height: 274px;
-  margin-left: -300%;
-  margin-top: -173.20508075688772%;
-  clip-path: polygon(57.1428571429% 14.2857142857%, 85.7142857143% 14.2857142857%, 100% 28.5714285714%, 85.7142857143% 42.8571428571%, 100% 57.1428571429%, 85.7142857143% 71.4285714286%, 100% 85.7142857143%, 85.7142857143% 100%, 57.1428571429% 100%, 42.8571428571% 85.7142857143%, 57.1428571429% 71.4285714286%, 42.8571428571% 57.1428571429%, 57.1428571429% 42.8571428571%, 42.8571428571% 28.5714285714%, 14.2857142857% 28.5714285714%, 0% 14.2857142857%, 14.2857142857% 0%, 42.8571428571% 0%, 57.1428571429% 14.2857142857%);
-  transform-origin: 71.42857142857143% 28.57142857142857%; }
-  .building-container[data-type="monkey"] .building-inner {
-    background-position: 70% 9.090909090909092%;
-    clip-path: polygon(56.4285714286% 15%, 85% 15%, 98.5714285714% 28.5714285714%, 84.2857142857% 42.8571428571%, 98.5714285714% 57.1428571429%, 84.2857142857% 71.4285714286%, 98.5714285714% 85.7142857143%, 85% 99.2857142857%, 57.8571428571% 99.2857142857%, 44.2857142857% 85.7142857143%, 58.5714285714% 71.4285714286%, 44.2857142857% 57.1428571429%, 58.5714285714% 42.8571428571%, 43.5714285714% 27.8571428571%, 15% 27.8571428571%, 1.4285714286% 14.2857142857%, 15% 0.7142857143%, 42.1428571429% 0.7142857143%, 56.4285714286% 15%); }
-  .building-container[data-type="monkey"] .building-border {
-    clip-path: polygon(57.1428571429% 14.2857142857%, 85.7142857143% 14.2857142857%, 100% 28.5714285714%, 85.7142857143% 42.8571428571%, 100% 57.1428571429%, 85.7142857143% 71.4285714286%, 100% 85.7142857143%, 85.7142857143% 100%, 57.1428571429% 100%, 42.8571428571% 85.7142857143%, 57.1428571429% 71.4285714286%, 42.8571428571% 57.1428571429%, 57.1428571429% 42.8571428571%, 42.8571428571% 28.5714285714%, 14.2857142857% 28.5714285714%, 0% 14.2857142857%, 14.2857142857% 0%, 42.8571428571% 0%, 57.1428571429% 14.2857142857%, 57.1428571429% 14.2857142857%, 55.3571428571% 16.0714285714%, 55.3571428571% 16.0714285714%, 41.0714285714% 1.7857142857%, 16.0714285714% 1.7857142857%, 3.5714285714% 14.2857142857%, 16.0714285714% 26.7857142857%, 44.6428571429% 26.7857142857%, 60.7142857143% 42.8571428571%, 46.4285714286% 57.1428571429%, 60.7142857143% 71.4285714286%, 46.4285714286% 85.7142857143%, 58.9285714286% 98.2142857143%, 83.9285714286% 98.2142857143%, 96.4285714286% 85.7142857143%, 82.1428571429% 71.4285714286%, 96.4285714286% 57.1428571429%, 82.1428571429% 42.8571428571%, 96.4285714286% 28.5714285714%, 83.9285714286% 16.0714285714%, 55.3571428571% 16.0714285714%); }
-  .building-container[data-type="monkey"] .building-crosshairs {
-    left: 71.42857142857143%;
-    top: 28.57142857142857%; }
-.building-container[data-type="meerkat"] {
-  width: 226px;
-  height: 117px;
-  margin-left: -300%;
-  margin-top: 0%;
-  clip-path: polygon(40% 0%, 60% 0%, 70% 33.3333333333%, 90% 33.3333333333%, 100% 66.6666666667%, 90% 100%, 70% 100%, 60% 66.6666666667%, 40% 66.6666666667%, 30% 100%, 10% 100%, 0% 66.6666666667%, 10% 33.3333333333%, 30% 33.3333333333%, 40% 0%);
-  transform-origin: 50% 33.33333333333333%; }
-  .building-container[data-type="meerkat"] .building-inner {
-    background-position: 22.22222222222222% 60%;
-    clip-path: polygon(40.5% 1.6666666667%, 59.5% 1.6666666667%, 69.5% 35%, 89.5% 35%, 99% 66.6666666667%, 89.5% 98.3333333333%, 70.5% 98.3333333333%, 60.5% 65%, 39.5% 65%, 29.5% 98.3333333333%, 10.5% 98.3333333333%, 1% 66.6666666667%, 10.5% 35%, 30.5% 35%, 40.5% 1.6666666667%); }
-  .building-container[data-type="meerkat"] .building-border {
-    clip-path: polygon(40% 0%, 60% 0%, 70% 33.3333333333%, 90% 33.3333333333%, 100% 66.6666666667%, 90% 100%, 70% 100%, 60% 66.6666666667%, 40% 66.6666666667%, 30% 100%, 10% 100%, 0% 66.6666666667%, 10% 33.3333333333%, 30% 33.3333333333%, 40% 0%, 40% 0%, 41.25% 4.1666666667%, 41.25% 4.1666666667%, 31.25% 37.5%, 11.25% 37.5%, 2.5% 66.6666666667%, 11.25% 95.8333333333%, 28.75% 95.8333333333%, 38.75% 62.5%, 61.25% 62.5%, 71.25% 95.8333333333%, 88.75% 95.8333333333%, 97.5% 66.6666666667%, 88.75% 37.5%, 68.75% 37.5%, 58.75% 4.1666666667%, 41.25% 4.1666666667%); }
-  .building-container[data-type="meerkat"] .building-crosshairs {
-    left: 50%;
-    top: 33.33333333333333%; }
-.building-container[data-type="owl"] {
-  width: 90px;
-  height: 235px;
-  margin-left: 0%;
-  margin-top: -346.41016151377545%;
-  clip-path: polygon(25% 33.3333333333%, 0% 50%, 25% 66.6666666667%, 0% 83.3333333333%, 25% 100%, 75% 100%, 100% 83.3333333333%, 75% 66.6666666667%, 100% 50%, 75% 33.3333333333%, 100% 16.6666666667%, 75% 0%, 25% 0%, 0% 16.6666666667%, 25% 33.3333333333%);
-  transform-origin: 50% 50%; }
-  .building-container[data-type="owl"] .building-inner {
-    background-position: 63.63636363636363% 25%;
-    clip-path: polygon(27.5% 33.3333333333%, 2.5% 50%, 27.5% 66.6666666667%, 2.5% 83.3333333333%, 26.25% 99.1666666667%, 73.75% 99.1666666667%, 97.5% 83.3333333333%, 72.5% 66.6666666667%, 97.5% 50%, 72.5% 33.3333333333%, 97.5% 16.6666666667%, 73.75% 0.8333333333%, 26.25% 0.8333333333%, 2.5% 16.6666666667%, 27.5% 33.3333333333%); }
-  .building-container[data-type="owl"] .building-border {
-    clip-path: polygon(25% 33.3333333333%, 0% 50%, 25% 66.6666666667%, 0% 83.3333333333%, 25% 100%, 75% 100%, 100% 83.3333333333%, 75% 66.6666666667%, 100% 50%, 75% 33.3333333333%, 100% 16.6666666667%, 75% 0%, 25% 0%, 0% 16.6666666667%, 25% 33.3333333333%, 25% 33.3333333333%, 31.25% 33.3333333333%, 31.25% 33.3333333333%, 6.25% 16.6666666667%, 28.125% 2.0833333333%, 71.875% 2.0833333333%, 93.75% 16.6666666667%, 68.75% 33.3333333333%, 93.75% 50%, 68.75% 66.6666666667%, 93.75% 83.3333333333%, 71.875% 97.9166666667%, 28.125% 97.9166666667%, 6.25% 83.3333333333%, 31.25% 66.6666666667%, 6.25% 50%, 31.25% 33.3333333333%); }
-  .building-container[data-type="owl"] .building-crosshairs {
-    left: 50%;
-    top: 50%; }
-.building-container[data-type="sea-turtle"] {
-  width: 226px;
-  height: 196px;
-  margin-left: -300%;
-  margin-top: -346.41016151377545%;
-  clip-path: polygon(40% 40%, 30% 60%, 10% 60%, 0% 80%, 10% 100%, 30% 100%, 40% 80%, 60% 80%, 70% 100%, 90% 100%, 100% 80%, 90% 60%, 70% 60%, 60% 40%, 70% 20%, 60% 0%, 40% 0%, 30% 20%, 40% 40%);
-  transform-origin: 50% 60%; }
-  .building-container[data-type="sea-turtle"] .building-inner {
-    background-position: 66.66666666666666% 69.23076923076923%;
-    clip-path: polygon(41% 40%, 30.5% 61%, 10.5% 61%, 1% 80%, 10.5% 99%, 29.5% 99%, 39.5% 79%, 60.5% 79%, 70.5% 99%, 89.5% 99%, 99% 80%, 89.5% 61%, 69.5% 61%, 59% 40%, 69% 20%, 59.5% 1%, 40.5% 1%, 31% 20%, 41% 40%); }
-  .building-container[data-type="sea-turtle"] .building-border {
-    clip-path: polygon(40% 40%, 30% 60%, 10% 60%, 0% 80%, 10% 100%, 30% 100%, 40% 80%, 60% 80%, 70% 100%, 90% 100%, 100% 80%, 90% 60%, 70% 60%, 60% 40%, 70% 20%, 60% 0%, 40% 0%, 30% 20%, 40% 40%, 40% 40%, 42.5% 40%, 42.5% 40%, 32.5% 20%, 41.25% 2.5%, 58.75% 2.5%, 67.5% 20%, 57.5% 40%, 68.75% 62.5%, 88.75% 62.5%, 97.5% 80%, 88.75% 97.5%, 71.25% 97.5%, 61.25% 77.5%, 38.75% 77.5%, 28.75% 97.5%, 11.25% 97.5%, 2.5% 80%, 11.25% 62.5%, 31.25% 62.5%, 42.5% 40%); }
-  .building-container[data-type="sea-turtle"] .building-crosshairs {
-    left: 50%;
-    top: 60%; }
-.building-container[data-type="okapi"] {
-  width: 294px;
-  height: 117px;
-  margin-left: -600%;
-  margin-top: 0%;
-  clip-path: polygon(53.8461538462% 0%, 69.2307692308% 0%, 76.9230769231% 33.3333333333%, 92.3076923077% 33.3333333333%, 100% 66.6666666667%, 92.3076923077% 100%, 76.9230769231% 100%, 69.2307692308% 66.6666666667%, 53.8461538462% 66.6666666667%, 46.1538461538% 100%, 30.7692307692% 100%, 23.0769230769% 66.6666666667%, 7.6923076923% 66.6666666667%, 0% 33.3333333333%, 7.6923076923% 0%, 23.0769230769% 0%, 30.7692307692% 33.3333333333%, 46.1538461538% 33.3333333333%, 53.8461538462% 0%);
-  transform-origin: 61.53846153846154% 33.33333333333333%; }
-  .building-container[data-type="okapi"] .building-inner {
-    background-position: 62.5% 86.66666666666667%;
-    clip-path: polygon(54.2307692308% 1.6666666667%, 68.8461538462% 1.6666666667%, 76.5384615385% 35%, 91.9230769231% 35%, 99.2307692308% 66.6666666667%, 91.9230769231% 98.3333333333%, 77.3076923077% 98.3333333333%, 69.6153846154% 65%, 53.4615384615% 65%, 45.7692307692% 98.3333333333%, 31.1538461538% 98.3333333333%, 23.4615384615% 65%, 8.0769230769% 65%, 0.7692307692% 33.3333333333%, 8.0769230769% 1.6666666667%, 22.6923076923% 1.6666666667%, 30.3846153846% 35%, 46.5384615385% 35%, 54.2307692308% 1.6666666667%); }
-  .building-container[data-type="okapi"] .building-border {
-    clip-path: polygon(53.8461538462% 0%, 69.2307692308% 0%, 76.9230769231% 33.3333333333%, 92.3076923077% 33.3333333333%, 100% 66.6666666667%, 92.3076923077% 100%, 76.9230769231% 100%, 69.2307692308% 66.6666666667%, 53.8461538462% 66.6666666667%, 46.1538461538% 100%, 30.7692307692% 100%, 23.0769230769% 66.6666666667%, 7.6923076923% 66.6666666667%, 0% 33.3333333333%, 7.6923076923% 0%, 23.0769230769% 0%, 30.7692307692% 33.3333333333%, 46.1538461538% 33.3333333333%, 53.8461538462% 0%, 53.8461538462% 0%, 54.8076923077% 4.1666666667%, 54.8076923077% 4.1666666667%, 47.1153846154% 37.5%, 29.8076923077% 37.5%, 22.1153846154% 4.1666666667%, 8.6538461538% 4.1666666667%, 1.9230769231% 33.3333333333%, 8.6538461538% 62.5%, 24.0384615385% 62.5%, 31.7307692308% 95.8333333333%, 45.1923076923% 95.8333333333%, 52.8846153846% 62.5%, 70.1923076923% 62.5%, 77.8846153846% 95.8333333333%, 91.3461538462% 95.8333333333%, 98.0769230769% 66.6666666667%, 91.3461538462% 37.5%, 75.9615384615% 37.5%, 68.2692307692% 4.1666666667%, 54.8076923077% 4.1666666667%); }
-  .building-container[data-type="okapi"] .building-crosshairs {
-    left: 61.53846153846154%;
-    top: 33.33333333333333%; }
-.building-container[data-type="adventure"] {
-  width: 90px;
-  height: 157px;
-  margin-left: 0%;
-  margin-top: 0%;
-  clip-path: polygon(25% 0%, 75% 0%, 100% 25%, 75% 50%, 100% 75%, 75% 100%, 25% 100%, 0% 75%, 25% 50%, 0% 25%, 25% 0%);
+  clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 100% 100%, 0% 100%, 0% 50%, 0% 0%);
   transform-origin: 50% 25%; }
-  .building-container[data-type="adventure"] .building-inner {
-    background-position: 72.72727272727273% 57.14285714285714%;
-    clip-path: polygon(26.25% 1.25%, 73.75% 1.25%, 97.5% 25%, 72.5% 50%, 97.5% 75%, 73.75% 98.75%, 26.25% 98.75%, 2.5% 75%, 27.5% 50%, 2.5% 25%, 26.25% 1.25%); }
-  .building-container[data-type="adventure"] .building-border {
-    clip-path: polygon(25% 0%, 75% 0%, 100% 25%, 75% 50%, 100% 75%, 75% 100%, 25% 100%, 0% 75%, 25% 50%, 0% 25%, 25% 0%, 25% 0%, 28.125% 3.125%, 28.125% 3.125%, 6.25% 25%, 31.25% 50%, 6.25% 75%, 28.125% 96.875%, 71.875% 96.875%, 93.75% 75%, 68.75% 50%, 93.75% 25%, 71.875% 3.125%, 28.125% 3.125%); }
-  .building-container[data-type="adventure"] .building-crosshairs {
+  .tile-container[data-shape="8"] .building-inner {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 100% 100%, 0% 100%, 0% 50%, 0% 0%); }
+  .tile-container[data-shape="8"] .building-border {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 100% 100%, 0% 100%, 0% 50%, 0% 0%); }
+  .tile-container[data-shape="8"] .building-crosshairs {
     left: 50%;
     top: 25%; }
-.building-container[data-type="pavilion"] {
-  width: 90px;
-  height: 78px;
-  margin-left: 0%;
+.tile-container[data-shape="9"] {
+  width: 196.8px;
+  height: 49.2px;
+  margin-left: -100%;
   margin-top: 0%;
-  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%, 25% 0%);
-  transform-origin: 50% 50%; }
-  .building-container[data-type="pavilion"] .building-inner {
-    background-position: 45.45454545454545% 31.25%;
-    clip-path: polygon(26.25% 2.5%, 73.75% 2.5%, 97.5% 50%, 73.75% 97.5%, 26.25% 97.5%, 2.5% 50%, 26.25% 2.5%); }
-  .building-container[data-type="pavilion"] .building-border {
-    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%, 25% 0%, 25% 0%, 28.125% 6.25%, 28.125% 6.25%, 6.25% 50%, 28.125% 93.75%, 71.875% 93.75%, 93.75% 50%, 71.875% 6.25%, 28.125% 6.25%); }
-  .building-container[data-type="pavilion"] .building-crosshairs {
-    left: 50%;
+  clip-path: polygon(25% 0%, 50% 0%, 75% 0%, 100% 0%, 100% 100%, 75% 100%, 50% 100%, 25% 100%, 0% 100%, 0% 0%, 25% 0%);
+  transform-origin: 37.5% 50%; }
+  .tile-container[data-shape="9"] .building-inner {
+    clip-path: polygon(25% 0%, 50% 0%, 75% 0%, 100% 0%, 100% 100%, 75% 100%, 50% 100%, 25% 100%, 0% 100%, 0% 0%, 25% 0%); }
+  .tile-container[data-shape="9"] .building-border {
+    clip-path: polygon(25% 0%, 50% 0%, 75% 0%, 100% 0%, 100% 100%, 75% 100%, 50% 100%, 25% 100%, 0% 100%, 0% 0%, 25% 0%); }
+  .tile-container[data-shape="9"] .building-crosshairs {
+    left: 37.5%;
     top: 50%; }
-.building-container[data-type="penguin"] {
-  width: 226px;
-  height: 157px;
-  margin-left: -300%;
-  margin-top: -173.20508075688772%;
-  clip-path: polygon(40% 25%, 60% 25%, 70% 0%, 90% 0%, 100% 25%, 90% 50%, 100% 75%, 90% 100%, 70% 100%, 60% 75%, 40% 75%, 30% 50%, 10% 50%, 0% 25%, 10% 0%, 30% 0%, 40% 25%);
-  transform-origin: 50% 50%; }
-  .building-container[data-type="penguin"] .building-inner {
-    background-position: 88.88888888888889% 0%;
-    clip-path: polygon(39.5% 26.25%, 60.5% 26.25%, 70.5% 1.25%, 89.5% 1.25%, 99% 25%, 89% 50%, 99% 75%, 89.5% 98.75%, 70.5% 98.75%, 60.5% 73.75%, 40.5% 73.75%, 30.5% 48.75%, 10.5% 48.75%, 1% 25%, 10.5% 1.25%, 29.5% 1.25%, 39.5% 26.25%); }
-  .building-container[data-type="penguin"] .building-border {
-    clip-path: polygon(40% 25%, 60% 25%, 70% 0%, 90% 0%, 100% 25%, 90% 50%, 100% 75%, 90% 100%, 70% 100%, 60% 75%, 40% 75%, 30% 50%, 10% 50%, 0% 25%, 10% 0%, 30% 0%, 40% 25%, 40% 25%, 38.75% 28.125%, 38.75% 28.125%, 28.75% 3.125%, 11.25% 3.125%, 2.5% 25%, 11.25% 46.875%, 31.25% 46.875%, 41.25% 71.875%, 61.25% 71.875%, 71.25% 96.875%, 88.75% 96.875%, 97.5% 75%, 87.5% 50%, 97.5% 25%, 88.75% 3.125%, 71.25% 3.125%, 61.25% 28.125%, 38.75% 28.125%); }
-  .building-container[data-type="penguin"] .building-crosshairs {
-    left: 50%;
-    top: 50%; }
-.building-container[data-type="aquarium"] {
-  width: 226px;
-  height: 196px;
-  margin-left: -300%;
+.tile-container[data-shape="10"] {
+  width: 98.4px;
+  height: 98.4px;
+  margin-left: 100%;
   margin-top: 0%;
-  clip-path: polygon(40% 0%, 60% 0%, 70% 20%, 90% 20%, 100% 40%, 90% 60%, 100% 80%, 90% 100%, 70% 100%, 60% 80%, 70% 60%, 60% 40%, 40% 40%, 30% 60%, 10% 60%, 0% 40%, 10% 20%, 30% 20%, 40% 0%);
-  transform-origin: 50% 20%; }
-  .building-container[data-type="aquarium"] .building-inner {
-    background-position: 100% 30.76923076923077%;
-    clip-path: polygon(40.5% 1%, 59.5% 1%, 69.5% 21%, 89.5% 21%, 99% 40%, 89% 60%, 99% 80%, 89.5% 99%, 70.5% 99%, 61% 80%, 71% 60%, 60.5% 39%, 39.5% 39%, 29.5% 59%, 10.5% 59%, 1% 40%, 10.5% 21%, 30.5% 21%, 40.5% 1%); }
-  .building-container[data-type="aquarium"] .building-border {
-    clip-path: polygon(40% 0%, 60% 0%, 70% 20%, 90% 20%, 100% 40%, 90% 60%, 100% 80%, 90% 100%, 70% 100%, 60% 80%, 70% 60%, 60% 40%, 40% 40%, 30% 60%, 10% 60%, 0% 40%, 10% 20%, 30% 20%, 40% 0%, 40% 0%, 41.25% 2.5%, 41.25% 2.5%, 31.25% 22.5%, 11.25% 22.5%, 2.5% 40%, 11.25% 57.5%, 28.75% 57.5%, 38.75% 37.5%, 61.25% 37.5%, 72.5% 60%, 62.5% 80%, 71.25% 97.5%, 88.75% 97.5%, 97.5% 80%, 87.5% 60%, 97.5% 40%, 88.75% 22.5%, 68.75% 22.5%, 58.75% 2.5%, 41.25% 2.5%); }
-  .building-container[data-type="aquarium"] .building-crosshairs {
-    left: 50%;
-    top: 20%; }
-.building-container[data-type="polar-bear"] {
-  width: 294px;
-  height: 117px;
-  margin-left: -300%;
-  margin-top: 0%;
-  clip-path: polygon(30.7692307692% 0%, 46.1538461538% 0%, 53.8461538462% 33.3333333333%, 69.2307692308% 33.3333333333%, 76.9230769231% 0%, 92.3076923077% 0%, 100% 33.3333333333%, 92.3076923077% 66.6666666667%, 76.9230769231% 66.6666666667%, 69.2307692308% 100%, 53.8461538462% 100%, 46.1538461538% 66.6666666667%, 30.7692307692% 66.6666666667%, 23.0769230769% 100%, 7.6923076923% 100%, 0% 66.6666666667%, 7.6923076923% 33.3333333333%, 23.0769230769% 33.3333333333%, 30.7692307692% 0%);
-  transform-origin: 38.46153846153847% 33.33333333333333%; }
-  .building-container[data-type="polar-bear"] .building-inner {
-    background-position: 0% 100%;
-    clip-path: polygon(31.1538461538% 1.6666666667%, 45.7692307692% 1.6666666667%, 53.4615384615% 35%, 69.6153846154% 35%, 77.3076923077% 1.6666666667%, 91.9230769231% 1.6666666667%, 99.2307692308% 33.3333333333%, 91.9230769231% 65%, 76.5384615385% 65%, 68.8461538462% 98.3333333333%, 54.2307692308% 98.3333333333%, 46.5384615385% 65%, 30.3846153846% 65%, 22.6923076923% 98.3333333333%, 8.0769230769% 98.3333333333%, 0.7692307692% 66.6666666667%, 8.0769230769% 35%, 23.4615384615% 35%, 31.1538461538% 1.6666666667%); }
-  .building-container[data-type="polar-bear"] .building-border {
-    clip-path: polygon(30.7692307692% 0%, 46.1538461538% 0%, 53.8461538462% 33.3333333333%, 69.2307692308% 33.3333333333%, 76.9230769231% 0%, 92.3076923077% 0%, 100% 33.3333333333%, 92.3076923077% 66.6666666667%, 76.9230769231% 66.6666666667%, 69.2307692308% 100%, 53.8461538462% 100%, 46.1538461538% 66.6666666667%, 30.7692307692% 66.6666666667%, 23.0769230769% 100%, 7.6923076923% 100%, 0% 66.6666666667%, 7.6923076923% 33.3333333333%, 23.0769230769% 33.3333333333%, 30.7692307692% 0%, 30.7692307692% 0%, 31.7307692308% 4.1666666667%, 31.7307692308% 4.1666666667%, 24.0384615385% 37.5%, 8.6538461538% 37.5%, 1.9230769231% 66.6666666667%, 8.6538461538% 95.8333333333%, 22.1153846154% 95.8333333333%, 29.8076923077% 62.5%, 47.1153846154% 62.5%, 54.8076923077% 95.8333333333%, 68.2692307692% 95.8333333333%, 75.9615384615% 62.5%, 91.3461538462% 62.5%, 98.0769230769% 33.3333333333%, 91.3461538462% 4.1666666667%, 77.8846153846% 4.1666666667%, 70.1923076923% 37.5%, 52.8846153846% 37.5%, 45.1923076923% 4.1666666667%, 31.7307692308% 4.1666666667%); }
-  .building-container[data-type="polar-bear"] .building-crosshairs {
-    left: 38.46153846153847%;
-    top: 33.33333333333333%; }
-.building-container[data-type="hyena"] {
-  width: 158px;
-  height: 274px;
-  margin-left: 0%;
-  margin-top: -173.20508075688772%;
-  clip-path: polygon(14.2857142857% 14.2857142857%, 42.8571428571% 14.2857142857%, 57.1428571429% 0%, 85.7142857143% 0%, 100% 14.2857142857%, 85.7142857143% 28.5714285714%, 57.1428571429% 28.5714285714%, 42.8571428571% 42.8571428571%, 57.1428571429% 57.1428571429%, 42.8571428571% 71.4285714286%, 57.1428571429% 85.7142857143%, 42.8571428571% 100%, 14.2857142857% 100%, 0% 85.7142857143%, 14.2857142857% 71.4285714286%, 0% 57.1428571429%, 14.2857142857% 42.8571428571%, 0% 28.5714285714%, 14.2857142857% 14.2857142857%);
-  transform-origin: 28.57142857142857% 28.57142857142857%; }
-  .building-container[data-type="hyena"] .building-inner {
-    background-position: 90% 54.54545454545454%;
-    clip-path: polygon(15% 15%, 43.5714285714% 15%, 57.8571428571% 0.7142857143%, 85% 0.7142857143%, 98.5714285714% 14.2857142857%, 85% 27.8571428571%, 56.4285714286% 27.8571428571%, 41.4285714286% 42.8571428571%, 55.7142857143% 57.1428571429%, 41.4285714286% 71.4285714286%, 55.7142857143% 85.7142857143%, 42.1428571429% 99.2857142857%, 15% 99.2857142857%, 1.4285714286% 85.7142857143%, 15.7142857143% 71.4285714286%, 1.4285714286% 57.1428571429%, 15.7142857143% 42.8571428571%, 1.4285714286% 28.5714285714%, 15% 15%); }
-  .building-container[data-type="hyena"] .building-border {
-    clip-path: polygon(14.2857142857% 14.2857142857%, 42.8571428571% 14.2857142857%, 57.1428571429% 0%, 85.7142857143% 0%, 100% 14.2857142857%, 85.7142857143% 28.5714285714%, 57.1428571429% 28.5714285714%, 42.8571428571% 42.8571428571%, 57.1428571429% 57.1428571429%, 42.8571428571% 71.4285714286%, 57.1428571429% 85.7142857143%, 42.8571428571% 100%, 14.2857142857% 100%, 0% 85.7142857143%, 14.2857142857% 71.4285714286%, 0% 57.1428571429%, 14.2857142857% 42.8571428571%, 0% 28.5714285714%, 14.2857142857% 14.2857142857%, 14.2857142857% 14.2857142857%, 16.0714285714% 16.0714285714%, 16.0714285714% 16.0714285714%, 3.5714285714% 28.5714285714%, 17.8571428571% 42.8571428571%, 3.5714285714% 57.1428571429%, 17.8571428571% 71.4285714286%, 3.5714285714% 85.7142857143%, 16.0714285714% 98.2142857143%, 41.0714285714% 98.2142857143%, 53.5714285714% 85.7142857143%, 39.2857142857% 71.4285714286%, 53.5714285714% 57.1428571429%, 39.2857142857% 42.8571428571%, 55.3571428571% 26.7857142857%, 83.9285714286% 26.7857142857%, 96.4285714286% 14.2857142857%, 83.9285714286% 1.7857142857%, 58.9285714286% 1.7857142857%, 44.6428571429% 16.0714285714%, 16.0714285714% 16.0714285714%); }
-  .building-container[data-type="hyena"] .building-crosshairs {
-    left: 28.57142857142857%;
-    top: 28.57142857142857%; }
-.building-container[data-type="zoo-school"] {
-  width: 226px;
-  height: 117px;
-  margin-left: -300%;
-  margin-top: 0%;
-  clip-path: polygon(40% 0%, 60% 0%, 70% 33.3333333333%, 90% 33.3333333333%, 100% 66.6666666667%, 90% 100%, 70% 100%, 60% 66.6666666667%, 40% 66.6666666667%, 30% 100%, 10% 100%, 0% 66.6666666667%, 10% 33.3333333333%, 30% 33.3333333333%, 40% 0%);
-  transform-origin: 50% 33.33333333333333%; }
-  .building-container[data-type="zoo-school"] .building-inner {
-    background-position: 44.44444444444444% 100%;
-    clip-path: polygon(40.5% 1.6666666667%, 59.5% 1.6666666667%, 69.5% 35%, 89.5% 35%, 99% 66.6666666667%, 89.5% 98.3333333333%, 70.5% 98.3333333333%, 60.5% 65%, 39.5% 65%, 29.5% 98.3333333333%, 10.5% 98.3333333333%, 1% 66.6666666667%, 10.5% 35%, 30.5% 35%, 40.5% 1.6666666667%); }
-  .building-container[data-type="zoo-school"] .building-border {
-    clip-path: polygon(40% 0%, 60% 0%, 70% 33.3333333333%, 90% 33.3333333333%, 100% 66.6666666667%, 90% 100%, 70% 100%, 60% 66.6666666667%, 40% 66.6666666667%, 30% 100%, 10% 100%, 0% 66.6666666667%, 10% 33.3333333333%, 30% 33.3333333333%, 40% 0%, 40% 0%, 41.25% 4.1666666667%, 41.25% 4.1666666667%, 31.25% 37.5%, 11.25% 37.5%, 2.5% 66.6666666667%, 11.25% 95.8333333333%, 28.75% 95.8333333333%, 38.75% 62.5%, 61.25% 62.5%, 71.25% 95.8333333333%, 88.75% 95.8333333333%, 97.5% 66.6666666667%, 88.75% 37.5%, 68.75% 37.5%, 58.75% 4.1666666667%, 41.25% 4.1666666667%); }
-  .building-container[data-type="zoo-school"] .building-crosshairs {
-    left: 50%;
-    top: 33.33333333333333%; }
-.building-container[data-type="baboon"] {
-  width: 158px;
-  height: 235px;
-  margin-left: -300%;
+  clip-path: polygon(0% 0%, 50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 0% 100%, 0% 50%, 0% 0%);
+  transform-origin: 25% 25%; }
+  .tile-container[data-shape="10"] .building-inner {
+    background-position: 66.66666666666666% 14.285714285714285%;
+    clip-path: polygon(0% 0%, 50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 0% 100%, 0% 50%, 0% 0%); }
+  .tile-container[data-shape="10"] .building-border {
+    clip-path: polygon(0% 0%, 50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 0% 100%, 0% 50%, 0% 0%); }
+  .tile-container[data-shape="10"] .building-crosshairs {
+    left: 25%;
+    top: 25%; }
+.tile-container[data-shape="11"] {
+  width: 147.6px;
+  height: 147.6px;
+  margin-left: -100%;
   margin-top: -346.41016151377545%;
-  clip-path: polygon(57.1428571429% 33.3333333333%, 42.8571428571% 50%, 14.2857142857% 50%, 0% 66.6666666667%, 14.2857142857% 83.3333333333%, 42.8571428571% 83.3333333333%, 57.1428571429% 100%, 85.7142857143% 100%, 100% 83.3333333333%, 85.7142857143% 66.6666666667%, 100% 50%, 85.7142857143% 33.3333333333%, 100% 16.6666666667%, 85.7142857143% 0%, 57.1428571429% 0%, 42.8571428571% 16.6666666667%, 57.1428571429% 33.3333333333%);
-  transform-origin: 71.42857142857143% 50%; }
-  .building-container[data-type="baboon"] .building-inner {
-    background-position: 90% 83.33333333333334%;
-    clip-path: polygon(58.5714285714% 33.3333333333%, 43.5714285714% 50.8333333333%, 15% 50.8333333333%, 1.4285714286% 66.6666666667%, 15% 82.5%, 43.5714285714% 82.5%, 57.8571428571% 99.1666666667%, 85% 99.1666666667%, 98.5714285714% 83.3333333333%, 84.2857142857% 66.6666666667%, 98.5714285714% 50%, 84.2857142857% 33.3333333333%, 98.5714285714% 16.6666666667%, 85% 0.8333333333%, 57.8571428571% 0.8333333333%, 44.2857142857% 16.6666666667%, 58.5714285714% 33.3333333333%); }
-  .building-container[data-type="baboon"] .building-border {
-    clip-path: polygon(57.1428571429% 33.3333333333%, 42.8571428571% 50%, 14.2857142857% 50%, 0% 66.6666666667%, 14.2857142857% 83.3333333333%, 42.8571428571% 83.3333333333%, 57.1428571429% 100%, 85.7142857143% 100%, 100% 83.3333333333%, 85.7142857143% 66.6666666667%, 100% 50%, 85.7142857143% 33.3333333333%, 100% 16.6666666667%, 85.7142857143% 0%, 57.1428571429% 0%, 42.8571428571% 16.6666666667%, 57.1428571429% 33.3333333333%, 57.1428571429% 33.3333333333%, 60.7142857143% 33.3333333333%, 60.7142857143% 33.3333333333%, 46.4285714286% 16.6666666667%, 58.9285714286% 2.0833333333%, 83.9285714286% 2.0833333333%, 96.4285714286% 16.6666666667%, 82.1428571429% 33.3333333333%, 96.4285714286% 50%, 82.1428571429% 66.6666666667%, 96.4285714286% 83.3333333333%, 83.9285714286% 97.9166666667%, 58.9285714286% 97.9166666667%, 44.6428571429% 81.25%, 16.0714285714% 81.25%, 3.5714285714% 66.6666666667%, 16.0714285714% 52.0833333333%, 44.6428571429% 52.0833333333%, 60.7142857143% 33.3333333333%); }
-  .building-container[data-type="baboon"] .building-crosshairs {
-    left: 71.42857142857143%;
-    top: 50%; }
-.building-container[data-type="water-playground"] {
-  width: 158px;
-  height: 117px;
-  margin-left: 0%;
-  margin-top: 0%;
-  clip-path: polygon(14.2857142857% 0%, 42.8571428571% 0%, 57.1428571429% 33.3333333333%, 85.7142857143% 33.3333333333%, 100% 66.6666666667%, 85.7142857143% 100%, 57.1428571429% 100%, 42.8571428571% 66.6666666667%, 14.2857142857% 66.6666666667%, 0% 33.3333333333%, 14.2857142857% 0%);
-  transform-origin: 28.57142857142857% 33.33333333333333%; }
-  .building-container[data-type="water-playground"] .building-inner {
-    background-position: 70% 100%;
-    clip-path: polygon(15% 1.6666666667%, 42.1428571429% 1.6666666667%, 56.4285714286% 35%, 85% 35%, 98.5714285714% 66.6666666667%, 85% 98.3333333333%, 57.8571428571% 98.3333333333%, 43.5714285714% 65%, 15% 65%, 1.4285714286% 33.3333333333%, 15% 1.6666666667%); }
-  .building-container[data-type="water-playground"] .building-border {
-    clip-path: polygon(14.2857142857% 0%, 42.8571428571% 0%, 57.1428571429% 33.3333333333%, 85.7142857143% 33.3333333333%, 100% 66.6666666667%, 85.7142857143% 100%, 57.1428571429% 100%, 42.8571428571% 66.6666666667%, 14.2857142857% 66.6666666667%, 0% 33.3333333333%, 14.2857142857% 0%, 14.2857142857% 0%, 16.0714285714% 4.1666666667%, 16.0714285714% 4.1666666667%, 3.5714285714% 33.3333333333%, 16.0714285714% 62.5%, 44.6428571429% 62.5%, 58.9285714286% 95.8333333333%, 83.9285714286% 95.8333333333%, 96.4285714286% 66.6666666667%, 83.9285714286% 37.5%, 55.3571428571% 37.5%, 41.0714285714% 4.1666666667%, 16.0714285714% 4.1666666667%); }
-  .building-container[data-type="water-playground"] .building-crosshairs {
-    left: 28.57142857142857%;
-    top: 33.33333333333333%; }
-.building-container[data-type="entrance"] {
-  width: 158px;
-  height: 117px;
-  margin-left: 0%;
-  margin-top: 0%;
-  clip-path: polygon(14.2857142857% 0%, 42.8571428571% 0%, 57.1428571429% 33.3333333333%, 85.7142857143% 33.3333333333%, 100% 66.6666666667%, 85.7142857143% 100%, 57.1428571429% 100%, 42.8571428571% 66.6666666667%, 14.2857142857% 66.6666666667%, 0% 33.3333333333%, 14.2857142857% 0%);
-  transform-origin: 28.57142857142857% 33.33333333333333%; }
-  .building-container[data-type="entrance"] .building-inner {
-    background-position: 90% 100%;
-    clip-path: polygon(15% 1.6666666667%, 42.1428571429% 1.6666666667%, 56.4285714286% 35%, 85% 35%, 98.5714285714% 66.6666666667%, 85% 98.3333333333%, 57.8571428571% 98.3333333333%, 43.5714285714% 65%, 15% 65%, 1.4285714286% 33.3333333333%, 15% 1.6666666667%); }
-  .building-container[data-type="entrance"] .building-border {
-    clip-path: polygon(14.2857142857% 0%, 42.8571428571% 0%, 57.1428571429% 33.3333333333%, 85.7142857143% 33.3333333333%, 100% 66.6666666667%, 85.7142857143% 100%, 57.1428571429% 100%, 42.8571428571% 66.6666666667%, 14.2857142857% 66.6666666667%, 0% 33.3333333333%, 14.2857142857% 0%, 14.2857142857% 0%, 16.0714285714% 4.1666666667%, 16.0714285714% 4.1666666667%, 3.5714285714% 33.3333333333%, 16.0714285714% 62.5%, 44.6428571429% 62.5%, 58.9285714286% 95.8333333333%, 83.9285714286% 95.8333333333%, 96.4285714286% 66.6666666667%, 83.9285714286% 37.5%, 55.3571428571% 37.5%, 41.0714285714% 4.1666666667%, 16.0714285714% 4.1666666667%); }
-  .building-container[data-type="entrance"] .building-crosshairs {
-    left: 28.57142857142857%;
-    top: 33.33333333333333%; }
-.building-container[data-type="cable"] {
-  width: 90px;
-  height: 314px;
-  margin-left: 0%;
-  margin-top: -346.41016151377545%;
-  clip-path: polygon(25% 25%, 0% 37.5%, 25% 50%, 0% 62.5%, 25% 75%, 0% 87.5%, 25% 100%, 75% 100%, 100% 87.5%, 75% 75%, 100% 62.5%, 75% 50%, 100% 37.5%, 75% 25%, 100% 12.5%, 75% 0%, 25% 0%, 0% 12.5%, 25% 25%);
-  transform-origin: 50% 37.5%; }
-  .building-container[data-type="cable"] .building-inner {
-    background-position: 100% 90%;
-    clip-path: polygon(27.5% 25%, 2.5% 37.5%, 27.5% 50%, 2.5% 62.5%, 27.5% 75%, 2.5% 87.5%, 26.25% 99.375%, 73.75% 99.375%, 97.5% 87.5%, 72.5% 75%, 97.5% 62.5%, 72.5% 50%, 97.5% 37.5%, 72.5% 25%, 97.5% 12.5%, 73.75% 0.625%, 26.25% 0.625%, 2.5% 12.5%, 27.5% 25%); }
-  .building-container[data-type="cable"] .building-border {
-    clip-path: polygon(25% 25%, 0% 37.5%, 25% 50%, 0% 62.5%, 25% 75%, 0% 87.5%, 25% 100%, 75% 100%, 100% 87.5%, 75% 75%, 100% 62.5%, 75% 50%, 100% 37.5%, 75% 25%, 100% 12.5%, 75% 0%, 25% 0%, 0% 12.5%, 25% 25%, 25% 25%, 31.25% 25%, 31.25% 25%, 6.25% 12.5%, 28.125% 1.5625%, 71.875% 1.5625%, 93.75% 12.5%, 68.75% 25%, 93.75% 37.5%, 68.75% 50%, 93.75% 62.5%, 68.75% 75%, 93.75% 87.5%, 71.875% 98.4375%, 28.125% 98.4375%, 6.25% 87.5%, 31.25% 75%, 6.25% 62.5%, 31.25% 50%, 6.25% 37.5%, 31.25% 25%); }
-  .building-container[data-type="cable"] .building-crosshairs {
-    left: 50%;
-    top: 37.5%; }
-.building-container[data-type="arcade"] {
-  width: 90px;
-  height: 78px;
-  margin-left: 0%;
-  margin-top: 0%;
-  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%, 25% 0%);
+  clip-path: polygon(33.3333333333% 33.3333333333%, 66.6666666667% 33.3333333333%, 100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 66.6666666667% 100%, 66.6666666667% 66.6666666667%, 33.3333333333% 66.6666666667%, 0% 66.6666666667%, 0% 33.3333333333%, 0% 0%, 33.3333333333% 0%, 33.3333333333% 33.3333333333%);
   transform-origin: 50% 50%; }
-  .building-container[data-type="arcade"] .building-inner {
-    background-position: 36.36363636363637% 0%;
-    clip-path: polygon(26.25% 2.5%, 73.75% 2.5%, 97.5% 50%, 73.75% 97.5%, 26.25% 97.5%, 2.5% 50%, 26.25% 2.5%); }
-  .building-container[data-type="arcade"] .building-border {
-    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%, 25% 0%, 25% 0%, 28.125% 6.25%, 28.125% 6.25%, 6.25% 50%, 28.125% 93.75%, 71.875% 93.75%, 93.75% 50%, 71.875% 6.25%, 28.125% 6.25%); }
-  .building-container[data-type="arcade"] .building-crosshairs {
+  .tile-container[data-shape="11"] .building-inner {
+    clip-path: polygon(33.3333333333% 33.3333333333%, 66.6666666667% 33.3333333333%, 100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 66.6666666667% 100%, 66.6666666667% 66.6666666667%, 33.3333333333% 66.6666666667%, 0% 66.6666666667%, 0% 33.3333333333%, 0% 0%, 33.3333333333% 0%, 33.3333333333% 33.3333333333%); }
+  .tile-container[data-shape="11"] .building-border {
+    clip-path: polygon(33.3333333333% 33.3333333333%, 66.6666666667% 33.3333333333%, 100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 66.6666666667% 100%, 66.6666666667% 66.6666666667%, 33.3333333333% 66.6666666667%, 0% 66.6666666667%, 0% 33.3333333333%, 0% 0%, 33.3333333333% 0%, 33.3333333333% 33.3333333333%); }
+  .tile-container[data-shape="11"] .building-crosshairs {
     left: 50%;
     top: 50%; }
-.building-container[data-type="victory"] {
-  width: 90px;
-  height: 78px;
-  margin-left: 0%;
-  margin-top: 0%;
-  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%, 25% 0%);
-  transform-origin: 50% 50%; }
-  .building-container[data-type="victory"] .building-inner {
-    background-position: 18.181818181818183% 0%;
-    clip-path: polygon(26.25% 2.5%, 73.75% 2.5%, 97.5% 50%, 73.75% 97.5%, 26.25% 97.5%, 2.5% 50%, 26.25% 2.5%); }
-  .building-container[data-type="victory"] .building-border {
-    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%, 25% 0%, 25% 0%, 28.125% 6.25%, 28.125% 6.25%, 6.25% 50%, 28.125% 93.75%, 71.875% 93.75%, 93.75% 50%, 71.875% 6.25%, 28.125% 6.25%); }
-  .building-container[data-type="victory"] .building-crosshairs {
-    left: 50%;
-    top: 50%; }
-
-.building-container[data-state="0"] .building-inner .planetunknown-meeple:nth-child(1) {
-  display: none; }
-.building-container[data-state="0"] .building-inner .planetunknown-meeple:nth-child(2) {
-  display: none; }
-.building-container[data-state="0"] .building-inner .planetunknown-meeple:nth-child(3) {
-  display: none; }
-.building-container[data-state="0"] .building-inner .planetunknown-meeple:nth-child(4) {
-  display: none; }
-.building-container[data-state="0"] .building-inner .planetunknown-meeple:nth-child(5) {
-  display: none; }
-.building-container[data-state="1"] .building-inner .planetunknown-meeple:nth-child(2) {
-  display: none; }
-.building-container[data-state="1"] .building-inner .planetunknown-meeple:nth-child(3) {
-  display: none; }
-.building-container[data-state="1"] .building-inner .planetunknown-meeple:nth-child(4) {
-  display: none; }
-.building-container[data-state="1"] .building-inner .planetunknown-meeple:nth-child(5) {
-  display: none; }
-.building-container[data-state="2"] .building-inner .planetunknown-meeple:nth-child(3) {
-  display: none; }
-.building-container[data-state="2"] .building-inner .planetunknown-meeple:nth-child(4) {
-  display: none; }
-.building-container[data-state="2"] .building-inner .planetunknown-meeple:nth-child(5) {
-  display: none; }
-.building-container[data-state="3"] .building-inner .planetunknown-meeple:nth-child(4) {
-  display: none; }
-.building-container[data-state="3"] .building-inner .planetunknown-meeple:nth-child(5) {
-  display: none; }
-.building-container[data-state="4"] .building-inner .planetunknown-meeple:nth-child(5) {
-  display: none; }
-.building-container[data-type="petting-zoo"] .building-inner .planetunknown-meeple:nth-child(1) {
-  top: 33%;
-  left: 20%; }
-.building-container[data-type="petting-zoo"] .building-inner .planetunknown-meeple:nth-child(2) {
-  top: 15%;
-  left: 62%; }
-.building-container[data-type="petting-zoo"] .building-inner .planetunknown-meeple:nth-child(3) {
-  top: 73%;
-  left: 20%; }
-.building-container[data-type="reptile-house"] .building-inner .planetunknown-meeple:nth-child(1) {
-  top: 16%;
-  left: 13%; }
-.building-container[data-type="reptile-house"] .building-inner .planetunknown-meeple:nth-child(2) {
-  top: 41%;
-  left: 42%; }
-.building-container[data-type="reptile-house"] .building-inner .planetunknown-meeple:nth-child(3) {
-  top: 16%;
-  left: 72%; }
-.building-container[data-type="reptile-house"] .building-inner .planetunknown-meeple:nth-child(4) {
-  top: 65%;
-  left: 13%; }
-.building-container[data-type="reptile-house"] .building-inner .planetunknown-meeple:nth-child(5) {
-  top: 65%;
-  left: 72%; }
-.building-container[data-type="large-bird-aviary"] .building-inner .planetunknown-meeple:nth-child(1) {
-  top: 14%;
-  left: 14%; }
-.building-container[data-type="large-bird-aviary"] .building-inner .planetunknown-meeple:nth-child(2) {
-  top: 33%;
-  left: 43%; }
-.building-container[data-type="large-bird-aviary"] .building-inner .planetunknown-meeple:nth-child(3) {
-  top: 13%;
-  left: 73%; }
-.building-container[data-type="large-bird-aviary"] .building-inner .planetunknown-meeple:nth-child(4) {
-  top: 52%;
-  left: 14%; }
-.building-container[data-type="large-bird-aviary"] .building-inner .planetunknown-meeple:nth-child(5) {
-  top: 72%;
-  left: 43%; }
+.tile-container[data-type="0"] .tile-inner {
+  background-position: 0% 0%; }
+.tile-container[data-type="1"] .tile-inner {
+  background-position: 9.090909090909092% 7.6923076923076925%; }
+.tile-container[data-type="2"] .tile-inner {
+  background-position: 30.76923076923077% 0%; }
+.tile-container[data-type="3"] .tile-inner {
+  background-position: 100% 7.142857142857142%; }
+.tile-container[data-type="4"] .tile-inner {
+  background-position: 45.45454545454545% 0%; }
+.tile-container[data-type="5"] .tile-inner {
+  background-position: 54.54545454545454% 7.142857142857142%; }
+.tile-container[data-type="6"] .tile-inner {
+  background-position: 33.33333333333333% 7.6923076923076925%; }
+.tile-container[data-type="7"] .tile-inner {
+  background-position: 90.9090909090909% 14.285714285714285%; }
+.tile-container[data-type="8"] .tile-inner {
+  background-position: 0% 14.285714285714285%; }
+.tile-container[data-type="9"] .tile-inner {
+  background-position: 100% 0%; }
+.tile-container[data-type="10"] .tile-inner {
+  background-position: 66.66666666666666% 14.285714285714285%; }
+.tile-container[data-type="11"] .tile-inner {
+  background-position: 81.81818181818183% 0%; }
+.tile-container[data-type="12"] .tile-inner {
+  background-position: 0% 28.57142857142857%; }
+.tile-container[data-type="13"] .tile-inner {
+  background-position: 9.090909090909092% 38.46153846153847%; }
+.tile-container[data-type="14"] .tile-inner {
+  background-position: 30.76923076923077% 30.76923076923077%; }
+.tile-container[data-type="15"] .tile-inner {
+  background-position: 100% 35.714285714285715%; }
+.tile-container[data-type="16"] .tile-inner {
+  background-position: 45.45454545454545% 28.57142857142857%; }
+.tile-container[data-type="17"] .tile-inner {
+  background-position: 54.54545454545454% 35.714285714285715%; }
+.tile-container[data-type="18"] .tile-inner {
+  background-position: 33.33333333333333% 38.46153846153847%; }
+.tile-container[data-type="19"] .tile-inner {
+  background-position: 90.9090909090909% 42.857142857142854%; }
+.tile-container[data-type="20"] .tile-inner {
+  background-position: 0% 42.857142857142854%; }
+.tile-container[data-type="21"] .tile-inner {
+  background-position: 100% 26.666666666666668%; }
+.tile-container[data-type="22"] .tile-inner {
+  background-position: 66.66666666666666% 42.857142857142854%; }
+.tile-container[data-type="23"] .tile-inner {
+  background-position: 81.81818181818183% 30.76923076923077%; }
+.tile-container[data-type="24"] .tile-inner {
+  background-position: 0% 57.14285714285714%; }
+.tile-container[data-type="25"] .tile-inner {
+  background-position: 9.090909090909092% 69.23076923076923%; }
+.tile-container[data-type="26"] .tile-inner {
+  background-position: 30.76923076923077% 61.53846153846154%; }
+.tile-container[data-type="27"] .tile-inner {
+  background-position: 100% 64.28571428571429%; }
+.tile-container[data-type="28"] .tile-inner {
+  background-position: 45.45454545454545% 57.14285714285714%; }
+.tile-container[data-type="29"] .tile-inner {
+  background-position: 54.54545454545454% 64.28571428571429%; }
+.tile-container[data-type="30"] .tile-inner {
+  background-position: 33.33333333333333% 69.23076923076923%; }
+.tile-container[data-type="31"] .tile-inner {
+  background-position: 90.9090909090909% 71.42857142857143%; }
+.tile-container[data-type="32"] .tile-inner {
+  background-position: 0% 71.42857142857143%; }
+.tile-container[data-type="33"] .tile-inner {
+  background-position: 100% 53.333333333333336%; }
+.tile-container[data-type="34"] .tile-inner {
+  background-position: 66.66666666666666% 71.42857142857143%; }
+.tile-container[data-type="35"] .tile-inner {
+  background-position: 81.81818181818183% 61.53846153846154%; }
+.tile-container[data-type="36"] .tile-inner {
+  background-position: 0% 85.71428571428571%; }
+.tile-container[data-type="37"] .tile-inner {
+  background-position: 9.090909090909092% 100%; }
+.tile-container[data-type="38"] .tile-inner {
+  background-position: 30.76923076923077% 92.3076923076923%; }
+.tile-container[data-type="39"] .tile-inner {
+  background-position: 100% 92.85714285714286%; }
+.tile-container[data-type="40"] .tile-inner {
+  background-position: 45.45454545454545% 85.71428571428571%; }
+.tile-container[data-type="41"] .tile-inner {
+  background-position: 54.54545454545454% 92.85714285714286%; }
+.tile-container[data-type="42"] .tile-inner {
+  background-position: 33.33333333333333% 100%; }
+.tile-container[data-type="43"] .tile-inner {
+  background-position: 90.9090909090909% 100%; }
+.tile-container[data-type="44"] .tile-inner {
+  background-position: 0% 100%; }
+.tile-container[data-type="45"] .tile-inner {
+  background-position: 100% 80%; }
+.tile-container[data-type="46"] .tile-inner {
+  background-position: 66.66666666666666% 100%; }
+.tile-container[data-type="47"] .tile-inner {
+  background-position: 81.81818181818183% 92.3076923076923%; }
+.tile-container[data-type="48"] .tile-inner {
+  background-position: 0% 0%; }
+.tile-container[data-type="49"] .tile-inner {
+  background-position: 9.090909090909092% 7.6923076923076925%; }
+.tile-container[data-type="50"] .tile-inner {
+  background-position: 30.76923076923077% 0%; }
+.tile-container[data-type="51"] .tile-inner {
+  background-position: 100% 7.142857142857142%; }
+.tile-container[data-type="52"] .tile-inner {
+  background-position: 45.45454545454545% 0%; }
+.tile-container[data-type="53"] .tile-inner {
+  background-position: 54.54545454545454% 7.142857142857142%; }
+.tile-container[data-type="54"] .tile-inner {
+  background-position: 33.33333333333333% 7.6923076923076925%; }
+.tile-container[data-type="55"] .tile-inner {
+  background-position: 90.9090909090909% 14.285714285714285%; }
+.tile-container[data-type="56"] .tile-inner {
+  background-position: 0% 14.285714285714285%; }
+.tile-container[data-type="57"] .tile-inner {
+  background-position: 100% 0%; }
+.tile-container[data-type="58"] .tile-inner {
+  background-position: 66.66666666666666% 14.285714285714285%; }
+.tile-container[data-type="59"] .tile-inner {
+  background-position: 81.81818181818183% 0%; }
+.tile-container[data-type="60"] .tile-inner {
+  background-position: 0% 28.57142857142857%; }
+.tile-container[data-type="61"] .tile-inner {
+  background-position: 9.090909090909092% 38.46153846153847%; }
+.tile-container[data-type="62"] .tile-inner {
+  background-position: 30.76923076923077% 30.76923076923077%; }
+.tile-container[data-type="63"] .tile-inner {
+  background-position: 100% 35.714285714285715%; }
+.tile-container[data-type="64"] .tile-inner {
+  background-position: 45.45454545454545% 28.57142857142857%; }
+.tile-container[data-type="65"] .tile-inner {
+  background-position: 54.54545454545454% 35.714285714285715%; }
+.tile-container[data-type="66"] .tile-inner {
+  background-position: 33.33333333333333% 38.46153846153847%; }
+.tile-container[data-type="67"] .tile-inner {
+  background-position: 90.9090909090909% 42.857142857142854%; }
+.tile-container[data-type="68"] .tile-inner {
+  background-position: 0% 42.857142857142854%; }
+.tile-container[data-type="69"] .tile-inner {
+  background-position: 100% 26.666666666666668%; }
+.tile-container[data-type="70"] .tile-inner {
+  background-position: 66.66666666666666% 42.857142857142854%; }
+.tile-container[data-type="71"] .tile-inner {
+  background-position: 81.81818181818183% 30.76923076923077%; }
+.tile-container[data-type="72"] .tile-inner {
+  background-position: 0% 57.14285714285714%; }
+.tile-container[data-type="73"] .tile-inner {
+  background-position: 9.090909090909092% 69.23076923076923%; }
+.tile-container[data-type="74"] .tile-inner {
+  background-position: 30.76923076923077% 61.53846153846154%; }
+.tile-container[data-type="75"] .tile-inner {
+  background-position: 100% 64.28571428571429%; }
+.tile-container[data-type="76"] .tile-inner {
+  background-position: 45.45454545454545% 57.14285714285714%; }
+.tile-container[data-type="77"] .tile-inner {
+  background-position: 54.54545454545454% 64.28571428571429%; }
+.tile-container[data-type="78"] .tile-inner {
+  background-position: 33.33333333333333% 69.23076923076923%; }
+.tile-container[data-type="79"] .tile-inner {
+  background-position: 90.9090909090909% 71.42857142857143%; }
+.tile-container[data-type="80"] .tile-inner {
+  background-position: 0% 71.42857142857143%; }
+.tile-container[data-type="81"] .tile-inner {
+  background-position: 100% 53.333333333333336%; }
+.tile-container[data-type="82"] .tile-inner {
+  background-position: 66.66666666666666% 71.42857142857143%; }
+.tile-container[data-type="83"] .tile-inner {
+  background-position: 81.81818181818183% 61.53846153846154%; }
+.tile-container[data-type="84"] .tile-inner {
+  background-position: 0% 85.71428571428571%; }
+.tile-container[data-type="85"] .tile-inner {
+  background-position: 9.090909090909092% 100%; }
+.tile-container[data-type="86"] .tile-inner {
+  background-position: 30.76923076923077% 92.3076923076923%; }
+.tile-container[data-type="87"] .tile-inner {
+  background-position: 100% 92.85714285714286%; }
+.tile-container[data-type="88"] .tile-inner {
+  background-position: 45.45454545454545% 85.71428571428571%; }
+.tile-container[data-type="89"] .tile-inner {
+  background-position: 54.54545454545454% 92.85714285714286%; }
+.tile-container[data-type="90"] .tile-inner {
+  background-position: 33.33333333333333% 100%; }
+.tile-container[data-type="91"] .tile-inner {
+  background-position: 90.9090909090909% 100%; }
+.tile-container[data-type="92"] .tile-inner {
+  background-position: 0% 100%; }
+.tile-container[data-type="93"] .tile-inner {
+  background-position: 100% 80%; }
+.tile-container[data-type="94"] .tile-inner {
+  background-position: 66.66666666666666% 100%; }
+.tile-container[data-type="95"] .tile-inner {
+  background-position: 81.81818181818183% 92.3076923076923%; }
+.tile-container[data-type="96"] .tile-inner {
+  background-position: 0% 0%; }
+.tile-container[data-type="97"] .tile-inner {
+  background-position: 9.090909090909092% 7.6923076923076925%; }
+.tile-container[data-type="98"] .tile-inner {
+  background-position: 30.76923076923077% 0%; }
+.tile-container[data-type="99"] .tile-inner {
+  background-position: 100% 7.142857142857142%; }
+.tile-container[data-type="100"] .tile-inner {
+  background-position: 45.45454545454545% 0%; }
+.tile-container[data-type="101"] .tile-inner {
+  background-position: 54.54545454545454% 7.142857142857142%; }
+.tile-container[data-type="102"] .tile-inner {
+  background-position: 33.33333333333333% 7.6923076923076925%; }
+.tile-container[data-type="103"] .tile-inner {
+  background-position: 90.9090909090909% 14.285714285714285%; }
+.tile-container[data-type="104"] .tile-inner {
+  background-position: 0% 14.285714285714285%; }
+.tile-container[data-type="105"] .tile-inner {
+  background-position: 100% 0%; }
+.tile-container[data-type="106"] .tile-inner {
+  background-position: 66.66666666666666% 14.285714285714285%; }
+.tile-container[data-type="107"] .tile-inner {
+  background-position: 81.81818181818183% 0%; }
+.tile-container[data-type="108"] .tile-inner {
+  background-position: 0% 28.57142857142857%; }
+.tile-container[data-type="109"] .tile-inner {
+  background-position: 9.090909090909092% 38.46153846153847%; }
+.tile-container[data-type="110"] .tile-inner {
+  background-position: 30.76923076923077% 30.76923076923077%; }
+.tile-container[data-type="111"] .tile-inner {
+  background-position: 100% 35.714285714285715%; }
+.tile-container[data-type="112"] .tile-inner {
+  background-position: 45.45454545454545% 28.57142857142857%; }
+.tile-container[data-type="113"] .tile-inner {
+  background-position: 54.54545454545454% 35.714285714285715%; }
+.tile-container[data-type="114"] .tile-inner {
+  background-position: 33.33333333333333% 38.46153846153847%; }
+.tile-container[data-type="115"] .tile-inner {
+  background-position: 90.9090909090909% 42.857142857142854%; }
+.tile-container[data-type="116"] .tile-inner {
+  background-position: 0% 42.857142857142854%; }
+.tile-container[data-type="117"] .tile-inner {
+  background-position: 100% 26.666666666666668%; }
+.tile-container[data-type="118"] .tile-inner {
+  background-position: 66.66666666666666% 42.857142857142854%; }
+.tile-container[data-type="119"] .tile-inner {
+  background-position: 81.81818181818183% 30.76923076923077%; }
+.tile-container[data-type="120"] .tile-inner {
+  background-position: 0% 57.14285714285714%; }
+.tile-container[data-type="121"] .tile-inner {
+  background-position: 9.090909090909092% 69.23076923076923%; }
+.tile-container[data-type="122"] .tile-inner {
+  background-position: 30.76923076923077% 61.53846153846154%; }
+.tile-container[data-type="123"] .tile-inner {
+  background-position: 100% 64.28571428571429%; }
+.tile-container[data-type="124"] .tile-inner {
+  background-position: 45.45454545454545% 57.14285714285714%; }
+.tile-container[data-type="125"] .tile-inner {
+  background-position: 54.54545454545454% 64.28571428571429%; }
+.tile-container[data-type="126"] .tile-inner {
+  background-position: 33.33333333333333% 69.23076923076923%; }
+.tile-container[data-type="127"] .tile-inner {
+  background-position: 90.9090909090909% 71.42857142857143%; }
+.tile-container[data-type="128"] .tile-inner {
+  background-position: 0% 71.42857142857143%; }
+.tile-container[data-type="129"] .tile-inner {
+  background-position: 100% 53.333333333333336%; }
+.tile-container[data-type="130"] .tile-inner {
+  background-position: 66.66666666666666% 71.42857142857143%; }
+.tile-container[data-type="131"] .tile-inner {
+  background-position: 81.81818181818183% 61.53846153846154%; }
+.tile-container[data-type="132"] .tile-inner {
+  background-position: 0% 85.71428571428571%; }
+.tile-container[data-type="133"] .tile-inner {
+  background-position: 9.090909090909092% 100%; }
+.tile-container[data-type="134"] .tile-inner {
+  background-position: 30.76923076923077% 92.3076923076923%; }
+.tile-container[data-type="135"] .tile-inner {
+  background-position: 100% 92.85714285714286%; }
+.tile-container[data-type="136"] .tile-inner {
+  background-position: 45.45454545454545% 85.71428571428571%; }
+.tile-container[data-type="137"] .tile-inner {
+  background-position: 54.54545454545454% 92.85714285714286%; }
+.tile-container[data-type="138"] .tile-inner {
+  background-position: 33.33333333333333% 100%; }
+.tile-container[data-type="139"] .tile-inner {
+  background-position: 90.9090909090909% 100%; }
+.tile-container[data-type="140"] .tile-inner {
+  background-position: 0% 100%; }
+.tile-container[data-type="141"] .tile-inner {
+  background-position: 100% 80%; }
+.tile-container[data-type="142"] .tile-inner {
+  background-position: 66.66666666666666% 100%; }
+.tile-container[data-type="143"] .tile-inner {
+  background-position: 81.81818181818183% 92.3076923076923%; }
 
 #player_board_config {
   position: relative;

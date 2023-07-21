@@ -85,11 +85,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 */
       });
       // this.setupPlayersCounters();
-      // this.activateShowBuildingHelperButtons();
+      // this.activateShowTileHelperButtons();
     },
 
-    activateShowBuildingHelperButtons() {
-      [...document.querySelectorAll('.buildings-helper-toggle')].forEach((elt) => {
+    activateShowTileHelperButtons() {
+      [...document.querySelectorAll('.tiles-helper-toggle')].forEach((elt) => {
         if (elt.id && this.tooltips[elt.id]) return;
 
         elt.addEventListener('click', function () {
@@ -99,7 +99,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         });
       });
 
-      this.addTooltipToClass('buildings-helper-toggle', '', _('Click to show the list of possible enclosures'));
+      this.addTooltipToClass('tiles-helper-toggle', '', _('Click to show the list of possible enclosures'));
     },
 
     onChangeHandLocationSetting(v) {
@@ -186,7 +186,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     switchPlayerBoard(delta) {
       let pId = this.getDeltaPlayer(this._focusedPlayer, delta);
       if (pId == -1) return;
-      $(`player-board-${this._focusedPlayer}`).querySelector('.buildings-helper').classList.remove('open', 'closedAnim');
+      $(`player-board-${this._focusedPlayer}`).querySelector('.tiles-helper').classList.remove('open', 'closedAnim');
       this.goToPlayerBoard(pId);
     },
 
@@ -355,7 +355,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
             <div class='full-map-bonus' id="${this.registerCustomTooltip(texts[3])}">
               ${this.formatBonus({ appeal: 7 }, 'bonusTile', false)}
             </div>
-            <div class='buildings-helper'><div class='buildings-helper-toggle'>${this.formatIcon('action-build')}</div></div>
+            <div class='tiles-helper'><div class='tiles-helper-toggle'>${this.formatIcon('action-build')}</div></div>
           </div>
 
           <div class='zoo-map-association'>
@@ -671,128 +671,102 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     },
 
     //////////////////////////////////////////////////
-    //  ____        _ _     _ _
-    // | __ ) _   _(_) | __| (_)_ __   __ _ ___
-    // |  _ \| | | | | |/ _` | | '_ \ / _` / __|
-    // | |_) | |_| | | | (_| | | | | | (_| \__ \
-    // |____/ \__,_|_|_|\__,_|_|_| |_|\__, |___/
-    //                                |___/
+    //  _____ _ _
+    // |_   _(_) | ___  ___
+    //   | | | | |/ _ \/ __|
+    //   | | | | |  __/\__ \
+    //   |_| |_|_|\___||___/
     //////////////////////////////////////////////////
 
-    setupBuildings() {
+    setupTiles() {
       // This function is refreshUI compatible
-      let buildingIds = this.gamedatas.buildings.map((building) => {
-        if (!$(`building-${building.id}`)) {
-          this.addBuilding(building);
+      let tileIds = this.gamedatas.tiles.map((tile) => {
+        if (!$(`tile-${tile.id}`)) {
+          this.addTile(tile);
         }
 
-        let o = $(`building-${building.id}`);
+        let o = $(`tile-${tile.id}`);
         if (!o) return null;
 
-        let container = this.getBuildingContainer(building);
+        let container = this.getTileContainer(tile);
         if (o.parentNode != $(container)) {
           dojo.place(o, container);
         }
-        o.dataset.state = building.state;
+        o.dataset.state = tile.state;
 
-        return building.id;
+        return tile.id;
       });
-      document.querySelectorAll('.building-container').forEach((oBuilding) => {
-        if (!buildingIds.includes(parseInt(oBuilding.getAttribute('data-id')))) {
-          this.destroy(oBuilding);
+      document.querySelectorAll('.tile-container').forEach((oTile) => {
+        if (!tileIds.includes(parseInt(oTile.getAttribute('data-id')))) {
+          this.destroy(oTile);
         }
       });
     },
 
-    addBuilding(building, container = null) {
+    addTile(tile, container = null) {
       if (container === null) {
-        container = this.getBuildingContainer(building);
+        container = this.getTileContainer(tile);
       }
 
-      let o = this.place('tplBuilding', building, container);
-      this.placeBuilding(`building-${building.id}`, building.x, building.y);
-      this.attachRegisteredTooltips();
+      let o = this.place('tplTile', tile, container);
+      if (tile.location == 'board') {
+        this.placeTile(`tile-${tile.id}`, tile.x, tile.y);
+      }
     },
 
-    getBuildingContainer(building) {
-      if (building.location == 'board') {
-        return $(`zoo-map-${building.pId}`).querySelector('.zoo-board');
+    getTileContainer(tile) {
+      if (tile.location == 'board') {
+        return $(`zoo-map-${tile.pId}`).querySelector('.zoo-board');
+      } else if ($(tile.location)) {
+        return $(tile.location);
       }
-      return building.location;
+
+      console.error('Trying to get container of a tile', tile);
+      return 'game_play_area';
     },
 
-    tplBuilding(building, id = null) {
-      // Special enclosure cubes
-      let cubes = '';
-      const cubesMap = {
-        'petting-zoo': 3,
-        'reptile-house': 5,
-        'large-bird-aviary': 5,
-      };
-      if (cubesMap[building.type]) {
-        const color = this.getPlayerColor(building.pId);
-        for (let i = 0; i < cubesMap[building.type]; i++) {
-          cubes += `<div class="planetunknown-meeple planetunknown-icon icon-token" data-type="token" data-color="${color}"></div>`;
-        }
-      }
+    tplTile(tile, id = null) {
+      id = id || `tile-${tile.id}`;
 
-      id = id || `building-${building.id}`;
-      let tooltips = {
-        kiosk: _(
-          'Kiosk: must always be at least 3 spaces from every other kiosk on your zoo map. During break, take 1 money for each unique building, special enclosure, occupied standard enclosure, and pavilion adjacent to it.'
-        ),
-        pavilion: _('Pavilion: increase the appeal of your zoo by 1 when played.'),
-        'reptile-house': _(
-          'Reptile House: all reptiles can be accomodated either in a standard enclosure or in this special enclosure. If an animal requires water and/or rock spaces next to its standard enclosure, the same requirement also applies to the respective special enclosure'
-        ),
-        'large-bird-aviary': _(
-          'Large Bird Aviary: some birds can be accomodated either in a standard enclosure or in this special enclosure. If an animal requires water and/or rock spaces next to its standard enclosure, the same requirement also applies to the respective special enclosure'
-        ),
-        'petting-zoo': _(
-          'Petting Zoo: Petting Zoo animals cannot be accommodated in a standard enclosure; only in this special enclosure. No other animals can be accomodated in this special enclosure.'
-        ),
-      };
-      if (tooltips[building.type]) {
-        this.registerCustomTooltip(tooltips[building.type], id);
-      }
-
-      return `<div id="${id}" data-id="${building.id}" class='building-container' data-type='${building.type}' data-state='${building.state}' data-rotation='${building.rotation}'>
-      <div class='building-inner'>${cubes}</div>
-      <div class='building-border'></div>
-      <div class='building-crosshairs'>
+      return `<div id="${id}" data-id="${tile.id}" class='tile-container' 
+        data-type='${tile.type}' data-shape='${+tile.type % 12}' data-sprite='${parseInt(+tile.type / 48)}'
+        data-state='${tile.state}' data-rotation='${tile.rotation}' data-flipped='${tile.flipped}'>
+      <div class='tile-inner'></div>
+      <div class='tile-border'></div>
+      <div class='tile-crosshairs'>
         <svg><use href="#crosshairs-svg" /></svg>
       </div>
     </div>`;
     },
 
-    // Place a building at the correct grid position to make at pos (x,y)
-    placeBuilding(buildingId, x, y) {
-      let buildingType = $(buildingId).dataset.type;
-      // let offsets = ENCLOSURES_OFFSETS[buildingType];
+    // Place a tile at the correct grid position to make at pos (x,y)
+    placeTile(tileId, x, y) {
+      let tileType = $(tileId).dataset.type;
+      // let offsets = ENCLOSURES_OFFSETS[tileType];
       let col = 3 * parseInt(x) + 1; // + (2 - offsets.x);
       let row = parseInt(y) + 1; // + (1 - offsets.y);
-      $(buildingId).style.gridColumnStart = col;
-      $(buildingId).style.gridRowStart = row;
+      $(tileId).style.gridColumnStart = col;
+      $(tileId).style.gridRowStart = row;
     },
 
-    notif_buyBuilding(n) {
-      debug('Notif: buying a building', n);
+    notif_buyTile(n) {
+      debug('Notif: buying a tile', n);
       this._playerCounters[n.args.player_id]['money'].toValue(n.args.total);
       this._playerCounters[n.args.player_id]['income'].toValue(n.args.income);
-      let building = n.args.building;
-      let buildingId = `building-${building.id}`;
-      this.addBuilding(building);
+      let tile = n.args.tile;
+      let tileId = `tile-${tile.id}`;
+      this.addTile(tile);
 
       if (!this.isFastMode()) {
-        let mobileElt = $(buildingId).cloneNode(true);
+        let mobileElt = $(tileId).cloneNode(true);
         mobileElt.id += '_sliding';
-        $(buildingId).classList.add('phantom');
-        this.slide(mobileElt, buildingId, {
+        $(tileId).classList.add('phantom');
+        this.slide(mobileElt, tileId, {
           from: 'page-title',
           destroy: true,
           phantom: false,
         }).then(() => {
-          $(buildingId).classList.remove('phantom');
+          $(tileId).classList.remove('phantom');
         });
       }
     },
