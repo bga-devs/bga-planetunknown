@@ -37,6 +37,7 @@ trait EngineTrait
     $node = Engine::getNextUnresolved($pId);
     $args = Actions::getArgs($action, $node);
     $args['automaticAction'] = Actions::get($action, $node)->isAutomatic($player);
+    $this->addCommonArgs($pId, $args);
     $this->addArgsAnytimeAction($pId, $args, $action);
 
     return $args;
@@ -214,10 +215,11 @@ trait EngineTrait
   public function actRestart()
   {
     self::checkAction('actRestart');
-    if (Globals::getEngineChoices() < 1) {
+    $pId = Players::getCurrentId();
+    if (PGlobals::getEngineChoices($pId) < 1) {
       throw new \BgaVisibleSystemException('No choice to undo');
     }
-    Engine::restart();
+    Engine::restart($pId);
   }
 
   public function actUndoToStep($stepId)

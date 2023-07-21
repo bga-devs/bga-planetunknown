@@ -17,6 +17,7 @@ class PlaceTile extends \PU\Models\Action
 
   public function argsPlaceTile()
   {
+    $type = $this->getCtxArg('type');
     return [];
   }
 
@@ -31,6 +32,10 @@ class PlaceTile extends \PU\Models\Action
 
     $this->insertAsChild([
       'action' => $action,
+    ]);
+
+    Notifications::message('${player_name} places a tile', [
+      'player' => Players::getCurrent(),
     ]);
 
     $this->resolveAction([$n]);

@@ -62,14 +62,13 @@ class Engine
       PGlobals::setEngineChoices($pId, 0);
     }
 
-    Log::startEngine();
-
     $gm = Game::get()->gamestate;
     $gm->jumpToState(ST_GENERIC_NEXT_PLAYER);
     $gm->setPlayersMultiactive($pIds, '', true);
     $gm->jumpToState(ST_SETUP_PRIVATE_ENGINE);
     $gm->initializePrivateStateForAllActivePlayers();
     self::multipleProceed($pIds);
+    Log::startEngine();
   }
 
   /**
@@ -425,14 +424,15 @@ class Engine
   /**
    * Restart the whole flow
    */
-  public function restart()
+  public function restart($pId)
   {
-    Log::undoTurn();
+    Log::undoTurn($pId);
 
-    // Force to clear cached informations
-    Globals::fetch();
-    self::boot();
-    self::proceed(false, true);
+    $flow = PGlobals::getEngine($pId);
+    self::$trees[$pId] = self::buildTree($flow);
+
+    self::proceed($pId, false, true);
+    Notifications::flush();
   }
 
   /**

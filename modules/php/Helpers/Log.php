@@ -2,11 +2,10 @@
 namespace PU\Helpers;
 use PU\Core\Game;
 use PU\Core\Globals;
+use PU\Core\PGlobals;
 use PU\Core\Stats;
 use PU\Core\Notifications;
 use PU\Managers\Players;
-use PU\Managers\ZooCards;
-use PU\Managers\ActionCards;
 
 /**
  * Class that allows to log DB change: useful for undo feature
@@ -35,6 +34,9 @@ class Log extends \APP_DbObject
     }
     if (!isset($entry['primary'])) {
       $entry['primary'] = '';
+    }
+    if (!isset($entry['player_id'])) {
+      $entry['player_id'] = Players::getCurrentId(true) ?? 0;
     }
 
     $entry['move_id'] = self::getUniqueValueFromDB('SELECT global_value FROM global WHERE global_id = 3');
@@ -86,13 +88,14 @@ class Log extends \APP_DbObject
   }
 
   // Find all the moments available to undo
-  public function getUndoableSteps($onlyIds = true)
+  public function getUndoableSteps($pId, $onlyIds = true)
   {
     $checkpoint = self::getLastCheckpoint();
     $query = new QueryBuilder('log', null, 'id');
     $logs = $query
       ->select(['id', 'move_id'])
       ->where('type', 'step')
+      ->whereIn('player_id', [0, $pId])
       ->where('id', '>', $checkpoint)
       ->orderBy('id', 'DESC')
       ->get();
@@ -102,16 +105,16 @@ class Log extends \APP_DbObject
   /**
    * Revert all the way to the last checkpoint or the last start of turn
    */
-  public function undoTurn()
+  public function undoTurn($pId)
   {
-    $checkpoint = static::getLastCheckpoint(true);
-    return self::revertTo($checkpoint);
+    $checkpoint = static::getLastCheckpoint($pId, true);
+    return self::revertTo($pId, $checkpoint);
   }
 
   /**
    * Revert to a given step (checking first that it exists)
    */
-  public function undoToStep($stepId)
+  public function undoToStep($pId, $stepId)
   {
     $query = new QueryBuilder('log', null, 'id');
     $step = $query
@@ -122,17 +125,18 @@ class Log extends \APP_DbObject
       throw new \BgaVisibleSystemException('Cant undo here');
     }
 
-    self::revertTo($stepId - 1);
+    self::revertTo($pId, $stepId - 1);
   }
 
   /**
    * Revert all the logged changes up to an id
    */
-  public function revertTo($id)
+  public function revertTo($pId, $id)
   {
     $query = new QueryBuilder('log', null, 'id');
     $logs = $query
       ->select(['id', 'table', 'primary', 'type', 'affected', 'move_id'])
+      ->where('player_id', $pId)
       ->where('id', '>', $id)
       ->orderBy('id', 'DESC')
       ->get();
@@ -176,10 +180,13 @@ class Log extends \APP_DbObject
     $query = new QueryBuilder('log', null, 'id');
     $query
       ->where('id', '>', $id)
+      ->where('player_id', $pId)
       ->delete()
       ->run();
 
     // Cancel the game notifications
+    // TODO
+    /*
     $query = new QueryBuilder('gamelog', null, 'gamelog_packet_id');
     if (!empty($moveIds)) {
       $query
@@ -189,30 +196,32 @@ class Log extends \APP_DbObject
       $notifIds = self::getCanceledNotifIds();
       Notifications::clearTurn(Players::getCurrent(), $notifIds);
     }
+    */
 
     // Force to clear cached informations
     Globals::fetch();
+    PGlobals::fetch();
     Players::invalidate();
-    ZooCards::invalidate();
-    ActionCards::invalidate();
-    Stats::invalidate();
+    // Meeples::invalidate();
+    // Stats::invalidate();
 
     // Notify
     $datas = Game::get()->getAllDatas();
     Notifications::refreshUI($datas);
-    $player = Players::getCurrent();
-    Notifications::refreshHand($player, $player->getHand()->ui());
+    // $player = Players::getCurrent();
+    // Notifications::refreshHand($player, $player->getHand()->ui());
 
     // Force notif flush to be able to delete "restart turn" notif
     Game::get()->sendNotifications();
-    if (!empty($moveIds)) {
-      // Delete notifications
-      $query = new QueryBuilder('gamelog', null, 'gamelog_packet_id');
-      $query
-        ->delete()
-        ->where('gamelog_move_id', '>=', min($moveIds))
-        ->run();
-    }
+    // TODO
+    // if (!empty($moveIds)) {
+    //   // Delete notifications
+    //   $query = new QueryBuilder('gamelog', null, 'gamelog_packet_id');
+    //   $query
+    //     ->delete()
+    //     ->where('gamelog_move_id', '>=', min($moveIds))
+    //     ->run();
+    // }
 
     return $moveIds;
   }

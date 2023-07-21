@@ -64,8 +64,8 @@ class Notifications
     // // Keep only the thing that matters
     $fDatas = [
       'players' => $datas['players'],
-      'buildings' => $datas['buildings'],
-      'meeples' => $datas['meeples'],
+      // 'buildings' => $datas['buildings'],
+      // 'meeples' => $datas['meeples'],
     ];
 
     // foreach ($fDatas['cards'] as $i => $card) {
@@ -89,6 +89,11 @@ class Notifications
       'player' => $player,
       'hand' => $hand,
     ]);
+  }
+
+  public static function flush()
+  {
+    self::notifyAll('flush', '', []);
   }
 
   ///////////////////////////////////////////////////////////////

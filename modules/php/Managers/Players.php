@@ -53,9 +53,9 @@ class Players extends \PU\Helpers\CachedDB_Manager
     return (int) Game::get()->getActivePlayerId();
   }
 
-  public function getCurrentId()
+  public function getCurrentId($bReturnNullIfNotLogged = false)
   {
-    return (int) Game::get()->getCurrentPId();
+    return (int) Game::get()->getCurrentPId($bReturnNullIfNotLogged);
   }
 
   public function getActive()

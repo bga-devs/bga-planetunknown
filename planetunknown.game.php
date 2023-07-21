@@ -283,9 +283,9 @@ class planetunknown extends Table
   /////////////////////////////////////////////////////////////
 
   // Exposing protected method getCurrentPlayerId
-  public static function getCurrentPId()
+  public static function getCurrentPId($bReturnNullIfNotLogged = false)
   {
-    return self::getCurrentPlayerId();
+    return self::getCurrentPlayerId($bReturnNullIfNotLogged);
   }
 
   // Exposing protected method translation
