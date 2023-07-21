@@ -6,10 +6,8 @@ use PU\Core\Engine;
 use PU\Core\Stats;
 use PU\Core\Preferences;
 use PU\Managers\Players;
-use PU\Managers\ActionCards;
-use PU\Managers\ZooCards;
 use PU\Managers\Meeples;
-use PU\Managers\Buildings;
+use PU\Managers\Tiles;
 use PU\Managers\Actions;
 use PU\Helpers\Utils;
 use PU\Helpers\Log;
@@ -24,7 +22,8 @@ trait SetupTrait
     Globals::setupNewGame($players, $options);
     Players::setupNewGame($players, $options);
     Preferences::setupNewGame($players, $this->player_preferences);
-    // Meeples::setupNewGame($players, $options);
+    Meeples::setupNewGame($players, $options);
+    Tiles::setupNewGame($players, $options);
     // Stats::checkExistence();
 
     Globals::setFirstPlayer($this->getNextPlayerTable()[0]);

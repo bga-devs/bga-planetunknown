@@ -5,19 +5,19 @@ use PU\Core\Globals;
 use PU\Helpers\UserException;
 use PU\Helpers\Collection;
 
-/* Class to manage all the meeples for PlanetUnknown */
+/* Class to manage all the tiles for PlanetUnknown */
 
-class Meeples extends \PU\Helpers\CachedPieces
+class Tiles extends \PU\Helpers\CachedPieces
 {
-  protected static $table = 'meeples';
-  protected static $prefix = 'meeple_';
-  protected static $customFields = ['type', 'player_id', 'x', 'y'];
+  protected static $table = 'tiles';
+  protected static $prefix = 'tile_';
+  protected static $customFields = ['type', 'player_id', 'x', 'y', 'rotation', 'flipped'];
   protected static $datas = null;
   protected static $autoremovePrefix = false;
 
   protected static function cast($meeple)
   {
-    return new \PU\Models\Meeple($meeple);
+    return new \PU\Models\Tile($meeple);
   }
   public static function getUiData()
   {

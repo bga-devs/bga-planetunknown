@@ -33,9 +33,7 @@ spl_autoload_register($swdNamespaceAutoload, true, true);
 require_once APP_GAMEMODULE_PATH . 'module/table/table.game.php';
 
 use PU\Managers\Meeples;
-use PU\Managers\ActionCards;
-use PU\Managers\ZooCards;
-use PU\Managers\Buildings;
+use PU\Managers\Tiles;
 use PU\Managers\Players;
 use PU\Managers\Scores;
 use PU\Core\Globals;
@@ -81,7 +79,7 @@ class planetunknown extends Table
     return [
       'prefs' => Preferences::getUiData($pId),
       'players' => Players::getUiData($pId),
-      // 'buildings' => Buildings::getUiData(),
+      'tiles' => Tiles::getUiData(),
       'meeples' => Meeples::getUiData(),
     ];
   }

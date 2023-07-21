@@ -21,7 +21,21 @@ CREATE TABLE IF NOT EXISTS `meeples` (
   PRIMARY KEY (`meeple_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Store zoo cards
+
+CREATE TABLE IF NOT EXISTS `tiles` (
+  `tile_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `tile_location` varchar(32) NOT NULL,
+  `tile_state` int(10) DEFAULT 0,
+  `player_id` int(10) NULL,
+  `type` varchar(100),
+  `x` int(10) NOT NULL,
+  `y` int(10) NOT NULL,
+  `rotation` int(10) NOT NULL,
+  `flipped` int(10) NOT NULL,
+  PRIMARY KEY (`tile_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 CREATE TABLE IF NOT EXISTS `civcards` (
   `card_id` varchar(100)  NOT NULL,
   `card_location` varchar(32) NOT NULL,
@@ -39,20 +53,6 @@ ALTER TABLE `player` ADD `rover` INT(10) NOT NULL DEFAULT 0;
 ALTER TABLE `player` ADD `tech` INT(10) NOT NULL DEFAULT 0;
 ALTER TABLE `player` ADD `energy` INT(10) NOT NULL DEFAULT 0;
 ALTER TABLE `player` ADD `biomass` INT(10) NOT NULL DEFAULT 0;
-
-CREATE TABLE IF NOT EXISTS `buildings` (
-  `building_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `building_location` varchar(32) NOT NULL,
-  `building_state` int(10) DEFAULT 0,
-  `player_id` int(10) NULL,
-  `type` varchar(100),
-  `x` int(10) NOT NULL,
-  `y` int(10) NOT NULL,
-  `rotation` int(10) NOT NULL,
-  `flipped` int(10) NOT NULL,
-  PRIMARY KEY (`building_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 
 -- CORE TABLES --
 CREATE TABLE IF NOT EXISTS `global_variables` (
