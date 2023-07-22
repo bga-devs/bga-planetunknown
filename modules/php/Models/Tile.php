@@ -27,21 +27,21 @@ class Tile extends \PU\Helpers\DB_Model
 
   static function getStaticDataFromId($id)
   {
-    $tileType = $id % 12;
+    $tileData = Tiles::$tilesData[$id % 12];
     $tileFamily = intdiv($id, 24);
     $hasMeteor = (intdiv($id, 12) % 2 == 0);
     $data = [];
 
-    [$baseX, $baseY] = explode('_', Tiles::$initialPattern[$tileType][0]);
+    [$baseX, $baseY] = explode('_', $tileData['pattern'][0]);
 
-    foreach (Tiles::$initialPattern[$tileType] as $index => $coord) {
+    foreach ($tileData['pattern'] as $index => $coord) {
       [$x, $y] = explode('_', $coord);
       $data[] = [
         'x' => $x - $baseX,
         'y' => $y - $baseY,
-        'type' => Tiles::$typesNames[$tileFamily][Tiles::$types[$tileType][$index]],
-        'meteor' => ($hasMeteor && in_array($coord, Tiles::$meteorPlace[$tileType])),
-        'symbol' => in_array($coord, Tiles::$symbolPlaces[$tileType])
+        'type' => Tiles::$typesNames[$tileFamily][$tileData['types'][$index]],
+        'meteor' => ($hasMeteor && $coord == $tileData['meteorPlace']),
+        'symbol' => in_array($coord, $tileData['symbolPlaces'])
       ];
     }
 
