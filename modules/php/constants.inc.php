@@ -83,6 +83,36 @@ const ENERGY = 'energy';
 const BIOMASS = 'biomass';
 
 const MEDAL = 'medal';
+const SYNERGY = 'synergy';
+
+/*
+*	Terrains types
+*/
+const NOTHING = 0;
+const LAND = 1;
+const ICE = 2;
+const LIFEPOD = 3;
+
+
+/*
+* Tiles and Space station
+*/
+
+const TILE_N = 0;
+const TILE_F = 1;
+const TILE_I = 2;
+const TILE_v = 3;
+const TILE_t = 4;
+const TILE_s = 5;
+const TILE_L = 6;
+const TILE_U = 7;
+const TILE_i = 8;
+const TILE_BIG_I = 9;
+const TILE_O = 10;
+const TILE_S = 11;
+
+const LARGE_RING = [TILE_S, TILE_F, TILE_s, TILE_BIG_I, TILE_N, TILE_U];
+const SMALL_RING = [TILE_I, TILE_t, TILE_v, TILE_L, TILE_i, TILE_O];
 
 /*
  * MISC

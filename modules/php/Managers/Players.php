@@ -1,5 +1,7 @@
 <?php
+
 namespace PU\Managers;
+
 use PU\Core\Game;
 use PU\Core\Globals;
 use PU\Core\Stats;
@@ -10,6 +12,7 @@ use PU\Core\Notifications;
  * Players manager : allows to easily access players ...
  *  a player is an instance of Player class
  */
+
 class Players extends \PU\Helpers\CachedDB_Manager
 {
   protected static $table = 'player';
@@ -24,6 +27,7 @@ class Players extends \PU\Helpers\CachedDB_Manager
   {
     // Planet is not determined at first unless first game/beginner mode
     $planet = '';
+    $corporation = '';
 
     // Create players
     $gameInfos = Game::get()->getGameinfos();
@@ -35,12 +39,13 @@ class Players extends \PU\Helpers\CachedDB_Manager
       'player_name',
       'player_avatar',
       'planet_id',
+      'corporation_id'
     ]);
 
     $values = [];
     foreach ($players as $pId => $player) {
       $color = array_shift($colors);
-      $values[] = [$pId, $color, $player['player_canal'], $player['player_name'], $player['player_avatar'], $planet];
+      $values[] = [$pId, $color, $player['player_canal'], $player['player_name'], $player['player_avatar'], $planet, $corporation];
     }
     $query->values($values);
     self::invalidate();

@@ -1,5 +1,7 @@
 <?php
+
 namespace PU\Models;
+
 use PU\Managers\Meeples;
 use PU\Managers\Buildings;
 use PU\Managers\Players;
@@ -11,6 +13,7 @@ use PU\Core\Stats;
 /*
  * Planet: all utility functions concerning a Planet
  */
+
 const DIRECTIONS = [
   ['x' => -1, 'y' => -1],
   ['x' => 0, 'y' => -2],
