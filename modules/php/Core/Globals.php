@@ -1,4 +1,5 @@
 <?php
+
 namespace PU\Core;
 
 use PU\Core\Game;
@@ -7,6 +8,7 @@ use PU\Helpers\Utils;
 /*
  * Globals
  */
+
 class Globals extends \PU\Helpers\DB_Manager
 {
   protected static $initialized = false;
@@ -18,6 +20,8 @@ class Globals extends \PU\Helpers\DB_Manager
     'firstPlayer' => 'int',
 
     // Setup
+    'susanShift' => 'int', //from 0 to 5 to know how small ring and large ring are set
+    'susanRotation' => 'int', //from 0 to 5 to know the actual rotation of susan
 
     // Game options
     'solo' => 'bool',
@@ -41,12 +45,10 @@ class Globals extends \PU\Helpers\DB_Manager
     $tmp = self::$log;
     self::$log = false;
 
-    foreach (
-      self::DB()
-        ->select(['value', 'name'])
-        ->get(false)
-      as $name => $variable
-    ) {
+    foreach (self::DB()
+      ->select(['value', 'name'])
+      ->get(false)
+      as $name => $variable) {
       if (\array_key_exists($name, self::$variables)) {
         self::$data[$name] = $variable;
       }
@@ -154,5 +156,7 @@ class Globals extends \PU\Helpers\DB_Manager
   public static function setupNewGame($players, $options)
   {
     self::setSolo(count($players) == 1);
+    // static::setSusanShift(bga_rand(0, 5));
+    // static::setSusanRotation(bga_rand(0, 5));
   }
 }

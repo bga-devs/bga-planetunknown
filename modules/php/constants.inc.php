@@ -86,12 +86,17 @@ const MEDAL = 'medal';
 const SYNERGY = 'synergy';
 
 /*
+*	Meeples
+*/
+const TRACKER = 'tracker';
+
+/*
 *	Terrains types
 */
-const NOTHING = 0;
-const LAND = 1;
-const ICE = 2;
-const LIFEPOD = 3;
+const NOTHING = 'nothing';
+const LAND = 'land';
+const ICE = 'ice';
+const LIFEPOD = 'lifepod';
 
 
 /*

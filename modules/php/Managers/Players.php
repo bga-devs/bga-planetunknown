@@ -26,8 +26,17 @@ class Players extends \PU\Helpers\CachedDB_Manager
   public function setupNewGame($players, $options)
   {
     // Planet is not determined at first unless first game/beginner mode
-    $planet = '';
-    $corporation = '';
+    $planet = 0;
+    $corporation = 0;
+
+    //positions around susan
+    $positions = [
+      1 => [0],
+      2 => [0, 3],
+      3 => [0, 2, 4],
+      4 => [0, 1, 3, 4],
+      5 => [0, 1, 2, 3, 4]
+    ];
 
     // Create players
     $gameInfos = Game::get()->getGameinfos();
@@ -39,13 +48,15 @@ class Players extends \PU\Helpers\CachedDB_Manager
       'player_name',
       'player_avatar',
       'planet_id',
-      'corporation_id'
+      'corporation_id',
+      'position'
     ]);
-
+    $playerIndex = 0;
     $values = [];
     foreach ($players as $pId => $player) {
       $color = array_shift($colors);
-      $values[] = [$pId, $color, $player['player_canal'], $player['player_name'], $player['player_avatar'], $planet, $corporation];
+      $values[] = [$pId, $color, $player['player_canal'], $player['player_name'], $player['player_avatar'], $planet, $corporation, $positions[count($players)][$playerIndex]];
+      $playerIndex++;
     }
     $query->values($values);
     self::invalidate();

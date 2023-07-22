@@ -1,19 +1,20 @@
 <?php
+
 namespace PU\Models\Corporations;
 
-class UniversalCoalition //todo extend generic
+class Corporation0 //todo extend generic
 {
   public $name;
   public $desc;
-  
+
   public $techBonuses;
 
   public function __construct($player)
   {
-    $this->name = clienttranslate('Universal Coalition');//TODO need to be translatable ?
+    $this->name = clienttranslate('Universal Coalition'); //TODO need to be translatable ?
     $this->desc = clienttranslate('Advance your trackers to gain benefits, 
     unlock milestones, and score the highest medal your tracker covers or surpasses');
-    
+
     $this->techBonuses = [
       1 => [
         'text' => clienttranslate('Tile adjacency placement restriction may be ignored.')
@@ -39,8 +40,7 @@ class UniversalCoalition //todo extend generic
     CIV => [null, null, 1, CIV, null, 2, CIV, null, SYNERGY, 3, CIV, SYNERGY, null, null, CIV, 5],
     WATER => [null, null, 1, SYNERGY, 2, null, 3, SYNERGY, 4, null, 5, null, SYNERGY, 7, null, 10],
     BIOMASS => [null, null, SYNERGY, BIOMASS, null, 1, BIOMASS, null, 2, BIOMASS, SYNERGY, BIOMASS, 3, BIOMASS, null, 5],
-    ROVER => [null, ROVER, 'move_1', 'move_1', 'move_2', 'move_2', ['move_2', ROVER], 'move_2', ['move_2', 1], 'move_3', ['move_3', SYNERGY], 'move_3', ['move_3', 2], 'move_4', 'move_4', ['move_4', 5] ],
+    ROVER => [null, ROVER, 'move_1', 'move_1', 'move_2', 'move_2', ['move_2', ROVER], 'move_2', ['move_2', 1], 'move_3', ['move_3', SYNERGY], 'move_3', ['move_3', 2], 'move_4', 'move_4', ['move_4', 5]],
     TECH => [null, null, SYNERGY, TECH, null, TECH, 1, TECH, null, null, TECH, null, SYNERGY, 2, TECH, 5]
   ];
-
 }

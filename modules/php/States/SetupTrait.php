@@ -1,5 +1,7 @@
 <?php
+
 namespace PU\States;
+
 use PU\Core\Globals;
 use PU\Core\Notifications;
 use PU\Core\Engine;
