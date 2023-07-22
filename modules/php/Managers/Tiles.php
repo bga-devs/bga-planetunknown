@@ -51,10 +51,10 @@ class Tiles extends \PU\Helpers\CachedPieces
   /* Creation of various meeples */
   public static function setupNewGame($players, $options)
   {
-    $interior = [8, 3, 10, 4, 2, 6];
-    $exterior = [9, 5, 7, 1, 0, 11];
+    // $interior = [8, 3, 10, 4, 2, 6]; //TO ASK : CHECK IF IS NORMAL ORDER, DOESN'T SEEM
+    // $exterior = [9, 5, 7, 1, 0, 11];
     $tiles = [];
-    foreach ($interior as $j => $shapeId) {
+    foreach (SMALL_RING as $j => $shapeId) {
       for ($i = 0; $i < 12; $i++) {
         $tiles[] = [
           'type' => $i * 12 + $shapeId,
@@ -62,7 +62,7 @@ class Tiles extends \PU\Helpers\CachedPieces
         ];
       }
     }
-    foreach ($exterior as $j => $shapeId) {
+    foreach (LARGE_RING as $j => $shapeId) {
       for ($i = 0; $i < 12; $i++) {
         $tiles[] = [
           'type' => $i * 12 + $shapeId,
