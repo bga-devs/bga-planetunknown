@@ -27,21 +27,21 @@ class Tile extends \PU\Helpers\DB_Model
 
   static function getStaticDataFromId($id)
   {
-    $tileData = Tiles::$tilesData[$id % 12];
+    $shape = Tiles::$shapes[$id % 12];
     $tileFamily = intdiv($id, 24);
     $hasMeteor = (intdiv($id, 12) % 2 == 0);
     $data = [];
 
-    [$baseX, $baseY] = explode('_', $tileData['pattern'][0]);
+    [$baseX, $baseY] = explode('_', $shape['pattern'][0]);
 
-    foreach ($tileData['pattern'] as $index => $coord) {
+    foreach ($shape['pattern'] as $index => $coord) {
       [$x, $y] = explode('_', $coord);
       $data[] = [
         'x' => $x - $baseX,
         'y' => $y - $baseY,
-        'type' => Tiles::$typesNames[$tileFamily][$tileData['types'][$index]],
-        'meteor' => ($hasMeteor && $coord == $tileData['meteorPlace']),
-        'symbol' => in_array($coord, $tileData['symbolPlaces'])
+        'type' => Tiles::$typesNames[$tileFamily][$shape['types'][$index]],
+        'meteor' => ($hasMeteor && $coord == $shape['meteorPlace']),
+        'symbol' => in_array($coord, $shape['symbolPlaces'])
       ];
     }
 
@@ -50,21 +50,21 @@ class Tile extends \PU\Helpers\DB_Model
 
   public function getData()
   {
-    $tileType = $this->getId() % 12;
+    $shape = Tiles::$shapes[$this->getId() % 12];
     $tileFamily = intdiv($this->getId(), 24);
     $hasMeteor = (intdiv($this->getId(), 12) % 2 == 0);
     $data = [];
 
-    [$baseX, $baseY] = explode('_', Tiles::$initialPattern[$tileType][0]);
+    [$baseX, $baseY] = explode('_', $shape['pattern'][0]);
 
-    foreach (Tiles::$initialPattern[$tileType] as $index => $coord) {
+    foreach ($shape['pattern'] as $index => $coord) {
       [$x, $y] = explode('_', $coord);
       $data[] = [
-        'x' => $x - $baseX, //TODO modify to handle rotation and flipping
+        'x' => $x - $baseX,
         'y' => $y - $baseY,
-        'type' => Tiles::$typesNames[$tileFamily][Tiles::$types[$tileType][$index]],
-        'meteor' => ($hasMeteor && in_array($coord, Tiles::$meteorPlace[$tileType])),
-        'symbol' => in_array($coord, Tiles::$symbolPlaces[$tileType])
+        'type' => Tiles::$typesNames[$tileFamily][$shape['types'][$index]],
+        'meteor' => ($hasMeteor && $coord == $shape['meteorPlace']),
+        'symbol' => in_array($coord, $shape['symbolPlaces'])
       ];
     }
 

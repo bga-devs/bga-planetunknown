@@ -91,7 +91,7 @@ class Tiles extends \PU\Helpers\CachedPieces
 
   */
 
-  public static $tilesData = [
+  public static $shapes = [
     0 => [
       'pattern' => ['2_1', '0_1', '1_1', '2_0', '3_0'],
       'meteorPlace' => '3_0',
