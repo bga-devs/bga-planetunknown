@@ -1,0 +1,22 @@
+#susan-container {
+    width: 100%;
+    background: white;
+    border-radius: 7px;
+    border: 1px solid black;
+
+    #susan-exterior,
+    #susan-interior {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 7px 0px;
+
+        .tile-container {
+            margin: 0;
+        }
+    }
+
+    #susan-exterior {
+        border-bottom: 1px solid black;
+    }
+}

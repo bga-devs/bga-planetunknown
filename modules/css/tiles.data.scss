@@ -1,0 +1,1334 @@
+.tile-container {
+    .tile-inner {
+        background-image: url("img/tiles-0.png");
+        background-repeat: no-repeat;
+    }
+    &[data-sprite="1"] .tile-inner {
+        background-image: url("img/tiles-1.png");
+    }
+    &[data-sprite="2"] .tile-inner {
+        background-image: url("img/tiles-2.png");
+    }
+
+    ///////////////////////////////////////
+    //  ____  _
+    // / ___|| |__   __ _ _ __   ___  ___
+    // \___ \| '_ \ / _` | '_ \ / _ \/ __|
+    //  ___) | | | | (_| | |_) |  __/\__ \
+    // |____/|_| |_|\__,_| .__/ \___||___/
+    //                   |_|
+    ///////////////////////////////////////
+
+    &[data-shape="0"] {
+        width: nth($tileWidths, 1) * $tileScale;
+        height: nth($tileHeights, 1) * $tileScale;
+        margin-left: -300%;
+        margin-top: -346.41016151377545%;
+        clip-path: polygon(
+            75% 50%,
+            75% 100%,
+            50% 100%,
+            25% 100%,
+            0% 100%,
+            0% 50%,
+            25% 50%,
+            50% 50%,
+            50% 0%,
+            75% 0%,
+            100% 0%,
+            100% 50%,
+            75% 50%
+        );
+        transform-origin: 62.5% 75%;
+
+        .building-inner {
+            clip-path: polygon(
+                75% 50%,
+                75% 100%,
+                50% 100%,
+                25% 100%,
+                0% 100%,
+                0% 50%,
+                25% 50%,
+                50% 50%,
+                50% 0%,
+                75% 0%,
+                100% 0%,
+                100% 50%,
+                75% 50%
+            );
+        }
+        .building-border {
+            clip-path: polygon(
+                75% 50%,
+                75% 100%,
+                50% 100%,
+                25% 100%,
+                0% 100%,
+                0% 50%,
+                25% 50%,
+                50% 50%,
+                50% 0%,
+                75% 0%,
+                100% 0%,
+                100% 50%,
+                75% 50%
+            );
+        }
+        .building-crosshairs {
+            left: 62.5%;
+            top: 75%;
+        }
+    }
+
+    &[data-shape="1"] {
+        width: nth($tileWidths, 2) * $tileScale;
+        height: nth($tileHeights, 2) * $tileScale;
+        margin-left: -100%;
+        margin-top: -346.41016151377545%;
+        clip-path: polygon(
+            33.33333333333333% 33.33333333333333%,
+            66.66666666666666% 33.33333333333333%,
+            66.66666666666666% 0%,
+            100% 0%,
+            100% 33.33333333333333%,
+            100% 66.66666666666666%,
+            66.66666666666666% 66.66666666666666%,
+            66.66666666666666% 100%,
+            33.33333333333333% 100%,
+            33.33333333333333% 66.66666666666666%,
+            0% 66.66666666666666%,
+            0% 33.33333333333333%,
+            33.33333333333333% 33.33333333333333%
+        );
+        transform-origin: 50% 50%;
+
+        .building-inner {
+            clip-path: polygon(
+                33.33333333333333% 33.33333333333333%,
+                66.66666666666666% 33.33333333333333%,
+                66.66666666666666% 0%,
+                100% 0%,
+                100% 33.33333333333333%,
+                100% 66.66666666666666%,
+                66.66666666666666% 66.66666666666666%,
+                66.66666666666666% 100%,
+                33.33333333333333% 100%,
+                33.33333333333333% 66.66666666666666%,
+                0% 66.66666666666666%,
+                0% 33.33333333333333%,
+                33.33333333333333% 33.33333333333333%
+            );
+        }
+        .building-border {
+            clip-path: polygon(
+                33.33333333333333% 33.33333333333333%,
+                66.66666666666666% 33.33333333333333%,
+                66.66666666666666% 0%,
+                100% 0%,
+                100% 33.33333333333333%,
+                100% 66.66666666666666%,
+                66.66666666666666% 66.66666666666666%,
+                66.66666666666666% 100%,
+                33.33333333333333% 100%,
+                33.33333333333333% 66.66666666666666%,
+                0% 66.66666666666666%,
+                0% 33.33333333333333%,
+                33.33333333333333% 33.33333333333333%
+            );
+        }
+        .building-crosshairs {
+            left: 50%;
+            top: 50%;
+        }
+    }
+
+    &[data-shape="2"] {
+        width: nth($tileWidths, 3) * $tileScale;
+        height: nth($tileHeights, 3) * $tileScale;
+        margin-left: 100%;
+        margin-top: -346.41016151377545%;
+        clip-path: polygon(
+            100% 33.33333333333333%,
+            100% 66.66666666666666%,
+            100% 100%,
+            0% 100%,
+            0% 66.66666666666666%,
+            0% 33.33333333333333%,
+            0% 0%,
+            100% 0%,
+            100% 33.33333333333333%
+        );
+        transform-origin: 50% 50%;
+
+        .building-inner {
+            clip-path: polygon(
+                100% 33.33333333333333%,
+                100% 66.66666666666666%,
+                100% 100%,
+                0% 100%,
+                0% 66.66666666666666%,
+                0% 33.33333333333333%,
+                0% 0%,
+                100% 0%,
+                100% 33.33333333333333%
+            );
+        }
+        .building-border {
+            clip-path: polygon(
+                100% 33.33333333333333%,
+                100% 66.66666666666666%,
+                100% 100%,
+                0% 100%,
+                0% 66.66666666666666%,
+                0% 33.33333333333333%,
+                0% 0%,
+                100% 0%,
+                100% 33.33333333333333%
+            );
+        }
+        .building-crosshairs {
+            left: 50%;
+            top: 50%;
+        }
+    }
+
+    &[data-shape="3"] {
+        width: nth($tileWidths, 4) * $tileScale;
+        height: nth($tileHeights, 4) * $tileScale;
+        margin-left: -100%;
+        margin-top: 0%;
+        clip-path: polygon(50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 50% 50%, 0% 50%, 0% 0%, 50% 0%);
+        transform-origin: 75% 25%;
+
+        .building-inner {
+            clip-path: polygon(50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 50% 50%, 0% 50%, 0% 0%, 50% 0%);
+        }
+        .building-border {
+            clip-path: polygon(50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 50% 50%, 0% 50%, 0% 0%, 50% 0%);
+        }
+        .building-crosshairs {
+            left: 75%;
+            top: 25%;
+        }
+    }
+
+    &[data-shape="4"] {
+        width: nth($tileWidths, 5) * $tileScale;
+        height: nth($tileHeights, 5) * $tileScale;
+        margin-left: -100%;
+        margin-top: 0%;
+        clip-path: polygon(
+            33.33333333333333% 0%,
+            66.66666666666666% 0%,
+            100% 0%,
+            100% 50%,
+            66.66666666666666% 50%,
+            66.66666666666666% 100%,
+            33.33333333333333% 100%,
+            33.33333333333333% 50%,
+            0% 50%,
+            0% 0%,
+            33.33333333333333% 0%
+        );
+        transform-origin: 50% 25%;
+
+        .building-inner {
+            clip-path: polygon(
+                33.33333333333333% 0%,
+                66.66666666666666% 0%,
+                100% 0%,
+                100% 50%,
+                66.66666666666666% 50%,
+                66.66666666666666% 100%,
+                33.33333333333333% 100%,
+                33.33333333333333% 50%,
+                0% 50%,
+                0% 0%,
+                33.33333333333333% 0%
+            );
+        }
+        .building-border {
+            clip-path: polygon(
+                33.33333333333333% 0%,
+                66.66666666666666% 0%,
+                100% 0%,
+                100% 50%,
+                66.66666666666666% 50%,
+                66.66666666666666% 100%,
+                33.33333333333333% 100%,
+                33.33333333333333% 50%,
+                0% 50%,
+                0% 0%,
+                33.33333333333333% 0%
+            );
+        }
+        .building-crosshairs {
+            left: 50%;
+            top: 25%;
+        }
+    }
+
+    &[data-shape="5"] {
+        width: nth($tileWidths, 6) * $tileScale;
+        height: nth($tileHeights, 6) * $tileScale;
+        margin-left: -100%;
+        margin-top: 0%;
+        clip-path: polygon(
+            33.33333333333333% 0%,
+            66.66666666666666% 0%,
+            100% 0%,
+            100% 50%,
+            66.66666666666666% 50%,
+            66.66666666666666% 100%,
+            33.33333333333333% 100%,
+            0% 100%,
+            0% 50%,
+            33.33333333333333% 50%,
+            33.33333333333333% 0%
+        );
+        transform-origin: 50% 25%;
+
+        .building-inner {
+            clip-path: polygon(
+                33.33333333333333% 0%,
+                66.66666666666666% 0%,
+                100% 0%,
+                100% 50%,
+                66.66666666666666% 50%,
+                66.66666666666666% 100%,
+                33.33333333333333% 100%,
+                0% 100%,
+                0% 50%,
+                33.33333333333333% 50%,
+                33.33333333333333% 0%
+            );
+        }
+        .building-border {
+            clip-path: polygon(
+                33.33333333333333% 0%,
+                66.66666666666666% 0%,
+                100% 0%,
+                100% 50%,
+                66.66666666666666% 50%,
+                66.66666666666666% 100%,
+                33.33333333333333% 100%,
+                0% 100%,
+                0% 50%,
+                33.33333333333333% 50%,
+                33.33333333333333% 0%
+            );
+        }
+        .building-crosshairs {
+            left: 50%;
+            top: 25%;
+        }
+    }
+
+    &[data-shape="6"] {
+        width: nth($tileWidths, 7) * $tileScale;
+        height: nth($tileHeights, 7) * $tileScale;
+        margin-left: -100%;
+        margin-top: -346.41016151377545%;
+        clip-path: polygon(
+            100% 33.33333333333333%,
+            100% 66.66666666666666%,
+            100% 100%,
+            50% 100%,
+            0% 100%,
+            0% 66.66666666666666%,
+            50% 66.66666666666666%,
+            50% 33.33333333333333%,
+            50% 0%,
+            100% 0%,
+            100% 33.33333333333333%
+        );
+        transform-origin: 75% 50%;
+
+        .building-inner {
+            clip-path: polygon(
+                100% 33.33333333333333%,
+                100% 66.66666666666666%,
+                100% 100%,
+                50% 100%,
+                0% 100%,
+                0% 66.66666666666666%,
+                50% 66.66666666666666%,
+                50% 33.33333333333333%,
+                50% 0%,
+                100% 0%,
+                100% 33.33333333333333%
+            );
+        }
+        .building-border {
+            clip-path: polygon(
+                100% 33.33333333333333%,
+                100% 66.66666666666666%,
+                100% 100%,
+                50% 100%,
+                0% 100%,
+                0% 66.66666666666666%,
+                50% 66.66666666666666%,
+                50% 33.33333333333333%,
+                50% 0%,
+                100% 0%,
+                100% 33.33333333333333%
+            );
+        }
+        .building-crosshairs {
+            left: 75%;
+            top: 50%;
+        }
+    }
+
+    &[data-shape="7"] {
+        width: nth($tileWidths, 8) * $tileScale;
+        height: nth($tileHeights, 8) * $tileScale;
+        margin-left: -100%;
+        margin-top: -346.41016151377545%;
+        clip-path: polygon(
+            33.33333333333333% 50%,
+            66.66666666666666% 50%,
+            66.66666666666666% 0%,
+            100% 0%,
+            100% 50%,
+            100% 100%,
+            66.66666666666666% 100%,
+            33.33333333333333% 100%,
+            0% 100%,
+            0% 50%,
+            0% 0%,
+            33.33333333333333% 0%,
+            33.33333333333333% 50%
+        );
+        transform-origin: 50% 75%;
+
+        .building-inner {
+            clip-path: polygon(
+                33.33333333333333% 50%,
+                66.66666666666666% 50%,
+                66.66666666666666% 0%,
+                100% 0%,
+                100% 50%,
+                100% 100%,
+                66.66666666666666% 100%,
+                33.33333333333333% 100%,
+                0% 100%,
+                0% 50%,
+                0% 0%,
+                33.33333333333333% 0%,
+                33.33333333333333% 50%
+            );
+        }
+        .building-border {
+            clip-path: polygon(
+                33.33333333333333% 50%,
+                66.66666666666666% 50%,
+                66.66666666666666% 0%,
+                100% 0%,
+                100% 50%,
+                100% 100%,
+                66.66666666666666% 100%,
+                33.33333333333333% 100%,
+                0% 100%,
+                0% 50%,
+                0% 0%,
+                33.33333333333333% 0%,
+                33.33333333333333% 50%
+            );
+        }
+        .building-crosshairs {
+            left: 50%;
+            top: 75%;
+        }
+    }
+
+    &[data-shape="8"] {
+        width: nth($tileWidths, 9) * $tileScale;
+        height: nth($tileHeights, 9) * $tileScale;
+        margin-left: 100%;
+        margin-top: 0%;
+        clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 100% 100%, 0% 100%, 0% 50%, 0% 0%);
+        transform-origin: 50% 25%;
+
+        .building-inner {
+            clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 100% 100%, 0% 100%, 0% 50%, 0% 0%);
+        }
+        .building-border {
+            clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 100% 100%, 0% 100%, 0% 50%, 0% 0%);
+        }
+        .building-crosshairs {
+            left: 50%;
+            top: 25%;
+        }
+    }
+
+    &[data-shape="9"] {
+        width: nth($tileWidths, 10) * $tileScale;
+        height: nth($tileHeights, 10) * $tileScale;
+        margin-left: -100%;
+        margin-top: 0%;
+        clip-path: polygon(
+            25% 0%,
+            50% 0%,
+            75% 0%,
+            100% 0%,
+            100% 100%,
+            75% 100%,
+            50% 100%,
+            25% 100%,
+            0% 100%,
+            0% 0%,
+            25% 0%
+        );
+        transform-origin: 37.5% 50%;
+
+        .building-inner {
+            clip-path: polygon(
+                25% 0%,
+                50% 0%,
+                75% 0%,
+                100% 0%,
+                100% 100%,
+                75% 100%,
+                50% 100%,
+                25% 100%,
+                0% 100%,
+                0% 0%,
+                25% 0%
+            );
+        }
+        .building-border {
+            clip-path: polygon(
+                25% 0%,
+                50% 0%,
+                75% 0%,
+                100% 0%,
+                100% 100%,
+                75% 100%,
+                50% 100%,
+                25% 100%,
+                0% 100%,
+                0% 0%,
+                25% 0%
+            );
+        }
+        .building-crosshairs {
+            left: 37.5%;
+            top: 50%;
+        }
+    }
+
+    &[data-shape="10"] {
+        width: nth($tileWidths, 11) * $tileScale;
+        height: nth($tileHeights, 11) * $tileScale;
+        margin-left: 100%;
+        margin-top: 0%;
+        clip-path: polygon(0% 0%, 50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 0% 100%, 0% 50%, 0% 0%);
+        transform-origin: 25% 25%;
+
+        .building-inner {
+            background-position: 66.66666666666666% 14.285714285714285%;
+            clip-path: polygon(0% 0%, 50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 0% 100%, 0% 50%, 0% 0%);
+        }
+        .building-border {
+            clip-path: polygon(0% 0%, 50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 0% 100%, 0% 50%, 0% 0%);
+        }
+        .building-crosshairs {
+            left: 25%;
+            top: 25%;
+        }
+    }
+
+    &[data-shape="11"] {
+        width: nth($tileWidths, 12) * $tileScale;
+        height: nth($tileHeights, 12) * $tileScale;
+        margin-left: -100%;
+        margin-top: -346.41016151377545%;
+        clip-path: polygon(
+            33.33333333333333% 33.33333333333333%,
+            66.66666666666666% 33.33333333333333%,
+            100% 33.33333333333333%,
+            100% 66.66666666666666%,
+            100% 100%,
+            66.66666666666666% 100%,
+            66.66666666666666% 66.66666666666666%,
+            33.33333333333333% 66.66666666666666%,
+            0% 66.66666666666666%,
+            0% 33.33333333333333%,
+            0% 0%,
+            33.33333333333333% 0%,
+            33.33333333333333% 33.33333333333333%
+        );
+        transform-origin: 50% 50%;
+
+        .building-inner {
+            clip-path: polygon(
+                33.33333333333333% 33.33333333333333%,
+                66.66666666666666% 33.33333333333333%,
+                100% 33.33333333333333%,
+                100% 66.66666666666666%,
+                100% 100%,
+                66.66666666666666% 100%,
+                66.66666666666666% 66.66666666666666%,
+                33.33333333333333% 66.66666666666666%,
+                0% 66.66666666666666%,
+                0% 33.33333333333333%,
+                0% 0%,
+                33.33333333333333% 0%,
+                33.33333333333333% 33.33333333333333%
+            );
+        }
+        .building-border {
+            clip-path: polygon(
+                33.33333333333333% 33.33333333333333%,
+                66.66666666666666% 33.33333333333333%,
+                100% 33.33333333333333%,
+                100% 66.66666666666666%,
+                100% 100%,
+                66.66666666666666% 100%,
+                66.66666666666666% 66.66666666666666%,
+                33.33333333333333% 66.66666666666666%,
+                0% 66.66666666666666%,
+                0% 33.33333333333333%,
+                0% 0%,
+                33.33333333333333% 0%,
+                33.33333333333333% 33.33333333333333%
+            );
+        }
+        .building-crosshairs {
+            left: 50%;
+            top: 50%;
+        }
+    }
+
+    ///////////////////////////////////
+    //    _____
+    //   |_   _|   _ _ __   ___  ___
+    //     | || | | | '_ \ / _ \/ __|
+    //     | || |_| | |_) |  __/\__ \
+    //     |_| \__, | .__/ \___||___/
+    //         |___/|_|
+    ///////////////////////////////////
+
+    &[data-type="0"] {
+        .tile-inner {
+            background-position: 0% 0%;
+        }
+    }
+    &[data-type="1"] {
+        .tile-inner {
+            background-position: 9.090909090909092% 7.6923076923076925%;
+        }
+    }
+    &[data-type="2"] {
+        .tile-inner {
+            background-position: 30.76923076923077% 0%;
+        }
+    }
+    &[data-type="3"] {
+        .tile-inner {
+            background-position: 100% 7.142857142857142%;
+        }
+    }
+    &[data-type="4"] {
+        .tile-inner {
+            background-position: 45.45454545454545% 0%;
+        }
+    }
+    &[data-type="5"] {
+        .tile-inner {
+            background-position: 54.54545454545454% 7.142857142857142%;
+        }
+    }
+    &[data-type="6"] {
+        .tile-inner {
+            background-position: 33.33333333333333% 7.6923076923076925%;
+        }
+    }
+    &[data-type="7"] {
+        .tile-inner {
+            background-position: 90.9090909090909% 14.285714285714285%;
+        }
+    }
+    &[data-type="8"] {
+        .tile-inner {
+            background-position: 0% 14.285714285714285%;
+        }
+    }
+    &[data-type="9"] {
+        .tile-inner {
+            background-position: 100% 0%;
+        }
+    }
+    &[data-type="10"] {
+        .tile-inner {
+            background-position: 66.66666666666666% 14.285714285714285%;
+        }
+    }
+    &[data-type="11"] {
+        .tile-inner {
+            background-position: 81.81818181818183% 0%;
+        }
+    }
+    &[data-type="12"] {
+        .tile-inner {
+            background-position: 0% 28.57142857142857%;
+        }
+    }
+    &[data-type="13"] {
+        .tile-inner {
+            background-position: 9.090909090909092% 38.46153846153847%;
+        }
+    }
+    &[data-type="14"] {
+        .tile-inner {
+            background-position: 30.76923076923077% 30.76923076923077%;
+        }
+    }
+    &[data-type="15"] {
+        .tile-inner {
+            background-position: 100% 35.714285714285715%;
+        }
+    }
+    &[data-type="16"] {
+        .tile-inner {
+            background-position: 45.45454545454545% 28.57142857142857%;
+        }
+    }
+    &[data-type="17"] {
+        .tile-inner {
+            background-position: 54.54545454545454% 35.714285714285715%;
+        }
+    }
+    &[data-type="18"] {
+        .tile-inner {
+            background-position: 33.33333333333333% 38.46153846153847%;
+        }
+    }
+    &[data-type="19"] {
+        .tile-inner {
+            background-position: 90.9090909090909% 42.857142857142854%;
+        }
+    }
+    &[data-type="20"] {
+        .tile-inner {
+            background-position: 0% 42.857142857142854%;
+        }
+    }
+    &[data-type="21"] {
+        .tile-inner {
+            background-position: 100% 26.666666666666668%;
+        }
+    }
+    &[data-type="22"] {
+        .tile-inner {
+            background-position: 66.66666666666666% 42.857142857142854%;
+        }
+    }
+    &[data-type="23"] {
+        .tile-inner {
+            background-position: 81.81818181818183% 30.76923076923077%;
+        }
+    }
+    &[data-type="24"] {
+        .tile-inner {
+            background-position: 0% 57.14285714285714%;
+        }
+    }
+    &[data-type="25"] {
+        .tile-inner {
+            background-position: 9.090909090909092% 69.23076923076923%;
+        }
+    }
+    &[data-type="26"] {
+        .tile-inner {
+            background-position: 30.76923076923077% 61.53846153846154%;
+        }
+    }
+    &[data-type="27"] {
+        .tile-inner {
+            background-position: 100% 64.28571428571429%;
+        }
+    }
+    &[data-type="28"] {
+        .tile-inner {
+            background-position: 45.45454545454545% 57.14285714285714%;
+        }
+    }
+    &[data-type="29"] {
+        .tile-inner {
+            background-position: 54.54545454545454% 64.28571428571429%;
+        }
+    }
+    &[data-type="30"] {
+        .tile-inner {
+            background-position: 33.33333333333333% 69.23076923076923%;
+        }
+    }
+    &[data-type="31"] {
+        .tile-inner {
+            background-position: 90.9090909090909% 71.42857142857143%;
+        }
+    }
+    &[data-type="32"] {
+        .tile-inner {
+            background-position: 0% 71.42857142857143%;
+        }
+    }
+    &[data-type="33"] {
+        .tile-inner {
+            background-position: 100% 53.333333333333336%;
+        }
+    }
+    &[data-type="34"] {
+        .tile-inner {
+            background-position: 66.66666666666666% 71.42857142857143%;
+        }
+    }
+    &[data-type="35"] {
+        .tile-inner {
+            background-position: 81.81818181818183% 61.53846153846154%;
+        }
+    }
+    &[data-type="36"] {
+        .tile-inner {
+            background-position: 0% 85.71428571428571%;
+        }
+    }
+    &[data-type="37"] {
+        .tile-inner {
+            background-position: 9.090909090909092% 100%;
+        }
+    }
+    &[data-type="38"] {
+        .tile-inner {
+            background-position: 30.76923076923077% 92.3076923076923%;
+        }
+    }
+    &[data-type="39"] {
+        .tile-inner {
+            background-position: 100% 92.85714285714286%;
+        }
+    }
+    &[data-type="40"] {
+        .tile-inner {
+            background-position: 45.45454545454545% 85.71428571428571%;
+        }
+    }
+    &[data-type="41"] {
+        .tile-inner {
+            background-position: 54.54545454545454% 92.85714285714286%;
+        }
+    }
+    &[data-type="42"] {
+        .tile-inner {
+            background-position: 33.33333333333333% 100%;
+        }
+    }
+    &[data-type="43"] {
+        .tile-inner {
+            background-position: 90.9090909090909% 100%;
+        }
+    }
+    &[data-type="44"] {
+        .tile-inner {
+            background-position: 0% 100%;
+        }
+    }
+    &[data-type="45"] {
+        .tile-inner {
+            background-position: 100% 80%;
+        }
+    }
+    &[data-type="46"] {
+        .tile-inner {
+            background-position: 66.66666666666666% 100%;
+        }
+    }
+    &[data-type="47"] {
+        .tile-inner {
+            background-position: 81.81818181818183% 92.3076923076923%;
+        }
+    }
+    &[data-type="48"] {
+        .tile-inner {
+            background-position: 0% 0%;
+        }
+    }
+    &[data-type="49"] {
+        .tile-inner {
+            background-position: 9.090909090909092% 7.6923076923076925%;
+        }
+    }
+    &[data-type="50"] {
+        .tile-inner {
+            background-position: 30.76923076923077% 0%;
+        }
+    }
+    &[data-type="51"] {
+        .tile-inner {
+            background-position: 100% 7.142857142857142%;
+        }
+    }
+    &[data-type="52"] {
+        .tile-inner {
+            background-position: 45.45454545454545% 0%;
+        }
+    }
+    &[data-type="53"] {
+        .tile-inner {
+            background-position: 54.54545454545454% 7.142857142857142%;
+        }
+    }
+    &[data-type="54"] {
+        .tile-inner {
+            background-position: 33.33333333333333% 7.6923076923076925%;
+        }
+    }
+    &[data-type="55"] {
+        .tile-inner {
+            background-position: 90.9090909090909% 14.285714285714285%;
+        }
+    }
+    &[data-type="56"] {
+        .tile-inner {
+            background-position: 0% 14.285714285714285%;
+        }
+    }
+    &[data-type="57"] {
+        .tile-inner {
+            background-position: 100% 0%;
+        }
+    }
+    &[data-type="58"] {
+        .tile-inner {
+            background-position: 66.66666666666666% 14.285714285714285%;
+        }
+    }
+    &[data-type="59"] {
+        .tile-inner {
+            background-position: 81.81818181818183% 0%;
+        }
+    }
+    &[data-type="60"] {
+        .tile-inner {
+            background-position: 0% 28.57142857142857%;
+        }
+    }
+    &[data-type="61"] {
+        .tile-inner {
+            background-position: 9.090909090909092% 38.46153846153847%;
+        }
+    }
+    &[data-type="62"] {
+        .tile-inner {
+            background-position: 30.76923076923077% 30.76923076923077%;
+        }
+    }
+    &[data-type="63"] {
+        .tile-inner {
+            background-position: 100% 35.714285714285715%;
+        }
+    }
+    &[data-type="64"] {
+        .tile-inner {
+            background-position: 45.45454545454545% 28.57142857142857%;
+        }
+    }
+    &[data-type="65"] {
+        .tile-inner {
+            background-position: 54.54545454545454% 35.714285714285715%;
+        }
+    }
+    &[data-type="66"] {
+        .tile-inner {
+            background-position: 33.33333333333333% 38.46153846153847%;
+        }
+    }
+    &[data-type="67"] {
+        .tile-inner {
+            background-position: 90.9090909090909% 42.857142857142854%;
+        }
+    }
+    &[data-type="68"] {
+        .tile-inner {
+            background-position: 0% 42.857142857142854%;
+        }
+    }
+    &[data-type="69"] {
+        .tile-inner {
+            background-position: 100% 26.666666666666668%;
+        }
+    }
+    &[data-type="70"] {
+        .tile-inner {
+            background-position: 66.66666666666666% 42.857142857142854%;
+        }
+    }
+    &[data-type="71"] {
+        .tile-inner {
+            background-position: 81.81818181818183% 30.76923076923077%;
+        }
+    }
+    &[data-type="72"] {
+        .tile-inner {
+            background-position: 0% 57.14285714285714%;
+        }
+    }
+    &[data-type="73"] {
+        .tile-inner {
+            background-position: 9.090909090909092% 69.23076923076923%;
+        }
+    }
+    &[data-type="74"] {
+        .tile-inner {
+            background-position: 30.76923076923077% 61.53846153846154%;
+        }
+    }
+    &[data-type="75"] {
+        .tile-inner {
+            background-position: 100% 64.28571428571429%;
+        }
+    }
+    &[data-type="76"] {
+        .tile-inner {
+            background-position: 45.45454545454545% 57.14285714285714%;
+        }
+    }
+    &[data-type="77"] {
+        .tile-inner {
+            background-position: 54.54545454545454% 64.28571428571429%;
+        }
+    }
+    &[data-type="78"] {
+        .tile-inner {
+            background-position: 33.33333333333333% 69.23076923076923%;
+        }
+    }
+    &[data-type="79"] {
+        .tile-inner {
+            background-position: 90.9090909090909% 71.42857142857143%;
+        }
+    }
+    &[data-type="80"] {
+        .tile-inner {
+            background-position: 0% 71.42857142857143%;
+        }
+    }
+    &[data-type="81"] {
+        .tile-inner {
+            background-position: 100% 53.333333333333336%;
+        }
+    }
+    &[data-type="82"] {
+        .tile-inner {
+            background-position: 66.66666666666666% 71.42857142857143%;
+        }
+    }
+    &[data-type="83"] {
+        .tile-inner {
+            background-position: 81.81818181818183% 61.53846153846154%;
+        }
+    }
+    &[data-type="84"] {
+        .tile-inner {
+            background-position: 0% 85.71428571428571%;
+        }
+    }
+    &[data-type="85"] {
+        .tile-inner {
+            background-position: 9.090909090909092% 100%;
+        }
+    }
+    &[data-type="86"] {
+        .tile-inner {
+            background-position: 30.76923076923077% 92.3076923076923%;
+        }
+    }
+    &[data-type="87"] {
+        .tile-inner {
+            background-position: 100% 92.85714285714286%;
+        }
+    }
+    &[data-type="88"] {
+        .tile-inner {
+            background-position: 45.45454545454545% 85.71428571428571%;
+        }
+    }
+    &[data-type="89"] {
+        .tile-inner {
+            background-position: 54.54545454545454% 92.85714285714286%;
+        }
+    }
+    &[data-type="90"] {
+        .tile-inner {
+            background-position: 33.33333333333333% 100%;
+        }
+    }
+    &[data-type="91"] {
+        .tile-inner {
+            background-position: 90.9090909090909% 100%;
+        }
+    }
+    &[data-type="92"] {
+        .tile-inner {
+            background-position: 0% 100%;
+        }
+    }
+    &[data-type="93"] {
+        .tile-inner {
+            background-position: 100% 80%;
+        }
+    }
+    &[data-type="94"] {
+        .tile-inner {
+            background-position: 66.66666666666666% 100%;
+        }
+    }
+    &[data-type="95"] {
+        .tile-inner {
+            background-position: 81.81818181818183% 92.3076923076923%;
+        }
+    }
+    &[data-type="96"] {
+        .tile-inner {
+            background-position: 0% 0%;
+        }
+    }
+    &[data-type="97"] {
+        .tile-inner {
+            background-position: 9.090909090909092% 7.6923076923076925%;
+        }
+    }
+    &[data-type="98"] {
+        .tile-inner {
+            background-position: 30.76923076923077% 0%;
+        }
+    }
+    &[data-type="99"] {
+        .tile-inner {
+            background-position: 100% 7.142857142857142%;
+        }
+    }
+    &[data-type="100"] {
+        .tile-inner {
+            background-position: 45.45454545454545% 0%;
+        }
+    }
+    &[data-type="101"] {
+        .tile-inner {
+            background-position: 54.54545454545454% 7.142857142857142%;
+        }
+    }
+    &[data-type="102"] {
+        .tile-inner {
+            background-position: 33.33333333333333% 7.6923076923076925%;
+        }
+    }
+    &[data-type="103"] {
+        .tile-inner {
+            background-position: 90.9090909090909% 14.285714285714285%;
+        }
+    }
+    &[data-type="104"] {
+        .tile-inner {
+            background-position: 0% 14.285714285714285%;
+        }
+    }
+    &[data-type="105"] {
+        .tile-inner {
+            background-position: 100% 0%;
+        }
+    }
+    &[data-type="106"] {
+        .tile-inner {
+            background-position: 66.66666666666666% 14.285714285714285%;
+        }
+    }
+    &[data-type="107"] {
+        .tile-inner {
+            background-position: 81.81818181818183% 0%;
+        }
+    }
+    &[data-type="108"] {
+        .tile-inner {
+            background-position: 0% 28.57142857142857%;
+        }
+    }
+    &[data-type="109"] {
+        .tile-inner {
+            background-position: 9.090909090909092% 38.46153846153847%;
+        }
+    }
+    &[data-type="110"] {
+        .tile-inner {
+            background-position: 30.76923076923077% 30.76923076923077%;
+        }
+    }
+    &[data-type="111"] {
+        .tile-inner {
+            background-position: 100% 35.714285714285715%;
+        }
+    }
+    &[data-type="112"] {
+        .tile-inner {
+            background-position: 45.45454545454545% 28.57142857142857%;
+        }
+    }
+    &[data-type="113"] {
+        .tile-inner {
+            background-position: 54.54545454545454% 35.714285714285715%;
+        }
+    }
+    &[data-type="114"] {
+        .tile-inner {
+            background-position: 33.33333333333333% 38.46153846153847%;
+        }
+    }
+    &[data-type="115"] {
+        .tile-inner {
+            background-position: 90.9090909090909% 42.857142857142854%;
+        }
+    }
+    &[data-type="116"] {
+        .tile-inner {
+            background-position: 0% 42.857142857142854%;
+        }
+    }
+    &[data-type="117"] {
+        .tile-inner {
+            background-position: 100% 26.666666666666668%;
+        }
+    }
+    &[data-type="118"] {
+        .tile-inner {
+            background-position: 66.66666666666666% 42.857142857142854%;
+        }
+    }
+    &[data-type="119"] {
+        .tile-inner {
+            background-position: 81.81818181818183% 30.76923076923077%;
+        }
+    }
+    &[data-type="120"] {
+        .tile-inner {
+            background-position: 0% 57.14285714285714%;
+        }
+    }
+    &[data-type="121"] {
+        .tile-inner {
+            background-position: 9.090909090909092% 69.23076923076923%;
+        }
+    }
+    &[data-type="122"] {
+        .tile-inner {
+            background-position: 30.76923076923077% 61.53846153846154%;
+        }
+    }
+    &[data-type="123"] {
+        .tile-inner {
+            background-position: 100% 64.28571428571429%;
+        }
+    }
+    &[data-type="124"] {
+        .tile-inner {
+            background-position: 45.45454545454545% 57.14285714285714%;
+        }
+    }
+    &[data-type="125"] {
+        .tile-inner {
+            background-position: 54.54545454545454% 64.28571428571429%;
+        }
+    }
+    &[data-type="126"] {
+        .tile-inner {
+            background-position: 33.33333333333333% 69.23076923076923%;
+        }
+    }
+    &[data-type="127"] {
+        .tile-inner {
+            background-position: 90.9090909090909% 71.42857142857143%;
+        }
+    }
+    &[data-type="128"] {
+        .tile-inner {
+            background-position: 0% 71.42857142857143%;
+        }
+    }
+    &[data-type="129"] {
+        .tile-inner {
+            background-position: 100% 53.333333333333336%;
+        }
+    }
+    &[data-type="130"] {
+        .tile-inner {
+            background-position: 66.66666666666666% 71.42857142857143%;
+        }
+    }
+    &[data-type="131"] {
+        .tile-inner {
+            background-position: 81.81818181818183% 61.53846153846154%;
+        }
+    }
+    &[data-type="132"] {
+        .tile-inner {
+            background-position: 0% 85.71428571428571%;
+        }
+    }
+    &[data-type="133"] {
+        .tile-inner {
+            background-position: 9.090909090909092% 100%;
+        }
+    }
+    &[data-type="134"] {
+        .tile-inner {
+            background-position: 30.76923076923077% 92.3076923076923%;
+        }
+    }
+    &[data-type="135"] {
+        .tile-inner {
+            background-position: 100% 92.85714285714286%;
+        }
+    }
+    &[data-type="136"] {
+        .tile-inner {
+            background-position: 45.45454545454545% 85.71428571428571%;
+        }
+    }
+    &[data-type="137"] {
+        .tile-inner {
+            background-position: 54.54545454545454% 92.85714285714286%;
+        }
+    }
+    &[data-type="138"] {
+        .tile-inner {
+            background-position: 33.33333333333333% 100%;
+        }
+    }
+    &[data-type="139"] {
+        .tile-inner {
+            background-position: 90.9090909090909% 100%;
+        }
+    }
+    &[data-type="140"] {
+        .tile-inner {
+            background-position: 0% 100%;
+        }
+    }
+    &[data-type="141"] {
+        .tile-inner {
+            background-position: 100% 80%;
+        }
+    }
+    &[data-type="142"] {
+        .tile-inner {
+            background-position: 66.66666666666666% 100%;
+        }
+    }
+    &[data-type="143"] {
+        .tile-inner {
+            background-position: 81.81818181818183% 92.3076923076923%;
+        }
+    }
+}
