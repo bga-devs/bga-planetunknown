@@ -32,7 +32,7 @@ class Corporation0 //todo extend generic
         'text' => clienttranslate('Unaffected by meteor strikes. Do not place meteorites.')
       ],
     ];
-    //parent::__construct($player);
+    parent::__construct($player);
   }
 
   protected $id = '0';

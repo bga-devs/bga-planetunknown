@@ -86,9 +86,11 @@ const MEDAL = 'medal';
 const SYNERGY = 'synergy';
 
 /*
-*	Meeples
+*	Cards
 */
-const TRACKER = 'tracker';
+
+const IMMEDIATE = 'immediate';
+const END_GAME = 'at the end';
 
 /*
 *	Terrains types

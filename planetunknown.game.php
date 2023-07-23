@@ -1,4 +1,5 @@
 <?php
+
 /**
  *------
  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
@@ -41,6 +42,7 @@ use PU\Helpers\Log;
 use PU\Core\Preferences;
 use PU\Core\Stats;
 use PU\Core\Engine;
+use PU\Managers\Cards;
 
 class planetunknown extends Table
 {
@@ -48,7 +50,6 @@ class planetunknown extends Table
   use PU\States\SetupTrait;
   use PU\States\EngineTrait;
   use PU\States\TurnTrait;
-  use PU\States\BreakTrait;
 
   public static $instance = null;
   function __construct()
@@ -81,6 +82,7 @@ class planetunknown extends Table
       'players' => Players::getUiData($pId),
       'tiles' => Tiles::getUiData(),
       'meeples' => Meeples::getUiData(),
+      'cards' => Cards::getUiData()
     ];
   }
 

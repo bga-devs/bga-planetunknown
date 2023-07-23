@@ -13,6 +13,7 @@ use PU\Managers\Tiles;
 use PU\Managers\Actions;
 use PU\Helpers\Utils;
 use PU\Helpers\Log;
+use PU\Managers\Cards;
 
 trait SetupTrait
 {
@@ -26,6 +27,7 @@ trait SetupTrait
     Preferences::setupNewGame($players, $this->player_preferences);
     Meeples::setupNewGame($players, $options);
     Tiles::setupNewGame($players, $options);
+    Cards::setupNewGame($players, $options);
     // Stats::checkExistence();
 
     Globals::setFirstPlayer($this->getNextPlayerTable()[0]);

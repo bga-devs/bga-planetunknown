@@ -36,8 +36,8 @@ CREATE TABLE IF NOT EXISTS `tiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE IF NOT EXISTS `civcards` (
-  `card_id` varchar(100)  NOT NULL,
+CREATE TABLE IF NOT EXISTS `cards` (
+  `card_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `card_location` varchar(32) NOT NULL,
   `card_state` int(10) DEFAULT 0,
   `player_id` int(10) NULL,
