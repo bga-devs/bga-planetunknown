@@ -68,13 +68,13 @@ class Cards extends \PU\Helpers\CachedPieces
 
     //keep only the right civ card number 
     $neededCivCards = count($players) + 1;
-    for ($i = 0; $i < 4; $i++) {
+    for ($i = 1; $i <= 4; $i++) {
       $deck = 'deck_civ_' . $i;
       static::shuffle($deck);
       static::pickForLocation(static::countInLocation($deck) - $neededCivCards, $deck, 'box');
     }
 
-    //pick right number of Neighbor Objectives cards
+    // //pick right number of Neighbor Objectives cards
     static::shuffle('deck_NObjectives');
     switch (count($players)) {
       case 1:
