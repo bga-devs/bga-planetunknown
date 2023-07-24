@@ -95,6 +95,29 @@ class Tiles extends \PU\Helpers\CachedPieces
 
   */
 
+  static function getStaticDataFromType($type)
+  {
+    $shape = Tiles::$shapes[$type % 12];
+    $tileFamily = intdiv($type, 24);
+    $hasMeteor = intdiv($type, 12) % 2 == 0;
+    $data = [];
+
+    [$baseX, $baseY] = explode('_', $shape['pattern'][0]);
+
+    foreach ($shape['pattern'] as $index => $coord) {
+      [$x, $y] = explode('_', $coord);
+      $data[] = [
+        'x' => $x - $baseX,
+        'y' => $y - $baseY,
+        'type' => self::$typesNames[$tileFamily][$shape['types'][$index]],
+        'meteor' => $hasMeteor && $coord == $shape['meteorPlace'],
+        'symbol' => in_array($coord, $shape['symbolPlaces']),
+      ];
+    }
+
+    return $data;
+  }
+
   public static $shapes = [
     0 => [
       'pattern' => ['2_1', '0_1', '1_1', '2_0', '3_0'],
