@@ -53,7 +53,7 @@ class Action
 
   public function getPlayer()
   {
-    $pId = $this->ctx->getPId() ?? Players::getActiveId();
+    $pId = $this->ctx->getRoot()->getPId();
     return Players::get($pId);
   }
 
