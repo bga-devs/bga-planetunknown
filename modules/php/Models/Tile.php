@@ -24,12 +24,16 @@ class Tile extends \PU\Helpers\DB_Model
     'flipped' => ['flipped', 'int'],
   ];
 
+  public function isFlipped()
+  {
+    return $this->flipped == 1;
+  }
 
   static function getStaticDataFromId($id)
   {
     $shape = Tiles::$shapes[$id % 12];
     $tileFamily = intdiv($id, 24);
-    $hasMeteor = (intdiv($id, 12) % 2 == 0);
+    $hasMeteor = intdiv($id, 12) % 2 == 0;
     $data = [];
 
     [$baseX, $baseY] = explode('_', $shape['pattern'][0]);
@@ -40,8 +44,8 @@ class Tile extends \PU\Helpers\DB_Model
         'x' => $x - $baseX,
         'y' => $y - $baseY,
         'type' => Tiles::$typesNames[$tileFamily][$shape['types'][$index]],
-        'meteor' => ($hasMeteor && $coord == $shape['meteorPlace']),
-        'symbol' => in_array($coord, $shape['symbolPlaces'])
+        'meteor' => $hasMeteor && $coord == $shape['meteorPlace'],
+        'symbol' => in_array($coord, $shape['symbolPlaces']),
       ];
     }
 
@@ -52,7 +56,7 @@ class Tile extends \PU\Helpers\DB_Model
   {
     $shape = Tiles::$shapes[$this->getId() % 12];
     $tileFamily = intdiv($this->getId(), 24);
-    $hasMeteor = (intdiv($this->getId(), 12) % 2 == 0);
+    $hasMeteor = intdiv($this->getId(), 12) % 2 == 0;
     $data = [];
 
     [$baseX, $baseY] = explode('_', $shape['pattern'][0]);
@@ -63,8 +67,8 @@ class Tile extends \PU\Helpers\DB_Model
         'x' => $x - $baseX,
         'y' => $y - $baseY,
         'type' => Tiles::$typesNames[$tileFamily][$shape['types'][$index]],
-        'meteor' => ($hasMeteor && $coord == $shape['meteorPlace']),
-        'symbol' => in_array($coord, $shape['symbolPlaces'])
+        'meteor' => $hasMeteor && $coord == $shape['meteorPlace'],
+        'symbol' => in_array($coord, $shape['symbolPlaces']),
       ];
     }
 

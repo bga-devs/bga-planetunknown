@@ -3,7 +3,7 @@
 namespace PU\Models;
 
 use PU\Managers\Meeples;
-use PU\Managers\Buildings;
+use PU\Managers\Tiles;
 use PU\Managers\Players;
 use PU\Helpers\UserException;
 use PU\Helpers\Utils;
@@ -14,14 +14,7 @@ use PU\Core\Stats;
  * Planet: all utility functions concerning a Planet
  */
 
-const DIRECTIONS = [
-  ['x' => -1, 'y' => -1],
-  ['x' => 0, 'y' => -2],
-  ['x' => 1, 'y' => -1],
-  ['x' => 1, 'y' => 1],
-  ['x' => 0, 'y' => 2],
-  ['x' => -1, 'y' => 1],
-];
+const DIRECTIONS = [['x' => -1, 'y' => 0], ['x' => 0, 'y' => -1], ['x' => 1, 'y' => 0], ['x' => 0, 'y' => 1]];
 
 class Planet
 {
@@ -41,16 +34,6 @@ class Planet
       $this->pId = $player->getId();
       $this->fetchDatas();
     }
-  }
-
-  public function canUseEffect()
-  {
-    return true;
-  }
-
-  public function getIncome()
-  {
-    return [];
   }
 
   public function getId()
@@ -82,365 +65,234 @@ class Planet
    * Fetch DB for tiles and fill the grid
    */
   protected $grid = [];
-  protected $buildings = [];
+  protected $tiles = [];
   protected function fetchDatas()
   {
     if ($this->player == null) {
       return;
     }
 
-    //TODO make the same for Planet Unknown
+    $this->grid = self::createGrid();
+    foreach ($this->grid as $x => $col) {
+      foreach ($col as $y => $cell) {
+        $this->grid[$x][$y] = [
+          'terrain' => self::getTerrain($x, $y),
+          'tile' => null,
+        ];
+      }
+    }
 
-    // $this->grid = self::createGrid();
-    // foreach ($this->grid as $x => $col) {
-    //   foreach ($col as $y => $cell) {
-    //     $this->grid[$x][$y] = [
-    //       'building' => null,
-    //     ];
-    //   }
-    // }
-
-    // $this->buildings = Buildings::getOfPlayer($this->pId);
-    // foreach ($this->buildings as $building) {
-    //   foreach ($this->getBuildingCoveredHexes($building, false) as $hex) {
-    //     $this->grid[$hex['x']][$hex['y']]['building'] = $building;
-    //   }
-    // }
+    $this->tiles = Tiles::getOfPlayer($this->pId);
+    foreach ($this->tiles as $tile) {
+      foreach ($this->getTileCoveredCells($tile, false) as $cell) {
+        $this->grid[$cell['x']][$cell['y']]['tile'] = $tile;
+      }
+    }
   }
 
   ///////////////////////////////////////////////
-  //  ____        _ _     _ _
-  // | __ ) _   _(_) | __| (_)_ __   __ _ ___
-  // |  _ \| | | | | |/ _` | | '_ \ / _` / __|
-  // | |_) | |_| | | | (_| | | | | | (_| \__ \
-  // |____/ \__,_|_|_|\__,_|_|_| |_|\__, |___/
-  //                                |___/
+  //  _____ _ _
+  // |_   _(_) | ___  ___
+  //   | | | | |/ _ \/ __|
+  //   | | | | |  __/\__ \
+  //   |_| |_|_|\___||___/
   ///////////////////////////////////////////////
-  // public function addBuilding($buildingType, $pos, $rotation)
-  // {
-  //   if (in_array($buildingType, \ENCLOSURES)) {
-  //     Stats::incBuiltEnclosures($this->pId);
-  //   } elseif ($buildingType == KIOSK) {
-  //     Stats::incBuiltKiosks($this->pId);
-  //   } elseif ($buildingType == PAVILION) {
-  //     Stats::incBuiltPavilions($this->pId);
-  //   } else {
-  //     Stats::incBuiltUniqueStructures($this->pId);
-  //   }
-  //   Stats::incCoveredHexes($this->pId, count(BUILDINGS[$buildingType]));
+  public function addTile($tileId, $pos, $rotation, $flipped)
+  {
+    $tile = Tiles::getSingle($tileId);
+    $this->tiles[$tile->getId()] = $tile;
+    $bonuses = [];
+    $bonusHydrologist = 0;
+    $bonusGeologist = 0;
+    $isAlreadyFull = $this->countEmptySpaces() == 0 ? true : false;
+    $this->invalidateCachedDatas();
+    // Stats::incCoveredCells($this->pId, count(BUILDINGS[$tileType]));
 
-  //   $building = Buildings::add($this->pId, $buildingType, $pos, $rotation);
-  //   $this->buildings[$building['id']] = $building;
-  //   $bonuses = [];
-  //   $bonusHydrologist = 0;
-  //   $bonusGeologist = 0;
-  //   $isAlreadyFull = $this->countEmptySpaces() == 0 ? true : false;
-  //   $this->invalidateCachedDatas();
+    foreach ($this->getTileCoveredCells($tile, false) as $cell) {
+      $this->grid[$cell['x']][$cell['y']]['tile'] = $tile;
+    }
 
-  //   // useful for archeologist
-  //   $border = $this->getBorderCells();
-  //   $nBonusesOnBorder = 0;
+    // if (!$isAlreadyFull) {
+    //   Stats::setEmptyCells($this->pId, $this->countEmptySpaces());
+    // }
 
-  //   foreach ($this->getBuildingCoveredHexes($building, false) as $hex) {
-  //     $uid = self::getCellId($hex);
-  //     // Hydrologist
-  //     if ($this->player->hasPlayedCard('S241_Hydrologist')) {
-  //       $neighbours = $this->getNeighbours($hex);
-  //       list($water, $rock) = $this->countWaterAndRock($neighbours);
-  //       $bonusHydrologist += $water > 0 ? 1 : 0;
-  //     }
-  //     // Geologist
-  //     if ($this->player->hasPlayedCard('S242_Geologist')) {
-  //       $neighbours = $this->getNeighbours($hex);
-  //       list($water, $rock) = $this->countWaterAndRock($neighbours);
-  //       $bonusGeologist += $rock > 0 ? 1 : 0;
-  //     }
-  //   }
+    return $tile;
+  }
 
-  //   foreach ($this->getBuildingCoveredHexes($building, false) as $hex) {
-  //     $this->grid[$hex['x']][$hex['y']]['building'] = $building;
-  //     $uid = self::getCellId($hex);
-  //     foreach ($this->bonuses[$uid] ?? [] as $bonus => $n) {
-  //       $bonuses[] = [$bonus => $n];
-  //       if (in_array($hex, $border)) {
-  //         $nBonusesOnBorder++;
-  //       }
-  //     }
-  //   }
+  public function getTileAtPos($cell)
+  {
+    return $this->grid[$cell['x']][$cell['y']]['tile'] ?? null;
+  }
 
-  //   if ($bonusHydrologist > 0) {
-  //     $bonuses[] = [
-  //       MONEY => $bonusHydrologist,
-  //       'sourceId' => 'S241_Hydrologist',
-  //     ];
-  //   }
-  //   if ($bonusGeologist > 0) {
-  //     $bonuses[] = [
-  //       MONEY => $bonusGeologist,
-  //       'sourceId' => 'S242_Geologist',
-  //     ];
-  //   }
+  public function hasTileAtPos($cell)
+  {
+    return !is_null($this->getTileAtPos($cell));
+  }
 
-  //   if (!$isAlreadyFull && $this->countEmptySpaces() == 0) {
-  //     $bonuses[] = [
-  //       APPEAL => 7,
-  //       'source' => clienttranslate('filling the map'),
-  //     ];
-  //   }
+  public function getTilesOfType($tileType)
+  {
+    return $this->tiles->where('type', $tileType);
+  }
 
-  //   // ARCHEOLOGIST
-  //   if ($nBonusesOnBorder > 0 && $this->player->hasPlayedCard('S221_Archeologist')) {
-  //     $bonusesLeft = [];
-  //     foreach ($this->bonuses as $uid => $b) {
-  //       if ($this->hasBuildingAtPos($this->getHexFromId($uid))) {
-  //         continue;
-  //       }
+  public function getTileOfType($tileType)
+  {
+    return $this->getTilesOfType($tileType)->first();
+  }
 
-  //       foreach ($b as $type => $n) {
-  //         $bonusesLeft[] = [
-  //           'action' => TAKE_BONUS,
-  //           'args' => [
-  //             'type' => $type,
-  //             'n' => $n,
-  //             'sourceId' => 'S221_Archeologist',
-  //           ],
-  //         ];
-  //       }
-  //     }
+  public function hasTile($tileType)
+  {
+    return $this->getTileOfType($tileType) !== null;
+  }
 
-  //     if (!empty($bonusesLeft)) {
-  //       for ($i = 0; $i < $nBonusesOnBorder; $i++) {
-  //         $bonuses[] = [
-  //           'type' => \NODE_XOR,
-  //           'optional' => true,
-  //           'childs' => $bonusesLeft,
-  //           'customDescription' => \clienttranslate('Gain an (uncovered) placement bonus'),
-  //           'sourceId' => 'S221_Archeologist',
-  //         ];
-  //       }
-  //     }
-  //   }
+  protected function getTilesNeighbourCells()
+  {
+    $cells = [];
+    foreach (self::getListOfCells() as $cell) {
+      if (!is_null($this->getTileAtPos($cell))) {
+        $cells = array_merge($cells, $this->getNeighbours($cell));
+      }
+    }
+    return Utils::uniqueZones($cells);
+  }
 
-  //   if (!$isAlreadyFull) {
-  //     Stats::setEmptyHexes($this->pId, $this->countEmptySpaces());
-  //   }
+  public function isTileAdjacentTo($tile, $cell)
+  {
+    $neighbours = [];
+    foreach ($this->getTileCoveredCells($tile, false) as $cell) {
+      $neighbours = array_merge($neighbours, $this->getNeighbours($cell));
+    }
+    return !empty(Utils::intersectZones([$cell], $neighbours));
+  }
 
-  //   return [$building, $bonuses];
-  // }
+  protected $checkingCells = null;
+  protected $freeCells = null;
+  public function getPlacementOptionsCachedDatas()
+  {
+    if (is_null($this->checkingCells)) {
+      $this->checkingCells = $this->tiles->empty() ? $this->getBorderCells() : $this->getConnectedCells();
+    }
+    if (is_null($this->freeCells)) {
+      $cells = self::getListOfCells();
+      Utils::filter($cells, function ($cell) {
+        return !$this->hasTileAtPos($cell);
+      });
+      $this->freeCells = $cells;
+    }
 
-  // public function getBuildingAtPos($hex)
-  // {
-  //   return $this->grid[$hex['x']][$hex['y']]['building'] ?? null;
-  // }
+    return [$this->checkingCells, $this->freeCells];
+  }
+  public function invalidateCachedDatas()
+  {
+    $this->checkingCells = null;
+    $this->freeCells = null;
+  }
 
-  // public function hasBuildingAtPos($hex)
-  // {
-  //   return !is_null($this->getBuildingAtPos($hex));
-  // }
+  public function getPlacementOptions($tileType, $checkIsDoable = false)
+  {
+    list($checkingCells, $freeCells) = $this->getPlacementOptionsCachedDatas();
+    $byPassCheck = false; // Coorpo techs
 
-  // public function getBuildingsOfType($buildingType)
-  // {
-  //   return $this->buildings->filter(function ($b) use ($buildingType) {
-  //     return $b['type'] == $buildingType;
-  //   });
-  // }
+    $result = [];
+    // For each possible cell to place the reference cell of the tile
+    foreach ($freeCells as $pos) {
+      $rotations = [];
+      // Compute which rotations are valid
+      for ($rotation = 0; $rotation < 4; $rotation++) {
+        foreach ([false, true] as $flipped) {
+          $cells = self::getCoveredCells($tileType, $pos, $rotation, $flipped);
+          // Are all the cells valid to build upon ?
+          if ($cells === false) {
+            continue;
+          }
 
-  // public function getBuildingOfType($buildingType)
-  // {
-  //   return $this->getBuildingsOfType($buildingType)->first();
-  // }
+          // TODO: add check function that can be overwritten by some planets
 
-  // public function hasBuilding($buildingType)
-  // {
-  //   return $this->getBuildingOfType($buildingType) !== null;
-  // }
+          if ($this->isIntersectionNonEmpty($cells, $checkingCells)) {
+            $rotations[] = [$rotation, $flipped];
+          }
+        }
+      }
+      if (!empty($rotations)) {
+        $result[] = [
+          'pos' => $pos,
+          'r' => $rotations,
+        ];
+        if ($checkIsDoable) {
+          return $result;
+        }
+      }
+    }
+    return $result;
+  }
 
-  // protected function getBuildingsNeighbourCells()
-  // {
-  //   $cells = [];
-  //   foreach (self::getListOfCells() as $cell) {
-  //     if (!is_null($this->getBuildingAtPos($cell))) {
-  //       $cells = array_merge($cells, $this->getNeighbours($cell));
-  //     }
-  //   }
-  //   return Utils::uniqueZones($cells);
-  // }
+  /**
+   * getCoveredCells: given a tile type, a position and rotation, return the list of cells that would be covered by the tile placed that way
+   */
+  public function getCoveredCells($tileType, $pos, $rotation, $flipped, $checkAvailableToBuild = true)
+  {
+    $cells = [];
 
-  // public function isBuildingAdjacentTo($building, $cell)
-  // {
-  //   $neighbours = [];
-  //   foreach ($this->getBuildingCoveredHexes($building, false) as $hex) {
-  //     $neighbours = array_merge($neighbours, $this->getNeighbours($hex));
-  //   }
-  //   return !empty(Utils::intersectZones([$cell], $neighbours));
-  // }
+    foreach (self::getCellsOfTileType($tileType) as $delta) {
+      $cellOffset = self::getRotatedFlippedCell(['x' => $delta[0], 'y' => $delta[1]], $rotation, $flipped);
+      $cell = [
+        'x' => $pos['x'] + $cellOffset['x'],
+        'y' => $pos['y'] + $cellOffset['y'],
+      ];
 
-  // protected $checkingCells = null;
-  // protected $freeCells = null;
-  // public function getPlacementOptionsCachedDatas()
-  // {
-  //   if (is_null($this->checkingCells)) {
-  //     $this->checkingCells = $this->buildings->empty() ? $this->getBorderCells() : $this->getConnectedCells();
-  //   }
-  //   if (is_null($this->freeCells)) {
-  //     $cells = self::getListOfCells();
-  //     Utils::filter($cells, function ($cell) {
-  //       return !$this->hasBuildingAtPos($cell);
-  //     });
-  //     $this->freeCells = $cells;
-  //   }
+      if (!$this->isCellAvailableToBuild($cell) && $checkAvailableToBuild) {
+        return false;
+      } else {
+        $cells[] = $cell;
+      }
+    }
+    return $cells;
+  }
 
-  //   return [$this->checkingCells, $this->freeCells];
-  // }
-  // public function invalidateCachedDatas()
-  // {
-  //   $this->checkingCells = null;
-  //   $this->freeCells = null;
-  // }
+  public function getCellsOfTileType($tileType)
+  {
+    $types = [
+      [[2, 1], [0, 1], [1, 1], [2, 0], [3, 0]],
+      [[1, 1], [0, 1], [2, 1], [2, 0], [1, 2]],
+      [[0, 1], [0, 0], [0, 2]],
+      [[1, 0], [0, 0], [1, 1]],
+      [[1, 0], [0, 0], [1, 1], [2, 0]],
+      [[1, 0], [0, 1], [1, 1], [2, 0]],
+      [[1, 1], [0, 2], [1, 0], [1, 2]],
+      [[1, 1], [0, 0], [0, 1], [2, 0], [2, 1]],
+      [[0, 0], [0, 1]],
+      [[1, 0], [0, 0], [2, 0], [3, 0]],
+      [[0, 0], [0, 1], [1, 0], [1, 1]],
+      [[1, 1], [0, 0], [0, 1], [2, 1], [2, 2]],
+    ];
 
-  // public function getPlacementOptions($buildingType, $checkIsDoable = false)
-  // {
-  //   list($checkingCells, $freeCells) = $this->getPlacementOptionsCachedDatas();
-  //   $byPassCheck = $this->player->hasPlayedCard('S219_DiversityResearcher');
-  //   $size1 = count(BUILDINGS[$buildingType]) == 1;
+    return $types[$tileType % 12];
+  }
 
-  //   $result = [];
-  //   // For each possible cell to place the reference hex of the building
-  //   foreach ($freeCells as $pos) {
-  //     if ($buildingType == 'kiosk' && !$this->isFarEnoughFromOtherKiosk($pos)) {
-  //       continue;
-  //     }
+  // Same thing for a given DB result representing a tile
+  public function getTileCoveredCells($tile, $checkAvailableToBuild = true)
+  {
+    return $this->getCoveredCells(
+      $tile->getType(),
+      self::extractPos($tile),
+      $tile->getRotation(),
+      $tile->isFlipped(),
+      $checkAvailableToBuild
+    );
+  }
 
-  //     $rotations = [];
-  //     // Compute which rotations are valid
-  //     for ($rotation = 0; $rotation < ($size1 ? 1 : 6); $rotation++) {
-  //       $hexes = self::getCoveredHexes($buildingType, $pos, $rotation);
-  //       // Are all the hexes valid to build upon ?
-  //       if ($hexes === false) {
-  //         continue;
-  //       }
+  /**
+   * isCellAvailableToBuild: given an cell, can we build here ?
+   */
+  public function isCellAvailableToBuild($cell)
+  {
+    $uid = self::getCellId($cell);
+    // Can't build on an invalid cell or already built cell
+    if (!$this->isCellValid($cell) || !is_null($this->getTileAtPos($cell))) {
+      return false;
+    }
 
-  //       // Constraints for water/rock adjacency
-  //       if (!$byPassCheck && !empty(BUILDINGS_CONSTRAINTS[$buildingType] ?? [])) {
-  //         $enclosure = [
-  //           'type' => $buildingType,
-  //           'rotation' => $rotation,
-  //           'x' => $pos['x'],
-  //           'y' => $pos['y'],
-  //         ];
-  //         $this->addSurroundingsToEnclosure($enclosure);
-  //         $satisfied = true;
-  //         foreach (BUILDINGS_CONSTRAINTS[$buildingType] as $constraint => $n) {
-  //           if ($n > $enclosure[$constraint]) {
-  //             $satisfied = false;
-  //             break;
-  //           }
-  //         }
-
-  //         if (!$satisfied) {
-  //           continue;
-  //         }
-  //       }
-
-  //       // Adjacency check: either adjacent to existing buildings, or on the border otherwise
-  //       if ($buildingType == SIDE_ENTRANCE) {
-  //         $rotations[] = $rotation;
-  //       } elseif ($this->isIntersectionNonEmpty($hexes, $checkingCells)) {
-  //         $rotations[] = $rotation;
-  //       }
-  //     }
-  //     if (!empty($rotations)) {
-  //       $result[] = [
-  //         'pos' => $pos,
-  //         'rotations' => $rotations,
-  //       ];
-  //       if ($checkIsDoable) {
-  //         return $result;
-  //       }
-  //     }
-  //   }
-  //   return $result;
-  // }
-
-  // /**
-  //  * getCoveredHexes: given a building type, a position and rotation, return the list of hexes that would be covered by the building placed that way
-  //  */
-  // public function getCoveredHexes($buildingType, $pos, $rotation, $checkAvailableToBuild = true)
-  // {
-  //   $hexes = [];
-  //   if ($this->player->hasPlayedCard('S219_DiversityResearcher')) {
-  //     $ignore = [WATER => true, ROCK => true];
-  //   }
-
-  //   foreach (BUILDINGS[$buildingType] as $delta) {
-  //     $hexOffset = self::getRotatedHex(['x' => $delta[0], 'y' => $delta[1]], $rotation);
-  //     $hex = [
-  //       'x' => $pos['x'] + $hexOffset['x'],
-  //       'y' => $pos['y'] + $hexOffset['y'],
-  //     ];
-
-  //     if (!$this->isCellAvailableToBuild($hex, $ignore ?? []) && $checkAvailableToBuild) {
-  //       return false;
-  //     } else {
-  //       $hexes[] = $hex;
-  //     }
-  //   }
-
-  //   // Check constraints, if any
-  //   $constraints = [];
-  //   if (in_array($buildingType, ['zoo-school', \SIDE_ENTRANCE])) {
-  //     $constraints = ['border' => 2];
-  //   }
-
-  //   foreach ($constraints as $type => $value) {
-  //     if ($type == 'border') {
-  //       $borders = $this->getBorderCells();
-  //       $check = 0;
-  //       foreach ($hexes as $hex) {
-  //         if (in_array($hex, $borders)) {
-  //           $check++;
-  //         }
-  //       }
-  //       if ($check < $value) {
-  //         return false;
-  //       }
-  //     }
-  //   }
-
-  //   return $hexes;
-  // }
-
-  // // Same thing for a given DB result representing a building
-  // public function getBuildingCoveredHexes($building, $checkAvailableToBuild = true)
-  // {
-  //   return $this->getCoveredHexes($building['type'], self::extractPos($building), $building['rotation'], $checkAvailableToBuild);
-  // }
-
-  // /**
-  //  * isCellAvailableToBuild: given an hex, can we build here ?
-  //  */
-  // public function isCellAvailableToBuild($hex, $ignore = [])
-  // {
-  //   $uid = self::getCellId($hex);
-  //   // Can't build on an invalid cell or already built cell
-  //   if (!$this->isCellValid($hex) || !is_null($this->getBuildingAtPos($hex))) {
-  //     return false;
-  //   }
-  //   // Can't build on water
-  //   if (!($ignore[WATER] ?? false) && in_array($uid, $this->terrains[WATER])) {
-  //     return false;
-  //   }
-  //   // Can't build on rock
-  //   if (!($ignore[ROCK] ?? false) && in_array($uid, $this->terrains[ROCK])) {
-  //     return false;
-  //   }
-  //   // Can't build on upgraded spaces
-  //   if (!($ignore[UPGRADED_BUILD_CARD] ?? $this->player->isCardUpgraded(BUILD)) && in_array($uid, $this->upgradeNeeded)) {
-  //     return false;
-  //   }
-
-  //   return true;
-  // }
+    return true;
+  }
 
   //////////////////////////////////////
   //    ____      _   _
@@ -458,7 +310,7 @@ class Planet
         if ($this->terrains[$y][$x] == LIFEPOD) {
           $result[] = [
             'x' => $x,
-            'y' => $y
+            'y' => $y,
           ];
         }
       }
@@ -471,147 +323,32 @@ class Planet
     return $this->terrains[$y][$x];
   }
 
-  // public function getRockHexes()
-  // {
-  //   $cells = [];
-  //   foreach ($this->terrains[ROCK] as $uid) {
-  //     $cells[] = $this->getHexFromId($uid);
-  //   }
-  //   return $cells;
-  // }
+  // Count the number of empty spaces (excluding water/rock)
+  public function countEmptySpaces()
+  {
+    $cells = [];
+    foreach ($this->getListOfCells() as $cell) {
+      if (!$this->hasTileAtPos($cell)) {
+        $cells[] = $cell;
+      }
+    }
 
-  // public function getWaterHexes()
-  // {
-  //   $cells = [];
-  //   foreach ($this->terrains[WATER] as $uid) {
-  //     $cells[] = $this->getHexFromId($uid);
-  //   }
-  //   return $cells;
-  // }
+    return count($cells);
+  }
 
-  // // Count the number of empty spaces (excluding water/rock)
-  // public function countEmptySpaces()
-  // {
-  //   $hexes = [];
-  //   foreach ($this->getListOfCells() as $cell) {
-  //     if (!$this->hasBuildingAtPos($cell)) {
-  //       $hexes[] = $cell;
-  //     }
-  //   }
-  //   list($water, $rock) = $this->countWaterAndRock($hexes);
-
-  //   return count($hexes) - $water - $rock;
-  // }
-
-  // // Count the number of water/rock space on a given list of hexes
-  // protected function countWaterAndRock($hexes)
-  // {
-  //   $water = 0;
-  //   $rock = 0;
-  //   foreach ($hexes as $hex) {
-  //     // If a building is over a water/rock space (due to special card), the space is no longer water/rock
-  //     if (!is_null($this->getBuildingAtPos($hex))) {
-  //       continue;
-  //     }
-
-  //     $uid = self::getCellId($hex);
-  //     if (in_array($uid, $this->terrains[WATER])) {
-  //       $water++;
-  //     }
-  //     if (in_array($uid, $this->terrains[ROCK])) {
-  //       $rock++;
-  //     }
-  //   }
-  //   return [$water, $rock];
-  // }
-
-  // /* check if water or rock hex are connected */
-  // public function areAllTerrainHexConnected($type)
-  // {
-  //   foreach ($this->terrains[$type] as $uId) {
-  //     $hex = self::getHexFromId($uId);
-  //     if (!is_null($this->getBuildingAtPos($hex))) {
-  //       continue;
-  //     }
-
-  //     $found = false;
-  //     foreach ($this->getNeighbours($hex) as $cell) {
-  //       if ($this->hasBuildingAtPos($cell)) {
-  //         $found = true;
-  //       }
-  //     }
-  //     if ($found === false) {
-  //       return false;
-  //     }
-  //   }
-  //   return true;
-  // }
-
-  // public function areBorderCellsCovered()
-  // {
-  //   foreach ($this->getBorderCells() as $hex) {
-  //     $uid = self::getCellId($hex);
-  //     if (!is_null($this->getBuildingAtPos($hex))) {
-  //       continue;
-  //     }
-
-  //     if (in_array($uid, $this->terrains[WATER])) {
-  //       continue;
-  //     }
-
-  //     if (in_array($uid, $this->terrains[ROCK])) {
-  //       continue;
-  //     }
-
-  //     return false;
-  //   }
-  //   return true;
-  // }
-
-  // /**
-  //  * getNonBuildingCells: return the list of cells that are not considered as buildings cells
-  //  */
-  // public function getNonBuildingCells()
-  // {
-  //   $cells = [];
-  //   foreach (array_merge($this->terrains[WATER], $this->terrains[ROCK]) as $uid) {
-  //     $cells[] = self::getHexFromId($uid);
-  //   }
-  //   return $cells;
-  // }
-
-  // /**
-  //  * isBuildingCell: return true if the cell is considered as building cells
-  //  */
-  // public function isBuildingCell($cell)
-  // {
-  //   $uid = self::getCellId($cell);
-  //   return !in_array($uid, $this->terrains[WATER]) && !in_array($uid, $this->terrains[ROCK]);
-  // }
-
-  // /**
-  //  * getConnectedCells: return list of cells adjacent to at least one building
-  //  *  => useful for some sponsors
-  //  */
-  // public function getConnectedCells($withoutBuildings = true)
-  // {
-  //   $cells = $this->getBuildingsNeighbourCells();
-  //   if ($withoutBuildings) {
-  //     Utils::filter($cells, function ($cell) {
-  //       return !$this->hasBuildingAtPos($cell);
-  //     });
-  //   }
-  //   return $cells;
-  // }
-
-  // /**
-  //  * getIsolatedCells: return list of cells not adjacent to any building
-  //  *  => useful for some sponsors
-  //  */
-  // public function getIsolatedCells()
-  // {
-  //   return Utils::diffZones(self::getListOfCells(), $this->getBuildingsNeighbourCells());
-  // }
+  /**
+   * getConnectedCells: return list of cells adjacent to at least one tile
+   */
+  public function getConnectedCells($withoutTiles = true)
+  {
+    $cells = $this->getTilesNeighbourCells();
+    if ($withoutTiles) {
+      Utils::filter($cells, function ($cell) {
+        return !$this->hasTileAtPos($cell);
+      });
+    }
+    return $cells;
+  }
 
   /////////////////////////////////////////////
   //   ____      _     _   _   _ _   _ _
@@ -621,40 +358,39 @@ class Planet
   //  \____|_|  |_|\__,_|  \___/ \__|_|_|___/
   ////////////////////////////////////////////
 
-  public static function getCellId($hex)
+  public function getCellId($cell)
   {
-    return $hex['x'] . '_' . $hex['y'];
+    return $cell['x'] . '_' . $cell['y'];
   }
 
-  public static function getHexFromId($uid)
+  public function getCellFromId($uid)
   {
     $coord = explode('_', $uid);
     return ['x' => $coord[0], 'y' => $coord[1]];
   }
 
-  public static function extractPos($building)
+  public function extractPos($tile)
   {
     return [
-      'x' => $building['x'],
-      'y' => $building['y'],
+      'x' => $tile->getX(),
+      'y' => $tile->getY(),
     ];
   }
 
-  public static function createGrid($defaultValue = null)
+  public function createGrid($defaultValue = null)
   {
-    $dim = ['x' => 9, 'y' => 7];
     $g = [];
-    for ($x = 0; $x < $dim['x']; $x++) {
-      $size = $dim['y'] - ($x % 2 == 0 ? 1 : 0);
-      for ($y = 0; $y < $size; $y++) {
-        $row = 2 * $y + ($x % 2 == 0 ? 1 : 0);
-        $g[$x][$row] = $defaultValue;
+    for ($y = 0; $y < count($this->terrains); $y++) {
+      for ($x = 0; $x < count($this->terrains[$y]); $x++) {
+        if ($this->getTerrain($x, $y) != NOTHING) {
+          $g[$x][$y] = $defaultValue;
+        }
       }
     }
     return $g;
   }
 
-  public static function getListOfCells()
+  public function getListOfCells()
   {
     $grid = self::createGrid(0);
     $cells = [];
@@ -666,23 +402,42 @@ class Planet
     return $cells;
   }
 
-  // public function getBorderCells()
-  // {
-  //   if (!isset($this->_borderCells)) {
-  //     $grid = self::createGrid(0);
-  //     $cells = [];
-  //     foreach ($grid as $x => $col) {
-  //       foreach ($col as $y => $t) {
-  //         if ($y <= 1 || $x <= 0 || $y >= 11 || $x >= 8) {
-  //           $cells[] = ['x' => $x, 'y' => $y];
-  //         }
-  //       }
-  //     }
-  //     $this->_borderCells = $cells;
-  //   }
+  public function getBorderCells()
+  {
+    if (!isset($this->_borderCells)) {
+      $grid = self::createGrid(0);
+      $cells = [];
+      foreach (self::getListOfCells() as $cell) {
+        if (count(self::getNeighbours($cell)) < 4) {
+          $cells[] = $cell;
+        }
+      }
+      $this->_borderCells = $cells;
+    }
 
-  //   return $this->_borderCells;
-  // }
+    return $this->_borderCells;
+  }
+
+  /*
+  TODO : same as above except for Oblivion !
+  public function getEdgeCells()
+  {
+    if (!isset($this->_borderCells)) {
+      $grid = self::createGrid(0);
+      $cells = [];
+      foreach ($grid as $x => $col) {
+        foreach ($col as $y => $t) {
+          if ($y <= 1 || $x <= 0 || $y >= 11 || $x >= 8) {
+            $cells[] = ['x' => $x, 'y' => $y];
+          }
+        }
+      }
+      $this->_borderCells = $cells;
+    }
+
+    return $this->_borderCells;
+  }
+  */
 
   protected function isCellValid($cell)
   {
@@ -721,28 +476,22 @@ class Planet
     return false;
   }
 
-  protected function getRotatedHex($hex, $rotation)
+  protected function getRotatedFlippedCell($cell, $rotation, $flipped)
   {
-    if ($rotation == 0 || ($hex['x'] == 0 && $hex['y'] == 0)) {
-      return $hex;
+    if (($rotation == 0 && !$flipped) || ($cell['x'] == 0 && $cell['y'] == 0)) {
+      return $cell;
     }
 
-    $q = $hex['x'];
-    $r = ($hex['y'] - $hex['x']) / 2;
-    $cube = [$q, $r, -$q - $r];
-    for ($i = 0; $i < $rotation; $i++) {
-      $cube = [-$cube[1], -$cube[2], -$cube[0]];
-    }
+    // Apply flip
+    $x = $flipped ? -$cell['x'] : $cell['x'];
+    $y = $cell['y'];
+
+    // Apply rotation
+    $c = (int) cos(($rotation * pi()) / 2);
+    $s = (int) sin(($rotation * pi()) / 2);
     return [
-      'x' => $cube[0],
-      'y' => 2 * $cube[1] + $cube[0],
+      'x' => $c * $x - $s * $y,
+      'y' => $s * $x + $c * $x,
     ];
-  }
-
-  protected function getDistance($hex1, $hex2)
-  {
-    $deltaX = abs($hex1['x'] - $hex2['x']);
-    $deltaY = abs($hex1['y'] - $hex2['y']);
-    return $deltaX + max(0, ($deltaY - $deltaX) / 2);
   }
 }

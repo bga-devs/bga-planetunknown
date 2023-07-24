@@ -2,6 +2,7 @@
 namespace PU\Actions;
 use PU\Managers\Meeples;
 use PU\Managers\Players;
+use PU\Managers\Tiles;
 use PU\Core\Notifications;
 use PU\Core\Engine;
 use PU\Core\Stats;
@@ -15,10 +16,42 @@ class PlaceTile extends \PU\Models\Action
     return \ST_PLACE_TILE;
   }
 
+  public function isDoable($player)
+  {
+    return $this->getPlayableTiles($player, true);
+  }
+
+  public function getPossibleTiles($player)
+  {
+    $tiles = [];
+    $tiles[] = Tiles::getTopOf('interior-0')->first();
+    $tiles[] = Tiles::getTopOf('exterior-0')->first();
+    return $tiles;
+  }
+
+  public function getPlayableTiles($player, $checkIsDoable = false, $forcedTiles = null)
+  {
+    $tiles = [];
+    foreach ($forcedTiles ?? $this->getPossibleTiles($player) as $tile) {
+      $placementOptions = $player->planet()->getPlacementOptions($tile->getType(), $checkIsDoable);
+      if (!empty($placementOptions)) {
+        if ($checkIsDoable) {
+          return true;
+        }
+        $tiles[$tile->getId()] = $placementOptions;
+      }
+    }
+
+    return $checkIsDoable ? false : $tiles;
+  }
+
   public function argsPlaceTile()
   {
-    $type = $this->getCtxArg('type');
-    return [];
+    $player = $this->getPlayer();
+
+    return [
+      'tiles' => $this->getPlayableTiles($player, false),
+    ];
   }
 
   public function actPlaceTile($n)

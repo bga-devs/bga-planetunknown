@@ -39,6 +39,11 @@ class Tiles extends \PU\Helpers\CachedPieces
     return $tiles->toArray();
   }
 
+  public static function getOfPlayer($pId)
+  {
+    return self::where('pId', $pId);
+  }
+
   ////////////////////////////////////
   //  ____       _
   // / ___|  ___| |_ _   _ _ __
@@ -77,7 +82,6 @@ class Tiles extends \PU\Helpers\CachedPieces
       self::shuffle("exterior-$j");
     }
   }
-
 
   /*
               █████               █████     ███                  █████            █████             
@@ -166,12 +170,5 @@ class Tiles extends \PU\Helpers\CachedPieces
     ],
   ];
 
-  public static $typesNames = [
-    [CIV, ENERGY],
-    [ENERGY, WATER],
-    [ROVER, TECH],
-    [TECH, BIOMASS],
-    [WATER, ROVER],
-    [BIOMASS, CIV]
-  ];
+  public static $typesNames = [[CIV, ENERGY], [ENERGY, WATER], [ROVER, TECH], [TECH, BIOMASS], [WATER, ROVER], [BIOMASS, CIV]];
 }
