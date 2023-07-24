@@ -14,6 +14,7 @@ use PU\Managers\Actions;
 use PU\Helpers\Utils;
 use PU\Helpers\Log;
 use PU\Managers\Cards;
+use PU\Managers\Susan;
 
 trait SetupTrait
 {
@@ -28,6 +29,7 @@ trait SetupTrait
     Meeples::setupNewGame($players, $options);
     Tiles::setupNewGame($players, $options);
     Cards::setupNewGame($players, $options);
+    Susan::setupNewGame($players, $options);
     // Stats::checkExistence();
 
     Globals::setFirstPlayer($this->getNextPlayerTable()[0]);

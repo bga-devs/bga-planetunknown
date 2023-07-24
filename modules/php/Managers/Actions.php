@@ -1,11 +1,13 @@
 <?php
+
 namespace PU\Managers;
+
 use PU\Core\Game;
 use PU\Core\Engine;
 use PU\Managers\Players;
 use PU\Core\Globals;
 
-/* Class to manage all the cards for Agricola */
+/* Class to manage all the Actions */
 
 class Actions
 {
