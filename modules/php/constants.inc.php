@@ -92,6 +92,11 @@ const SYNERGY = 'synergy';
 const IMMEDIATE = 'immediate';
 const END_GAME = 'at the end';
 
+const GREEN = 'green';
+const ORANGE = 'orange';
+const RED = 'red';
+const SOLO_EVENT_CARDS = [65, 66, 67, 79, 110, 116];
+
 /*
 *	Terrains types
 */

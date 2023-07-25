@@ -23,6 +23,8 @@ class Cards extends \PU\Helpers\CachedPieces
       $className =  '\PU\Models\Cards\CivCard' . $row['card_id'];
     } else if ($row['card_id'] > 36 && $row['card_id'] <= 64) {
       $className =  '\PU\Models\Cards\NOCard' . $row['card_id'];
+    } else if ($row['card_id'] > 64 && $row['card_id'] <= 124) {
+      $className =  '\PU\Models\Cards\EventCard' . $row['card_id'];
     }
     return new $className($row);
   }
@@ -64,6 +66,16 @@ class Cards extends \PU\Helpers\CachedPieces
         'location' => 'deck_NObjectives',
       ];
     }
+
+    //if EVENT MODE TODO OR SOLO
+    $cardColors = [GREEN, ORANGE, RED];
+    for ($i = 65; $i <= 124; $i++) {
+      $data[] = [
+        'location' => 'deck_event_' . $cardColors[floor(($i - 65) / 20)],
+      ];
+    }
+
+
     static::create($data);
 
     //keep only the right civ card number 
@@ -74,7 +86,7 @@ class Cards extends \PU\Helpers\CachedPieces
       static::pickForLocation(static::countInLocation($deck) - $neededCivCards, $deck, 'box');
     }
 
-    // //pick right number of Neighbor Objectives cards
+    //pick right number of Neighbor Objectives cards
     static::shuffle('deck_NObjectives');
     switch (count($players)) {
       case 1:
@@ -91,5 +103,21 @@ class Cards extends \PU\Helpers\CachedPieces
         }
         break;
     }
+
+    //prepare Event Card Deck
+    //first remove solo card if needed 
+    if (count($players) != 1) {
+      static::move(SOLO_EVENT_CARDS, 'box');
+    }
+    //TODO this is random, can make some preset
+    $eventCardSet = [];
+    $eventCardSet[GREEN] = bga_rand(0, 13);
+    $eventCardSet[ORANGE] = bga_rand(0, 13);
+    $eventCardSet[RED] = 20 - $eventCardSet[GREEN] - $eventCardSet[ORANGE];
+    foreach ($cardColors as $color) {
+      static::shuffle('deck_event_' . $color);
+      static::pickForLocation($eventCardSet[$color], 'deck_event_' . $color, 'deck_event');
+    }
+    static::shuffle('deck_event');
   }
 }
