@@ -1,0 +1,50 @@
+$cellWidth: 30px;
+$cellHeight: $cellWidth;
+$planetGridWidth: 12 * $cellWidth;
+$planetGridHeight: 12 * $cellHeight;
+
+.pu-player-board-resizable {
+    position: relative;
+    width: calc(var(--planetUnknownBoardScale) * 1510px);
+    height: calc(var(--planetUnknownBoardScale) * 1000px);
+    display: flex;
+
+    // [data-player-boards-layout="1"] & ~ .ark-player-board-resizable {
+    //     margin-top: 20px;
+    // }
+
+    .pu-player-board-planet {
+        width: 1000px;
+        height: 1000px;
+        transform: scale(var(--planetUnknownBoardScale));
+        transform-origin: top left;
+
+        .planet {
+            width: 1000px;
+            height: 1000px;
+            box-sizing: border-box;
+            background-size: 100% 100%;
+
+            background-image: url("img/Planets/0.jpg");
+            padding-top: 29px;
+            padding-left: 15px;
+
+            .planet-grid {
+                width: 923px;
+                height: 923px;
+                display: grid;
+                grid-template-columns: repeat(13, 71px);
+                grid-template-rows: repeat(13, 71px);
+            }
+        }
+    }
+
+    .pu-player-board-corporation {
+        width: 510px;
+        height: 1000px;
+        transform: scale(var(--planetUnknownBoardScale));
+        transform-origin: top left;
+        background-image: url("img/corporations.jpg");
+        background-size: 500% 200%;
+    }
+}

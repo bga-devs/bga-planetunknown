@@ -1,4 +1,4 @@
-define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
+define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (dojo, declare) => {
   const PLAYER_COUNTERS = ['appeal', 'reputation', 'conservation', 'money', 'handCount', 'scoringHandCount', 'xtoken', 'income'];
   const RESOURCES = [];
   const ALL_PLAYER_COUNTERS = PLAYER_COUNTERS.concat(RESOURCES);
@@ -49,40 +49,26 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           "beforeend",
           `<div id='reserve-${player.id}' class='player-reserve'></div>`
         );
-
-        if (player.id == this.player_id) {
-          $(`player-board-${this.player_id}`).addEventListener(
-            "mouseover",
-            (evt) => {
-              if (
-                evt.target.classList.contains("zoo-map-cell") &&
-                this.onHoverCell
-              ) {
-                this.onHoverCell(evt.target);
-              }
-            }
-          );
-          $(`player-board-${this.player_id}`).addEventListener(
-            "click",
-            (evt) => {
-              if (this.onClickCell) {
-                // Go up in the DOM tree until a zoo-map-cell is found
-                let elt = evt.target;
-                while (
-                  !elt.classList.contains("zoo-map-cell") &&
-                  elt.id != `player-board-${this.player_id}`
-                ) {
-                  elt = elt.parentNode;
-                }
-
-                if (elt.classList.contains("zoo-map-cell")) {
-                  this.onClickCell(elt);
-                }
-              }
-            }
-          );
-        }
 */
+        if (player.id == this.player_id) {
+          $(`player-board-planet-${this.player_id}`).addEventListener('mouseover', (evt) => {
+            if (evt.target.classList.contains('planet-grid-cell') && this.onHoverCell) {
+              this.onHoverCell(evt.target);
+            }
+          });
+          $(`player-board-planet-${this.player_id}`).addEventListener('click', (evt) => {
+            if (!this.onClickCell) return;
+            // Go up in the DOM tree until a zoo-map-cell is found
+            let elt = evt.target;
+            while (!elt.classList.contains('planet-grid-cell') && elt.id != `player-board-planet-${this.player_id}`) {
+              elt = elt.parentNode;
+            }
+
+            if (elt.classList.contains('planet-grid-cell')) {
+              this.onClickCell(elt);
+            }
+          });
+        }
       });
       // this.setupPlayersCounters();
       // this.activateShowTileHelperButtons();
@@ -190,219 +176,37 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       this.goToPlayerBoard(pId);
     },
 
-    tplZooMap(map, player = null) {
-      return ''; // TODO
-
+    tplPlanet(planet, player = null) {
       let pId = player == null ? 0 : player.id;
 
       // Create cells
-      let zooBoard = `<div class='zoo-board'>`;
-      let dim = { x: 9, y: 7 };
-      for (let x = 0; x < dim.x; x++) {
-        let size = dim.y - (x % 2 == 0 ? 1 : 0);
-        for (let y = 0; y < size; y++) {
-          let row = 2 * y + (x % 2 == 0 ? 1 : 0);
-          let style = `grid-row: ${row + 1} / span 2; grid-column: ${3 * x + 1} / span 4`;
-
-          let uid = x + '_' + row;
+      let planetGrid = `<div class='planet-grid'>`;
+      for (let y = -1; y < 12; y++) {
+        for (let x = -1; x < 12; x++) {
+          let uid = x + '_' + y;
           let className = '';
           let content = '';
-          if (map.terrains.Rock.includes(uid)) {
-            className += ' rock';
-          }
-          if (map.terrains.Water.includes(uid)) {
-            className += ' water';
-          }
-          if (map.upgradeNeeded.includes(uid)) {
-            className += ' upgradeNeeded';
-            content = "<div class='upgradeNeeded-marker'></div>";
-          }
-          if (map.bonuses[uid]) {
-            className += ' bonus';
-            content += this.formatBonus(map.bonuses[uid]);
-          }
-          zooBoard += `<div class='zoo-map-cell${className}' style='${style}' data-x='${x}' data-y='${row}'>${content}</div>`;
-          // zooBoard += `<div class='zoo-map-cell${className}' style='${style}' data-x='${x}' data-y='${row}'>${x}_${row}</div>`;
+          let style = `grid-row: ${y + 2}; grid-column: ${x + 2}`;
+
+          planetGrid += `<div class='planet-grid-cell${className}' style='${style}' data-x='${x}' data-y='${y}'></div>`;
         }
       }
-      zooBoard += '</div>';
+      planetGrid += '</div>';
 
-      // Bonus spaces
-      let bonusSpacesIncome = '';
-      let bonusSpaceImmediate = '';
-      map.bonusSpaces.forEach((space, i) => {
-        let tpl = `<div class='bonus-space'>
-          <div class='cube-holder' id='bonus-${pId}-${i}'></div>
-          ${this.formatBonus(space.bonus, space.type)}
-        </div>`;
-
-        if (space.type == 'income') bonusSpacesIncome += tpl;
-        else bonusSpaceImmediate += tpl;
-      });
-      let texts = [
-        _('You will gain the bonus immediately when you remove the corresponding cube, and then again during each break.'),
-        _('Removing cube from these spaces is done by supporting conservation projects (strength 5 association action).'),
-        _('You will gain the bonus immediately when you remove the corresponding cube.'),
-        _('Gain 7 appeal if your zoo map is completely covered.'),
-      ];
-
-      // Partner zoos
-      let partnerZoos = '';
-      for (let i = 4; i > 0; i--) {
-        let bonus = map.partnerZooBonuses[i] ? this.formatBonus(map.partnerZooBonuses[i]) : '';
-        partnerZoos += `<div class='partner-zoo-space'>
-          ${bonus}
-          <div class='partner-zoo-holder' id='partner-${pId}-${i}'></div>
-        </div>`;
-      }
-
-      // Universities
-      let universities = '';
-      for (let i = 3; i > 0; i--) {
-        let bonus = map.facBonuses[i] ? this.formatBonus(map.facBonuses[i]) : '';
-        universities += `<div class='fac-space'>
-          ${bonus}
-          <div class='fac-holder' id='university-${pId}-${i}'></div>
-        </div>`;
-      }
-
-      // Workers
-      let workers = '';
-      for (let i = 1; i <= 3; i++) {
-        let bonus = i == 3 && map.lastWorkerBonus ? this.formatBonus(map.lastWorkerBonus) : '';
-        workers += `<div class='worker-space'>
-          <div class='planetunknown-icon icon-bordered-worker icon-background'></div>
-          <div class='space-counter'>${i}</div>
-          ${bonus}
-          <div class='worker-holder' id='worker-${pId}-${i}'></div>
-        </div>`;
-      }
-
-      // Prev/next arrows
-      let arrows = '';
-      if (player != null && Object.keys(this.gamedatas.players).length > 1) {
-        arrows += "<div class='prev-player-board'>&lt;</div><div class='next-player-board'>&gt;</div>";
-      }
-
-      // Basic player infos
-      let playerInfos =
-        player == null
-          ? `${_('Map')} ${map.id}`
-          : `<div class='player-board-name' style='color:#${player.color}'>${player.name}</div>`;
-
-      // Worker counter
-      let workerCounter =
-        player == null
-          ? ''
-          : `<div class='worker-counter-container' id='worker-counter-container-${player.id}'>
-        <span id='counter-${player.id}-worker'></span>
-        <div class="planetunknown-meeple planetunknown-icon icon-worker" data-type="worker" data-state="0" data-color="${player.color}"></div>
-      </div>`;
-
-      // Map icon
-      let mapDesc = '';
-      if (map.id != 'A' && map.id != 0) {
-        let iconsMap = {
-          1: 'tower',
-          2: 'gates',
-          3: 'lake',
-          4: 'harbor',
-          5: 'restaurant',
-          6: 'institute',
-          7: 'icecream',
-          8: 'hollywood',
-        };
-        let iconMap = iconsMap[map.id] == '' ? '' : this.formatIcon(iconsMap[map.id]);
-        mapDesc = `<div class='map-desc'>
-          <div>${_(map.name)}</div>
-          <div>${iconMap}</div>
-        </div>`;
-      }
-
-      return `<div class='zoo-map' id='zoo-map-${pId}'>
-          <div class='map-infos'  id='${this.registerCustomTooltip(this.formatString(_(map.desc)))}'>
-            <div class='player-infos'>
-              ${playerInfos}
-              ${workerCounter}
-              ${mapDesc}
-            </div>
-            ${arrows}
-            <div class='map-name'>
-              ${_('Map')} ${map.id}
-            </div>
-          </div>
-          <div class='zoo-map-bonus-spaces'>
-            <div class='zoo-map-workers'>
-              ${workers}
-            </div>
-            <div class='bonus-spaces-income ${player == null ? 'preview' : ''}'>
-              <div class='planetunknown-icon icon-immediate-income' id="${this.registerCustomTooltip(texts[0])}"></div>
-              ${bonusSpacesIncome}
-            </div>
-            <div class='planetunknown-icon icon-place-cube' id="${this.registerCustomTooltip(texts[1])}"></div>
-            <div class='bonus-spaces-immediate ${player == null ? 'preview' : ''}'>
-              <div class='planetunknown-icon icon-bordered-immediate' id="$${this.registerCustomTooltip(texts[2])}"></div>
-              ${bonusSpaceImmediate}
-            </div>
-          </div>
-
-          <div class='zoo-map-board'>
-            <div class='zoo-map-board-border'>
-              <div class='zoo-map-board-background' data-map='${map.id}'>
-              ${zooBoard}
-              </div>
-            </div>
-            <div class='full-map-bonus' id="${this.registerCustomTooltip(texts[3])}">
-              ${this.formatBonus({ appeal: 7 }, 'bonusTile', false)}
-            </div>
-            <div class='tiles-helper'><div class='tiles-helper-toggle'>${this.formatIcon('action-build')}</div></div>
-          </div>
-
-          <div class='zoo-map-association'>
-            <div class='zoo-map-partner-zoos'>
-              ${partnerZoos}
-            </div>
-            <div class='zoo-map-universities'>
-              ${universities}
-            </div>
-          </div>
-        </div>`;
+      return `<div class='planet' data-id='${planet.id}' id='planet-${pId}'>${planetGrid}</div>`;
     },
 
     tplPlayerBoard(player) {
-      return '<div class="player-board"></div>'; // TODO
-
-      let iconSummary = this.tplIconsSummary(player, true);
-      let zooMap = player.mapId ? this.tplZooMap(MAPS_DATA[player.mapId], player) : '';
-      return (
-        `<div class='ark-player-board-resizable' id='player-board-resizable-${player.id}'>
-          <div class='ark-player-board' id='player-board-${player.id}'>        
-            ${iconSummary}
-            ${zooMap}
+      let planet = player.planetId ? this.tplPlanet(PLANETS_DATA[player.planetId], player) : '';
+      let corporation = '';
+      return `<div class='pu-player-board-resizable' id='player-board-resizable-${player.id}'>
+          <div class='pu-player-board-planet' id='player-board-planet-${player.id}'>        
+            ${planet}
           </div>
-        </div>
-        <div class="player-board-cards" id='player-board-cards-${player.id}'>
-          <div class='player-board-inPlay-animals' id='inPlay-animals-${player.id}'>${this.formatIcon('action-animals')}</div>
-          <div class='player-board-inPlay-sponsors' id='inPlay-sponsors-${player.id}'>${this.formatIcon('action-sponsors')}</div>
-          ` +
-        (player.id == this.player_id ? `<div class='player-board-hand' id='hand-${player.id}'></div>` : '') +
-        `
-          <div class='player-board-scoring-hand' id='scoring-hand-${player.id}'></div>
-        </div>
-        <div class='player-board-action-cards-resizable' id='action-cards-${player.id}'>
-          <div class='player-board-action-cards'>
-            ` +
-        [1, 2, 3, 4, 5]
-          .map(
-            (i) => `<div class='action-card-slot' id='action-card-slot-${player.id}-${i}'>
-                <div class='action-card-slot-strength'>${i}</div>
-              </div>`
-          )
-          .join('') +
-        `
+          <div class="pu-player-board-corporation" id='player-board-corporation-${player.id}'>
+            ${corporation}
           </div>
-        </div>`
-      );
+        </div>`;
     },
 
     tplPlayerPanel(player) {
@@ -741,10 +545,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
     // Place a tile at the correct grid position to make at pos (x,y)
     placeTile(tileId, x, y) {
-      let tileType = $(tileId).dataset.type;
-      // let offsets = ENCLOSURES_OFFSETS[tileType];
-      let col = 3 * parseInt(x) + 1; // + (2 - offsets.x);
-      let row = parseInt(y) + 1; // + (1 - offsets.y);
+      let col = parseInt(x) + 2;
+      let row = parseInt(y) + 2;
       $(tileId).style.gridColumnStart = col;
       $(tileId).style.gridRowStart = row;
     },

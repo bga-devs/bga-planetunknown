@@ -279,6 +279,10 @@
   top: auto;
   right: 28px; }
 
+:root {
+  --planetUnknownBoardScale: 1;
+  --tileScale: 0.577; }
+
 .planetunknown-icon {
   background: url("img/icons.png");
   background-repeat: no-repeat; }
@@ -294,7 +298,8 @@
   width: 100%;
   background: white;
   border-radius: 7px;
-  border: 1px solid black; }
+  border: 1px solid black;
+  --tileScale: 0.4; }
   #susan-container #susan-exterior,
   #susan-container #susan-interior {
     display: flex;
@@ -306,6 +311,38 @@
       margin: 0; }
   #susan-container #susan-exterior {
     border-bottom: 1px solid black; }
+
+.pu-player-board-resizable {
+  position: relative;
+  width: calc(var(--planetUnknownBoardScale) * 1510px);
+  height: calc(var(--planetUnknownBoardScale) * 1000px);
+  display: flex; }
+  .pu-player-board-resizable .pu-player-board-planet {
+    width: 1000px;
+    height: 1000px;
+    transform: scale(var(--planetUnknownBoardScale));
+    transform-origin: top left; }
+    .pu-player-board-resizable .pu-player-board-planet .planet {
+      width: 1000px;
+      height: 1000px;
+      box-sizing: border-box;
+      background-size: 100% 100%;
+      background-image: url("img/Planets/0.jpg");
+      padding-top: 29px;
+      padding-left: 15px; }
+      .pu-player-board-resizable .pu-player-board-planet .planet .planet-grid {
+        width: 923px;
+        height: 923px;
+        display: grid;
+        grid-template-columns: repeat(13, 71px);
+        grid-template-rows: repeat(13, 71px); }
+  .pu-player-board-resizable .pu-player-board-corporation {
+    width: 510px;
+    height: 1000px;
+    transform: scale(var(--planetUnknownBoardScale));
+    transform-origin: top left;
+    background-image: url("img/corporations.jpg");
+    background-size: 500% 200%; }
 
 .player-name svg {
   width: 25px;
@@ -321,140 +358,65 @@
   display: flex;
   justify-content: space-between; }
 
-/*
-#pagesubtitle #tile-selector {
-    margin: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-
-    .tile-container {
-        margin: 0;
-        transform: scale(0.9);
-        transform-origin: center center;
-        &:hover {
-            transform: scale(0.95);
-        }
-
-        &.selected {
-            transform: scale(0.95);
-            .tile-border {
-                background: green;
-            }
-        }
-
-        .tile-crosshairs {
-            visibility: visible;
-        }
-
-        &.unplacable {
-            cursor: not-allowed;
-            // [data-filter="0"] & {
-            filter: grayscale(1);
-            -webkit-transform: translateZ(0);
-            -webkit-perspective: 1000;
-            -webkit-backface-visibility: hidden;
-            // }
-            opacity: 0.7;
-
-            &:hover {
-                transform: scale(0.9);
-            }
-        }
-    }
-}
-
 #tile-controls {
-    grid-row-end: span 2;
-    grid-column-end: span 4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none; }
+  #tile-controls.inactive, [data-rotation-arrows="1"] #tile-controls, [data-rotation-arrows="2"] #tile-controls {
+    display: none; }
+  #tile-controls #tile-controls-circle {
+    width: 0px;
+    height: 0px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    border: 4px dotted black;
+    z-index: 4;
     pointer-events: none;
-    &.inactive,
-    [data-rotation-arrows="1"] &,
-    [data-rotation-arrows="2"] & {
-        display: none;
-    }
+    background: #7d7d7d1f;
+    position: relative; }
+    #tile-controls #tile-controls-circle #tile-rotate-clockwise,
+    #tile-controls #tile-controls-circle #tile-rotate-cclockwise,
+    #tile-controls #tile-controls-circle #tile-confirm-btn {
+      position: absolute;
+      top: calc(50% - 20px);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: white;
+      border: 1px solid black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      pointer-events: all;
+      cursor: pointer; }
+      #tile-controls #tile-controls-circle #tile-rotate-clockwise svg,
+      #tile-controls #tile-controls-circle #tile-rotate-cclockwise svg,
+      #tile-controls #tile-controls-circle #tile-confirm-btn svg {
+        height: 31px;
+        width: 40px; }
+    #tile-controls #tile-controls-circle #tile-rotate-clockwise {
+      right: -21px; }
+    #tile-controls #tile-controls-circle #tile-rotate-cclockwise {
+      left: -21px; }
+    #tile-controls #tile-controls-circle #tile-confirm-btn {
+      top: calc(85% - 15px);
+      left: calc(85% - 15px);
+      color: white;
+      background: #4871b6;
+      padding: 0px;
+      margin: 0px;
+      font-size: 20px; }
+      #tile-controls #tile-controls-circle #tile-confirm-btn.disabled {
+        opacity: 1;
+        background: linear-gradient(rgba(189, 189, 189, 0.8), rgba(166, 165, 165, 0.9));
+        cursor: not-allowed;
+        pointer-events: all; }
+    #tile-controls #tile-controls-circle.bottom #tile-confirm-btn {
+      top: calc(15% - 15px); }
+  #tile-controls.hovering #tile-controls-circle #tile-confirm-btn {
+    display: none; }
 
-    #tile-controls-circle {
-        width: 0px;
-        height: 0px;
-        flex-shrink: 0;
-        border-radius: 50%;
-        border: 4px dotted black;
-        z-index: 4;
-        pointer-events: none;
-        background: #7d7d7d1f;
-        position: relative;
-
-        #tile-rotate-clockwise,
-        #tile-rotate-cclockwise,
-        #tile-confirm-btn {
-            position: absolute;
-            top: calc(50% - 20px);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: white;
-            border: 1px solid black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            pointer-events: all;
-            cursor: pointer;
-
-            svg {
-                height: 31px;
-                width: 40px;
-            }
-        }
-        #tile-rotate-clockwise {
-            right: -21px;
-        }
-        #tile-rotate-cclockwise {
-            left: -21px;
-        }
-
-        #tile-confirm-btn {
-            top: calc(85% - 15px);
-            left: calc(85% - 15px);
-            color: white;
-            background: #4871b6;
-            padding: 0px;
-            margin: 0px;
-            font-size: 20px;
-
-            &.disabled {
-                opacity: 1;
-                background: linear-gradient(rgba(189, 189, 189, 0.8), rgba(166, 165, 165, 0.9));
-                cursor: not-allowed;
-                pointer-events: all;
-            }
-        }
-        &.bottom #tile-confirm-btn {
-            top: calc(15% - 15px);
-        }
-    }
-
-    &[data-type="kiosk"],
-    &[data-type="pavilion"],
-    &[data-type="size-1"] {
-        //    [data-rotation-arrows="1"] & {
-        #tile-controls-circle {
-            #tile-rotate-clockwise,
-            #tile-rotate-cclockwise {
-                display: none;
-            }
-        }
-    }
-
-    &.hovering #tile-controls-circle #tile-confirm-btn {
-        display: none;
-    }
-}
-*/
 .tile-container {
   position: relative;
   flex-shrink: 0;
@@ -475,80 +437,7 @@
   [data-tiles-borders="1"] & .tile-border {
       background: #a68731;
   }
-  */
-    /*
-    &#tile-hover {
-        transition: transform 0.4s;
-        pointer-events: none;
-        z-index: 6;
-        .tile-border {
-            background: #085f08;
-        }
-        .tile-crosshairs {
-            fill: #085f08;
-            &::before {
-                display: none;
-            }
-        }
-
-        &.hovering {
-            .tile-border {
-                background: black;
-            }
-            .tile-crosshairs {
-                fill: black;
-            }
-        }
-        &.invalid {
-            .tile-border {
-                background: red;
-            }
-            .tile-crosshairs {
-                fill: red;
-            }
-        }
-
-        .tile-inner {
-            display: none;
-        }
-
-        [data-rotation-arrows="0"] & .tile-crosshairs {
-            visibility: visible;
-            #tile-rotate-clockwise-on-tile,
-            #tile-rotate-cclockwise-on-tile {
-                visibility: hidden;
-            }
-        }
-
-        [data-rotation-arrows="1"] &,
-        [data-rotation-arrows="2"] & {
-            .tile-crosshairs {
-                visibility: visible;
-                transition: transform 0.4s;
-                #tile-rotate-clockwise-on-tile,
-                #tile-rotate-cclockwise-on-tile {
-                    pointer-events: all;
-                    position: absolute;
-                    left: -27px;
-                    top: -23px;
-                    width: 33px;
-                    height: 73px;
-
-                    svg {
-                        width: 50%;
-                        margin-left: 11px;
-                    }
-                }
-                #tile-rotate-clockwise-on-tile {
-                    left: 25px;
-                    svg {
-                        margin-left: 3px;
-                    }
-                }
-            }
-        }
-    }
-    */ }
+  */ }
   .tile-container.phantom {
     visibility: hidden; }
   .tile-container[data-rotation="0"] {
@@ -575,7 +464,7 @@
     width: 100%;
     height: 100%; }
   .tile-container .tile-inner {
-    background-size: 688.8px;
+    background-size: calc(1722px * var(--tileScale));
     background-repeat: no-repeat; }
     .tile-container .tile-inner .planetunknown-meeple {
       position: absolute; }
@@ -590,6 +479,50 @@
     .tile-container .tile-crosshairs svg {
       width: 100%;
       height: 100%; }
+  .tile-container#tile-hover {
+    transition: transform 0.4s;
+    pointer-events: none;
+    z-index: 6; }
+    .tile-container#tile-hover .tile-border {
+      background: #085f08; }
+    .tile-container#tile-hover .tile-crosshairs {
+      fill: #085f08; }
+      .tile-container#tile-hover .tile-crosshairs::before {
+        display: none; }
+    .tile-container#tile-hover.hovering .tile-border {
+      background: rgba(0, 0, 0, 0.322); }
+    .tile-container#tile-hover.hovering .tile-crosshairs {
+      fill: black; }
+    .tile-container#tile-hover.invalid .tile-border {
+      background: rgba(255, 0, 0, 0.308); }
+    .tile-container#tile-hover.invalid .tile-crosshairs {
+      fill: red; }
+    [data-rotation-arrows="0"] .tile-container#tile-hover .tile-crosshairs {
+      visibility: visible; }
+      [data-rotation-arrows="0"] .tile-container#tile-hover .tile-crosshairs #tile-rotate-clockwise-on-tile,
+      [data-rotation-arrows="0"] .tile-container#tile-hover .tile-crosshairs #tile-rotate-cclockwise-on-tile {
+        visibility: hidden; }
+    [data-rotation-arrows="1"] .tile-container#tile-hover .tile-crosshairs, [data-rotation-arrows="2"] .tile-container#tile-hover .tile-crosshairs {
+      visibility: visible;
+      transition: transform 0.4s; }
+      [data-rotation-arrows="1"] .tile-container#tile-hover .tile-crosshairs #tile-rotate-clockwise-on-tile,
+      [data-rotation-arrows="1"] .tile-container#tile-hover .tile-crosshairs #tile-rotate-cclockwise-on-tile, [data-rotation-arrows="2"] .tile-container#tile-hover .tile-crosshairs #tile-rotate-clockwise-on-tile,
+      [data-rotation-arrows="2"] .tile-container#tile-hover .tile-crosshairs #tile-rotate-cclockwise-on-tile {
+        pointer-events: all;
+        position: absolute;
+        left: -27px;
+        top: -23px;
+        width: 33px;
+        height: 73px; }
+        [data-rotation-arrows="1"] .tile-container#tile-hover .tile-crosshairs #tile-rotate-clockwise-on-tile svg,
+        [data-rotation-arrows="1"] .tile-container#tile-hover .tile-crosshairs #tile-rotate-cclockwise-on-tile svg, [data-rotation-arrows="2"] .tile-container#tile-hover .tile-crosshairs #tile-rotate-clockwise-on-tile svg,
+        [data-rotation-arrows="2"] .tile-container#tile-hover .tile-crosshairs #tile-rotate-cclockwise-on-tile svg {
+          width: 50%;
+          margin-left: 11px; }
+      [data-rotation-arrows="1"] .tile-container#tile-hover .tile-crosshairs #tile-rotate-clockwise-on-tile, [data-rotation-arrows="2"] .tile-container#tile-hover .tile-crosshairs #tile-rotate-clockwise-on-tile {
+        left: 25px; }
+        [data-rotation-arrows="1"] .tile-container#tile-hover .tile-crosshairs #tile-rotate-clockwise-on-tile svg, [data-rotation-arrows="2"] .tile-container#tile-hover .tile-crosshairs #tile-rotate-clockwise-on-tile svg {
+          margin-left: 3px; }
   .tile-container:not([data-type]), .tile-container[data-type=""] {
     display: none; }
 
@@ -601,172 +534,172 @@
 .tile-container[data-sprite="2"] .tile-inner {
   background-image: url("img/tiles-2.png"); }
 .tile-container[data-shape="0"] {
-  width: 196.8px;
-  height: 98.4px;
-  margin-left: -300%;
-  margin-top: -346.41016151377545%;
+  width: calc(492px * var(--tileScale));
+  height: calc(246px * var(--tileScale));
+  margin-left: -200%;
+  margin-top: -100%;
   clip-path: polygon(75% 50%, 75% 100%, 50% 100%, 25% 100%, 0% 100%, 0% 50%, 25% 50%, 50% 50%, 50% 0%, 75% 0%, 100% 0%, 100% 50%, 75% 50%);
   transform-origin: 62.5% 75%; }
-  .tile-container[data-shape="0"] .building-inner {
+  .tile-container[data-shape="0"] .tile-inner {
     clip-path: polygon(75% 50%, 75% 100%, 50% 100%, 25% 100%, 0% 100%, 0% 50%, 25% 50%, 50% 50%, 50% 0%, 75% 0%, 100% 0%, 100% 50%, 75% 50%); }
-  .tile-container[data-shape="0"] .building-border {
+  .tile-container[data-shape="0"] .tile-border {
     clip-path: polygon(75% 50%, 75% 100%, 50% 100%, 25% 100%, 0% 100%, 0% 50%, 25% 50%, 50% 50%, 50% 0%, 75% 0%, 100% 0%, 100% 50%, 75% 50%); }
-  .tile-container[data-shape="0"] .building-crosshairs {
+  .tile-container[data-shape="0"] .tile-crosshairs {
     left: 62.5%;
     top: 75%; }
 .tile-container[data-shape="1"] {
-  width: 147.6px;
-  height: 147.6px;
+  width: calc(369px * var(--tileScale));
+  height: calc(369px * var(--tileScale));
   margin-left: -100%;
-  margin-top: -346.41016151377545%;
+  margin-top: -100%;
   clip-path: polygon(33.3333333333% 33.3333333333%, 66.6666666667% 33.3333333333%, 66.6666666667% 0%, 100% 0%, 100% 33.3333333333%, 100% 66.6666666667%, 66.6666666667% 66.6666666667%, 66.6666666667% 100%, 33.3333333333% 100%, 33.3333333333% 66.6666666667%, 0% 66.6666666667%, 0% 33.3333333333%, 33.3333333333% 33.3333333333%);
   transform-origin: 50% 50%; }
-  .tile-container[data-shape="1"] .building-inner {
+  .tile-container[data-shape="1"] .tile-inner {
     clip-path: polygon(33.3333333333% 33.3333333333%, 66.6666666667% 33.3333333333%, 66.6666666667% 0%, 100% 0%, 100% 33.3333333333%, 100% 66.6666666667%, 66.6666666667% 66.6666666667%, 66.6666666667% 100%, 33.3333333333% 100%, 33.3333333333% 66.6666666667%, 0% 66.6666666667%, 0% 33.3333333333%, 33.3333333333% 33.3333333333%); }
-  .tile-container[data-shape="1"] .building-border {
+  .tile-container[data-shape="1"] .tile-border {
     clip-path: polygon(33.3333333333% 33.3333333333%, 66.6666666667% 33.3333333333%, 66.6666666667% 0%, 100% 0%, 100% 33.3333333333%, 100% 66.6666666667%, 66.6666666667% 66.6666666667%, 66.6666666667% 100%, 33.3333333333% 100%, 33.3333333333% 66.6666666667%, 0% 66.6666666667%, 0% 33.3333333333%, 33.3333333333% 33.3333333333%); }
-  .tile-container[data-shape="1"] .building-crosshairs {
+  .tile-container[data-shape="1"] .tile-crosshairs {
     left: 50%;
     top: 50%; }
 .tile-container[data-shape="2"] {
-  width: 49.2px;
-  height: 144px;
-  margin-left: 100%;
-  margin-top: -346.41016151377545%;
+  width: calc(123px * var(--tileScale));
+  height: calc(360px * var(--tileScale));
+  margin-left: 0%;
+  margin-top: -100%;
   clip-path: polygon(100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 0% 100%, 0% 66.6666666667%, 0% 33.3333333333%, 0% 0%, 100% 0%, 100% 33.3333333333%);
   transform-origin: 50% 50%; }
-  .tile-container[data-shape="2"] .building-inner {
+  .tile-container[data-shape="2"] .tile-inner {
     clip-path: polygon(100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 0% 100%, 0% 66.6666666667%, 0% 33.3333333333%, 0% 0%, 100% 0%, 100% 33.3333333333%); }
-  .tile-container[data-shape="2"] .building-border {
+  .tile-container[data-shape="2"] .tile-border {
     clip-path: polygon(100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 0% 100%, 0% 66.6666666667%, 0% 33.3333333333%, 0% 0%, 100% 0%, 100% 33.3333333333%); }
-  .tile-container[data-shape="2"] .building-crosshairs {
+  .tile-container[data-shape="2"] .tile-crosshairs {
     left: 50%;
     top: 50%; }
 .tile-container[data-shape="3"] {
-  width: 98.4px;
-  height: 98.4px;
+  width: calc(246px * var(--tileScale));
+  height: calc(246px * var(--tileScale));
   margin-left: -100%;
   margin-top: 0%;
   clip-path: polygon(50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 50% 50%, 0% 50%, 0% 0%, 50% 0%);
   transform-origin: 75% 25%; }
-  .tile-container[data-shape="3"] .building-inner {
+  .tile-container[data-shape="3"] .tile-inner {
     clip-path: polygon(50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 50% 50%, 0% 50%, 0% 0%, 50% 0%); }
-  .tile-container[data-shape="3"] .building-border {
+  .tile-container[data-shape="3"] .tile-border {
     clip-path: polygon(50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 50% 50%, 0% 50%, 0% 0%, 50% 0%); }
-  .tile-container[data-shape="3"] .building-crosshairs {
+  .tile-container[data-shape="3"] .tile-crosshairs {
     left: 75%;
     top: 25%; }
 .tile-container[data-shape="4"] {
-  width: 147.6px;
-  height: 98.4px;
+  width: calc(369px * var(--tileScale));
+  height: calc(246px * var(--tileScale));
   margin-left: -100%;
   margin-top: 0%;
   clip-path: polygon(33.3333333333% 0%, 66.6666666667% 0%, 100% 0%, 100% 50%, 66.6666666667% 50%, 66.6666666667% 100%, 33.3333333333% 100%, 33.3333333333% 50%, 0% 50%, 0% 0%, 33.3333333333% 0%);
   transform-origin: 50% 25%; }
-  .tile-container[data-shape="4"] .building-inner {
+  .tile-container[data-shape="4"] .tile-inner {
     clip-path: polygon(33.3333333333% 0%, 66.6666666667% 0%, 100% 0%, 100% 50%, 66.6666666667% 50%, 66.6666666667% 100%, 33.3333333333% 100%, 33.3333333333% 50%, 0% 50%, 0% 0%, 33.3333333333% 0%); }
-  .tile-container[data-shape="4"] .building-border {
+  .tile-container[data-shape="4"] .tile-border {
     clip-path: polygon(33.3333333333% 0%, 66.6666666667% 0%, 100% 0%, 100% 50%, 66.6666666667% 50%, 66.6666666667% 100%, 33.3333333333% 100%, 33.3333333333% 50%, 0% 50%, 0% 0%, 33.3333333333% 0%); }
-  .tile-container[data-shape="4"] .building-crosshairs {
+  .tile-container[data-shape="4"] .tile-crosshairs {
     left: 50%;
     top: 25%; }
 .tile-container[data-shape="5"] {
-  width: 147.6px;
-  height: 98.4px;
+  width: calc(369px * var(--tileScale));
+  height: calc(246px * var(--tileScale));
   margin-left: -100%;
   margin-top: 0%;
   clip-path: polygon(33.3333333333% 0%, 66.6666666667% 0%, 100% 0%, 100% 50%, 66.6666666667% 50%, 66.6666666667% 100%, 33.3333333333% 100%, 0% 100%, 0% 50%, 33.3333333333% 50%, 33.3333333333% 0%);
   transform-origin: 50% 25%; }
-  .tile-container[data-shape="5"] .building-inner {
+  .tile-container[data-shape="5"] .tile-inner {
     clip-path: polygon(33.3333333333% 0%, 66.6666666667% 0%, 100% 0%, 100% 50%, 66.6666666667% 50%, 66.6666666667% 100%, 33.3333333333% 100%, 0% 100%, 0% 50%, 33.3333333333% 50%, 33.3333333333% 0%); }
-  .tile-container[data-shape="5"] .building-border {
+  .tile-container[data-shape="5"] .tile-border {
     clip-path: polygon(33.3333333333% 0%, 66.6666666667% 0%, 100% 0%, 100% 50%, 66.6666666667% 50%, 66.6666666667% 100%, 33.3333333333% 100%, 0% 100%, 0% 50%, 33.3333333333% 50%, 33.3333333333% 0%); }
-  .tile-container[data-shape="5"] .building-crosshairs {
+  .tile-container[data-shape="5"] .tile-crosshairs {
     left: 50%;
     top: 25%; }
 .tile-container[data-shape="6"] {
-  width: 98.4px;
-  height: 147.6px;
+  width: calc(246px * var(--tileScale));
+  height: calc(369px * var(--tileScale));
   margin-left: -100%;
-  margin-top: -346.41016151377545%;
+  margin-top: -100%;
   clip-path: polygon(100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 50% 100%, 0% 100%, 0% 66.6666666667%, 50% 66.6666666667%, 50% 33.3333333333%, 50% 0%, 100% 0%, 100% 33.3333333333%);
   transform-origin: 75% 50%; }
-  .tile-container[data-shape="6"] .building-inner {
+  .tile-container[data-shape="6"] .tile-inner {
     clip-path: polygon(100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 50% 100%, 0% 100%, 0% 66.6666666667%, 50% 66.6666666667%, 50% 33.3333333333%, 50% 0%, 100% 0%, 100% 33.3333333333%); }
-  .tile-container[data-shape="6"] .building-border {
+  .tile-container[data-shape="6"] .tile-border {
     clip-path: polygon(100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 50% 100%, 0% 100%, 0% 66.6666666667%, 50% 66.6666666667%, 50% 33.3333333333%, 50% 0%, 100% 0%, 100% 33.3333333333%); }
-  .tile-container[data-shape="6"] .building-crosshairs {
+  .tile-container[data-shape="6"] .tile-crosshairs {
     left: 75%;
     top: 50%; }
 .tile-container[data-shape="7"] {
-  width: 147.6px;
-  height: 98.4px;
+  width: calc(369px * var(--tileScale));
+  height: calc(246px * var(--tileScale));
   margin-left: -100%;
-  margin-top: -346.41016151377545%;
+  margin-top: -100%;
   clip-path: polygon(33.3333333333% 50%, 66.6666666667% 50%, 66.6666666667% 0%, 100% 0%, 100% 50%, 100% 100%, 66.6666666667% 100%, 33.3333333333% 100%, 0% 100%, 0% 50%, 0% 0%, 33.3333333333% 0%, 33.3333333333% 50%);
   transform-origin: 50% 75%; }
-  .tile-container[data-shape="7"] .building-inner {
+  .tile-container[data-shape="7"] .tile-inner {
     clip-path: polygon(33.3333333333% 50%, 66.6666666667% 50%, 66.6666666667% 0%, 100% 0%, 100% 50%, 100% 100%, 66.6666666667% 100%, 33.3333333333% 100%, 0% 100%, 0% 50%, 0% 0%, 33.3333333333% 0%, 33.3333333333% 50%); }
-  .tile-container[data-shape="7"] .building-border {
+  .tile-container[data-shape="7"] .tile-border {
     clip-path: polygon(33.3333333333% 50%, 66.6666666667% 50%, 66.6666666667% 0%, 100% 0%, 100% 50%, 100% 100%, 66.6666666667% 100%, 33.3333333333% 100%, 0% 100%, 0% 50%, 0% 0%, 33.3333333333% 0%, 33.3333333333% 50%); }
-  .tile-container[data-shape="7"] .building-crosshairs {
+  .tile-container[data-shape="7"] .tile-crosshairs {
     left: 50%;
     top: 75%; }
 .tile-container[data-shape="8"] {
-  width: 49.2px;
-  height: 98.4px;
-  margin-left: 100%;
+  width: calc(123px * var(--tileScale));
+  height: calc(246px * var(--tileScale));
+  margin-left: 0%;
   margin-top: 0%;
   clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 100% 100%, 0% 100%, 0% 50%, 0% 0%);
   transform-origin: 50% 25%; }
-  .tile-container[data-shape="8"] .building-inner {
+  .tile-container[data-shape="8"] .tile-inner {
     clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 100% 100%, 0% 100%, 0% 50%, 0% 0%); }
-  .tile-container[data-shape="8"] .building-border {
+  .tile-container[data-shape="8"] .tile-border {
     clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 100% 100%, 0% 100%, 0% 50%, 0% 0%); }
-  .tile-container[data-shape="8"] .building-crosshairs {
+  .tile-container[data-shape="8"] .tile-crosshairs {
     left: 50%;
     top: 25%; }
 .tile-container[data-shape="9"] {
-  width: 196.8px;
-  height: 49.2px;
+  width: calc(492px * var(--tileScale));
+  height: calc(123px * var(--tileScale));
   margin-left: -100%;
   margin-top: 0%;
   clip-path: polygon(25% 0%, 50% 0%, 75% 0%, 100% 0%, 100% 100%, 75% 100%, 50% 100%, 25% 100%, 0% 100%, 0% 0%, 25% 0%);
   transform-origin: 37.5% 50%; }
-  .tile-container[data-shape="9"] .building-inner {
+  .tile-container[data-shape="9"] .tile-inner {
     clip-path: polygon(25% 0%, 50% 0%, 75% 0%, 100% 0%, 100% 100%, 75% 100%, 50% 100%, 25% 100%, 0% 100%, 0% 0%, 25% 0%); }
-  .tile-container[data-shape="9"] .building-border {
+  .tile-container[data-shape="9"] .tile-border {
     clip-path: polygon(25% 0%, 50% 0%, 75% 0%, 100% 0%, 100% 100%, 75% 100%, 50% 100%, 25% 100%, 0% 100%, 0% 0%, 25% 0%); }
-  .tile-container[data-shape="9"] .building-crosshairs {
+  .tile-container[data-shape="9"] .tile-crosshairs {
     left: 37.5%;
     top: 50%; }
 .tile-container[data-shape="10"] {
-  width: 98.4px;
-  height: 98.4px;
-  margin-left: 100%;
+  width: calc(246px * var(--tileScale));
+  height: calc(246px * var(--tileScale));
+  margin-left: 0%;
   margin-top: 0%;
   clip-path: polygon(0% 0%, 50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 0% 100%, 0% 50%, 0% 0%);
   transform-origin: 25% 25%; }
-  .tile-container[data-shape="10"] .building-inner {
+  .tile-container[data-shape="10"] .tile-inner {
     background-position: 66.66666666666666% 14.285714285714285%;
     clip-path: polygon(0% 0%, 50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 0% 100%, 0% 50%, 0% 0%); }
-  .tile-container[data-shape="10"] .building-border {
+  .tile-container[data-shape="10"] .tile-border {
     clip-path: polygon(0% 0%, 50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 0% 100%, 0% 50%, 0% 0%); }
-  .tile-container[data-shape="10"] .building-crosshairs {
+  .tile-container[data-shape="10"] .tile-crosshairs {
     left: 25%;
     top: 25%; }
 .tile-container[data-shape="11"] {
-  width: 147.6px;
-  height: 147.6px;
+  width: calc(369px * var(--tileScale));
+  height: calc(369px * var(--tileScale));
   margin-left: -100%;
-  margin-top: -346.41016151377545%;
+  margin-top: -100%;
   clip-path: polygon(33.3333333333% 33.3333333333%, 66.6666666667% 33.3333333333%, 100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 66.6666666667% 100%, 66.6666666667% 66.6666666667%, 33.3333333333% 66.6666666667%, 0% 66.6666666667%, 0% 33.3333333333%, 0% 0%, 33.3333333333% 0%, 33.3333333333% 33.3333333333%);
   transform-origin: 50% 50%; }
-  .tile-container[data-shape="11"] .building-inner {
+  .tile-container[data-shape="11"] .tile-inner {
     clip-path: polygon(33.3333333333% 33.3333333333%, 66.6666666667% 33.3333333333%, 100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 66.6666666667% 100%, 66.6666666667% 66.6666666667%, 33.3333333333% 66.6666666667%, 0% 66.6666666667%, 0% 33.3333333333%, 0% 0%, 33.3333333333% 0%, 33.3333333333% 33.3333333333%); }
-  .tile-container[data-shape="11"] .building-border {
+  .tile-container[data-shape="11"] .tile-border {
     clip-path: polygon(33.3333333333% 33.3333333333%, 66.6666666667% 33.3333333333%, 100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 66.6666666667% 100%, 66.6666666667% 66.6666666667%, 33.3333333333% 66.6666666667%, 0% 66.6666666667%, 0% 33.3333333333%, 0% 0%, 33.3333333333% 0%, 33.3333333333% 33.3333333333%); }
-  .tile-container[data-shape="11"] .building-crosshairs {
+  .tile-container[data-shape="11"] .tile-crosshairs {
     left: 50%;
     top: 50%; }
 .tile-container[data-type="0"] .tile-inner {
