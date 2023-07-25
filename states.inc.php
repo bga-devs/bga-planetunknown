@@ -59,7 +59,7 @@ $machinestates = [
     'description' => '',
     'args' => 'argEventCard', //reveal top event card
     'action' => 'stEventCard', //end turn if no actions required
-    'transitions' => ['' => ST_START_PARALLEL],
+    'transitions' => ['' => ST_SETUP_BRANCH],
   ],
 
   ST_CHOOSE_ROTATION => [
