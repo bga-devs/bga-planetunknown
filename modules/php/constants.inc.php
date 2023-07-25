@@ -12,6 +12,14 @@
 // const OPTION_COMPETITIVE_CUSTOM_SETUP_NON_BEGINNER = 4;
 // const OPTION_COMPETITIVE_ALL_SAME_SETUP = 5;
 
+const OPTION_PLANET = 105;
+const OPTION_PLANET_A = 0;
+const OPTION_PLANET_B_TOO = 1;
+
+
+const OPTION_CORPORATION = 106;
+const OPTION_CORPORATION_UNIVERSAL = 0;
+const OPTION_ALL_CORPORATIONS = 1;
 /*
  * User preferences
  */
@@ -22,11 +30,18 @@ const OPTION_CONFIRM_TIMER = 3;
 
 const OPTION_CONFIRM_UNDOABLE = 104;
 
+const NO_EVENT_CARD_GAME = "noEventCard";
+const EVENT_CARD_GAME = "eventCard";
+
 /*
  * State constants
  */
 const ST_GAME_SETUP = 1;
 const ST_SETUP_BRANCH = 2;
+
+const ST_CHOOSE_BOARDS = 3;
+const ST_SECOND_SETUP = 4;
+const ST_EVENT_CARD = 10;
 
 const ST_START_ROUND = 20;
 const ST_CHOOSE_ROTATION = 21;

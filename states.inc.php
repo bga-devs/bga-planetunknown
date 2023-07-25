@@ -1,4 +1,5 @@
 <?php
+
 /**
  *------
  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
@@ -14,6 +15,12 @@
  *
  */
 
+const GAME = "game";
+const MULTI = "multipleactiveplayer";
+const PRIVATESTATE = "private";
+const END_TURN = 'endTurn';
+const ACTIVE_PLAYER = "activeplayer";
+
 $machinestates = [
   // The initial state. Please do not modify.
   ST_GAME_SETUP => [
@@ -22,6 +29,47 @@ $machinestates = [
     'type' => 'manager',
     'action' => 'stGameSetup',
     'transitions' => ['' => ST_SETUP_BRANCH],
+  ],
+
+  ST_CHOOSE_BOARDS => [
+    'name' => 'chooseBoards',
+    'type' => MULTI,
+    'description' => clienttranslate('Waiting for everyone to choose their planet or/and corporation'),
+    'descriptionmyturn' => clienttranslate('${you} must choose your planet or/and corporation'),
+    'args' => 'argChooseBoards',
+    'action' => 'stChooseBoards',
+    'possibleactions' => ['chooseBoards'],
+    'transitions' => ['' => ST_SECOND_SETUP],
+  ],
+
+  ST_SECOND_SETUP => [
+    'name' => 'secondSetup',
+    'type' => GAME,
+    'description' => '',
+    'action' => 'stSecondSetup',
+    'transitions' => [
+      NO_EVENT_CARD_GAME => ST_GENERIC_NEXT_PLAYER,
+      EVENT_CARD_GAME => ST_EVENT_CARD,
+    ],
+  ],
+
+  ST_EVENT_CARD => [
+    'name' => 'eventCard',
+    'type' => MULTI,
+    'description' => '',
+    'args' => 'argEventCard', //reveal top event card
+    'action' => 'stEventCard', //end turn if no actions required
+    'transitions' => ['' => ST_START_PARALLEL],
+  ],
+
+  ST_CHOOSE_ROTATION => [
+    'name' => 'chooseRotation',
+    'type' => ACTIVE_PLAYER,
+    'description' => clienttranslate('${actplayer} must choose Space Station orientation'),
+    'descriptionmyturn' => clienttranslate('${you} must choose Space Station orientation'),
+    'args' => 'argChooseRotation',  // Is it needed ? send visible Tiles
+    'possibleactions' => ['rotate'],
+    'transitions' => ['' => ST_SETUP_BRANCH]
   ],
 
   ST_GENERIC_NEXT_PLAYER => [
