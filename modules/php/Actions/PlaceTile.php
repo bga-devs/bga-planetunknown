@@ -58,18 +58,10 @@ class PlaceTile extends \PU\Models\Action
     ];
   }
 
-  public function actPlaceTile($n)
+  public function actPlaceTile($tileId, $pos, $rotation, $flipped)
   {
-    $t = [
-      0 => FOO_A,
-      1 => FOO_B,
-      2 => FOO_C,
-    ];
-    $action = $t[$n];
-
-    $this->insertAsChild([
-      'action' => $action,
-    ]);
+    var_dump($tileId, $pos, $rotation, $flipped);
+    die('test');
 
     Notifications::message('${player_name} places a tile', [
       'player' => Players::getCurrent(),

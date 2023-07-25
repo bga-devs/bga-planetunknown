@@ -187,7 +187,6 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
           let className = '';
           let content = '';
           let style = `grid-row: ${y + 2}; grid-column: ${x + 2}`;
-
           planetGrid += `<div class='planet-grid-cell${className}' style='${style}' data-x='${x}' data-y='${y}'></div>`;
         }
       }

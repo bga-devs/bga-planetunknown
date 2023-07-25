@@ -3,6 +3,7 @@
     justify-content: center;
     align-items: center;
     pointer-events: none;
+    z-index: 12;
     &.inactive,
     [data-rotation-arrows="1"] &,
     [data-rotation-arrows="2"] & {
@@ -22,6 +23,7 @@
 
         #tile-rotate-clockwise,
         #tile-rotate-cclockwise,
+        #tile-flip,
         #tile-confirm-btn {
             position: absolute;
             top: calc(50% - 20px);
@@ -46,6 +48,13 @@
         }
         #tile-rotate-cclockwise {
             left: -21px;
+        }
+        #tile-flip {
+            top: -20px;
+            left: calc(50% - 20px);
+            svg {
+                width: 36px;
+            }
         }
 
         #tile-confirm-btn {
@@ -91,7 +100,6 @@
         }
     }
 
-    /*
     [data-tiles-borders] &.selectable {
         cursor: pointer;
         .tile-border {
@@ -103,7 +111,6 @@
             background: #004cff;
         }
     }
-    */
 
     .tile-border,
     .tile-inner {
@@ -114,11 +121,9 @@
         height: 100%;
     }
 
-    /*
     [data-tiles-borders="1"] & .tile-border {
         background: #a68731;
     }
-    */
 
     .tile-inner {
         background-size: calc(1722px * var(--tileScale));
@@ -160,7 +165,7 @@
 
         &.hovering {
             .tile-border {
-                background: rgba(0, 0, 0, 0.322);
+                background: rgb(0, 0, 0);
             }
             .tile-crosshairs {
                 fill: black;
@@ -168,7 +173,7 @@
         }
         &.invalid {
             .tile-border {
-                background: rgba(255, 0, 0, 0.308);
+                background: rgb(255, 0, 0);
             }
             .tile-crosshairs {
                 fill: red;

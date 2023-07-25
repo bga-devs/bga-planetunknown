@@ -308,7 +308,38 @@
     padding: 7px 0px; }
     #susan-container #susan-exterior .tile-container,
     #susan-container #susan-interior .tile-container {
-      margin: 0; }
+      margin: 0;
+      transform: scale(0.9);
+      transform-origin: center center; }
+      #susan-container #susan-exterior .tile-container.selectable,
+      #susan-container #susan-interior .tile-container.selectable {
+        cursor: pointer; }
+        #susan-container #susan-exterior .tile-container.selectable .tile-crosshairs,
+        #susan-container #susan-interior .tile-container.selectable .tile-crosshairs {
+          visibility: visible; }
+        #susan-container #susan-exterior .tile-container.selectable:hover,
+        #susan-container #susan-interior .tile-container.selectable:hover {
+          transform: scale(0.95); }
+        #susan-container #susan-exterior .tile-container.selectable .tile-border,
+        #susan-container #susan-interior .tile-container.selectable .tile-border {
+          background: black; }
+      #susan-container #susan-exterior .tile-container.selected,
+      #susan-container #susan-interior .tile-container.selected {
+        transform: scale(0.95); }
+        #susan-container #susan-exterior .tile-container.selected .tile-border,
+        #susan-container #susan-interior .tile-container.selected .tile-border {
+          background: green; }
+      #susan-container #susan-exterior .tile-container.unplacable,
+      #susan-container #susan-interior .tile-container.unplacable {
+        cursor: not-allowed;
+        filter: grayscale(1);
+        -webkit-transform: translateZ(0);
+        -webkit-perspective: 1000;
+        -webkit-backface-visibility: hidden;
+        opacity: 0.7; }
+        #susan-container #susan-exterior .tile-container.unplacable:hover,
+        #susan-container #susan-interior .tile-container.unplacable:hover {
+          transform: scale(0.9); }
   #susan-container #susan-exterior {
     border-bottom: 1px solid black; }
 
@@ -362,7 +393,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  pointer-events: none; }
+  pointer-events: none;
+  z-index: 12; }
   #tile-controls.inactive, [data-rotation-arrows="1"] #tile-controls, [data-rotation-arrows="2"] #tile-controls {
     display: none; }
   #tile-controls #tile-controls-circle {
@@ -377,6 +409,7 @@
     position: relative; }
     #tile-controls #tile-controls-circle #tile-rotate-clockwise,
     #tile-controls #tile-controls-circle #tile-rotate-cclockwise,
+    #tile-controls #tile-controls-circle #tile-flip,
     #tile-controls #tile-controls-circle #tile-confirm-btn {
       position: absolute;
       top: calc(50% - 20px);
@@ -392,6 +425,7 @@
       cursor: pointer; }
       #tile-controls #tile-controls-circle #tile-rotate-clockwise svg,
       #tile-controls #tile-controls-circle #tile-rotate-cclockwise svg,
+      #tile-controls #tile-controls-circle #tile-flip svg,
       #tile-controls #tile-controls-circle #tile-confirm-btn svg {
         height: 31px;
         width: 40px; }
@@ -399,6 +433,11 @@
       right: -21px; }
     #tile-controls #tile-controls-circle #tile-rotate-cclockwise {
       left: -21px; }
+    #tile-controls #tile-controls-circle #tile-flip {
+      top: -20px;
+      left: calc(50% - 20px); }
+      #tile-controls #tile-controls-circle #tile-flip svg {
+        width: 36px; }
     #tile-controls #tile-controls-circle #tile-confirm-btn {
       top: calc(85% - 15px);
       left: calc(85% - 15px);
@@ -419,25 +458,7 @@
 
 .tile-container {
   position: relative;
-  flex-shrink: 0;
-  /*
-  [data-tiles-borders] &.selectable {
-      cursor: pointer;
-      .tile-border {
-          background: black;
-      }
-  }
-  [data-tiles-borders] &.selected {
-      .tile-border {
-          background: #004cff;
-      }
-  }
-  */
-  /*
-  [data-tiles-borders="1"] & .tile-border {
-      background: #a68731;
-  }
-  */ }
+  flex-shrink: 0; }
   .tile-container.phantom {
     visibility: hidden; }
   .tile-container[data-rotation="0"] {
@@ -456,6 +477,12 @@
     transform: rotate(270deg); }
     .tile-container[data-rotation="3"] .tile-crosshairs {
       transform: rotate(-270deg); }
+  [data-tiles-borders] .tile-container.selectable {
+    cursor: pointer; }
+    [data-tiles-borders] .tile-container.selectable .tile-border {
+      background: black; }
+  [data-tiles-borders] .tile-container.selected .tile-border {
+    background: #004cff; }
   .tile-container .tile-border,
   .tile-container .tile-inner {
     position: absolute;
@@ -463,6 +490,8 @@
     left: 0;
     width: 100%;
     height: 100%; }
+  [data-tiles-borders="1"] .tile-container .tile-border {
+    background: #a68731; }
   .tile-container .tile-inner {
     background-size: calc(1722px * var(--tileScale));
     background-repeat: no-repeat; }
@@ -490,11 +519,11 @@
       .tile-container#tile-hover .tile-crosshairs::before {
         display: none; }
     .tile-container#tile-hover.hovering .tile-border {
-      background: rgba(0, 0, 0, 0.322); }
+      background: black; }
     .tile-container#tile-hover.hovering .tile-crosshairs {
       fill: black; }
     .tile-container#tile-hover.invalid .tile-border {
-      background: rgba(255, 0, 0, 0.308); }
+      background: red; }
     .tile-container#tile-hover.invalid .tile-crosshairs {
       fill: red; }
     [data-rotation-arrows="0"] .tile-container#tile-hover .tile-crosshairs {
@@ -541,9 +570,10 @@
   clip-path: polygon(75% 50%, 75% 100%, 50% 100%, 25% 100%, 0% 100%, 0% 50%, 25% 50%, 50% 50%, 50% 0%, 75% 0%, 100% 0%, 100% 50%, 75% 50%);
   transform-origin: 62.5% 75%; }
   .tile-container[data-shape="0"] .tile-inner {
-    clip-path: polygon(75% 50%, 75% 100%, 50% 100%, 25% 100%, 0% 100%, 0% 50%, 25% 50%, 50% 50%, 50% 0%, 75% 0%, 100% 0%, 100% 50%, 75% 50%); }
+    background-position: 0% 0%;
+    clip-path: polygon(73.75% 47.5%, 73.75% 97.5%, 50% 97.5%, 25% 97.5%, 1.25% 97.5%, 1.25% 52.5%, 25% 52.5%, 51.25% 52.5%, 51.25% 2.5%, 75% 2.5%, 98.75% 2.5%, 98.75% 47.5%, 73.75% 47.5%); }
   .tile-container[data-shape="0"] .tile-border {
-    clip-path: polygon(75% 50%, 75% 100%, 50% 100%, 25% 100%, 0% 100%, 0% 50%, 25% 50%, 50% 50%, 50% 0%, 75% 0%, 100% 0%, 100% 50%, 75% 50%); }
+    clip-path: polygon(75% 50%, 75% 100%, 50% 100%, 25% 100%, 0% 100%, 0% 50%, 25% 50%, 50% 50%, 50% 0%, 75% 0%, 100% 0%, 100% 50%, 75% 50%, 75% 50%, 71.875% 43.75%, 71.875% 43.75%, 96.875% 43.75%, 96.875% 6.25%, 75% 6.25%, 53.125% 6.25%, 53.125% 56.25%, 25% 56.25%, 3.125% 56.25%, 3.125% 93.75%, 25% 93.75%, 50% 93.75%, 71.875% 93.75%, 71.875% 43.75%); }
   .tile-container[data-shape="0"] .tile-crosshairs {
     left: 62.5%;
     top: 75%; }
@@ -555,9 +585,10 @@
   clip-path: polygon(33.3333333333% 33.3333333333%, 66.6666666667% 33.3333333333%, 66.6666666667% 0%, 100% 0%, 100% 33.3333333333%, 100% 66.6666666667%, 66.6666666667% 66.6666666667%, 66.6666666667% 100%, 33.3333333333% 100%, 33.3333333333% 66.6666666667%, 0% 66.6666666667%, 0% 33.3333333333%, 33.3333333333% 33.3333333333%);
   transform-origin: 50% 50%; }
   .tile-container[data-shape="1"] .tile-inner {
-    clip-path: polygon(33.3333333333% 33.3333333333%, 66.6666666667% 33.3333333333%, 66.6666666667% 0%, 100% 0%, 100% 33.3333333333%, 100% 66.6666666667%, 66.6666666667% 66.6666666667%, 66.6666666667% 100%, 33.3333333333% 100%, 33.3333333333% 66.6666666667%, 0% 66.6666666667%, 0% 33.3333333333%, 33.3333333333% 33.3333333333%); }
+    background-position: 9.090909090909092% 100%;
+    clip-path: polygon(33.3333333333% 35%, 68.3333333333% 35%, 68.3333333333% 1.6666666667%, 98.3333333333% 1.6666666667%, 98.3333333333% 33.3333333333%, 98.3333333333% 65%, 65% 65%, 65% 98.3333333333%, 35% 98.3333333333%, 35% 65%, 1.6666666667% 65%, 1.6666666667% 35%, 33.3333333333% 35%); }
   .tile-container[data-shape="1"] .tile-border {
-    clip-path: polygon(33.3333333333% 33.3333333333%, 66.6666666667% 33.3333333333%, 66.6666666667% 0%, 100% 0%, 100% 33.3333333333%, 100% 66.6666666667%, 66.6666666667% 66.6666666667%, 66.6666666667% 100%, 33.3333333333% 100%, 33.3333333333% 66.6666666667%, 0% 66.6666666667%, 0% 33.3333333333%, 33.3333333333% 33.3333333333%); }
+    clip-path: polygon(33.3333333333% 33.3333333333%, 66.6666666667% 33.3333333333%, 66.6666666667% 0%, 100% 0%, 100% 33.3333333333%, 100% 66.6666666667%, 66.6666666667% 66.6666666667%, 66.6666666667% 100%, 33.3333333333% 100%, 33.3333333333% 66.6666666667%, 0% 66.6666666667%, 0% 33.3333333333%, 33.3333333333% 33.3333333333%, 33.3333333333% 33.3333333333%, 33.3333333333% 37.5%, 33.3333333333% 37.5%, 4.1666666667% 37.5%, 4.1666666667% 62.5%, 37.5% 62.5%, 37.5% 95.8333333333%, 62.5% 95.8333333333%, 62.5% 62.5%, 95.8333333333% 62.5%, 95.8333333333% 33.3333333333%, 95.8333333333% 4.1666666667%, 70.8333333333% 4.1666666667%, 70.8333333333% 37.5%, 33.3333333333% 37.5%); }
   .tile-container[data-shape="1"] .tile-crosshairs {
     left: 50%;
     top: 50%; }
@@ -569,9 +600,10 @@
   clip-path: polygon(100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 0% 100%, 0% 66.6666666667%, 0% 33.3333333333%, 0% 0%, 100% 0%, 100% 33.3333333333%);
   transform-origin: 50% 50%; }
   .tile-container[data-shape="2"] .tile-inner {
-    clip-path: polygon(100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 0% 100%, 0% 66.6666666667%, 0% 33.3333333333%, 0% 0%, 100% 0%, 100% 33.3333333333%); }
+    background-position: 30.76923076923077% 0%;
+    clip-path: polygon(95% 33.3333333333%, 95% 66.6666666667%, 95% 98.3333333333%, 5% 98.3333333333%, 5% 66.6666666667%, 5% 33.3333333333%, 5% 1.6666666667%, 95% 1.6666666667%, 95% 33.3333333333%); }
   .tile-container[data-shape="2"] .tile-border {
-    clip-path: polygon(100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 0% 100%, 0% 66.6666666667%, 0% 33.3333333333%, 0% 0%, 100% 0%, 100% 33.3333333333%); }
+    clip-path: polygon(100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 0% 100%, 0% 66.6666666667%, 0% 33.3333333333%, 0% 0%, 100% 0%, 100% 33.3333333333%, 100% 33.3333333333%, 87.5% 33.3333333333%, 87.5% 33.3333333333%, 87.5% 4.1666666667%, 12.5% 4.1666666667%, 12.5% 33.3333333333%, 12.5% 66.6666666667%, 12.5% 95.8333333333%, 87.5% 95.8333333333%, 87.5% 66.6666666667%, 87.5% 33.3333333333%); }
   .tile-container[data-shape="2"] .tile-crosshairs {
     left: 50%;
     top: 50%; }
@@ -583,9 +615,10 @@
   clip-path: polygon(50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 50% 50%, 0% 50%, 0% 0%, 50% 0%);
   transform-origin: 75% 25%; }
   .tile-container[data-shape="3"] .tile-inner {
-    clip-path: polygon(50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 50% 50%, 0% 50%, 0% 0%, 50% 0%); }
+    background-position: 100% 50%;
+    clip-path: polygon(50% 2.5%, 97.5% 2.5%, 97.5% 50%, 97.5% 97.5%, 52.5% 97.5%, 52.5% 47.5%, 2.5% 47.5%, 2.5% 2.5%, 50% 2.5%); }
   .tile-container[data-shape="3"] .tile-border {
-    clip-path: polygon(50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 50% 50%, 0% 50%, 0% 0%, 50% 0%); }
+    clip-path: polygon(50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 50% 50%, 0% 50%, 0% 0%, 50% 0%, 50% 0%, 50% 6.25%, 50% 6.25%, 6.25% 6.25%, 6.25% 43.75%, 56.25% 43.75%, 56.25% 93.75%, 93.75% 93.75%, 93.75% 50%, 93.75% 6.25%, 50% 6.25%); }
   .tile-container[data-shape="3"] .tile-crosshairs {
     left: 75%;
     top: 25%; }
@@ -597,9 +630,10 @@
   clip-path: polygon(33.3333333333% 0%, 66.6666666667% 0%, 100% 0%, 100% 50%, 66.6666666667% 50%, 66.6666666667% 100%, 33.3333333333% 100%, 33.3333333333% 50%, 0% 50%, 0% 0%, 33.3333333333% 0%);
   transform-origin: 50% 25%; }
   .tile-container[data-shape="4"] .tile-inner {
-    clip-path: polygon(33.3333333333% 0%, 66.6666666667% 0%, 100% 0%, 100% 50%, 66.6666666667% 50%, 66.6666666667% 100%, 33.3333333333% 100%, 33.3333333333% 50%, 0% 50%, 0% 0%, 33.3333333333% 0%); }
+    background-position: 45.45454545454545% 0%;
+    clip-path: polygon(33.3333333333% 2.5%, 66.6666666667% 2.5%, 98.3333333333% 2.5%, 98.3333333333% 47.5%, 65% 47.5%, 65% 97.5%, 35% 97.5%, 35% 47.5%, 1.6666666667% 47.5%, 1.6666666667% 2.5%, 33.3333333333% 2.5%); }
   .tile-container[data-shape="4"] .tile-border {
-    clip-path: polygon(33.3333333333% 0%, 66.6666666667% 0%, 100% 0%, 100% 50%, 66.6666666667% 50%, 66.6666666667% 100%, 33.3333333333% 100%, 33.3333333333% 50%, 0% 50%, 0% 0%, 33.3333333333% 0%); }
+    clip-path: polygon(33.3333333333% 0%, 66.6666666667% 0%, 100% 0%, 100% 50%, 66.6666666667% 50%, 66.6666666667% 100%, 33.3333333333% 100%, 33.3333333333% 50%, 0% 50%, 0% 0%, 33.3333333333% 0%, 33.3333333333% 0%, 33.3333333333% 6.25%, 33.3333333333% 6.25%, 4.1666666667% 6.25%, 4.1666666667% 43.75%, 37.5% 43.75%, 37.5% 93.75%, 62.5% 93.75%, 62.5% 43.75%, 95.8333333333% 43.75%, 95.8333333333% 6.25%, 66.6666666667% 6.25%, 33.3333333333% 6.25%); }
   .tile-container[data-shape="4"] .tile-crosshairs {
     left: 50%;
     top: 25%; }
@@ -611,9 +645,10 @@
   clip-path: polygon(33.3333333333% 0%, 66.6666666667% 0%, 100% 0%, 100% 50%, 66.6666666667% 50%, 66.6666666667% 100%, 33.3333333333% 100%, 0% 100%, 0% 50%, 33.3333333333% 50%, 33.3333333333% 0%);
   transform-origin: 50% 25%; }
   .tile-container[data-shape="5"] .tile-inner {
-    clip-path: polygon(33.3333333333% 0%, 66.6666666667% 0%, 100% 0%, 100% 50%, 66.6666666667% 50%, 66.6666666667% 100%, 33.3333333333% 100%, 0% 100%, 0% 50%, 33.3333333333% 50%, 33.3333333333% 0%); }
+    background-position: 54.54545454545454% 50%;
+    clip-path: polygon(35% 2.5%, 66.6666666667% 2.5%, 98.3333333333% 2.5%, 98.3333333333% 47.5%, 65% 47.5%, 65% 97.5%, 33.3333333333% 97.5%, 1.6666666667% 97.5%, 1.6666666667% 52.5%, 35% 52.5%, 35% 2.5%); }
   .tile-container[data-shape="5"] .tile-border {
-    clip-path: polygon(33.3333333333% 0%, 66.6666666667% 0%, 100% 0%, 100% 50%, 66.6666666667% 50%, 66.6666666667% 100%, 33.3333333333% 100%, 0% 100%, 0% 50%, 33.3333333333% 50%, 33.3333333333% 0%); }
+    clip-path: polygon(33.3333333333% 0%, 66.6666666667% 0%, 100% 0%, 100% 50%, 66.6666666667% 50%, 66.6666666667% 100%, 33.3333333333% 100%, 0% 100%, 0% 50%, 33.3333333333% 50%, 33.3333333333% 0%, 33.3333333333% 0%, 37.5% 6.25%, 37.5% 6.25%, 37.5% 56.25%, 4.1666666667% 56.25%, 4.1666666667% 93.75%, 33.3333333333% 93.75%, 62.5% 93.75%, 62.5% 43.75%, 95.8333333333% 43.75%, 95.8333333333% 6.25%, 66.6666666667% 6.25%, 37.5% 6.25%); }
   .tile-container[data-shape="5"] .tile-crosshairs {
     left: 50%;
     top: 25%; }
@@ -625,9 +660,10 @@
   clip-path: polygon(100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 50% 100%, 0% 100%, 0% 66.6666666667%, 50% 66.6666666667%, 50% 33.3333333333%, 50% 0%, 100% 0%, 100% 33.3333333333%);
   transform-origin: 75% 50%; }
   .tile-container[data-shape="6"] .tile-inner {
-    clip-path: polygon(100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 50% 100%, 0% 100%, 0% 66.6666666667%, 50% 66.6666666667%, 50% 33.3333333333%, 50% 0%, 100% 0%, 100% 33.3333333333%); }
+    background-position: 33.33333333333333% 100%;
+    clip-path: polygon(97.5% 33.3333333333%, 97.5% 66.6666666667%, 97.5% 98.3333333333%, 50% 98.3333333333%, 2.5% 98.3333333333%, 2.5% 68.3333333333%, 52.5% 68.3333333333%, 52.5% 33.3333333333%, 52.5% 1.6666666667%, 97.5% 1.6666666667%, 97.5% 33.3333333333%); }
   .tile-container[data-shape="6"] .tile-border {
-    clip-path: polygon(100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 50% 100%, 0% 100%, 0% 66.6666666667%, 50% 66.6666666667%, 50% 33.3333333333%, 50% 0%, 100% 0%, 100% 33.3333333333%); }
+    clip-path: polygon(100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 50% 100%, 0% 100%, 0% 66.6666666667%, 50% 66.6666666667%, 50% 33.3333333333%, 50% 0%, 100% 0%, 100% 33.3333333333%, 100% 33.3333333333%, 93.75% 33.3333333333%, 93.75% 33.3333333333%, 93.75% 4.1666666667%, 56.25% 4.1666666667%, 56.25% 33.3333333333%, 56.25% 70.8333333333%, 6.25% 70.8333333333%, 6.25% 95.8333333333%, 50% 95.8333333333%, 93.75% 95.8333333333%, 93.75% 66.6666666667%, 93.75% 33.3333333333%); }
   .tile-container[data-shape="6"] .tile-crosshairs {
     left: 75%;
     top: 50%; }
@@ -639,9 +675,10 @@
   clip-path: polygon(33.3333333333% 50%, 66.6666666667% 50%, 66.6666666667% 0%, 100% 0%, 100% 50%, 100% 100%, 66.6666666667% 100%, 33.3333333333% 100%, 0% 100%, 0% 50%, 0% 0%, 33.3333333333% 0%, 33.3333333333% 50%);
   transform-origin: 50% 75%; }
   .tile-container[data-shape="7"] .tile-inner {
-    clip-path: polygon(33.3333333333% 50%, 66.6666666667% 50%, 66.6666666667% 0%, 100% 0%, 100% 50%, 100% 100%, 66.6666666667% 100%, 33.3333333333% 100%, 0% 100%, 0% 50%, 0% 0%, 33.3333333333% 0%, 33.3333333333% 50%); }
+    background-position: 90.9090909090909% 100%;
+    clip-path: polygon(31.6666666667% 52.5%, 68.3333333333% 52.5%, 68.3333333333% 2.5%, 98.3333333333% 2.5%, 98.3333333333% 50%, 98.3333333333% 97.5%, 66.6666666667% 97.5%, 33.3333333333% 97.5%, 1.6666666667% 97.5%, 1.6666666667% 50%, 1.6666666667% 2.5%, 31.6666666667% 2.5%, 31.6666666667% 52.5%); }
   .tile-container[data-shape="7"] .tile-border {
-    clip-path: polygon(33.3333333333% 50%, 66.6666666667% 50%, 66.6666666667% 0%, 100% 0%, 100% 50%, 100% 100%, 66.6666666667% 100%, 33.3333333333% 100%, 0% 100%, 0% 50%, 0% 0%, 33.3333333333% 0%, 33.3333333333% 50%); }
+    clip-path: polygon(33.3333333333% 50%, 66.6666666667% 50%, 66.6666666667% 0%, 100% 0%, 100% 50%, 100% 100%, 66.6666666667% 100%, 33.3333333333% 100%, 0% 100%, 0% 50%, 0% 0%, 33.3333333333% 0%, 33.3333333333% 50%, 33.3333333333% 50%, 29.1666666667% 56.25%, 29.1666666667% 56.25%, 29.1666666667% 6.25%, 4.1666666667% 6.25%, 4.1666666667% 50%, 4.1666666667% 93.75%, 33.3333333333% 93.75%, 66.6666666667% 93.75%, 95.8333333333% 93.75%, 95.8333333333% 50%, 95.8333333333% 6.25%, 70.8333333333% 6.25%, 70.8333333333% 56.25%, 29.1666666667% 56.25%); }
   .tile-container[data-shape="7"] .tile-crosshairs {
     left: 50%;
     top: 75%; }
@@ -653,9 +690,10 @@
   clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 100% 100%, 0% 100%, 0% 50%, 0% 0%);
   transform-origin: 50% 25%; }
   .tile-container[data-shape="8"] .tile-inner {
-    clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 100% 100%, 0% 100%, 0% 50%, 0% 0%); }
+    background-position: 0% 100%;
+    clip-path: polygon(5% 2.5%, 95% 2.5%, 95% 50%, 95% 97.5%, 5% 97.5%, 5% 50%, 5% 2.5%); }
   .tile-container[data-shape="8"] .tile-border {
-    clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 100% 100%, 0% 100%, 0% 50%, 0% 0%); }
+    clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 100% 100%, 0% 100%, 0% 50%, 0% 0%, 0% 0%, 12.5% 6.25%, 12.5% 6.25%, 12.5% 50%, 12.5% 93.75%, 87.5% 93.75%, 87.5% 50%, 87.5% 6.25%, 12.5% 6.25%); }
   .tile-container[data-shape="8"] .tile-crosshairs {
     left: 50%;
     top: 25%; }
@@ -667,9 +705,10 @@
   clip-path: polygon(25% 0%, 50% 0%, 75% 0%, 100% 0%, 100% 100%, 75% 100%, 50% 100%, 25% 100%, 0% 100%, 0% 0%, 25% 0%);
   transform-origin: 37.5% 50%; }
   .tile-container[data-shape="9"] .tile-inner {
-    clip-path: polygon(25% 0%, 50% 0%, 75% 0%, 100% 0%, 100% 100%, 75% 100%, 50% 100%, 25% 100%, 0% 100%, 0% 0%, 25% 0%); }
+    background-position: 100% 0%;
+    clip-path: polygon(25% 5%, 50% 5%, 75% 5%, 98.75% 5%, 98.75% 95%, 75% 95%, 50% 95%, 25% 95%, 1.25% 95%, 1.25% 5%, 25% 5%); }
   .tile-container[data-shape="9"] .tile-border {
-    clip-path: polygon(25% 0%, 50% 0%, 75% 0%, 100% 0%, 100% 100%, 75% 100%, 50% 100%, 25% 100%, 0% 100%, 0% 0%, 25% 0%); }
+    clip-path: polygon(25% 0%, 50% 0%, 75% 0%, 100% 0%, 100% 100%, 75% 100%, 50% 100%, 25% 100%, 0% 100%, 0% 0%, 25% 0%, 25% 0%, 25% 12.5%, 25% 12.5%, 3.125% 12.5%, 3.125% 87.5%, 25% 87.5%, 50% 87.5%, 75% 87.5%, 96.875% 87.5%, 96.875% 12.5%, 75% 12.5%, 50% 12.5%, 25% 12.5%); }
   .tile-container[data-shape="9"] .tile-crosshairs {
     left: 37.5%;
     top: 50%; }
@@ -681,10 +720,10 @@
   clip-path: polygon(0% 0%, 50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 0% 100%, 0% 50%, 0% 0%);
   transform-origin: 25% 25%; }
   .tile-container[data-shape="10"] .tile-inner {
-    background-position: 66.66666666666666% 14.285714285714285%;
-    clip-path: polygon(0% 0%, 50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 0% 100%, 0% 50%, 0% 0%); }
+    background-position: 66.66666666666666% 100%;
+    clip-path: polygon(2.5% 2.5%, 50% 2.5%, 97.5% 2.5%, 97.5% 50%, 97.5% 97.5%, 50% 97.5%, 2.5% 97.5%, 2.5% 50%, 2.5% 2.5%); }
   .tile-container[data-shape="10"] .tile-border {
-    clip-path: polygon(0% 0%, 50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 0% 100%, 0% 50%, 0% 0%); }
+    clip-path: polygon(0% 0%, 50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 0% 100%, 0% 50%, 0% 0%, 0% 0%, 6.25% 6.25%, 6.25% 6.25%, 6.25% 50%, 6.25% 93.75%, 50% 93.75%, 93.75% 93.75%, 93.75% 50%, 93.75% 6.25%, 50% 6.25%, 6.25% 6.25%); }
   .tile-container[data-shape="10"] .tile-crosshairs {
     left: 25%;
     top: 25%; }
@@ -696,9 +735,10 @@
   clip-path: polygon(33.3333333333% 33.3333333333%, 66.6666666667% 33.3333333333%, 100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 66.6666666667% 100%, 66.6666666667% 66.6666666667%, 33.3333333333% 66.6666666667%, 0% 66.6666666667%, 0% 33.3333333333%, 0% 0%, 33.3333333333% 0%, 33.3333333333% 33.3333333333%);
   transform-origin: 50% 50%; }
   .tile-container[data-shape="11"] .tile-inner {
-    clip-path: polygon(33.3333333333% 33.3333333333%, 66.6666666667% 33.3333333333%, 100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 66.6666666667% 100%, 66.6666666667% 66.6666666667%, 33.3333333333% 66.6666666667%, 0% 66.6666666667%, 0% 33.3333333333%, 0% 0%, 33.3333333333% 0%, 33.3333333333% 33.3333333333%); }
+    background-position: 81.81818181818183% 0%;
+    clip-path: polygon(31.6666666667% 35%, 66.6666666667% 35%, 98.3333333333% 35%, 98.3333333333% 66.6666666667%, 98.3333333333% 98.3333333333%, 68.3333333333% 98.3333333333%, 68.3333333333% 65%, 33.3333333333% 65%, 1.6666666667% 65%, 1.6666666667% 33.3333333333%, 1.6666666667% 1.6666666667%, 31.6666666667% 1.6666666667%, 31.6666666667% 35%); }
   .tile-container[data-shape="11"] .tile-border {
-    clip-path: polygon(33.3333333333% 33.3333333333%, 66.6666666667% 33.3333333333%, 100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 66.6666666667% 100%, 66.6666666667% 66.6666666667%, 33.3333333333% 66.6666666667%, 0% 66.6666666667%, 0% 33.3333333333%, 0% 0%, 33.3333333333% 0%, 33.3333333333% 33.3333333333%); }
+    clip-path: polygon(33.3333333333% 33.3333333333%, 66.6666666667% 33.3333333333%, 100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 66.6666666667% 100%, 66.6666666667% 66.6666666667%, 33.3333333333% 66.6666666667%, 0% 66.6666666667%, 0% 33.3333333333%, 0% 0%, 33.3333333333% 0%, 33.3333333333% 33.3333333333%, 33.3333333333% 33.3333333333%, 29.1666666667% 37.5%, 29.1666666667% 37.5%, 29.1666666667% 4.1666666667%, 4.1666666667% 4.1666666667%, 4.1666666667% 33.3333333333%, 4.1666666667% 62.5%, 33.3333333333% 62.5%, 70.8333333333% 62.5%, 70.8333333333% 95.8333333333%, 95.8333333333% 95.8333333333%, 95.8333333333% 66.6666666667%, 95.8333333333% 37.5%, 66.6666666667% 37.5%, 29.1666666667% 37.5%); }
   .tile-container[data-shape="11"] .tile-crosshairs {
     left: 50%;
     top: 50%; }
@@ -1262,6 +1302,7 @@
   text-align: center; }
 
 #btnRotateClockwise,
+#btnFlip,
 #btnRotateCClockwise {
   color: white;
   font-size: 28px; }
