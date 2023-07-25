@@ -43,6 +43,7 @@ use PU\Core\Preferences;
 use PU\Core\Stats;
 use PU\Core\Engine;
 use PU\Managers\Cards;
+use PU\Managers\Susan;
 
 class planetunknown extends Table
 {
@@ -82,7 +83,8 @@ class planetunknown extends Table
       'players' => Players::getUiData($pId),
       'tiles' => Tiles::getUiData(),
       'meeples' => Meeples::getUiData(),
-      'cards' => Cards::getUiData()
+      'cards' => Cards::getUiData(),
+      'susan' => Susan::getUiData()
     ];
   }
 

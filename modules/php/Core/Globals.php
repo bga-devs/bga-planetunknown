@@ -156,7 +156,5 @@ class Globals extends \PU\Helpers\DB_Manager
   public static function setupNewGame($players, $options)
   {
     self::setSolo(count($players) == 1);
-    // static::setSusanShift(bga_rand(0, 5));
-    // static::setSusanRotation(bga_rand(0, 5));
   }
 }

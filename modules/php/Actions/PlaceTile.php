@@ -1,5 +1,7 @@
 <?php
+
 namespace PU\Actions;
+
 use PU\Managers\Meeples;
 use PU\Managers\Players;
 use PU\Managers\Tiles;
@@ -8,6 +10,7 @@ use PU\Core\Engine;
 use PU\Core\Stats;
 use PU\Helpers\Utils;
 use PU\Helpers\FlowConvertor;
+use PU\Managers\Susan;
 
 class PlaceTile extends \PU\Models\Action
 {
@@ -24,8 +27,9 @@ class PlaceTile extends \PU\Models\Action
   public function getPossibleTiles($player)
   {
     $tiles = [];
-    $tiles[] = Tiles::getTopOf('interior-0')->first();
-    $tiles[] = Tiles::getTopOf('exterior-0')->first();
+    $depot = Susan::getDepotOfPlayer($player);
+    $tiles[] = Tiles::getTopOf('interior-' . $depot['interior'])->first();
+    $tiles[] = Tiles::getTopOf('exterior-' . $depot['exterior'])->first();
     return $tiles;
   }
 
