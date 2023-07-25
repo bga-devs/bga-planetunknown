@@ -20,10 +20,10 @@
     ///////////////////////////////////////
 
     &[data-shape="0"] {
-        width: nth($tileWidths, 1) * $tileScale;
-        height: nth($tileHeights, 1) * $tileScale;
-        margin-left: -300%;
-        margin-top: -346.41016151377545%;
+        width: calc(#{nth($tileWidths, 1)} * var(--tileScale));
+        height: calc(#{nth($tileHeights, 1)} * var(--tileScale));
+        margin-left: -200%;
+        margin-top: -100%;
         clip-path: polygon(
             75% 50%,
             75% 100%,
@@ -41,7 +41,7 @@
         );
         transform-origin: 62.5% 75%;
 
-        .building-inner {
+        .tile-inner {
             clip-path: polygon(
                 75% 50%,
                 75% 100%,
@@ -58,7 +58,7 @@
                 75% 50%
             );
         }
-        .building-border {
+        .tile-border {
             clip-path: polygon(
                 75% 50%,
                 75% 100%,
@@ -75,17 +75,17 @@
                 75% 50%
             );
         }
-        .building-crosshairs {
+        .tile-crosshairs {
             left: 62.5%;
             top: 75%;
         }
     }
 
     &[data-shape="1"] {
-        width: nth($tileWidths, 2) * $tileScale;
-        height: nth($tileHeights, 2) * $tileScale;
+        width: calc(#{nth($tileWidths, 2)} * var(--tileScale));
+        height: calc(#{nth($tileHeights, 2)} * var(--tileScale));
         margin-left: -100%;
-        margin-top: -346.41016151377545%;
+        margin-top: -100%;
         clip-path: polygon(
             33.33333333333333% 33.33333333333333%,
             66.66666666666666% 33.33333333333333%,
@@ -103,7 +103,7 @@
         );
         transform-origin: 50% 50%;
 
-        .building-inner {
+        .tile-inner {
             clip-path: polygon(
                 33.33333333333333% 33.33333333333333%,
                 66.66666666666666% 33.33333333333333%,
@@ -120,7 +120,7 @@
                 33.33333333333333% 33.33333333333333%
             );
         }
-        .building-border {
+        .tile-border {
             clip-path: polygon(
                 33.33333333333333% 33.33333333333333%,
                 66.66666666666666% 33.33333333333333%,
@@ -137,17 +137,17 @@
                 33.33333333333333% 33.33333333333333%
             );
         }
-        .building-crosshairs {
+        .tile-crosshairs {
             left: 50%;
             top: 50%;
         }
     }
 
     &[data-shape="2"] {
-        width: nth($tileWidths, 3) * $tileScale;
-        height: nth($tileHeights, 3) * $tileScale;
-        margin-left: 100%;
-        margin-top: -346.41016151377545%;
+        width: calc(#{nth($tileWidths, 3)} * var(--tileScale));
+        height: calc(#{nth($tileHeights, 3)} * var(--tileScale));
+        margin-left: 0%;
+        margin-top: -100%;
         clip-path: polygon(
             100% 33.33333333333333%,
             100% 66.66666666666666%,
@@ -161,7 +161,7 @@
         );
         transform-origin: 50% 50%;
 
-        .building-inner {
+        .tile-inner {
             clip-path: polygon(
                 100% 33.33333333333333%,
                 100% 66.66666666666666%,
@@ -174,7 +174,7 @@
                 100% 33.33333333333333%
             );
         }
-        .building-border {
+        .tile-border {
             clip-path: polygon(
                 100% 33.33333333333333%,
                 100% 66.66666666666666%,
@@ -187,35 +187,35 @@
                 100% 33.33333333333333%
             );
         }
-        .building-crosshairs {
+        .tile-crosshairs {
             left: 50%;
             top: 50%;
         }
     }
 
     &[data-shape="3"] {
-        width: nth($tileWidths, 4) * $tileScale;
-        height: nth($tileHeights, 4) * $tileScale;
+        width: calc(#{nth($tileWidths, 4)} * var(--tileScale));
+        height: calc(#{nth($tileHeights, 4)} * var(--tileScale));
         margin-left: -100%;
         margin-top: 0%;
         clip-path: polygon(50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 50% 50%, 0% 50%, 0% 0%, 50% 0%);
         transform-origin: 75% 25%;
 
-        .building-inner {
+        .tile-inner {
             clip-path: polygon(50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 50% 50%, 0% 50%, 0% 0%, 50% 0%);
         }
-        .building-border {
+        .tile-border {
             clip-path: polygon(50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 50% 50%, 0% 50%, 0% 0%, 50% 0%);
         }
-        .building-crosshairs {
+        .tile-crosshairs {
             left: 75%;
             top: 25%;
         }
     }
 
     &[data-shape="4"] {
-        width: nth($tileWidths, 5) * $tileScale;
-        height: nth($tileHeights, 5) * $tileScale;
+        width: calc(#{nth($tileWidths, 5)} * var(--tileScale));
+        height: calc(#{nth($tileHeights, 5)} * var(--tileScale));
         margin-left: -100%;
         margin-top: 0%;
         clip-path: polygon(
@@ -233,7 +233,7 @@
         );
         transform-origin: 50% 25%;
 
-        .building-inner {
+        .tile-inner {
             clip-path: polygon(
                 33.33333333333333% 0%,
                 66.66666666666666% 0%,
@@ -248,7 +248,7 @@
                 33.33333333333333% 0%
             );
         }
-        .building-border {
+        .tile-border {
             clip-path: polygon(
                 33.33333333333333% 0%,
                 66.66666666666666% 0%,
@@ -263,15 +263,15 @@
                 33.33333333333333% 0%
             );
         }
-        .building-crosshairs {
+        .tile-crosshairs {
             left: 50%;
             top: 25%;
         }
     }
 
     &[data-shape="5"] {
-        width: nth($tileWidths, 6) * $tileScale;
-        height: nth($tileHeights, 6) * $tileScale;
+        width: calc(#{nth($tileWidths, 6)} * var(--tileScale));
+        height: calc(#{nth($tileHeights, 6)} * var(--tileScale));
         margin-left: -100%;
         margin-top: 0%;
         clip-path: polygon(
@@ -289,7 +289,7 @@
         );
         transform-origin: 50% 25%;
 
-        .building-inner {
+        .tile-inner {
             clip-path: polygon(
                 33.33333333333333% 0%,
                 66.66666666666666% 0%,
@@ -304,7 +304,7 @@
                 33.33333333333333% 0%
             );
         }
-        .building-border {
+        .tile-border {
             clip-path: polygon(
                 33.33333333333333% 0%,
                 66.66666666666666% 0%,
@@ -319,17 +319,17 @@
                 33.33333333333333% 0%
             );
         }
-        .building-crosshairs {
+        .tile-crosshairs {
             left: 50%;
             top: 25%;
         }
     }
 
     &[data-shape="6"] {
-        width: nth($tileWidths, 7) * $tileScale;
-        height: nth($tileHeights, 7) * $tileScale;
+        width: calc(#{nth($tileWidths, 7)} * var(--tileScale));
+        height: calc(#{nth($tileHeights, 7)} * var(--tileScale));
         margin-left: -100%;
-        margin-top: -346.41016151377545%;
+        margin-top: -100%;
         clip-path: polygon(
             100% 33.33333333333333%,
             100% 66.66666666666666%,
@@ -345,7 +345,7 @@
         );
         transform-origin: 75% 50%;
 
-        .building-inner {
+        .tile-inner {
             clip-path: polygon(
                 100% 33.33333333333333%,
                 100% 66.66666666666666%,
@@ -360,7 +360,7 @@
                 100% 33.33333333333333%
             );
         }
-        .building-border {
+        .tile-border {
             clip-path: polygon(
                 100% 33.33333333333333%,
                 100% 66.66666666666666%,
@@ -375,17 +375,17 @@
                 100% 33.33333333333333%
             );
         }
-        .building-crosshairs {
+        .tile-crosshairs {
             left: 75%;
             top: 50%;
         }
     }
 
     &[data-shape="7"] {
-        width: nth($tileWidths, 8) * $tileScale;
-        height: nth($tileHeights, 8) * $tileScale;
+        width: calc(#{nth($tileWidths, 8)} * var(--tileScale));
+        height: calc(#{nth($tileHeights, 8)} * var(--tileScale));
         margin-left: -100%;
-        margin-top: -346.41016151377545%;
+        margin-top: -100%;
         clip-path: polygon(
             33.33333333333333% 50%,
             66.66666666666666% 50%,
@@ -403,7 +403,7 @@
         );
         transform-origin: 50% 75%;
 
-        .building-inner {
+        .tile-inner {
             clip-path: polygon(
                 33.33333333333333% 50%,
                 66.66666666666666% 50%,
@@ -420,7 +420,7 @@
                 33.33333333333333% 50%
             );
         }
-        .building-border {
+        .tile-border {
             clip-path: polygon(
                 33.33333333333333% 50%,
                 66.66666666666666% 50%,
@@ -437,35 +437,35 @@
                 33.33333333333333% 50%
             );
         }
-        .building-crosshairs {
+        .tile-crosshairs {
             left: 50%;
             top: 75%;
         }
     }
 
     &[data-shape="8"] {
-        width: nth($tileWidths, 9) * $tileScale;
-        height: nth($tileHeights, 9) * $tileScale;
-        margin-left: 100%;
+        width: calc(#{nth($tileWidths, 9)} * var(--tileScale));
+        height: calc(#{nth($tileHeights, 9)} * var(--tileScale));
+        margin-left: 0%;
         margin-top: 0%;
         clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 100% 100%, 0% 100%, 0% 50%, 0% 0%);
         transform-origin: 50% 25%;
 
-        .building-inner {
+        .tile-inner {
             clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 100% 100%, 0% 100%, 0% 50%, 0% 0%);
         }
-        .building-border {
+        .tile-border {
             clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 100% 100%, 0% 100%, 0% 50%, 0% 0%);
         }
-        .building-crosshairs {
+        .tile-crosshairs {
             left: 50%;
             top: 25%;
         }
     }
 
     &[data-shape="9"] {
-        width: nth($tileWidths, 10) * $tileScale;
-        height: nth($tileHeights, 10) * $tileScale;
+        width: calc(#{nth($tileWidths, 10)} * var(--tileScale));
+        height: calc(#{nth($tileHeights, 10)} * var(--tileScale));
         margin-left: -100%;
         margin-top: 0%;
         clip-path: polygon(
@@ -483,7 +483,7 @@
         );
         transform-origin: 37.5% 50%;
 
-        .building-inner {
+        .tile-inner {
             clip-path: polygon(
                 25% 0%,
                 50% 0%,
@@ -498,7 +498,7 @@
                 25% 0%
             );
         }
-        .building-border {
+        .tile-border {
             clip-path: polygon(
                 25% 0%,
                 50% 0%,
@@ -513,38 +513,38 @@
                 25% 0%
             );
         }
-        .building-crosshairs {
+        .tile-crosshairs {
             left: 37.5%;
             top: 50%;
         }
     }
 
     &[data-shape="10"] {
-        width: nth($tileWidths, 11) * $tileScale;
-        height: nth($tileHeights, 11) * $tileScale;
-        margin-left: 100%;
+        width: calc(#{nth($tileWidths, 11)} * var(--tileScale));
+        height: calc(#{nth($tileHeights, 11)} * var(--tileScale));
+        margin-left: 0%;
         margin-top: 0%;
         clip-path: polygon(0% 0%, 50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 0% 100%, 0% 50%, 0% 0%);
         transform-origin: 25% 25%;
 
-        .building-inner {
+        .tile-inner {
             background-position: 66.66666666666666% 14.285714285714285%;
             clip-path: polygon(0% 0%, 50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 0% 100%, 0% 50%, 0% 0%);
         }
-        .building-border {
+        .tile-border {
             clip-path: polygon(0% 0%, 50% 0%, 100% 0%, 100% 50%, 100% 100%, 50% 100%, 0% 100%, 0% 50%, 0% 0%);
         }
-        .building-crosshairs {
+        .tile-crosshairs {
             left: 25%;
             top: 25%;
         }
     }
 
     &[data-shape="11"] {
-        width: nth($tileWidths, 12) * $tileScale;
-        height: nth($tileHeights, 12) * $tileScale;
+        width: calc(#{nth($tileWidths, 12)} * var(--tileScale));
+        height: calc(#{nth($tileHeights, 12)} * var(--tileScale));
         margin-left: -100%;
-        margin-top: -346.41016151377545%;
+        margin-top: -100%;
         clip-path: polygon(
             33.33333333333333% 33.33333333333333%,
             66.66666666666666% 33.33333333333333%,
@@ -562,7 +562,7 @@
         );
         transform-origin: 50% 50%;
 
-        .building-inner {
+        .tile-inner {
             clip-path: polygon(
                 33.33333333333333% 33.33333333333333%,
                 66.66666666666666% 33.33333333333333%,
@@ -579,7 +579,7 @@
                 33.33333333333333% 33.33333333333333%
             );
         }
-        .building-border {
+        .tile-border {
             clip-path: polygon(
                 33.33333333333333% 33.33333333333333%,
                 66.66666666666666% 33.33333333333333%,
@@ -596,7 +596,7 @@
                 33.33333333333333% 33.33333333333333%
             );
         }
-        .building-crosshairs {
+        .tile-crosshairs {
             left: 50%;
             top: 50%;
         }

@@ -34,7 +34,7 @@ class Player extends \PU\Helpers\DB_Model
     'zombie' => 'player_zombie',
     'planetId' => 'planet_id',
     'corporationId' => 'corporation_id',
-    'position' => ['position', 'int']
+    'position' => ['position', 'int'],
   ];
 
   // Cached attribute
@@ -65,14 +65,6 @@ class Player extends \PU\Helpers\DB_Model
       $this->corporation = new $className($this);
     }
     return $this->corporation();
-  }
-
-  public function canUseplanet($planetId) //TO ASK 
-  {
-    if ($this->getplanetId() != $planetId) {
-      return false;
-    }
-    return $this->planet()->canUseEffect();
   }
 
   public function getUiData($currentPlayerId = null)

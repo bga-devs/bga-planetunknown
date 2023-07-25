@@ -1,6 +1,7 @@
 :root {
+    --planetUnknownBoardScale: 1;
+    --tileScale: 0.577;
 }
 
-$tileScale: 0.4;
 $tileWidths: 492px, 369px, 123px, 246px, 369px, 369px, 246px, 369px, 123px, 492px, 246px, 369px;
 $tileHeights: 246px, 369px, 360px, 246px, 246px, 246px, 369px, 246px, 246px, 123px, 246px, 369px;

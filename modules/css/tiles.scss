@@ -1,50 +1,4 @@
-/*
-#pagesubtitle #tile-selector {
-    margin: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-
-    .tile-container {
-        margin: 0;
-        transform: scale(0.9);
-        transform-origin: center center;
-        &:hover {
-            transform: scale(0.95);
-        }
-
-        &.selected {
-            transform: scale(0.95);
-            .tile-border {
-                background: green;
-            }
-        }
-
-        .tile-crosshairs {
-            visibility: visible;
-        }
-
-        &.unplacable {
-            cursor: not-allowed;
-            // [data-filter="0"] & {
-            filter: grayscale(1);
-            -webkit-transform: translateZ(0);
-            -webkit-perspective: 1000;
-            -webkit-backface-visibility: hidden;
-            // }
-            opacity: 0.7;
-
-            &:hover {
-                transform: scale(0.9);
-            }
-        }
-    }
-}
-
 #tile-controls {
-    grid-row-end: span 2;
-    grid-column-end: span 4;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -115,23 +69,10 @@
         }
     }
 
-    &[data-type="kiosk"],
-    &[data-type="pavilion"],
-    &[data-type="size-1"] {
-        //    [data-rotation-arrows="1"] & {
-        #tile-controls-circle {
-            #tile-rotate-clockwise,
-            #tile-rotate-cclockwise {
-                display: none;
-            }
-        }
-    }
-
     &.hovering #tile-controls-circle #tile-confirm-btn {
         display: none;
     }
 }
-*/
 
 .tile-container {
     &.phantom {
@@ -180,7 +121,7 @@
     */
 
     .tile-inner {
-        background-size: 1722px * $tileScale;
+        background-size: calc(1722px * var(--tileScale));
         background-repeat: no-repeat;
 
         .planetunknown-meeple {
@@ -203,7 +144,6 @@
         }
     }
 
-    /*
     &#tile-hover {
         transition: transform 0.4s;
         pointer-events: none;
@@ -220,7 +160,7 @@
 
         &.hovering {
             .tile-border {
-                background: black;
+                background: rgba(0, 0, 0, 0.322);
             }
             .tile-crosshairs {
                 fill: black;
@@ -228,15 +168,11 @@
         }
         &.invalid {
             .tile-border {
-                background: red;
+                background: rgba(255, 0, 0, 0.308);
             }
             .tile-crosshairs {
                 fill: red;
             }
-        }
-
-        .tile-inner {
-            display: none;
         }
 
         [data-rotation-arrows="0"] & .tile-crosshairs {
@@ -275,7 +211,6 @@
             }
         }
     }
-    */
 
     &:not([data-type]),
     &[data-type=""] {

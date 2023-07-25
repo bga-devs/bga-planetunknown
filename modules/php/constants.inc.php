@@ -86,24 +86,23 @@ const MEDAL = 'medal';
 const SYNERGY = 'synergy';
 
 /*
-*	Cards
-*/
+ *	Cards
+ */
 
 const IMMEDIATE = 'immediate';
 const END_GAME = 'at the end';
 
 /*
-*	Terrains types
-*/
+ *	Terrains types
+ */
 const NOTHING = 'nothing';
 const LAND = 'land';
 const ICE = 'ice';
 const LIFEPOD = 'lifepod';
 
-
 /*
-* Tiles and Space station
-*/
+ * Tiles and Space station
+ */
 
 const TILE_N = 0;
 const TILE_F = 1;
@@ -120,6 +119,14 @@ const TILE_S = 11;
 
 const LARGE_RING = [TILE_S, TILE_F, TILE_s, TILE_BIG_I, TILE_N, TILE_U];
 const SMALL_RING = [TILE_I, TILE_t, TILE_v, TILE_L, TILE_i, TILE_O];
+
+/*
+ * PLANETS
+ */
+
+const ADVANCED_PLANETS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+const ALL_PLANETS = [0];
+//const ALL_PLANETS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 /*
  * MISC

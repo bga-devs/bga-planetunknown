@@ -198,11 +198,11 @@ define([
     notif_refreshUI(n) {
       debug('Notif: refreshing UI', n);
 
-      // ['meeples', 'players', 'cards', 'buildings', 'break', 'conservationBonuses', 'endOfGame'].forEach((value) => {
+      // ['meeples', 'players', 'cards', 'tiles', 'break', 'conservationBonuses', 'endOfGame'].forEach((value) => {
       //   this.gamedatas[value] = n.args.datas[value];
       // });
       // this.setupMeeples();
-      // this.setupBuildings();
+      // this.setupTiles();
       // this.updatePlayersCounters();
       // this.updateActionCards();
       // this.updateBreakCounter();
@@ -367,15 +367,15 @@ define([
       // if (previousMap) previousMap.remove();
 
       // player.mapId = n.args.mapId;
-      // $(`icons-summary-map-${player.id}`).insertAdjacentHTML('afterend', this.tplZooMap(MAPS_DATA[player.mapId], player));
-      // this.activateShowBuildingHelperButtons();
+      // $(`icons-summary-map-${player.id}`).insertAdjacentHTML('afterend', this.tplZooPlanet(MAPS_DATA[player.mapId], player));
+      // this.activateShowTileHelperButtons();
       // this.setupChangeBoardArrows(player.id);
 
       // // Meeples
       // n.args.meeples.forEach((meeple) => this.addMeeple(meeple));
 
-      // // Buildings (for map A)
-      // n.args.buildings.forEach((building) => this.addBuilding(building));
+      // // Tiles (for map A)
+      // n.args.tiles.forEach((tile) => this.addTile(tile));
 
       // // Worker counter
       // this._playerCounters[player.id]['worker'] = this.createCounter(`counter-${player.id}-worker`, 0);
@@ -523,6 +523,168 @@ define([
       this.addPrimaryActionButton('actionA', 'Action A', () => this.takeAtomicAction('actPlaceTile', [0]));
       this.addPrimaryActionButton('actionB', 'Action B', () => this.takeAtomicAction('actPlaceTile', [1]));
       this.addPrimaryActionButton('actionC', 'Action C', () => this.takeAtomicAction('actPlaceTile', [2]));
+
+      let selection = null;
+      let rotation = 0;
+      let flipped = 0;
+      let hoveredCell = null;
+      let pos = null;
+      let oPlanet = $(`planet-${this.player_id}`).querySelector('.planet-grid');
+
+      // Add a visual representation on hover
+      oPlanet.insertAdjacentHTML(
+        'beforeend',
+        `<div id='tile-controls' class='inactive hovering'>
+        <div id='tile-controls-circle'>
+          <div id="tile-rotate-clockwise"><svg><use href="#rotate-clockwise-svg" /></svg></div>
+          <div id="tile-rotate-cclockwise"><svg><use href="#rotate-cclockwise-svg" /></svg></div>
+          <div id="tile-confirm-btn" class="action-button bgabutton bgabutton_blue">✓</div>
+        </div>
+      </div>`
+      );
+      oPlanet.insertAdjacentHTML('beforeend', this.tplTile({ type: '', state: 0 }, 'tile-hover'));
+      $('tile-hover')
+        .querySelector('.tile-crosshairs')
+        .insertAdjacentHTML(
+          'beforeend',
+          `<div id="tile-rotate-clockwise-on-tile"><svg><use href="#rotate-clockwise-svg" /></svg></div>
+          <div id="tile-rotate-cclockwise-on-tile"><svg><use href="#rotate-cclockwise-svg" /></svg></div>`
+        );
+
+      // Move selection to a given position
+      let moveSelection = (x, y, cell = null) => {
+        this.placeTile('tile-hover', x, y);
+        this.placeTile('tile-controls', x, y);
+
+        let pos = args.tiles[selection].find((p) => p.pos.x == x && p.pos.y == y);
+        let r = ((rotation % 4) + 4) % 4;
+        let valid = pos && pos.r.includes([r, flipped]);
+        $('tile-hover').classList.toggle('invalid', !valid);
+        $('tile-hover').style.transform = `rotate(${rotation * 90}deg)`;
+        $('tile-hover').querySelector('.tile-crosshairs').style.transform = `rotate(${-rotation * 90}deg)`;
+
+        let bottomCircle = $('tile-controls').offsetTop + $('tile-controls-circle').offsetHeight / 2;
+        $('tile-controls-circle').classList.toggle('bottom', bottomCircle > $('tile-controls').parentNode.offsetHeight);
+        $('tile-controls').classList.toggle('invalid', !valid);
+
+        if (cell === null) {
+          cell = oPlanet.querySelector(`[data-x='${x}'][data-y='${y}']`);
+        }
+        if (cell) {
+          cell.style.cursor = valid ? 'pointer' : 'not-allowed';
+        }
+
+        // Update button status
+        if ($('btnConfirmBuild')) {
+          $('btnConfirmBuild').classList.toggle('disabled', !valid);
+          $('tile-confirm-btn').classList.toggle('disabled', !valid);
+        }
+      };
+      let updateSelection = () => {
+        if (hoveredCell) {
+          moveSelection(hoveredCell.dataset.x, hoveredCell.dataset.y, hoveredCell);
+        } else if (pos.x == 0 && pos.y == 0) {
+          moveSelection(0, 0);
+        }
+      };
+
+      // Add tile selectors in pagetitle
+      let callback = (tileId) => {
+        // Existing placement => keep the same one
+        if (selection !== null) {
+          $(`tile-${selection}`).classList.remove('selected');
+          selection = tileId;
+          updateSelection();
+        }
+        // Otherwise, set it at (0,0) (not a real cell)
+        else {
+          selection = tileId;
+          pos = { x: 0, y: 0 };
+          rotation = 0;
+          moveSelection(0, 0);
+        }
+        let oTile = $(`tile-${tileId}`);
+        $('tile-hover').dataset.type = oTile.dataset.type;
+        $('tile-controls').dataset.type = oTile.dataset.type;
+        $('tile-hover').dataset.shape = oTile.dataset.shape;
+        $('tile-controls').dataset.shape = oTile.dataset.shape;
+        $('tile-hover').dataset.sprite = oTile.dataset.sprite;
+        $('tile-controls').dataset.sprite = oTile.dataset.sprite;
+        oTile.classList.add('selected');
+
+        // Compute new size of circle control
+        $('tile-controls').classList.remove('inactive');
+        let w = $('tile-hover').offsetWidth;
+        let h = $('tile-hover').offsetHeight;
+        let cross = $('tile-hover').querySelector('.tile-crosshairs');
+        let offsetW = cross.offsetLeft + cross.offsetWidth / 2;
+        let offsetH = cross.offsetTop + cross.offsetHeight / 2;
+        let dx = Math.max(offsetW, w - offsetW);
+        let dy = Math.max(offsetH, h - offsetH);
+        let radius = Math.sqrt(dx * dx + dy * dy);
+        $('tile-controls-circle').style.width = 2 * radius + 'px';
+        $('tile-controls-circle').style.height = 2 * radius + 'px';
+
+        this.addPrimaryActionButton('btnRotateCClockwise', '<i class="fa fa-undo"></i>', () => incRotation(-1));
+        this.addPrimaryActionButton('btnRotateClockwise', '<i class="fa fa-repeat"></i>', () => incRotation(1));
+      };
+
+      const buildableTiles = Object.keys(args.tiles);
+      buildableTiles.forEach((tileId) => {
+        this.onClick(`tile-${tileId}`, () => callback(tileId));
+      });
+      if (buildableTiles.length == 1) {
+        callback(buildableTiles[0]);
+      }
+
+      // Listen on hovering on map cells
+      this.onHoverCell = (cell) => {
+        cell.style.cursor = 'default';
+        if (selection !== null && (pos == null || (pos.x == 0 && pos.y == 0))) {
+          let x = parseInt(cell.dataset.x);
+          let y = parseInt(cell.dataset.y);
+          hoveredCell = cell;
+          moveSelection(x, y, cell);
+          $('tile-hover').classList.add('hovering');
+          $('tile-controls').classList.add('hovering');
+        }
+      };
+
+      this.onClickCell = (cell) => {
+        cell.style.cursor = 'default';
+        if (selection !== null) {
+          let x = parseInt(cell.dataset.x);
+          let y = parseInt(cell.dataset.y);
+          pos = { x, y };
+          hoveredCell = cell;
+          $('tile-hover').classList.remove('hovering');
+          $('tile-controls').classList.remove('hovering');
+
+          // Add confirm button
+          this.addPrimaryActionButton('btnConfirmBuild', _('Confirm'), () => {
+            if (!$('btnConfirmBuild').classList.contains('disabled')) {
+              this.takeAtomicAction('actBuild', [selection, pos, ((rotation % 4) + 4) % 4]);
+            }
+          });
+          moveSelection(x, y, cell);
+        }
+      };
+
+      // Click on arrow to rotate
+      let incRotation = (c) => {
+        rotation += c;
+        updateSelection();
+      };
+      this.onClick('tile-rotate-clockwise', () => incRotation(1));
+      this.onClick('tile-rotate-cclockwise', () => incRotation(-1));
+      this.onClick('tile-rotate-clockwise-on-tile', () => incRotation(1));
+      this.onClick('tile-rotate-cclockwise-on-tile', () => incRotation(-1));
+      this.onClick('tile-confirm-btn', () => {
+        if (!$('tile-confirm-btn').classList.contains('disabled')) {
+          this.takeAtomicAction('actBuild', [selection, pos, ((rotation % 4) + 4) % 4]);
+        }
+      });
+      this.attachRegisteredTooltips();
     },
 
     onEnteringStateFooA(args) {

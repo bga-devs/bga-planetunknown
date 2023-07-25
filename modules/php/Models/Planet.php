@@ -53,6 +53,8 @@ class Planet
       'name' => $this->name,
       'desc' => $this->desc,
       'terrains' => $this->terrains,
+      'columnMedals' => $this->columnMedals,
+      'rowMedals' => $this->rowMedals,
     ];
   }
 
