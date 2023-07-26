@@ -36,6 +36,7 @@ define([
         ['refreshUI', 200],
         ['refreshHand', 200],
         ['setupPlayer', 1200],
+        ['placeTile', 1200],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -198,11 +199,11 @@ define([
     notif_refreshUI(n) {
       debug('Notif: refreshing UI', n);
 
-      // ['meeples', 'players', 'cards', 'tiles', 'break', 'conservationBonuses', 'endOfGame'].forEach((value) => {
-      //   this.gamedatas[value] = n.args.datas[value];
-      // });
+      ['meeples', 'players', 'tiles'].forEach((value) => {
+        this.gamedatas[value] = n.args.datas[value];
+      });
       // this.setupMeeples();
-      // this.setupTiles();
+      this.setupTiles();
       // this.updatePlayersCounters();
       // this.updateActionCards();
       // this.updateBreakCounter();
@@ -258,7 +259,7 @@ define([
     clearPossible() {
       dojo.empty('pagesubtitle');
 
-      let toRemove = [];
+      let toRemove = ['tile-controls', 'tile-hover', 'btnRotateClockwise', 'btnRotateCClockwise', 'btnFlip'];
       toRemove.forEach((eltId) => {
         if ($(eltId)) $(eltId).remove();
       });

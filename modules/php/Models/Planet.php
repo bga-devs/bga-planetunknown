@@ -102,21 +102,18 @@ class Planet
   public function addTile($tileId, $pos, $rotation, $flipped)
   {
     $tile = Tiles::getSingle($tileId);
+    $tile->setLocation('board');
+    $tile->setX($pos['x']);
+    $tile->setY($pos['y']);
+    $tile->setRotation($rotation);
+    $tile->setFlipped($flipped ? 1 : 0);
+    $tile->setPId($this->pId);
     $this->tiles[$tile->getId()] = $tile;
-    $bonuses = [];
-    $bonusHydrologist = 0;
-    $bonusGeologist = 0;
-    $isAlreadyFull = $this->countEmptySpaces() == 0 ? true : false;
-    $this->invalidateCachedDatas();
     // Stats::incCoveredCells($this->pId, count(BUILDINGS[$tileType]));
 
     foreach ($this->getTileCoveredCells($tile, false) as $cell) {
       $this->grid[$cell['x']][$cell['y']]['tile'] = $tile;
     }
-
-    // if (!$isAlreadyFull) {
-    //   Stats::setEmptyCells($this->pId, $this->countEmptySpaces());
-    // }
 
     return $tile;
   }

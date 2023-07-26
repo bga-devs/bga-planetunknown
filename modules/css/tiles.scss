@@ -91,11 +91,9 @@
     flex-shrink: 0;
 
     @for $i from 0 to 4 {
-        &[data-rotation="#{$i}"] {
-            transform: rotate(#{$i * 90}deg);
-
-            .tile-crosshairs {
-                transform: rotate(#{$i * -90}deg);
+        @for $f from 0 to 2 {
+            &[data-rotation="#{$i}"][data-flipped="#{$f}"] {
+                transform: rotate(#{$i * 90}deg) scaleX(#{($f - 0.5) * -2});
             }
         }
     }

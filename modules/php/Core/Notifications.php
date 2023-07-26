@@ -23,6 +23,15 @@ class Notifications
     Game::get()->notifyPlayer($pId, $name, $msg, $data);
   }
 
+  // TODO : make the notif either private or public depending on some flag
+  protected static function pnotify($player, $name, $msg, $data)
+  {
+    $pId = is_int($player) ? $player : $player->getId();
+    $data['player'] = $player;
+    self::updateArgs($data);
+    Game::get()->notifyPlayer($pId, $name, $msg, $data);
+  }
+
   public static function message($txt, $args = [])
   {
     self::notifyAll('message', $txt, $args);
@@ -64,8 +73,8 @@ class Notifications
     // // Keep only the thing that matters
     $fDatas = [
       'players' => $datas['players'],
-      // 'buildings' => $datas['buildings'],
-      // 'meeples' => $datas['meeples'],
+      'tiles' => $datas['tiles'],
+      'meeples' => $datas['meeples'],
     ];
 
     // foreach ($fDatas['cards'] as $i => $card) {
@@ -94,6 +103,13 @@ class Notifications
   public static function flush()
   {
     self::notifyAll('flush', '', []);
+  }
+
+  public static function placeTile($player, $tile)
+  {
+    self::pnotify($player, 'placeTile', clienttranslate('${player_name} places a tile on their planet'), [
+      'tile' => $tile,
+    ]);
   }
 
   ///////////////////////////////////////////////////////////////
