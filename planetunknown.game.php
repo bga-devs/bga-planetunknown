@@ -51,13 +51,18 @@ class planetunknown extends Table
   use PU\States\SetupTrait;
   use PU\States\EngineTrait;
   use PU\States\TurnTrait;
+  use PU\States\ChooseBoardsTrait;
 
   public static $instance = null;
   function __construct()
   {
     parent::__construct();
     self::$instance = $this;
-    self::initGameStateLabels([]);
+    self::initGameStateLabels([
+      'option_planet' => 105,
+      'option_corporation' => 106,
+      'option_event_card' => 107,
+    ]);
     Engine::boot();
     // Stats::checkExistence();
   }

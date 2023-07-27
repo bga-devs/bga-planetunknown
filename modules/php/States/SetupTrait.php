@@ -15,6 +15,7 @@ use PU\Helpers\Utils;
 use PU\Helpers\Log;
 use PU\Managers\Cards;
 use PU\Managers\Susan;
+use PU\Models\Meeple;
 
 trait SetupTrait
 {
@@ -34,7 +35,16 @@ trait SetupTrait
 
     Globals::setFirstPlayer($this->getNextPlayerTable()[0]);
 
-    $this->activeNextPlayer();
+    $this->gamestate->setAllPlayersMultiactive();
+  }
+
+  public function stSecondSetup()
+  {
+    $players = Players::getAll();
+    foreach ($players as $pId => $player) {
+      Meeples::setupPlayer($pId);
+    }
+    $this->gamestate->nextState(Globals::getEventCardsGame());
   }
 
   // protected function setupPlayer($player, $notif = false)

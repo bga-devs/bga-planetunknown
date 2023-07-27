@@ -25,6 +25,9 @@ class Globals extends \PU\Helpers\DB_Manager
 
     // Game options
     'solo' => 'bool',
+    'planetOption' => 'int',
+    'corporationOption' => 'int',
+    'eventCardsGame' => 'obj'
   ];
 
   protected static $table = 'global_variables';
@@ -156,5 +159,9 @@ class Globals extends \PU\Helpers\DB_Manager
   public static function setupNewGame($players, $options)
   {
     self::setSolo(count($players) == 1);
+    self::setPlanetOption($options[OPTION_PLANET]);
+    self::setCorporationOption($options[OPTION_CORPORATION]);
+    $choiceForCards = $options[OPTION_EVENT_CARDS] == OPTION_EVENT_CARDS_GAME ? EVENT_CARD_GAME : NO_EVENT_CARD_GAME;
+    self::setEventCardsGame($choiceForCards);
   }
 }

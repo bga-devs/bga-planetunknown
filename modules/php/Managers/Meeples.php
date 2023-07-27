@@ -49,21 +49,6 @@ class Meeples extends \PU\Helpers\CachedPieces
   {
     $data = [];
     foreach ($players as $pId => $player) {
-      //create lifepods
-      $planet = Players::get($pId)->planet();
-
-      $lifepodsCoords = $planet->getStartingLifePodsCoord();
-
-      foreach ($lifepodsCoords as $lifepodCoord) {
-        $data[] = [
-          'type' => LIFEPOD,
-          'location' => 'planet',
-          'player_id' => $pId,
-          'x' => $lifepodCoord['x'],
-          'y' => $lifepodCoord['y']
-        ];
-      }
-
       //create trackers
       foreach ([CIV, WATER, BIOMASS, ROVER, TECH] as $value) {
         $data[] = [
@@ -74,6 +59,27 @@ class Meeples extends \PU\Helpers\CachedPieces
           'y' => 0
         ];
       }
+    }
+    static::create($data);
+  }
+
+  /* Creation of lifepods after player has choosen his planet */
+  public static function setupPlayer($pId)
+  {
+    $data = [];
+    //create lifepods
+    $planet = Players::get($pId)->planet();
+
+    $lifepodsCoords = $planet->getStartingLifePodsCoord();
+
+    foreach ($lifepodsCoords as $lifepodCoord) {
+      $data[] = [
+        'type' => LIFEPOD,
+        'location' => 'planet',
+        'player_id' => $pId,
+        'x' => $lifepodCoord['x'],
+        'y' => $lifepodCoord['y']
+      ];
     }
     static::create($data);
   }

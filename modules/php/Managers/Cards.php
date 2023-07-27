@@ -67,15 +67,6 @@ class Cards extends \PU\Helpers\CachedPieces
       ];
     }
 
-    //if EVENT MODE TODO OR SOLO
-    $cardColors = [GREEN, ORANGE, RED];
-    for ($i = 65; $i <= 124; $i++) {
-      $data[] = [
-        'location' => 'deck_event_' . $cardColors[floor(($i - 65) / 20)],
-      ];
-    }
-
-
     static::create($data);
 
     //keep only the right civ card number 
@@ -105,19 +96,32 @@ class Cards extends \PU\Helpers\CachedPieces
     }
 
     //prepare Event Card Deck
-    //first remove solo card if needed 
-    if (count($players) != 1) {
-      static::move(SOLO_EVENT_CARDS, 'box');
+    if (count($players) == 1 || $options[OPTION_EVENT_CARDS] == OPTION_EVENT_CARDS_GAME) {
+      $data = [];
+      //if EVENT MODE TODO OR SOLO
+      $cardColors = [GREEN, ORANGE, RED];
+      for ($i = 65; $i <= 124; $i++) {
+        $data[] = [
+          'location' => 'deck_event_' . $cardColors[floor(($i - 65) / 20)],
+        ];
+      }
+      static::create($data);
+
+      //first remove solo card if needed 
+      if (count($players) != 1) {
+        static::move(SOLO_EVENT_CARDS, 'box');
+      }
+
+      //TODO this is random, can make some preset
+      $eventCardSet = [];
+      $eventCardSet[GREEN] = bga_rand(0, 13);
+      $eventCardSet[ORANGE] = bga_rand(0, 13);
+      $eventCardSet[RED] = 20 - $eventCardSet[GREEN] - $eventCardSet[ORANGE];
+      foreach ($cardColors as $color) {
+        static::shuffle('deck_event_' . $color);
+        static::pickForLocation($eventCardSet[$color], 'deck_event_' . $color, 'deck_event');
+      }
+      static::shuffle('deck_event');
     }
-    //TODO this is random, can make some preset
-    $eventCardSet = [];
-    $eventCardSet[GREEN] = bga_rand(0, 13);
-    $eventCardSet[ORANGE] = bga_rand(0, 13);
-    $eventCardSet[RED] = 20 - $eventCardSet[GREEN] - $eventCardSet[ORANGE];
-    foreach ($cardColors as $color) {
-      static::shuffle('deck_event_' . $color);
-      static::pickForLocation($eventCardSet[$color], 'deck_event_' . $color, 'deck_event');
-    }
-    static::shuffle('deck_event');
   }
 }

@@ -20,6 +20,11 @@ const OPTION_PLANET_B_TOO = 1;
 const OPTION_CORPORATION = 106;
 const OPTION_CORPORATION_UNIVERSAL = 0;
 const OPTION_ALL_CORPORATIONS = 1;
+
+const OPTION_EVENT_CARDS = 107;
+const OPTION_EVENT_CARDS_GAME = 0;
+const OPTION_NO_EVENT_CARDS_GAME = 1;
+
 /*
  * User preferences
  */
@@ -36,6 +41,13 @@ const EVENT_CARD_GAME = "eventCard";
 /*
  * State constants
  */
+
+const GAME = "game";
+const MULTI = "multipleactiveplayer";
+const PRIVATESTATE = "private";
+const END_TURN = 'endTurn';
+const ACTIVE_PLAYER = "activeplayer";
+
 const ST_GAME_SETUP = 1;
 const ST_SETUP_BRANCH = 2;
 

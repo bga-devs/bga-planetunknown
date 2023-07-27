@@ -26,8 +26,10 @@ class Players extends \PU\Helpers\CachedDB_Manager
   public function setupNewGame($players, $options)
   {
     // Planet is not determined at first unless first game/beginner mode
-    $planet = 0;
-    $corporation = 0;
+    if ($options[OPTION_PLANET] == OPTION_PLANET_A) $planet = 0;
+    else $planet = ''; //TODO ATTRIBUTE A BOARD AT RANDOM
+    if ($options[OPTION_CORPORATION] == OPTION_CORPORATION_UNIVERSAL) $corporation = 0;
+    else $corporation = ''; //TODO ATTRIBUTE A BOARD AT RANDOM
 
     //positions around susan
     $positions = [

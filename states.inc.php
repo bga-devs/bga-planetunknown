@@ -15,12 +15,6 @@
  *
  */
 
-const GAME = "game";
-const MULTI = "multipleactiveplayer";
-const PRIVATESTATE = "private";
-const END_TURN = 'endTurn';
-const ACTIVE_PLAYER = "activeplayer";
-
 $machinestates = [
   // The initial state. Please do not modify.
   ST_GAME_SETUP => [
@@ -28,7 +22,7 @@ $machinestates = [
     'description' => '',
     'type' => 'manager',
     'action' => 'stGameSetup',
-    'transitions' => ['' => ST_SETUP_BRANCH],
+    'transitions' => ['' => ST_CHOOSE_BOARDS],
   ],
 
   ST_CHOOSE_BOARDS => [
@@ -48,8 +42,8 @@ $machinestates = [
     'description' => '',
     'action' => 'stSecondSetup',
     'transitions' => [
-      NO_EVENT_CARD_GAME => ST_GENERIC_NEXT_PLAYER,
-      EVENT_CARD_GAME => ST_EVENT_CARD,
+      NO_EVENT_CARD_GAME => ST_SETUP_BRANCH, //HACK TODO MODIFYshoud be NEXT PLAYER
+      EVENT_CARD_GAME => ST_SETUP_BRANCH, // should be ST_EVENT_CARD
     ],
   ],
 
