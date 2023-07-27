@@ -61,9 +61,9 @@ $machinestates = [
     'type' => ACTIVE_PLAYER,
     'description' => clienttranslate('${actplayer} must choose Space Station orientation'),
     'descriptionmyturn' => clienttranslate('${you} must choose Space Station orientation'),
-    'args' => 'argChooseRotation',  // Is it needed ? send visible Tiles
+    'args' => 'argChooseRotation', // Is it needed ? send visible Tiles
     'possibleactions' => ['rotate'],
-    'transitions' => ['' => ST_SETUP_BRANCH]
+    'transitions' => ['' => ST_SETUP_BRANCH],
   ],
 
   ST_GENERIC_NEXT_PLAYER => [

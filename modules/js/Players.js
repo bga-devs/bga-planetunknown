@@ -187,7 +187,6 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
           let className = '';
           let content = '';
           let style = `grid-row: ${y + 2}; grid-column: ${x + 2}`;
-
           planetGrid += `<div class='planet-grid-cell${className}' style='${style}' data-x='${x}' data-y='${y}'></div>`;
         }
       }
@@ -496,7 +495,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         if (o.parentNode != $(container)) {
           dojo.place(o, container);
         }
-        o.dataset.state = tile.state;
+        this.updateTileObj(o, tile);
 
         return tile.id;
       });
@@ -520,7 +519,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
 
     getTileContainer(tile) {
       if (tile.location == 'board') {
-        return $(`zoo-map-${tile.pId}`).querySelector('.zoo-board');
+        return $(`planet-${tile.pId}`).querySelector('.planet-grid');
       } else if ($(tile.location)) {
         return $(tile.location);
       }
@@ -551,26 +550,26 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       $(tileId).style.gridRowStart = row;
     },
 
-    notif_buyTile(n) {
-      debug('Notif: buying a tile', n);
-      this._playerCounters[n.args.player_id]['money'].toValue(n.args.total);
-      this._playerCounters[n.args.player_id]['income'].toValue(n.args.income);
+    updateTileObj(o, tile) {
+      ['state', 'rotation', 'flipped'].forEach((key) => {
+        o.dataset[key] = tile[key];
+      });
+      if (tile.location == 'board') {
+        this.placeTile(o, tile.x, tile.y);
+      }
+    },
+
+    notif_placeTile(n) {
+      debug('Notif: placing a tile', n);
+      let toRemove = ['tile-controls', 'tile-hover', 'btnRotateClockwise', 'btnRotateCClockwise', 'btnFlip'];
+      toRemove.forEach((eltId) => {
+        if ($(eltId)) $(eltId).remove();
+      });
+
       let tile = n.args.tile;
       let tileId = `tile-${tile.id}`;
-      this.addTile(tile);
-
-      if (!this.isFastMode()) {
-        let mobileElt = $(tileId).cloneNode(true);
-        mobileElt.id += '_sliding';
-        $(tileId).classList.add('phantom');
-        this.slide(mobileElt, tileId, {
-          from: 'page-title',
-          destroy: true,
-          phantom: false,
-        }).then(() => {
-          $(tileId).classList.remove('phantom');
-        });
-      }
+      this.updateTileObj($(tileId), tile);
+      this.slide($(tileId), this.getTileContainer(tile));
     },
 
     /////////////////////////////////////////////////////////////////////////////////

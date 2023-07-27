@@ -16,7 +16,6 @@ const OPTION_PLANET = 105;
 const OPTION_PLANET_A = 0;
 const OPTION_PLANET_B_TOO = 1;
 
-
 const OPTION_CORPORATION = 106;
 const OPTION_CORPORATION_UNIVERSAL = 0;
 const OPTION_ALL_CORPORATIONS = 1;
@@ -35,8 +34,8 @@ const OPTION_CONFIRM_TIMER = 3;
 
 const OPTION_CONFIRM_UNDOABLE = 104;
 
-const NO_EVENT_CARD_GAME = "noEventCard";
-const EVENT_CARD_GAME = "eventCard";
+const NO_EVENT_CARD_GAME = 'noEventCard';
+const EVENT_CARD_GAME = 'eventCard';
 
 /*
  * State constants

@@ -36,6 +36,7 @@ define([
         ['refreshUI', 200],
         ['refreshHand', 200],
         ['setupPlayer', 1200],
+        ['placeTile', 1200],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -198,11 +199,11 @@ define([
     notif_refreshUI(n) {
       debug('Notif: refreshing UI', n);
 
-      // ['meeples', 'players', 'cards', 'tiles', 'break', 'conservationBonuses', 'endOfGame'].forEach((value) => {
-      //   this.gamedatas[value] = n.args.datas[value];
-      // });
+      ['meeples', 'players', 'tiles'].forEach((value) => {
+        this.gamedatas[value] = n.args.datas[value];
+      });
       // this.setupMeeples();
-      // this.setupTiles();
+      this.setupTiles();
       // this.updatePlayersCounters();
       // this.updateActionCards();
       // this.updateBreakCounter();
@@ -258,7 +259,7 @@ define([
     clearPossible() {
       dojo.empty('pagesubtitle');
 
-      let toRemove = [];
+      let toRemove = ['tile-controls', 'tile-hover', 'btnRotateClockwise', 'btnRotateCClockwise', 'btnFlip'];
       toRemove.forEach((eltId) => {
         if ($(eltId)) $(eltId).remove();
       });
@@ -520,13 +521,9 @@ define([
     // |_____|_| |_|  \___|\___|\__|___/
     ///////////////////////////////////////
     onEnteringStatePlaceTile(args) {
-      this.addPrimaryActionButton('actionA', 'Action A', () => this.takeAtomicAction('actPlaceTile', [0]));
-      this.addPrimaryActionButton('actionB', 'Action B', () => this.takeAtomicAction('actPlaceTile', [1]));
-      this.addPrimaryActionButton('actionC', 'Action C', () => this.takeAtomicAction('actPlaceTile', [2]));
-
       let selection = null;
       let rotation = 0;
-      let flipped = 0;
+      let flipped = false;
       let hoveredCell = null;
       let pos = null;
       let oPlanet = $(`planet-${this.player_id}`).querySelector('.planet-grid');
@@ -538,6 +535,7 @@ define([
         <div id='tile-controls-circle'>
           <div id="tile-rotate-clockwise"><svg><use href="#rotate-clockwise-svg" /></svg></div>
           <div id="tile-rotate-cclockwise"><svg><use href="#rotate-cclockwise-svg" /></svg></div>
+          <div id="tile-flip"><svg><use href="#flip-svg" /></svg></div>
           <div id="tile-confirm-btn" class="action-button bgabutton bgabutton_blue">✓</div>
         </div>
       </div>`
@@ -558,9 +556,9 @@ define([
 
         let pos = args.tiles[selection].find((p) => p.pos.x == x && p.pos.y == y);
         let r = ((rotation % 4) + 4) % 4;
-        let valid = pos && pos.r.includes([r, flipped]);
+        let valid = pos && pos.r.find((d) => d[0] == r && d[1] == flipped);
         $('tile-hover').classList.toggle('invalid', !valid);
-        $('tile-hover').style.transform = `rotate(${rotation * 90}deg)`;
+        $('tile-hover').style.transform = `rotate(${rotation * 90}deg) scaleX(${flipped ? -1 : 1})`;
         $('tile-hover').querySelector('.tile-crosshairs').style.transform = `rotate(${-rotation * 90}deg)`;
 
         let bottomCircle = $('tile-controls').offsetTop + $('tile-controls-circle').offsetHeight / 2;
@@ -601,6 +599,7 @@ define([
           selection = tileId;
           pos = { x: 0, y: 0 };
           rotation = 0;
+          flipped = false;
           moveSelection(0, 0);
         }
         let oTile = $(`tile-${tileId}`);
@@ -621,11 +620,12 @@ define([
         let offsetH = cross.offsetTop + cross.offsetHeight / 2;
         let dx = Math.max(offsetW, w - offsetW);
         let dy = Math.max(offsetH, h - offsetH);
-        let radius = Math.sqrt(dx * dx + dy * dy);
+        let radius = Math.sqrt(dx * dx + dy * dy) + 10;
         $('tile-controls-circle').style.width = 2 * radius + 'px';
         $('tile-controls-circle').style.height = 2 * radius + 'px';
 
         this.addPrimaryActionButton('btnRotateCClockwise', '<i class="fa fa-undo"></i>', () => incRotation(-1));
+        this.addPrimaryActionButton('btnFlip', '<i class="fa fa-arrows-h"></i>', () => flipTile());
         this.addPrimaryActionButton('btnRotateClockwise', '<i class="fa fa-repeat"></i>', () => incRotation(1));
       };
 
@@ -663,7 +663,7 @@ define([
           // Add confirm button
           this.addPrimaryActionButton('btnConfirmBuild', _('Confirm'), () => {
             if (!$('btnConfirmBuild').classList.contains('disabled')) {
-              this.takeAtomicAction('actBuild', [selection, pos, ((rotation % 4) + 4) % 4]);
+              this.takeAtomicAction('actPlaceTile', [selection, pos, ((rotation % 4) + 4) % 4, flipped]);
             }
           });
           moveSelection(x, y, cell);
@@ -679,9 +679,18 @@ define([
       this.onClick('tile-rotate-cclockwise', () => incRotation(-1));
       this.onClick('tile-rotate-clockwise-on-tile', () => incRotation(1));
       this.onClick('tile-rotate-cclockwise-on-tile', () => incRotation(-1));
+      // Click on flip to mirror
+      let flipTile = () => {
+        flipped = !flipped;
+        if (rotation % 2 == 1) rotation += 2;
+        updateSelection();
+      };
+      this.onClick('tile-flip', () => flipTile());
+
+      // Confirm
       this.onClick('tile-confirm-btn', () => {
         if (!$('tile-confirm-btn').classList.contains('disabled')) {
-          this.takeAtomicAction('actBuild', [selection, pos, ((rotation % 4) + 4) % 4]);
+          this.takeAtomicAction('actPlaceTile', [selection, pos, ((rotation % 4) + 4) % 4, flipped]);
         }
       });
       this.attachRegisteredTooltips();

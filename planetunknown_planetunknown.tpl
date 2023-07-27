@@ -22,5 +22,24 @@
     <path style="stroke-width:0.07000434" d="m 45.48858,16.450478 c -5.775393,2.01596 -11.211548,5.303185 -15.858938,9.942713 -16.597453,16.475232 -16.696512,43.277336 -0.22128,59.874803 0,0 4.534081,4.541175 4.534081,4.541175 0,0 0.04918,-13.308462 0.04918,-13.308462 0.01731,-4.6831 3.814806,-8.452629 8.497909,-8.435325 4.683086,0.01731 8.452629,3.814809 8.435317,8.4979 0,0 -0.124665,33.734158 -0.124665,33.734158 0,0 0,0 0,0 0,0 -4.73e-4,0.10581 -4.73e-4,0.10581 -0.01731,4.68308 -3.814811,8.45261 -8.497892,8.43531 0,0 -33.8664466,-0.12517 -33.8664466,-0.12517 -4.683082,-0.0173 -8.45262698,-3.8148 -8.435312980909,-8.49789 C 0.01736942,106.5324 3.8148614,102.76287 8.4979554,102.78018 c 0,0 13.5465756,0.0501 13.5465756,0.0501 0,0 -4.639529,-4.647394 -4.639529,-4.647394 C -5.6603156,74.946404 -5.5216636,37.428746 17.714779,14.363418 24.194432,7.9314885 31.805132,3.3029185 39.938355,0.47544847 c 4.42427,-1.54468997 9.231049,0.80142003 10.775849,5.19925003 1.544801,4.3978195 -0.801421,9.2310495 -5.199241,10.7758495 0,0 -0.02642,-5e-5 -0.02642,-5e-5" />
   </symbol>
 </svg>
+<svg style="display:none" roles="img" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="flip-svg" viewBox="0 0 32.116522 15.785412">
+  <path
+     style="fill:none;stroke:#000000;stroke-width:4.04067945;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="M 29.259334,7.7942588 24.265869,2.8722958" />
+  <path
+     style="fill:none;stroke:#000000;stroke-width:4.04067945;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="M 29.259334,7.7942588 24.307592,12.735929"  />
+  <path
+     style="fill:none;stroke:#000000;stroke-width:4.04067945;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="m 2.8571188,7.8208058 5.035189,-4.963687" />
+  <path
+     style="fill:none;stroke:#000000;stroke-width:4.04067945;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="m 2.8571188,7.8208058 4.826571,5.1085652"  />
+  <path
+     style="fill:none;stroke:#000000;stroke-width:4.04067945;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="m 2.8571188,7.8208058 25.1922302,0.0569"  />
+  </symbol>
+</svg>
 
 {OVERALL_GAME_FOOTER}

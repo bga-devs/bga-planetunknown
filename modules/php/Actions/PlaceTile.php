@@ -58,23 +58,47 @@ class PlaceTile extends \PU\Models\Action
     ];
   }
 
-  public function actPlaceTile($n)
+  public function actPlaceTile($tileId, $pos, $rotation, $flipped)
   {
-    $t = [
-      0 => FOO_A,
-      1 => FOO_B,
-      2 => FOO_C,
-    ];
-    $action = $t[$n];
+    self::checkAction('actPlaceTile');
+    $player = $this->getPlayer();
+    $args = $this->argsPlaceTile();
+    $tiles = $args['tiles'];
+    $tileOptions = $tiles[$tileId] ?? null;
+    if (is_null($tileOptions)) {
+      throw new \BgaVisibleSystemException('You cannot place that tile. Should not happen');
+    }
+    $option = Utils::search($tileOptions, function ($option) use ($pos) {
+      return $option['pos']['x'] == $pos['x'] && $option['pos']['y'] == $pos['y'];
+    });
+    if ($option === false) {
+      throw new \BgaVisibleSystemException('You cannot place the tile here. Should not happen');
+    }
+    // $optionArg = Utils::search($option['r'], function ($arg) use ($rotation, $flipped) {
+    //   return $arg[0] == $rotation && $arg[1] == $flipped;
+    // });
+    if (!in_array([$rotation, $flipped], $tileOptions[$option]['r'])) {
+      throw new \BgaVisibleSystemException('You cannot place the tile here with that rotation/flip. Should not happen');
+    }
 
-    $this->insertAsChild([
-      'action' => $action,
-    ]);
+    // Place it on the board
+    $tile = $player->planet()->addTile($tileId, $pos, $rotation, $flipped);
+    Notifications::placeTile($player, $tile);
 
-    Notifications::message('${player_name} places a tile', [
-      'player' => Players::getCurrent(),
-    ]);
+    // TODO :
+    // Get tile information about the colors and icons emplacement on the grid (for energy at least)
+    // => add parallel childs for the two resources tracks
+    // $this->pushParallelChilds([
+    //   [
+    //     'action' => MOVE_TRACK,
+    //     'args' => ['track' => TYPE1, 'n' => 1]
+    //   ],
+    //   [
+    //     'action' => MOVE_TRACK,
+    //     'args' => ['track' => TYPE2, 'n' => 1]
+    //   ],
+    // ]);
 
-    $this->resolveAction([$n]);
+    $this->resolveAction([$tileId, $pos, $rotation, $flipped]);
   }
 }

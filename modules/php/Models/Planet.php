@@ -102,21 +102,18 @@ class Planet
   public function addTile($tileId, $pos, $rotation, $flipped)
   {
     $tile = Tiles::getSingle($tileId);
+    $tile->setLocation('board');
+    $tile->setX($pos['x']);
+    $tile->setY($pos['y']);
+    $tile->setRotation($rotation);
+    $tile->setFlipped($flipped ? 1 : 0);
+    $tile->setPId($this->pId);
     $this->tiles[$tile->getId()] = $tile;
-    $bonuses = [];
-    $bonusHydrologist = 0;
-    $bonusGeologist = 0;
-    $isAlreadyFull = $this->countEmptySpaces() == 0 ? true : false;
-    $this->invalidateCachedDatas();
     // Stats::incCoveredCells($this->pId, count(BUILDINGS[$tileType]));
 
     foreach ($this->getTileCoveredCells($tile, false) as $cell) {
       $this->grid[$cell['x']][$cell['y']]['tile'] = $tile;
     }
-
-    // if (!$isAlreadyFull) {
-    //   Stats::setEmptyCells($this->pId, $this->countEmptySpaces());
-    // }
 
     return $tile;
   }
@@ -253,18 +250,18 @@ class Planet
   public function getCellsOfTileType($tileType)
   {
     $types = [
-      [[2, 1], [0, 1], [1, 1], [2, 0], [3, 0]],
-      [[1, 1], [0, 1], [2, 1], [2, 0], [1, 2]],
-      [[0, 1], [0, 0], [0, 2]],
-      [[1, 0], [0, 0], [1, 1]],
-      [[1, 0], [0, 0], [1, 1], [2, 0]],
-      [[1, 0], [0, 1], [1, 1], [2, 0]],
-      [[1, 1], [0, 2], [1, 0], [1, 2]],
-      [[1, 1], [0, 0], [0, 1], [2, 0], [2, 1]],
+      [[0, 0], [-2, 0], [-1, 0], [0, -1], [1, -1]],
+      [[0, 0], [-1, 0], [1, 0], [1, -1], [0, 1]],
+      [[0, 0], [0, -1], [0, 1]],
+      [[0, 0], [-1, 0], [0, 1]],
+      [[0, 0], [-1, 0], [0, 1], [1, 0]],
+      [[0, 0], [-1, 1], [0, 1], [1, 0]],
+      [[0, 0], [-1, 1], [0, -1], [0, 1]],
+      [[0, 0], [-1, -1], [-1, 0], [1, -1], [1, 0]],
       [[0, 0], [0, 1]],
-      [[1, 0], [0, 0], [2, 0], [3, 0]],
+      [[0, 0], [-1, 0], [1, 0], [2, 0]],
       [[0, 0], [0, 1], [1, 0], [1, 1]],
-      [[1, 1], [0, 0], [0, 1], [2, 1], [2, 2]],
+      [[0, 0], [-1, -1], [-1, 0], [1, 0], [1, 1]],
     ];
 
     return $types[$tileType % 12];
@@ -493,7 +490,7 @@ class Planet
     $s = (int) sin(($rotation * pi()) / 2);
     return [
       'x' => $c * $x - $s * $y,
-      'y' => $s * $x + $c * $x,
+      'y' => $s * $x + $c * $y,
     ];
   }
 }
