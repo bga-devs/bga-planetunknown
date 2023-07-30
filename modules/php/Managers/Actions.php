@@ -54,10 +54,6 @@ class Actions
 
   public static function getErrorMessage($actionId)
   {
-    if ($actionId == VENOM_PAY) {
-      return Game::get()::translate('You no longer have enough money to pay for Venom. You must undo or restart your turn.');
-    }
-
     $actionId = ucfirst(mb_strtolower($actionId));
     $msg = sprintf(
       Game::get()::translate(
@@ -83,7 +79,7 @@ class Actions
 
   public static function takeAction($actionId, $actionName, $args, $ctx)
   {
-    $player = Players::getActive();
+    $player = self::getPlayer($ctx);
     if (!self::isDoable($actionId, $ctx, $player)) {
       throw new \BgaUserException(self::getErrorMessage($actionId));
     }
@@ -93,9 +89,14 @@ class Actions
     $action->$methodName(...$args);
   }
 
+  public static function getPlayer($node)
+  {
+    return Players::get($node->getRoot()->getPId());
+  }
+
   public static function stAction($actionId, $ctx)
   {
-    $player = Players::getActive();
+    $player = self::getPlayer($ctx);
     if (!self::isDoable($actionId, $ctx, $player)) {
       if (!$ctx->isOptional()) {
         if (self::isDoable($actionId, $ctx, $player, true)) {
@@ -124,7 +125,8 @@ class Actions
     $methodName = 'stPre' . $action->getClassName();
     if (\method_exists($action, $methodName)) {
       $action->$methodName();
-      if ($ctx->isIrreversible(Players::get($ctx->getPId()))) {
+      $player = self::getPlayer($ctx);
+      if ($ctx->isIrreversible($player)) {
         Engine::checkpoint();
       }
     }
