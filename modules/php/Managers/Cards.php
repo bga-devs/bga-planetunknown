@@ -79,20 +79,12 @@ class Cards extends \PU\Helpers\CachedPieces
 
     //pick right number of Neighbor Objectives cards
     static::shuffle('deck_NObjectives');
-    switch (count($players)) {
-      case 1:
-        //TODO handle solo game
-        break;
-
-      case 2:
-        static::pickForLocation(3, 'deck_NObjectives', 'table');
-        break;
-
-      default:
-        for ($i = 0; $i < count($players); $i++) {
-          static::pickOneForLocation('deck_NObjectives', 'table', $i);
-        }
-        break;
+    if (count($players) == 2) {
+      static::pickForLocation(3, 'deck_NObjectives', 'table');
+    } else {
+      for ($i = 0; $i < count($players); $i++) {
+        static::pickOneForLocation('deck_NObjectives', 'table', $i);
+      }
     }
 
     //prepare Event Card Deck
