@@ -1,6 +1,41 @@
 .planetunknown-icon {
   background: url("img/icons.png");
   background-repeat: no-repeat;
+
+  &.icon-asteroid {
+    background-position: 90.1015228426396% 5.167958656330749%;
+    background-size: 433.89830508474574%;
+  }
+
+  &.icon-first-player {
+    background-position: 10.152284263959391% 5.571030640668524%;
+    background-size: 162.53968253968253%;
+  }
+
+  &.icon-tracker_biomass {
+    background-position: 4.310344827586207% 41.5948275862069%;
+    background-size: 1066.6666666666665%;
+  }
+
+  &.icon-tracker_civ {
+    background-position: 18.96551724137931% 41.5948275862069%;
+    background-size: 1066.6666666666665%;
+  }
+
+  &.icon-tracker_rover {
+    background-position: 33.62068965517241% 41.5948275862069%;
+    background-size: 1066.6666666666665%;
+  }
+
+  &.icon-tracker_tech {
+    background-position: 48.275862068965516% 41.5948275862069%;
+    background-size: 1066.6666666666665%;
+  }
+
+  &.icon-tracker_water {
+    background-position: 62.93103448275862% 41.5948275862069%;
+    background-size: 1066.6666666666665%;
+  }
 }
 
 /////////////////////////////////////////////////////////

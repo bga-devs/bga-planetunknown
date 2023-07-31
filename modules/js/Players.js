@@ -195,9 +195,29 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       return `<div class='planet' data-id='${planet.id}' id='planet-${pId}'>${planetGrid}</div>`;
     },
 
+    tplCorporation(corpo, player = null) {
+      let pId = player == null ? 0 : player.id;
+
+      // Create cells
+      let grid = `<div class='corporation-columns'>`;
+      ['civ', 'water', 'biomass', 'rover', 'tech'].forEach((track) => {
+        grid += `<div class="corporation-column column-${track}">`;
+        for (let y = 15; y >= 0; y--) {
+          grid += `<div class='corpo-cell' id='corporation-${pId}-${track}-${y}'></div>`;
+        }
+        grid += '</div>';
+      });
+      grid += '</div>';
+
+      return `<div class='corporation' data-id='${corpo.id}' id='corporation-${pId}'>
+        ${grid}
+      </div>`;
+    },
+
     tplPlayerBoard(player) {
       let planet = player.planetId ? this.tplPlanet(PLANETS_DATA[player.planetId], player) : '';
-      let corporation = '';
+      // TODO
+      let corporation = this.tplCorporation({}, player);
       return `<div class='pu-player-board-resizable' id='player-board-resizable-${player.id}'>
           <div class='pu-player-board-planet' id='player-board-planet-${player.id}'>        
             ${planet}
