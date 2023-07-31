@@ -51,7 +51,7 @@ class planetunknown extends Table
   use PU\States\SetupTrait;
   use PU\States\EngineTrait;
   use PU\States\TurnTrait;
-  use PU\States\ChooseBoardsTrait;
+  use PU\States\ChooseSetupTrait;
   use PU\States\ChooseRotationTrait;
 
   public static $instance = null;
