@@ -35,7 +35,7 @@ $machinestates = [
     'possibleactions' => ['chooseSetup'],
     'transitions' => [
       'notNeeded' => ST_SECOND_SETUP,
-      'end' => ST_CONFIRM_SETUP
+      'end' => ST_CONFIRM_SETUP,
     ],
   ],
 
@@ -76,7 +76,7 @@ $machinestates = [
     'possibleactions' => ['rotate'],
     'transitions' => [
       'end' => ST_SETUP_BRANCH,
-      SOLO_GAME => ST_EVENT_CARD
+      SOLO_GAME => ST_EVENT_CARD,
     ],
   ],
 
@@ -181,7 +181,7 @@ $machinestates = [
     'name' => 'confirmPartialTurn',
     'description' => clienttranslate('${actplayer} must confirm the switch of player'),
     'descriptionmyturn' => clienttranslate('${you} must confirm the switch of player. You will not be able to restart turn'),
-    'type' => 'activeplayer',
+    'type' => 'private',
     'args' => 'argsConfirmTurn',
     // 'action' => 'stConfirmPartialTurn',
     'possibleactions' => ['actConfirmPartialTurn', 'actRestart'],
@@ -193,7 +193,7 @@ $machinestates = [
     'descriptionmyturn' => clienttranslate('${you} must choose which effect to resolve'),
     'descriptionxor' => clienttranslate('${actplayer} must choose exactly one effect'),
     'descriptionmyturnxor' => clienttranslate('${you} must choose exactly one effect'),
-    'type' => 'activeplayer',
+    'type' => 'private',
     'args' => 'argsResolveChoice',
     'action' => 'stResolveChoice',
     'possibleactions' => ['actChooseAction', 'actRestart'],
@@ -205,7 +205,7 @@ $machinestates = [
     'descriptionmyturn' => clienttranslate(
       '${you} can\'t take the mandatory action. Restart your turn or exchange/cook to make it possible'
     ),
-    'type' => 'activeplayer',
+    'type' => 'private',
     'args' => 'argsImpossibleAction',
     'possibleactions' => ['actRestart'],
   ],
@@ -225,6 +225,15 @@ $machinestates = [
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
     'possibleactions' => ['actPlaceTile', 'actRestart'],
+  ],
+
+  ST_MOVE_TRACK => [
+    'name' => 'moveTrack',
+    'descriptionmyturn' => clienttranslate('You must move your track ${type}'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actMoveTrack', 'actRestart'],
   ],
 
   ST_FOO_A => [

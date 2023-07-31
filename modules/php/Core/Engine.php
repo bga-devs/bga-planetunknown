@@ -193,32 +193,34 @@ class Engine
 
   /**
    * Get the list of choices of current node
-   *
-  public function getNextChoice($player = null, $displayAllChoices = false)
+   */
+  public function getNextChoice($player, $displayAllChoices = false)
   {
-    return self::$tree->getNextUnresolved()->getChoices($player, $displayAllChoices);
+    $node = self::getNextUnresolved($player->getId());
+    return $node->getChoices($player, $displayAllChoices);
   }
-  */
 
   /**
    * Choose one option
-   *
+   */
   public function chooseNode($player, $nodeId, $auto = false)
   {
-    $node = self::$tree->getNextUnresolved();
+    $pId = $player->getId();
+    $node = self::getNextUnresolved($pId);
     $args = $node->getChoices($player);
     if (!isset($args[$nodeId])) {
       throw new \BgaVisibleSystemException('This choice is not possible');
     }
 
     if (!$auto) {
-      Globals::incEngineChoices();
+      PGlobals::incEngineChoices($pId);
       Log::step();
     }
 
     if ($nodeId == PASS) {
-      self::resolve(PASS);
-      self::proceed();
+      $node->resolve(PASS);
+      self::save($pId);
+      self::proceed($pId);
       return;
     }
 
@@ -226,10 +228,9 @@ class Engine
       throw new \BgaVisibleSystemException('Node is already resolved');
     }
     $node->choose($nodeId, $auto);
-    self::save();
-    self::proceed();
+    self::save($pId);
+    self::proceed($pId);
   }
-  */
 
   /**
    * Resolve action : resolve the action of a leaf action node
@@ -299,9 +300,6 @@ class Engine
     if (is_null($t)) {
       return;
     }
-    if (is_null($node)) {
-      $node = self::$tree->getNextUnresolved();
-    }
 
     // If the node is an action leaf, turn it into a SEQ node first
     if ($node->getType() == NODE_LEAF) {
@@ -321,17 +319,15 @@ class Engine
    *  - if the node is a parallel node => insert all the nodes as childs
    *  - if one of the child is a parallel node => insert as their childs instead
    *  - otherwise, make the action a parallel node
-   *
+   */
 
-  public function insertOrUpdateParallelChilds($childs, &$node = null)
+  public function insertOrUpdateParallelChilds($childs, &$node)
   {
     if (empty($childs)) {
       return;
     }
-    if (is_null($node)) {
-      $node = self::$tree->getNextUnresolved();
-    }
 
+    $pId = $node->getRoot()->getPId();
     if ($node->getType() == NODE_SEQ) {
       // search if we have children and if so if we have a parallel node
       foreach ($node->getChilds() as $child) {
@@ -339,7 +335,7 @@ class Engine
           foreach ($childs as $newChild) {
             $child->pushChild(self::buildTree($newChild));
           }
-          self::save();
+          self::save($pId);
           return;
         }
       }
@@ -364,10 +360,9 @@ class Engine
       foreach ($childs as $newChild) {
         $node->pushChild(self::buildTree($newChild));
       }
-      self::save();
+      self::save($pId);
     }
   }
-  */
 
   /**
    * Confirm the full resolution of current flow
