@@ -12,22 +12,16 @@ use PU\Managers\ActionCards;
 use PU\Managers\Meeples;
 use PU\Managers\Scores;
 use PU\Managers\Actions;
+use PU\Managers\Susan;
 use PU\Managers\ZooCards;
 
 trait ChooseBoardsTrait
 {
-  public function argChooseBoards()
+  public function stChooseRotation()
   {
-    return [];
-  }
-
-  public function stChooseBoards()
-  {
-    if (
-      Globals::getPlanetOption() == OPTION_PLANET_A &&
-      Globals::getCorporationOption() == OPTION_CORPORATION_UNIVERSAL
-    ) {
-      $this->gamestate->setAllPlayersNonMultiactive('');
+    if (Players::count() < 3) {
+      Susan::rotate(1);
+      $this->gamestate->nextState('');
     }
   }
 }

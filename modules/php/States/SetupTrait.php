@@ -44,7 +44,10 @@ trait SetupTrait
     foreach ($players as $pId => $player) {
       Meeples::setupPlayer($pId);
     }
-    $this->gamestate->nextState(Globals::getEventCardsGame());
+    if ($players->count() == 1) $this->gamestate->nextState(SOLO_GAME);
+    else {
+      $this->gamestate->nextState(Globals::getEventCardsGame());
+    }
   }
 
   // protected function setupPlayer($player, $notif = false)

@@ -6,6 +6,7 @@ use PU\Core\Game;
 use PU\Core\Engine;
 use PU\Managers\Players;
 use PU\Core\Globals;
+use PU\Core\Notifications;
 
 /* Class to manage all the stuff around Susan Space station */
 
@@ -33,6 +34,14 @@ class Susan
 			$depots[$i] = static::getDepot($i);
 		}
 		return $depots;
+	}
+
+	public static function rotate($nb, $player = null)
+	{
+		$rotation = Globals::getSusanRotation();
+		$rotation = ($rotation + $nb) % 6;
+		Globals::setSusanRotation($rotation);
+		Notifications::newRotation($rotation, $player);
 	}
 
 	public static function getUiData()

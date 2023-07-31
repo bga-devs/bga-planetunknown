@@ -22,7 +22,7 @@ $machinestates = [
     'description' => '',
     'type' => 'manager',
     'action' => 'stGameSetup',
-    'transitions' => ['' => ST_CHOOSE_BOARDS],
+    'transitions' => ['' => ST_SETUP_BRANCH],
   ],
 
   ST_CHOOSE_BOARDS => [
@@ -42,18 +42,18 @@ $machinestates = [
     'description' => '',
     'action' => 'stSecondSetup',
     'transitions' => [
-      NO_EVENT_CARD_GAME => ST_SETUP_BRANCH, //HACK TODO MODIFYshoud be NEXT PLAYER
-      EVENT_CARD_GAME => ST_SETUP_BRANCH, // should be ST_EVENT_CARD
+      NO_EVENT_CARD_GAME => ST_CHOOSE_ROTATION,
+      EVENT_CARD_GAME => ST_EVENT_CARD,
+      SOLO_GAME => ST_CHOOSE_ROTATION,
     ],
   ],
 
   ST_EVENT_CARD => [
     'name' => 'eventCard',
-    'type' => MULTI,
+    'type' => GAME,
     'description' => '',
-    'args' => 'argEventCard', //reveal top event card
-    'action' => 'stEventCard', //end turn if no actions required
-    'transitions' => ['' => ST_SETUP_BRANCH],
+    'action' => 'stEventCard', //reveal top event card and prepare engine
+    'transitions' => ['' => ST_PLAY_AFTER_EVENT_CARD],
   ],
 
   ST_CHOOSE_ROTATION => [
@@ -61,10 +61,21 @@ $machinestates = [
     'type' => ACTIVE_PLAYER,
     'description' => clienttranslate('${actplayer} must choose Space Station orientation'),
     'descriptionmyturn' => clienttranslate('${you} must choose Space Station orientation'),
-    'args' => 'argChooseRotation', // Is it needed ? send visible Tiles
+    'action' => 'stChooseRotation',
     'possibleactions' => ['rotate'],
-    'transitions' => ['' => ST_SETUP_BRANCH],
+    'transitions' => [
+      '' => ST_SETUP_BRANCH,
+      SOLO_GAME => ST_EVENT_CARD
+    ],
   ],
+
+  // ST_NEXT_PLAYER => [
+  //   'name' => 'nextPlayer',
+  //   'type' => GAME,
+  //   'description' => '',
+  //   'action' => 'stNextPlayer',
+  //   'transitions' => ['' => ST_SETUP_BRANCH],
+  // ],
 
   ST_GENERIC_NEXT_PLAYER => [
     'name' => 'genericNextPlayer',
@@ -102,6 +113,12 @@ $machinestates = [
     'type' => 'game',
     'action' => 'stStartParallel',
   ],
+
+  ST_PLAY_AFTER_EVENT_CARD => [
+    'name' => 'playAfterEventCard',
+    'type' => GAME,
+    'action' => 'stPlayAfterEventCard',
+  ], // should end with -> st_choose_rotation on normal game / setup_branch on solo game
 
   ////////////////////////////////////
   //  _____             _

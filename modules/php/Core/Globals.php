@@ -159,6 +159,7 @@ class Globals extends \PU\Helpers\DB_Manager
   public static function setupNewGame($players, $options)
   {
     self::setSolo(count($players) == 1);
+    self::setFirstPlayer(array_keys($players)[0]);
     self::setPlanetOption($options[OPTION_PLANET]);
     self::setCorporationOption($options[OPTION_CORPORATION]);
     $choiceForCards = $options[OPTION_EVENT_CARDS] == OPTION_EVENT_CARDS_GAME ? EVENT_CARD_GAME : NO_EVENT_CARD_GAME;

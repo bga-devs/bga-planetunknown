@@ -1,5 +1,7 @@
 <?php
+
 namespace PU\Core;
+
 use PU\Managers\Players;
 use PU\Helpers\Utils;
 use PU\Helpers\Collection;
@@ -7,6 +9,18 @@ use PU\Core\Globals;
 
 class Notifications
 {
+  public static function newRotation($rotation, $player = null)
+  {
+    $message = ($player ==  null) ?
+      "S.U.S.A.N. rotates." : '${player_name} chooses a new orientation for S.U.S.A.N.';
+    $data = [
+      'player' => $player,
+      'newRotation' => $rotation
+    ];
+
+    static::notifyAll("newRotation", $message, $data);
+  }
+
   /*************************
    **** GENERIC METHODS ****
    *************************/
@@ -157,5 +171,3 @@ class Notifications
     }
   }
 }
-
-?>

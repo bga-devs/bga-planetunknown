@@ -37,6 +37,7 @@ const OPTION_CONFIRM_UNDOABLE = 104;
 const NO_EVENT_CARD_GAME = 'noEventCard';
 const EVENT_CARD_GAME = 'eventCard';
 
+const SOLO_GAME = 'solo';
 /*
  * State constants
  */
@@ -53,8 +54,10 @@ const ST_SETUP_BRANCH = 2;
 const ST_CHOOSE_BOARDS = 3;
 const ST_SECOND_SETUP = 4;
 const ST_EVENT_CARD = 10;
+const ST_PLAY_AFTER_EVENT_CARD = 12;
 
-const ST_START_ROUND = 20;
+const ST_NEXT_PLAYER = 19;
+
 const ST_CHOOSE_ROTATION = 21;
 const ST_START_PARALLEL = 22;
 
