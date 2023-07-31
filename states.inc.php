@@ -22,7 +22,7 @@ $machinestates = [
     'description' => '',
     'type' => 'manager',
     'action' => 'stGameSetup',
-    'transitions' => ['' => ST_CHOOSE_BOARDS],
+    'transitions' => ['' => ST_CHOOSE_SETUP],
   ],
 
   ST_CHOOSE_SETUP => [
@@ -30,10 +30,13 @@ $machinestates = [
     'type' => MULTI,
     'description' => clienttranslate('Waiting for everyone to choose their setup'),
     'descriptionmyturn' => clienttranslate('${you} must choose your setup'),
-    'args' => 'argChooseBoards',
-    'action' => 'stChooseBoards',
+    'args' => 'argChooseSetup',
+    'action' => 'stChooseSetup',
     'possibleactions' => ['chooseSetup'],
-    'transitions' => ['' => ST_CONFIRM_SETUP],
+    'transitions' => [
+      'notNeeded' => ST_SECOND_SETUP,
+      'end' => ST_CONFIRM_SETUP
+    ],
   ],
 
   ST_CONFIRM_SETUP => [

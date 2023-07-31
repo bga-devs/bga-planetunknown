@@ -16,19 +16,19 @@ use PU\Managers\ZooCards;
 
 trait ChooseBoardsTrait
 {
-  public function argChooseBoards()
+  public function argChooseSetup()
   {
     return [];
   }
 
-  public function stChooseBoards()
+  public function stChooseSetup()
   {
     if (
       Globals::getPlanetOption() == OPTION_PLANET_A &&
       Globals::getCorporationOption() == OPTION_CORPORATION_UNIVERSAL &&
       !Globals::isPrivateObjectiveCardsGame()
     ) {
-      $this->gamestate->setAllPlayersNonMultiactive('');
+      $this->gamestate->setAllPlayersNonMultiactive('notNeeded');
     }
   }
 }

@@ -12,6 +12,7 @@ use PU\Core\Globals;
 use PU\Core\Engine;
 use PU\Helpers\FlowConvertor;
 use PU\Helpers\Utils;
+use PU\Managers\Cards;
 
 /*
  * Player: all utility functions concerning a player
@@ -71,7 +72,8 @@ class Player extends \PU\Helpers\DB_Model
   {
     $data = parent::getUiData();
     $current = $this->id == $currentPlayerId;
-    //TODO
+    $data['POCards'] = ($current) ? Cards::getInLocation('hand', $this->id) : Cards::countInLocation('hand', $this->id);
+    $data['civCard'] = Cards::getInLocation('board', $this->id);
     return $data;
   }
 
