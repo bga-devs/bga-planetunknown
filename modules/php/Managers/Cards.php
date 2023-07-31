@@ -22,7 +22,7 @@ class Cards extends \PU\Helpers\CachedPieces
     if ($row['card_id'] > 0 && $row['card_id'] <= 36) {
       $className =  '\PU\Models\Cards\CivCard' . $row['card_id'];
     } else if ($row['card_id'] > 36 && $row['card_id'] <= 64) {
-      $className =  '\PU\Models\Cards\NOCard' . $row['card_id'];
+      $className =  '\PU\Models\Cards\OCard';
     } else if ($row['card_id'] > 64 && $row['card_id'] <= 124) {
       $className =  '\PU\Models\Cards\EventCard' . $row['card_id'];
     }
