@@ -25,7 +25,8 @@ trait ChooseBoardsTrait
   {
     if (
       Globals::getPlanetOption() == OPTION_PLANET_A &&
-      Globals::getCorporationOption() == OPTION_CORPORATION_UNIVERSAL
+      Globals::getCorporationOption() == OPTION_CORPORATION_UNIVERSAL &&
+      !Globals::isPrivateObjectiveCardsGame()
     ) {
       $this->gamestate->setAllPlayersNonMultiactive('');
     }

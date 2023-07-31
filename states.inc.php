@@ -22,17 +22,25 @@ $machinestates = [
     'description' => '',
     'type' => 'manager',
     'action' => 'stGameSetup',
-    'transitions' => ['' => ST_SETUP_BRANCH],
+    'transitions' => ['' => ST_CHOOSE_BOARDS],
   ],
 
-  ST_CHOOSE_BOARDS => [
-    'name' => 'chooseBoards',
+  ST_CHOOSE_SETUP => [
+    'name' => 'chooseSetup',
     'type' => MULTI,
-    'description' => clienttranslate('Waiting for everyone to choose their planet or/and corporation'),
-    'descriptionmyturn' => clienttranslate('${you} must choose your planet or/and corporation'),
+    'description' => clienttranslate('Waiting for everyone to choose their setup'),
+    'descriptionmyturn' => clienttranslate('${you} must choose your setup'),
     'args' => 'argChooseBoards',
     'action' => 'stChooseBoards',
-    'possibleactions' => ['chooseBoards'],
+    'possibleactions' => ['chooseSetup'],
+    'transitions' => ['' => ST_CONFIRM_SETUP],
+  ],
+
+  ST_CONFIRM_SETUP => [
+    'name' => 'confirmSetup',
+    'type' => GAME,
+    'description' => '',
+    'action' => 'stConfirmSetup',
     'transitions' => ['' => ST_SECOND_SETUP],
   ],
 
@@ -64,7 +72,7 @@ $machinestates = [
     'action' => 'stChooseRotation',
     'possibleactions' => ['rotate'],
     'transitions' => [
-      '' => ST_SETUP_BRANCH,
+      'end' => ST_SETUP_BRANCH,
       SOLO_GAME => ST_EVENT_CARD
     ],
   ],

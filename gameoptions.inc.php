@@ -55,15 +55,39 @@ $game_options = [
     'values' => [
       OPTION_EVENT_CARDS_GAME => [
         'name' => totranslate('On'),
-        'description' => totranslate('All players with same planet'),
+        'description' => totranslate('With event cards'),
         'tmdisplay' => totranslate('On'),
       ],
-      OPTION_PLANET_B_TOO => [
+      OPTION_NO_EVENT_CARDS_GAME => [
         'name' => totranslate('Off'),
         'description' => totranslate('Without event cards'),
         'tmdisplay' => totranslate('Off'),
       ],
     ],
+    'default' => OPTION_NO_EVENT_CARDS_GAME,
+    'displaycondition' => [
+      // Note: only display for non-solo mode
+      [
+        'type' => 'minplayers',
+        'value' => [2, 3, 4, 5, 6],
+      ],
+    ],
+  ],
+  OPTION_PRIVATE_OBJECTIVE_CARDS => [
+    'name' => totranslate('Objective Cards'),
+    'values' => [
+      OPTION_PRIVATE_OBJECTIVE_CARDS_GAME => [
+        'name' => totranslate('On'),
+        'description' => totranslate('With private objective cards'),
+        'tmdisplay' => totranslate('On'),
+      ],
+      OPTION_NO_PRIVATE_OBJECTIVE_CARDS_GAME => [
+        'name' => totranslate('Off'),
+        'description' => totranslate('Without private objective cards'),
+        'tmdisplay' => totranslate('Off'),
+      ],
+    ],
+    'default' => OPTION_NO_PRIVATE_OBJECTIVE_CARDS_GAME,
     'displaycondition' => [
       // Note: only display for non-solo mode
       [

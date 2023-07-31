@@ -15,13 +15,15 @@ use PU\Managers\Actions;
 use PU\Managers\Susan;
 use PU\Managers\ZooCards;
 
-trait ChooseBoardsTrait
+trait ChooseRotationTrait
 {
   public function stChooseRotation()
   {
-    if (Players::count() < 3) {
+    $playerCount = Players::count();
+    if ($playerCount < 3) {
       Susan::rotate(1);
-      $this->gamestate->nextState('');
+      if ($playerCount == 1) $this->gamestate->nextState(SOLO_GAME);
+      else $this->gamestate->nextState('end');
     }
   }
 }

@@ -63,7 +63,7 @@ class Cards extends \PU\Helpers\CachedPieces
     for ($i = 37; $i <= 64; $i++) {
       $data[] = [
         // 'id' => $i,
-        'location' => 'deck_NObjectives',
+        'location' => 'deck_objectives',
       ];
     }
 
@@ -78,19 +78,27 @@ class Cards extends \PU\Helpers\CachedPieces
     }
 
     //pick right number of Neighbor Objectives cards
-    static::shuffle('deck_NObjectives');
+    static::shuffle('deck_objectives');
     if (count($players) == 2) {
-      static::pickForLocation(3, 'deck_NObjectives', 'table');
-    } else {
+      static::pickForLocation(3, 'deck_objectives', 'table');
+    } else if (count($players) != 1) {
       for ($i = 0; $i < count($players); $i++) {
-        static::pickOneForLocation('deck_NObjectives', 'table', $i);
+        static::pickOneForLocation('deck_objectives', 'table', $i);
+      }
+    }
+
+    //pick right number of Private Objectives cards
+    if (count($players) == 1 || $options[OPTION_PRIVATE_OBJECTIVE_CARDS] == OPTION_PRIVATE_OBJECTIVE_CARDS_GAME) {
+      //4 cards in solo game, only 2 in multiplayer game
+      $nbCards = (count($players) == 1) ? 4 : 2;
+      foreach ($players as $pId => $player) {
+        static::pickForLocation($nbCards, 'deck_objectives', 'hand', $pId);
       }
     }
 
     //prepare Event Card Deck
     if (count($players) == 1 || $options[OPTION_EVENT_CARDS] == OPTION_EVENT_CARDS_GAME) {
       $data = [];
-      //if EVENT MODE TODO OR SOLO
       $cardColors = [GREEN, ORANGE, RED];
       for ($i = 65; $i <= 124; $i++) {
         $data[] = [

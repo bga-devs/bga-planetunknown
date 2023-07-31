@@ -11,7 +11,7 @@ class Corporation0 //todo extend generic
 
   public function __construct($player)
   {
-    $this->name = clienttranslate('Universal Coalition'); //TODO need to be translatable ?
+    $this->name = clienttranslate('Universal Coalition'); //TODO ASK need to be translatable ?
     $this->desc = clienttranslate('Advance your trackers to gain benefits, 
     unlock milestones, and score the highest medal your tracker covers or surpasses');
 
@@ -32,7 +32,7 @@ class Corporation0 //todo extend generic
         'text' => clienttranslate('Unaffected by meteor strikes. Do not place meteorites.')
       ],
     ];
-    parent::__construct($player);
+    // parent::__construct($player);
   }
 
   protected $id = '0';
