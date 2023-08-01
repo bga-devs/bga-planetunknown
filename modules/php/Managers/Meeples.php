@@ -64,7 +64,7 @@ class Meeples extends \PU\Helpers\CachedPieces
       //create trackers
       foreach ([CIV, WATER, BIOMASS, ROVER, TECH] as $value) {
         $data[] = [
-          'type' => 'tracker_' . $value,
+          'type' => $value,
           'location' => 'corporation',
           'player_id' => $pId,
           'x' => $value,

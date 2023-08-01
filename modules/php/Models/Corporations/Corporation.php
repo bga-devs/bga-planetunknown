@@ -70,7 +70,6 @@ class Corporation
           //handle 'move_x' bonuses
           if (is_string($bonus) && str_starts_with($bonus, 'move')) {
             //TODO create action move with arg 
-            continue;
           }
           break;
       }
