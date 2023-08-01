@@ -74,30 +74,30 @@ class PlaceTile extends \PU\Models\Action
     if ($option === false) {
       throw new \BgaVisibleSystemException('You cannot place the tile here. Should not happen');
     }
-    // $optionArg = Utils::search($option['r'], function ($arg) use ($rotation, $flipped) {
-    //   return $arg[0] == $rotation && $arg[1] == $flipped;
-    // });
     if (!in_array([$rotation, $flipped], $tileOptions[$option]['r'])) {
       throw new \BgaVisibleSystemException('You cannot place the tile here with that rotation/flip. Should not happen');
     }
 
     // Place it on the board
-    $tile = $player->planet()->addTile($tileId, $pos, $rotation, $flipped);
+    list($tile, $symbols) = $player->planet()->addTile($tileId, $pos, $rotation, $flipped);
     Notifications::placeTile($player, $tile);
 
     // TODO :
-    // Get tile information about the colors and icons emplacement on the grid (for energy at least)
-    // => add parallel childs for the two resources tracks
-    // $this->pushParallelChilds([
-    //   [
-    //     'action' => MOVE_TRACK,
-    //     'args' => ['track' => TYPE1, 'n' => 1]
-    //   ],
-    //   [
-    //     'action' => MOVE_TRACK,
-    //     'args' => ['track' => TYPE2, 'n' => 1]
-    //   ],
-    // ]);
+    // Destroy pod if any are covered
+    // Add asteroid meeples
+
+    // Move tracks
+    list($symbol1, $symbol2) = $symbols;
+    $this->pushParallelChilds([
+      [
+        'action' => MOVE_TRACK,
+        'args' => ['type' => $symbol1['type'], 'n' => 1],
+      ],
+      [
+        'action' => MOVE_TRACK,
+        'args' => ['type' => $symbol2['type'], 'n' => 1],
+      ],
+    ]);
 
     $this->resolveAction([$tileId, $pos, $rotation, $flipped]);
   }

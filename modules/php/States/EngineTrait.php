@@ -128,10 +128,10 @@ trait EngineTrait
    ********** FLOW CHOICE *********
    ********************************
    ********************************/
-  function argsResolveChoice()
+  function argsResolveChoice($pId)
   {
-    $player = Players::getActive();
-    $node = Engine::getNextUnresolved();
+    $player = Players::get($pId);
+    $node = Engine::getNextUnresolved($pId);
     $args = array_merge($node->getArgs() ?? [], [
       'choices' => Engine::getNextChoice($player),
       'allChoices' => Engine::getNextChoice($player, true),
@@ -139,18 +139,19 @@ trait EngineTrait
     if ($node instanceof \PU\Core\Engine\XorNode) {
       $args['descSuffix'] = 'xor';
     }
-    $sourceId = $node->getSourceId() ?? null;
-    if (!isset($args['source']) && !is_null($sourceId)) {
-      $args['sourceId'] = $sourceId;
-      $args['source'] = ZooCards::get($sourceId)->getName();
-    }
-    $this->addArgsAnytimeAction($args, 'resolveChoice');
+    // $sourceId = $node->getSourceId() ?? null;
+    // if (!isset($args['source']) && !is_null($sourceId)) {
+    //   $args['sourceId'] = $sourceId;
+    //   $args['source'] = ZooCards::get($sourceId)->getName();
+    // }
+    $this->addCommonArgs($pId, $args);
+    $this->addArgsAnytimeAction($pId, $args, 'resolveChoice');
     return $args;
   }
 
   function actChooseAction($choiceId)
   {
-    $player = Players::getActive();
+    $player = Players::getCurrent();
     Engine::chooseNode($player, $choiceId);
   }
 

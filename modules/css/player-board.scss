@@ -44,7 +44,45 @@ $planetGridHeight: 12 * $cellHeight;
         height: 1000px;
         transform: scale(var(--planetUnknownBoardScale));
         transform-origin: top left;
-        background-image: url("img/corporations.jpg");
-        background-size: 500% 200%;
+
+        .corporation {
+            width: 510px;
+            height: 1000px;
+            box-sizing: border-box;
+            background-size: 100% 100%;
+            position: relative;
+            background-image: url("img/corporations.jpg");
+            background-size: 500% 200%;
+
+            .corporation-columns {
+                width: 295px;
+                height: 608px;
+                position: absolute;
+                top: 167px;
+                left: 33px;
+                column-gap: 25px;
+                display: flex;
+
+                &:hover {
+                    .icon-tracker_civ,
+                    .icon-tracker_water,
+                    .icon-tracker_biomass,
+                    .icon-tracker_rover,
+                    .icon-tracker_tech {
+                        transform: translateX(-75%);
+                    }
+                }
+
+                .corporation-column {
+                    width: 38px;
+                    height: 608px;
+
+                    .corpo-cell {
+                        width: 38px;
+                        height: 38px;
+                    }
+                }
+            }
+        }
     }
 }

@@ -80,14 +80,17 @@ class Planet
         $this->grid[$x][$y] = [
           'terrain' => self::getTerrain($x, $y),
           'tile' => null,
+          'type' => null,
         ];
       }
     }
 
     $this->tiles = Tiles::getOfPlayer($this->pId);
     foreach ($this->tiles as $tile) {
-      foreach ($this->getTileCoveredCells($tile, false) as $cell) {
+      $datas = $tile->getData();
+      foreach ($this->getTileCoveredCells($tile, false) as $i => $cell) {
         $this->grid[$cell['x']][$cell['y']]['tile'] = $tile;
+        $this->grid[$cell['x']][$cell['y']]['type'] = $datas[$i]['type'];
       }
     }
   }
@@ -110,12 +113,29 @@ class Planet
     $tile->setPId($this->pId);
     $this->tiles[$tile->getId()] = $tile;
     // Stats::incCoveredCells($this->pId, count(BUILDINGS[$tileType]));
+    $datas = $tile->getData();
+    // $data[] = [
+    //   'x' => $x - $baseX,
+    //   'y' => $y - $baseY,
+    //   'type' => self::$typesNames[$tileFamily][$shape['types'][$index]],
+    //   'meteor' => $hasMeteor && $coord == $shape['meteorPlace'],
+    //   'symbol' => in_array($coord, $shape['symbolPlaces']),
+    // ];
 
-    foreach ($this->getTileCoveredCells($tile, false) as $cell) {
+    $symbols = [];
+    foreach ($this->getTileCoveredCells($tile, false) as $i => $cell) {
       $this->grid[$cell['x']][$cell['y']]['tile'] = $tile;
+      $type = $datas[$i]['type'];
+      $this->grid[$cell['x']][$cell['y']]['type'] = $type;
+      if ($datas[$i]['symbol']) {
+        $symbols[] = [
+          'cell' => $cell,
+          'type' => $type,
+        ];
+      }
     }
 
-    return $tile;
+    return [$tile, $symbols];
   }
 
   public function getTileAtPos($cell)

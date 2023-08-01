@@ -11,29 +11,22 @@ use PU\Core\Globals;
 
 class Actions
 {
-  static $classes = [
-    PLACE_TILE => 'PlaceTile',
-    // PAY => 'Pay',
-
-    FOO_A => 'FooA',
-    FOO_B => 'FooB',
-    FOO_C => 'FooC',
-  ];
+  static $classes = [PLACE_TILE, MOVE_TRACK];
 
   public static function get($actionId, $ctx = null)
   {
-    if (!\array_key_exists($actionId, self::$classes)) {
+    if (!in_array($actionId, self::$classes)) {
       // throw new \feException(print_r(debug_print_backtrace()));
       // throw new \feException(print_r(Globals::getEngine()));
       throw new \BgaVisibleSystemException('Trying to get an atomic action not defined in Actions.php : ' . $actionId);
     }
-    $name = '\PU\Actions\\' . self::$classes[$actionId];
+    $name = '\PU\Actions\\' . $actionId;
     return new $name($ctx);
   }
 
   public static function getActionOfState($stateId, $throwErrorIfNone = true)
   {
-    foreach (array_keys(self::$classes) as $actionId) {
+    foreach (self::$classes as $actionId) {
       if (self::getState($actionId, null) == $stateId) {
         return $actionId;
       }

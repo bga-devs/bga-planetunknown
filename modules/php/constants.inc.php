@@ -45,11 +45,11 @@ const SOLO_GAME = 'solo';
  * State constants
  */
 
-const GAME = "game";
-const MULTI = "multipleactiveplayer";
-const PRIVATESTATE = "private";
+const GAME = 'game';
+const MULTI = 'multipleactiveplayer';
+const PRIVATESTATE = 'private';
 const END_TURN = 'endTurn';
-const ACTIVE_PLAYER = "activeplayer";
+const ACTIVE_PLAYER = 'activeplayer';
 
 const ST_GAME_SETUP = 1;
 const ST_SETUP_BRANCH = 2;
@@ -66,8 +66,10 @@ const ST_CHOOSE_ROTATION = 21;
 const ST_START_PARALLEL = 22;
 
 const ST_PLACE_TILE = 23;
-const ST_FOO_A = 24;
-const ST_FOO_B = 25;
+const ST_MOVE_TRACK = 24;
+
+const ST_FOO_A = 34;
+const ST_FOO_B = 35;
 const ST_FOO_C = 26;
 
 const ST_SETUP_PRIVATE_ENGINE = 89;
@@ -99,11 +101,12 @@ const PASS = 99;
  * Atomic action
  */
 
-const PLACE_TILE = 'PLACE_TILE';
+const PLACE_TILE = 'PlaceTile';
+const MOVE_TRACK = 'MoveTrack';
 
-const FOO_A = 'FOO_A';
-const FOO_B = 'FOO_B';
-const FOO_C = 'FOO_C';
+const FOO_A = 'FooA';
+const FOO_B = 'FooB';
+const FOO_C = 'FooC';
 
 /*
  * Resources
