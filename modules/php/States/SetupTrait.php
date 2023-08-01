@@ -35,6 +35,8 @@ trait SetupTrait
 
     Globals::setFirstPlayer($this->getNextPlayerTable()[0]);
 
+    Globals::setSetupChoices([]);
+
     $this->gamestate->setAllPlayersMultiactive();
   }
 

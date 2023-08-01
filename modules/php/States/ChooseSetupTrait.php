@@ -92,6 +92,7 @@ trait ChooseSetupTrait
     }
 
     $choices = Globals::getSetupChoices();
+    if (!is_array($choices[$pId])) $choices[$pId] = [];
     $choices[$pId]['planetId'] = $planetId;
     $choices[$pId]['corporationId'] = $corporationId;
     $choices[$pId]['rejectedCardId'] = $rejectedCardId;
