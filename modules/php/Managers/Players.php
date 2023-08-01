@@ -121,7 +121,7 @@ class Players extends \PU\Helpers\CachedDB_Manager
   /*
    * getUiData : get all ui data of all players
    */
-  public function getUiData($pId)
+  public function getUiData($pId = null)
   {
     return self::getAll()
       ->map(function ($player) use ($pId) {

@@ -6,9 +6,21 @@ use PU\Managers\Players;
 use PU\Helpers\Utils;
 use PU\Helpers\Collection;
 use PU\Core\Globals;
+use PU\Managers\Cards;
+use PU\Managers\Meeples;
 
 class Notifications
 {
+
+  public static function chooseSetup($player, $planetId, $corporationId, $rejectedCardId)
+  {
+    self::notify($player, 'chooseSetup', '', [
+      'planetId' => $planetId,
+      'corporationId' => $corporationId,
+      'rejectedCardId' => $rejectedCardId
+    ]);
+  }
+
   public static function newRotation($rotation, $player = null)
   {
     $message = ($player ==  null) ?
@@ -19,6 +31,15 @@ class Notifications
     ];
 
     static::notifyAll("newRotation", $message, $data);
+  }
+
+  public static function secondSetup()
+  {
+    $data = [
+      'players' => Players::getUiData(),
+      'meeples' => Meeples::getUiData()
+    ];
+    static::notifyAll('secondSetup', 'All planets and corporations are ready to preserve the future of humanity', $data);
   }
 
   /*************************

@@ -91,7 +91,6 @@ trait ChooseSetupTrait
       throw new \BgaVisibleSystemException('You have to reject a card that you have in hand!! Should not happen');
     }
 
-    // Highlight that card and make the player inactive
     $choices = Globals::getSetupChoices();
     $choices[$pId]['planetId'] = $planetId;
     $choices[$pId]['corporationId'] = $corporationId;
@@ -99,5 +98,23 @@ trait ChooseSetupTrait
     Globals::setSetupChoices($choices);
     Notifications::chooseSetup(Players::get($pId), $planetId, $corporationId, $rejectedCardId);
     $this->updateActivePlayersAndChangeState();
+  }
+
+  public function stConfirmSetup()
+  {
+    $choices = Globals::getSetupChoices();
+
+    foreach (Players::getAll() as $pId => $player) {
+      $choice = $choices[$pId] ?? null;
+      if (is_null($choice)) {
+        throw new \BgaVisibleSystemException('Someone hasnt made any choice yet. Should not happen');
+      }
+
+      Cards::move($choice['rejectedCardId'], 'box');
+      $player->setCorporationId($choice['corporationId']);
+      $player->setPlanetId($choice['planetId']);
+    }
+
+    $this->gamestate->nextState('');
   }
 }
