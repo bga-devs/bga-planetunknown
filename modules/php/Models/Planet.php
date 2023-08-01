@@ -113,29 +113,34 @@ class Planet
     $tile->setPId($this->pId);
     $this->tiles[$tile->getId()] = $tile;
     // Stats::incCoveredCells($this->pId, count(BUILDINGS[$tileType]));
+
     $datas = $tile->getData();
-    // $data[] = [
-    //   'x' => $x - $baseX,
-    //   'y' => $y - $baseY,
-    //   'type' => self::$typesNames[$tileFamily][$shape['types'][$index]],
-    //   'meteor' => $hasMeteor && $coord == $shape['meteorPlace'],
-    //   'symbol' => in_array($coord, $shape['symbolPlaces']),
-    // ];
+    $coveringWater = false;
+    $meteor = null;
 
     $symbols = [];
     foreach ($this->getTileCoveredCells($tile, false) as $i => $cell) {
       $this->grid[$cell['x']][$cell['y']]['tile'] = $tile;
       $type = $datas[$i]['type'];
       $this->grid[$cell['x']][$cell['y']]['type'] = $type;
+
       if ($datas[$i]['symbol']) {
         $symbols[] = [
           'cell' => $cell,
           'type' => $type,
         ];
       }
+
+      if ($datas[$i]['meteor']) {
+        $meteor = $cell;
+      }
+
+      if ($type == WATER && $this->getTerrain($cell['x'], $cell['y']) == ICE) {
+        $coveringWater = true;
+      }
     }
 
-    return [$tile, $symbols];
+    return [$tile, $symbols, $coveringWater, $meteor];
   }
 
   public function getTileAtPos($cell)
@@ -313,6 +318,40 @@ class Planet
     return true;
   }
 
+  /**
+   * getTypesAdjacentToEnergy: given a energy cell, compute the types adjacent to the zone
+   */
+  public function getTypesAdjacentToEnergy($cell)
+  {
+    $zone = [];
+    $types = [];
+
+    $queue = [$cell];
+    while (!empty($queue)) {
+      $pos = array_shift($queue);
+      $uid = $this->getCellId($pos);
+      if (in_array($uid, $zone)) {
+        continue;
+      }
+
+      $zone[] = $uid;
+      foreach ($this->getNeighbours($pos) as $neighbour) {
+        $x = $neighbour['x'];
+        $y = $neighbour['y'];
+        if ($this->isEnergy($x, $y)) {
+          $queue[] = $neighbour;
+        } else {
+          $type = $this->getType($x, $y);
+          if (!is_null($type) && !in_array($type, $types)) {
+            $types[] = $type;
+          }
+        }
+      }
+    }
+
+    return $types;
+  }
+
   //////////////////////////////////////
   //    ____      _   _
   //   / ___| ___| |_| |_ ___ _ __ ___
@@ -340,6 +379,23 @@ class Planet
   public function getTerrain($x, $y)
   {
     return $this->terrains[$y][$x];
+  }
+
+  public function getType($x, $y)
+  {
+    return $this->grid[$x][$y]['type'];
+  }
+
+  // Can be overwritten by some planets
+  public function isWater($x, $y)
+  {
+    return $this->getTerrain($x, $y) == WATER;
+  }
+
+  // Can be overwritten by some planets
+  public function isEnergy($x, $y)
+  {
+    return $this->getType($x, $y) == ENERGY;
   }
 
   // Count the number of empty spaces (excluding water/rock)

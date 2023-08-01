@@ -67,6 +67,7 @@ const ST_START_PARALLEL = 22;
 
 const ST_PLACE_TILE = 23;
 const ST_MOVE_TRACK = 24;
+const ST_CHOOSE_TRACKS = 25;
 
 const ST_FOO_A = 34;
 const ST_FOO_B = 35;
@@ -103,6 +104,7 @@ const PASS = 99;
 
 const PLACE_TILE = 'PlaceTile';
 const MOVE_TRACK = 'MoveTrack';
+const CHOOSE_TRACKS = 'ChooseTracks';
 
 const FOO_A = 'FooA';
 const FOO_B = 'FooB';

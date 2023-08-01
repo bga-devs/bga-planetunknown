@@ -236,6 +236,15 @@ $machinestates = [
     'possibleactions' => ['actMoveTrack', 'actRestart'],
   ],
 
+  ST_CHOOSE_TRACKS => [
+    'name' => 'chooseTracks',
+    'descriptionmyturn' => clienttranslate('You must choose a track TODO'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actChooseTracks', 'actRestart'],
+  ],
+
   ST_FOO_A => [
     'name' => 'fooA',
     'descriptionmyturn' => clienttranslate('${you} must fooA'),

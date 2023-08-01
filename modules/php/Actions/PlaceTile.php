@@ -79,25 +79,44 @@ class PlaceTile extends \PU\Models\Action
     }
 
     // Place it on the board
-    list($tile, $symbols) = $player->planet()->addTile($tileId, $pos, $rotation, $flipped);
-    Notifications::placeTile($player, $tile);
+    list($tile, $symbols, $coveringWater, $meteor) = $player->planet()->addTile($tileId, $pos, $rotation, $flipped);
+    // Add asteroid meeples
+    if (!is_null($meteor)) {
+      // $meteor = Meeples::addMeteor($player, $meteor);
+      die('TODO: add meteor');
+    }
+    Notifications::placeTile($player, $tile, $meteor);
 
     // TODO :
-    // Destroy pod if any are covered
-    // Add asteroid meeples
+    // Destroy pod/rover if any are covered
 
     // Move tracks
-    list($symbol1, $symbol2) = $symbols;
-    $this->pushParallelChilds([
-      [
+    foreach ($symbols as $symbol) {
+      $type = $symbol['type'];
+      // Energy => compute the possible tracks
+      if ($type == ENERGY) {
+        $types = $player->planet()->getTypesAdjacentToEnergy($symbol['cell']);
+        $this->pushParallelChild([
+          'action' => CHOOSE_TRACKS,
+          'args' => [
+            'types' => $types,
+            'n' => 1,
+            'energy' => true,
+          ],
+        ]);
+        continue;
+      }
+      // Water => stop if the tile is not covering water
+      elseif ($type == WATER && !$coveringWater) {
+        continue;
+      }
+
+      // Normal case: add parallel child
+      $this->pushParallelChild([
         'action' => MOVE_TRACK,
-        'args' => ['type' => $symbol1['type'], 'n' => 1, 'withBonus' => true],
-      ],
-      [
-        'action' => MOVE_TRACK,
-        'args' => ['type' => $symbol2['type'], 'n' => 1, 'withBonus' => true],
-      ],
-    ]);
+        'args' => ['type' => $type, 'n' => 1, 'withBonus' => true],
+      ]);
+    }
 
     $this->resolveAction([$tileId, $pos, $rotation, $flipped]);
   }

@@ -99,7 +99,7 @@ class Tiles extends \PU\Helpers\CachedPieces
   {
     $shape = Tiles::$shapes[$type % 12];
     $tileFamily = intdiv($type, 24);
-    $hasMeteor = intdiv($type, 12) % 2 == 0;
+    $hasMeteor = intdiv($type, 12) % 2 == 1;
     $data = [];
 
     [$baseX, $baseY] = explode('_', $shape['pattern'][0]);

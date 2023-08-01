@@ -19,7 +19,7 @@ trait ChooseSetupTrait
 {
   public function argChooseSetup()
   {
-    $choices = Globals::getBiomeChoices();
+    $choices = Globals::getSetupChoices();
     $private = [];
 
     foreach (Players::getAll() as $pId => $player) {
@@ -28,8 +28,8 @@ trait ChooseSetupTrait
 
       $private[$pId] = [
         'choice' => $choices[$pId] ?? null,
-        'planet' => ($planetId) ? [0, $planetId] : [0],
-        'corporation' => ($corporationId) ? [0, $corporationId] : [0],
+        'planet' => $planetId ? [0, $planetId] : [0],
+        'corporation' => $corporationId ? [0, $corporationId] : [0],
         'POCards' => Cards::getInLocation('hand', $pId)->getIds(),
       ];
     }
@@ -50,13 +50,12 @@ trait ChooseSetupTrait
     }
   }
 
-
   public function updateActivePlayersAndChangeState()
   {
     // Compute players that still need to select their card
     // => use that instead of BGA framework feature because in some rare case a player
     //    might become inactive eventhough the selection failed (seen in Agricola at least already)
-    $selections = Globals::getBiomeChoices();
+    $selections = Globals::getSetupChoices();
     $players = Players::getAll();
     $ids = $players->getIds();
     $ids = array_diff($ids, array_keys($selections));
@@ -70,7 +69,6 @@ trait ChooseSetupTrait
       $this->gamestate->nextState('end');
     }
   }
-
 
   public function actChooseSetup($planetId, $corporationId, $rejectedCardId = null, $pId = null)
   {
@@ -92,7 +90,9 @@ trait ChooseSetupTrait
     }
 
     $choices = Globals::getSetupChoices();
-    if (!is_array($choices[$pId])) $choices[$pId] = [];
+    if (!is_array($choices[$pId])) {
+      $choices[$pId] = [];
+    }
     $choices[$pId]['planetId'] = $planetId;
     $choices[$pId]['corporationId'] = $corporationId;
     $choices[$pId]['rejectedCardId'] = $rejectedCardId;

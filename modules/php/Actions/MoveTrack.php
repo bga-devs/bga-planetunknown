@@ -52,7 +52,7 @@ class MoveTrack extends \PU\Models\Action
   {
     //adapt to backward
     $n = $this->getN();
-    $direction = ($n > 0) ? clienttranslate('forward') : clienttranslate('backward');
+    $direction = $n > 0 ? clienttranslate('forward') : clienttranslate('backward');
 
     return [
       'log' => \clienttranslate('Move ${type} track ${n} space(s) ${direction}'),
@@ -78,7 +78,7 @@ class MoveTrack extends \PU\Models\Action
       'strType' => $this->getStrType(),
       'type' => $type,
       'x' => $x,
-      'y' => $y
+      'y' => $y,
     ];
   }
 

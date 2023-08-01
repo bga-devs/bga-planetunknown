@@ -30,8 +30,6 @@ class Globals extends \PU\Helpers\DB_Manager
     'corporationOption' => 'int',
     'eventCardsGame' => 'obj',
     'privateObjectiveCardsGame' => 'bool',
-
-
   ];
 
   protected static $table = 'global_variables';
@@ -52,10 +50,12 @@ class Globals extends \PU\Helpers\DB_Manager
     $tmp = self::$log;
     self::$log = false;
 
-    foreach (self::DB()
-      ->select(['value', 'name'])
-      ->get(false)
-      as $name => $variable) {
+    foreach (
+      self::DB()
+        ->select(['value', 'name'])
+        ->get(false)
+      as $name => $variable
+    ) {
       if (\array_key_exists($name, self::$variables)) {
         self::$data[$name] = $variable;
       }
@@ -167,8 +167,10 @@ class Globals extends \PU\Helpers\DB_Manager
     static::setFirstPlayer(array_keys($players)[0]);
     static::setPlanetOption($options[OPTION_PLANET]);
     static::setCorporationOption($options[OPTION_CORPORATION]);
-    $choiceForCards = ($isSolo || $options[OPTION_EVENT_CARDS] == OPTION_EVENT_CARDS_GAME) ? EVENT_CARD_GAME : NO_EVENT_CARD_GAME;
+    $choiceForCards = $isSolo || $options[OPTION_EVENT_CARDS] == OPTION_EVENT_CARDS_GAME ? EVENT_CARD_GAME : NO_EVENT_CARD_GAME;
     static::setEventCardsGame($choiceForCards);
-    static::setPrivateObjectiveCardsGame($isSolo || ($options[OPTION_PRIVATE_OBJECTIVE_CARDS] == OPTION_PRIVATE_OBJECTIVE_CARDS_GAME));
+    static::setPrivateObjectiveCardsGame(
+      $isSolo || $options[OPTION_PRIVATE_OBJECTIVE_CARDS] == OPTION_PRIVATE_OBJECTIVE_CARDS_GAME
+    );
   }
 }
