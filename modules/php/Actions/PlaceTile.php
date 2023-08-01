@@ -91,11 +91,11 @@ class PlaceTile extends \PU\Models\Action
     $this->pushParallelChilds([
       [
         'action' => MOVE_TRACK,
-        'args' => ['type' => $symbol1['type'], 'n' => 1],
+        'args' => ['type' => $symbol1['type'], 'n' => 1, 'withBonus' => true],
       ],
       [
         'action' => MOVE_TRACK,
-        'args' => ['type' => $symbol2['type'], 'n' => 1],
+        'args' => ['type' => $symbol2['type'], 'n' => 1, 'withBonus' => true],
       ],
     ]);
 

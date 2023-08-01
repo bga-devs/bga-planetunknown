@@ -22,13 +22,16 @@ class Globals extends \PU\Helpers\DB_Manager
     // Setup
     'susanShift' => 'int', //from 0 to 5 to know how small ring and large ring are set
     'susanRotation' => 'int', //from 0 to 5 to know the actual rotation of susan
+    'setupChoices' => 'obj',
 
     // Game options
     'solo' => 'bool',
     'planetOption' => 'int',
     'corporationOption' => 'int',
     'eventCardsGame' => 'obj',
-    'privateObjectiveCardsGame' => 'bool'
+    'privateObjectiveCardsGame' => 'bool',
+
+
   ];
 
   protected static $table = 'global_variables';

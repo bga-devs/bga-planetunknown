@@ -2,13 +2,8 @@
 
 namespace PU\Models\Corporations;
 
-class Corporation0 //todo extend generic
+class Corporation0 extends Corporation
 {
-  public $name;
-  public $desc;
-
-  public $techBonuses;
-
   public function __construct($player)
   {
     $this->name = clienttranslate('Universal Coalition'); //TODO ASK need to be translatable ?
@@ -19,20 +14,20 @@ class Corporation0 //todo extend generic
       1 => [
         'text' => clienttranslate('Tile adjacency placement restriction may be ignored.')
       ],
-      '2' => [
+      2 => [
         'text' => clienttranslate('You may store biomass patches to be placed at the end of game.')
       ],
-      '3' => [
+      3 => [
         'text' => clienttranslate('+1 each time you gain rover movement.')
       ],
-      '4' => [
+      4 => [
         'text' => clienttranslate('Double water advancement from water tile placement.')
       ],
-      '5' => [
+      5 => [
         'text' => clienttranslate('Unaffected by meteor strikes. Do not place meteorites.')
       ],
     ];
-    // parent::__construct($player);
+    parent::__construct($player);
   }
 
   protected $id = '0';

@@ -65,7 +65,12 @@ class Player extends \PU\Helpers\DB_Model
       $className = '\PU\Models\Corporations\Corporation' . $corporationId;
       $this->corporation = new $className($this);
     }
-    return $this->corporation();
+    return $this->corporation;
+  }
+
+  public function getMeeples($type)
+  {
+    return Meeples::getOfPlayer($this, $type);
   }
 
   public function getUiData($currentPlayerId = null)

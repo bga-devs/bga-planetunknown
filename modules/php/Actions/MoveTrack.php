@@ -11,6 +11,8 @@ use PU\Core\Stats;
 use PU\Helpers\Utils;
 use PU\Helpers\FlowConvertor;
 use PU\Managers\Susan;
+use PU\Models\Corporations\Corporation;
+use PU\Models\Planet;
 
 class MoveTrack extends \PU\Models\Action
 {
@@ -29,6 +31,11 @@ class MoveTrack extends \PU\Models\Action
     return $this->getCtxArg('type');
   }
 
+  public function getWithBonus()
+  {
+    return $this->getCtxArg('withBonus');
+  }
+
   public function getStrType()
   {
     $names = [
@@ -43,14 +50,17 @@ class MoveTrack extends \PU\Models\Action
 
   public function getDescription()
   {
-    // TODO : adapt to backward
-    // TODO : do we really want to increase by two or should it be one by one ??
+    //adapt to backward
+    $n = $this->getN();
+    $direction = ($n > 0) ? clienttranslate('forward') : clienttranslate('backward');
+
     return [
-      'log' => \clienttranslate('Move ${type} track ${n} space(s) forward'),
+      'log' => \clienttranslate('Move ${type} track ${n} space(s) ${direction}'),
       'args' => [
-        'n' => $this->getN(),
+        'n' => abs($n),
+        'direction' => $direction,
         'type' => $this->getStrType(),
-        'i18n' => ['type'],
+        'i18n' => ['type', 'direction'],
       ],
     ];
   }
@@ -59,21 +69,32 @@ class MoveTrack extends \PU\Models\Action
   {
     $player = $this->getPlayer();
 
-    // TODO : compute next space
+    $type = $this->getType();
+    $n = $this->getN();
+
+    [$x, $y] = $player->corporation()->getNextSpace($type, $n);
 
     return [
-      'type' => $this->getStrType(),
+      'strType' => $this->getStrType(),
+      'type' => $type,
+      'x' => $x,
+      'y' => $y
     ];
   }
 
   public function stMoveTrack()
   {
+    //TODO add flag $isAutomatic if needed
+    $args = $this->argsMoveTrack();
+    $this->actMoveTrack($args['type'], Corporation::getSpaceId($args));
   }
 
-  public function actMoveTrack($spaceId)
+  public function actMoveTrack($type, $spaceId)
   {
     self::checkAction('actMoveTrack');
     $player = $this->getPlayer();
+
+    $player->corporation->moveTrack($type, $spaceId, $this->getWithBonus());
 
     $this->resolveAction([$spaceId]);
   }

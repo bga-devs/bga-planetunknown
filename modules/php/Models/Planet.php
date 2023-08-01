@@ -377,12 +377,12 @@ class Planet
   //  \____|_|  |_|\__,_|  \___/ \__|_|_|___/
   ////////////////////////////////////////////
 
-  public function getCellId($cell)
+  public static function getCellId($cell)
   {
     return $cell['x'] . '_' . $cell['y'];
   }
 
-  public function getCellFromId($uid)
+  public static function getCellFromId($uid)
   {
     $coord = explode('_', $uid);
     return ['x' => $coord[0], 'y' => $coord[1]];

@@ -44,6 +44,7 @@ trait SetupTrait
   {
     $players = Players::getAll();
     foreach ($players as $pId => $player) {
+      $player->corporation();
       Meeples::setupPlayer($pId);
     }
 
