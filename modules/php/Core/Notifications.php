@@ -36,7 +36,7 @@ class Notifications
   public static function secondSetup()
   {
     $data = [
-      'players' => Players::getUiData(),
+      'UIplayers' => Players::getUiData(),
       'meeples' => Meeples::getUiData()
     ];
     static::notifyAll('secondSetup', 'All planets and corporations are ready to preserve the future of humanity', $data);
