@@ -36,18 +36,6 @@ class MoveTrack extends \PU\Models\Action
     return $this->getCtxArg('withBonus');
   }
 
-  public function getStrType()
-  {
-    $names = [
-      BIOMASS => \clienttranslate('Biomass'),
-      TECH => \clienttranslate('Tech'),
-      CIV => \clienttranslate('Civ'),
-      WATER => \clienttranslate('Water'),
-      ROVER => \clienttranslate('Rover'),
-    ];
-    return $names[$this->getType()];
-  }
-
   public function getDescription()
   {
     //adapt to backward
@@ -55,12 +43,13 @@ class MoveTrack extends \PU\Models\Action
     $direction = $n > 0 ? clienttranslate('forward') : clienttranslate('backward');
 
     return [
-      'log' => \clienttranslate('Move ${type} track ${n} space(s) ${direction}'),
+      'log' => \clienttranslate('Move ${type}${type_name} track ${n} space(s) ${direction}'),
       'args' => [
         'n' => abs($n),
         'direction' => $direction,
-        'type' => $this->getStrType(),
-        'i18n' => ['type', 'direction'],
+        'type' => '',
+        'type_name' => $this->getType(),
+        'i18n' => ['type_name', 'direction'],
       ],
     ];
   }
@@ -75,7 +64,7 @@ class MoveTrack extends \PU\Models\Action
     [$x, $y] = $player->corporation()->getNextSpace($type, $n);
 
     return [
-      'strType' => $this->getStrType(),
+      'type_name' => $type,
       'type' => $type,
       'x' => $x,
       'y' => $y,
@@ -86,15 +75,16 @@ class MoveTrack extends \PU\Models\Action
   {
     //TODO add flag $isAutomatic if needed
     $args = $this->argsMoveTrack();
-    $this->actMoveTrack($args['type'], Corporation::getSpaceId($args));
+    $this->actMoveTrack($args['type'], Corporation::getSpaceId($args), true);
   }
 
-  public function actMoveTrack($type, $spaceId)
+  public function actMoveTrack($type, $spaceId, $auto = false)
   {
-    self::checkAction('actMoveTrack');
+    self::checkAction('actMoveTrack', $auto);
     $player = $this->getPlayer();
 
-    $player->corporation->moveTrack($type, $spaceId, $this->getWithBonus());
+    $pawn = $player->corporation()->moveTrack($type, $spaceId, $this->getWithBonus());
+    Notifications::moveTrack($player, $type, $this->getN(), $pawn);
 
     $this->resolveAction([$spaceId]);
   }

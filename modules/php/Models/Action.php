@@ -112,7 +112,7 @@ class Action
   public static function checkAction($action, $byPassActiveCheck = false)
   {
     if ($byPassActiveCheck) {
-      Game::get()->gamestate->checkPossibleAction($action);
+      // Game::get()->gamestate->checkPossibleAction($action);
     } else {
       Game::get()->checkAction($action);
       $stepId = Log::step();

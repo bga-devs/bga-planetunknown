@@ -83,16 +83,18 @@ class PlaceTile extends \PU\Models\Action
     // Add asteroid meeples
     if (!is_null($meteor)) {
       // $meteor = Meeples::addMeteor($player, $meteor);
-      die('TODO: add meteor');
+      // die('TODO: add meteor');
     }
-    Notifications::placeTile($player, $tile, $meteor);
 
     // TODO :
     // Destroy pod/rover if any are covered
 
     // Move tracks
+    $tileTypes = [];
     foreach ($symbols as $symbol) {
       $type = $symbol['type'];
+      $tileTypes[] = $type;
+
       // Energy => compute the possible tracks
       if ($type == ENERGY) {
         $types = $player->planet()->getTypesAdjacentToEnergy($symbol['cell']);
@@ -117,6 +119,8 @@ class PlaceTile extends \PU\Models\Action
         'args' => ['type' => $type, 'n' => 1, 'withBonus' => true],
       ]);
     }
+
+    Notifications::placeTile($player, $tile, $meteor, $tileTypes);
 
     $this->resolveAction([$tileId, $pos, $rotation, $flipped]);
   }

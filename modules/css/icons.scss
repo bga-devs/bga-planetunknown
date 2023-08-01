@@ -3,38 +3,68 @@
   background-repeat: no-repeat;
 
   &.icon-asteroid {
-    background-position: 90.1015228426396% 5.167958656330749%;
-    background-size: 433.89830508474574%;
+    background-position: 88.63134657836645% 32.25806451612903%;
+    background-size: 867.7966101694915%;
+  }
+
+  &.icon-biomass {
+    background-position: 30.935251798561154% 34.77218225419664%;
+    background-size: 538.9473684210526%;
+  }
+
+  &.icon-civ {
+    background-position: 36.523929471032744% 2.518891687657431%;
+    background-size: 445.2173913043478%;
+  }
+
+  &.icon-energy {
+    background-position: 2.5839793281653747% 2.5839793281653747%;
+    background-size: 409.6%;
   }
 
   &.icon-first-player {
-    background-position: 10.152284263959391% 5.571030640668524%;
-    background-size: 162.53968253968253%;
+    background-position: 66.00846262341325% 33.295063145809415%;
+    background-size: 325.07936507936506%;
   }
 
-  &.icon-tracker_biomass {
-    background-position: 4.310344827586207% 41.5948275862069%;
-    background-size: 1066.6666666666665%;
+  &.icon-rover {
+    background-position: 2.481389578163772% 35.98014888337469%;
+    background-size: 469.72477064220186%;
   }
 
-  &.icon-tracker_civ {
-    background-position: 18.96551724137931% 41.5948275862069%;
-    background-size: 1066.6666666666665%;
+  &.icon-tech {
+    background-position: 96.77018633540374% 2.484472049689441%;
+    background-size: 467.57990867579906%;
   }
 
-  &.icon-tracker_rover {
-    background-position: 33.62068965517241% 41.5948275862069%;
-    background-size: 1066.6666666666665%;
+  &.icon-tracker-biomass {
+    background-position: 96.4139344262295% 29.713114754098363%;
+    background-size: 2133.333333333333%;
   }
 
-  &.icon-tracker_tech {
-    background-position: 48.275862068965516% 41.5948275862069%;
-    background-size: 1066.6666666666665%;
+  &.icon-tracker-civ {
+    background-position: 96.4139344262295% 36.68032786885246%;
+    background-size: 2133.333333333333%;
   }
 
-  &.icon-tracker_water {
-    background-position: 62.93103448275862% 41.5948275862069%;
-    background-size: 1066.6666666666665%;
+  &.icon-tracker-rover {
+    background-position: 2.0491803278688523% 54.09836065573771%;
+    background-size: 2133.333333333333%;
+  }
+
+  &.icon-tracker-tech {
+    background-position: 9.01639344262295% 54.09836065573771%;
+    background-size: 2133.333333333333%;
+  }
+
+  &.icon-tracker-water {
+    background-position: 15.983606557377051% 54.09836065573771%;
+    background-size: 2133.333333333333%;
+  }
+
+  &.icon-water {
+    background-position: 67.08074534161491% 2.484472049689441%;
+    background-size: 467.57990867579906%;
   }
 }
 
@@ -43,3 +73,18 @@
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
+.icon-container {
+  display: inline-block;
+  vertical-align: middle;
+
+  .icon-water,
+  .icon-tech,
+  .icon-rover,
+  .icon-civ,
+  .icon-biomass,
+  .icon-energy {
+    width: 2em;
+    height: 2em;
+    border-radius: 15%;
+  }
+}

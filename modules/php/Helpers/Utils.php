@@ -24,6 +24,38 @@ abstract class Utils extends \APP_DbObject
     return $entries;
   }
 
+  function getTypesDesc($types)
+  {
+    $names = [
+      BIOMASS => \clienttranslate('Biomass'),
+      TECH => \clienttranslate('Tech'),
+      CIV => \clienttranslate('Civ'),
+      WATER => \clienttranslate('Water'),
+      ROVER => \clienttranslate('Rover'),
+      ENERGY => \clienttranslate('Energy'),
+    ];
+
+    $args = [];
+    $logs = [];
+    foreach ($types as $i => $type) {
+      $logs[] = '${type' . $i . '}';
+      $args['type' . $i] = [
+        'log' => '${type}${type_name}',
+        'args' => [
+          'type' => '',
+          'type_name' => $names[$type],
+          'i18n' => ['type_name'],
+        ],
+      ];
+      $args['i18n'][] = 'type' . $i;
+    }
+
+    return [
+      'log' => join(', ', $logs),
+      'args' => $args,
+    ];
+  }
+
   function search($array, $test)
   {
     $found = false;

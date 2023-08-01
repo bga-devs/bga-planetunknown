@@ -26,7 +26,7 @@ class Corporation
 
   public function moveTrack($type, $spaceId, $withBonus = true)
   {
-    $pawn = $this->player->getMeeples($type)[0];
+    $pawn = $this->player->getTracker($type);
     $oldCoord = [
       'x' => $pawn->getX(),
       'y' => $pawn->getY(),
@@ -34,7 +34,11 @@ class Corporation
     $newCoord = static::getCoordFromSpaceId($spaceId);
     $pawn->setX($newCoord['x']);
     $pawn->setY($newCoord['y']);
-    if ($withBonus) $this->activateBonus($type, $oldCoord['y'], $newCoord['y']);
+    if ($withBonus) {
+      $this->activateBonus($type, $oldCoord['y'], $newCoord['y']);
+    }
+
+    return $pawn;
   }
 
   public function activateBonus($type, $from, $to = null)
@@ -43,7 +47,7 @@ class Corporation
 
     $bonuses = [];
     for ($i = 1; $i <= abs($to - $from); $i++) {
-      $index = ($from < $to) ? $from + $i : $from - $i;
+      $index = $from < $to ? $from + $i : $from - $i;
       $bonus[] = $this->tracks[$type][$index];
     }
 
@@ -69,7 +73,7 @@ class Corporation
         default:
           //handle 'move_x' bonuses
           if (is_string($bonus) && str_starts_with($bonus, 'move')) {
-            //TODO create action move with arg 
+            //TODO create action move with arg
           }
           break;
       }
@@ -78,14 +82,16 @@ class Corporation
 
   public function getLevelOnTrack($type)
   {
-    return $this->player->getMeeples($type)[0]->getY();
+    return $this->player->getTracker($type)->getY();
   }
 
   //return score on this track
   public function getBestMedal($type)
   {
     for ($i = $this->getLevelOnTrack($type); $i > 0; $i--) {
-      if (is_int($this->tracks[$i])) return $this->tracks[$i];
+      if (is_int($this->tracks[$i])) {
+        return $this->tracks[$i];
+      }
     }
     return 0;
   }
@@ -104,14 +110,16 @@ class Corporation
   {
     $result = 0;
     for ($i = $this->getLevelOnTrack($track); $i > 0; $i--) {
-      if ($this->tracks[$track][$i] == $track) $result++;
+      if ($this->tracks[$track][$i] == $track) {
+        $result++;
+      }
     }
     return $result;
   }
 
   public function getNextSpace($type, $n = 1)
   {
-    $trackPawn = $this->player->getMeeples($type)[0];
+    $trackPawn = $this->player->getTracker($type);
 
     //Y can't be lower than 0
     $nextSpaceY = max(0, $trackPawn->getY() + $n);
@@ -122,20 +130,19 @@ class Corporation
     return [$trackPawn->getX(), $nextSpaceY];
   }
 
-
   /*
-*  █████  █████ ███████████ █████ █████        █████████ 
-* ░░███  ░░███ ░█░░░███░░░█░░███ ░░███        ███░░░░░███
-*  ░███   ░███ ░   ░███  ░  ░███  ░███       ░███    ░░░ 
-*  ░███   ░███     ░███     ░███  ░███       ░░█████████ 
-*  ░███   ░███     ░███     ░███  ░███        ░░░░░░░░███
-*  ░███   ░███     ░███     ░███  ░███      █ ███    ░███
-*  ░░████████      █████    █████ ███████████░░█████████ 
-*   ░░░░░░░░      ░░░░░    ░░░░░ ░░░░░░░░░░░  ░░░░░░░░░  
-*                                                        
-*                                                        
-*                                                        
-*/
+   *  █████  █████ ███████████ █████ █████        █████████
+   * ░░███  ░░███ ░█░░░███░░░█░░███ ░░███        ███░░░░░███
+   *  ░███   ░███ ░   ░███  ░  ░███  ░███       ░███    ░░░
+   *  ░███   ░███     ░███     ░███  ░███       ░░█████████
+   *  ░███   ░███     ░███     ░███  ░███        ░░░░░░░░███
+   *  ░███   ░███     ░███     ░███  ░███      █ ███    ░███
+   *  ░░████████      █████    █████ ███████████░░█████████
+   *   ░░░░░░░░      ░░░░░    ░░░░░ ░░░░░░░░░░░  ░░░░░░░░░
+   *
+   *
+   *
+   */
 
   public static function getSpaceId($coord)
   {

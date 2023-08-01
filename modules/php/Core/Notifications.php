@@ -11,33 +11,31 @@ use PU\Managers\Meeples;
 
 class Notifications
 {
-
   public static function chooseSetup($player, $planetId, $corporationId, $rejectedCardId)
   {
     self::notify($player, 'chooseSetup', '', [
       'planetId' => $planetId,
       'corporationId' => $corporationId,
-      'rejectedCardId' => $rejectedCardId
+      'rejectedCardId' => $rejectedCardId,
     ]);
   }
 
   public static function newRotation($rotation, $player = null)
   {
-    $message = ($player ==  null) ?
-      "S.U.S.A.N. rotates." : '${player_name} chooses a new orientation for S.U.S.A.N.';
+    $message = $player == null ? 'S.U.S.A.N. rotates.' : '${player_name} chooses a new orientation for S.U.S.A.N.';
     $data = [
       'player' => $player,
-      'newRotation' => $rotation
+      'newRotation' => $rotation,
     ];
 
-    static::notifyAll("newRotation", $message, $data);
+    static::notifyAll('newRotation', $message, $data);
   }
 
   public static function secondSetup()
   {
     $data = [
       'UIplayers' => Players::getUiData(),
-      'meeples' => Meeples::getUiData()
+      'meeples' => Meeples::getUiData(),
     ];
     static::notifyAll('secondSetup', 'All planets and corporations are ready to preserve the future of humanity', $data);
   }
@@ -140,11 +138,29 @@ class Notifications
     self::notifyAll('flush', '', []);
   }
 
-  public static function placeTile($player, $tile)
+  public static function placeTile($player, $tile, $metero, $types)
   {
-    self::pnotify($player, 'placeTile', clienttranslate('${player_name} places a tile on their planet'), [
+    self::pnotify($player, 'placeTile', clienttranslate('${player_name} places a ${types_desc} tile on their planet'), [
       'tile' => $tile,
+      'types' => $types,
     ]);
+  }
+
+  public static function moveTrack($player, $type, $n, $pawn)
+  {
+    self::pnotify(
+      $player,
+      'moveTrack',
+      $n > 0
+        ? clienttranslate('${player_name} moves ${n} space(s) upward on track ${types_desc}')
+        : clienttranslate('${player_name} moves ${n} space(s) downward on track ${types_desc}'),
+      [
+        'player' => $player,
+        'n' => abs($n),
+        'meeple' => $pawn,
+        'types' => [$type],
+      ]
+    );
   }
 
   ///////////////////////////////////////////////////////////////
@@ -189,6 +205,11 @@ class Notifications
       ];
       $data['i18n'][] = 'players_names';
       unset($data['players']);
+    }
+
+    if (isset($data['types'])) {
+      $data['types_desc'] = Utils::getTypesDesc($data['types']);
+      $data['i18n'][] = 'types_desc';
     }
   }
 }

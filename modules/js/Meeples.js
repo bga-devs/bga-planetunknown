@@ -52,10 +52,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
     tplMeeple(meeple) {
       let type = meeple.type.charAt(0).toLowerCase() + meeple.type.substr(1);
-      // const PERSONAL = ['token', 'cylinder', 'worker'];
-      // let color = PERSONAL.includes(type) ? ` data-color="${this.getPlayerColor(meeple.pId)}" ` : '';
+      if (['water', 'tech', 'rover', 'biomass', 'civ'].includes(type)) {
+        type = 'tracker-' + type;
+      }
       let color = '';
-      return `<div class="planetunknown-meeple planetunknown-icon icon-${type}" id="meeple-${meeple.id}" data-id="${meeple.id}" data-type="${type}" data-state="${meeple.state}" ${color}></div>`;
+      return `<div class="planetunknown-meeple planetunknown-icon icon-${type}" id="meeple-${meeple.id}" data-id="${meeple.id}" data-type="${type}" data-state="${meeple.state}"></div>`;
     },
 
     getPlayerColor(pId) {
@@ -160,50 +161,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       });
     },
 
-    notif_donation(n) {
-      debug('Notif: making a donation', n);
-
-      if (n.args.meeple) {
-        this.slideResources(
-          [n.args.meeple],
-          {
-            from: this.getVisibleTitleContainer(),
-          },
-          false
-        ).then(() => {
-          n.args.bonuses.conservation = 1;
-          this.notif_getBonuses(n);
-        });
-      } else {
-        n.args.bonuses.conservation = 1;
-        this.notif_getBonuses(n);
-      }
-      this._scoreCounters[n.args.player_id].toValue(n.args.score);
-    },
-
-    notif_slideMeeples(n) {
-      debug('Notif: sliding meeples', n);
-      this.slideResources(n.args.meeples).then(() => this.updateCardCosts());
-
-      if (n.args.icons) {
-        this.gamedatas.players[n.args.player_id].icons = n.args.icons;
-        this.updatePlayersIconsSummaries();
-      }
-    },
-
-    notif_enableMultiplier(n) {
-      debug('Notif: enabling multiplier', n);
-      n.args.meepleIds.forEach((mId) => ($(`meeple-${mId}`).dataset.state = 1));
-      this.updateActionCardsSummaries();
-    },
-
-    notif_discardTokens(n) {
-      debug('Notif: discard a token', n);
-      this.slideResources(n.args.meeples, {
-        destroy: true,
-        to: this.getVisibleTitleContainer(),
-        phantom: false,
-      });
+    notif_moveTrack(n) {
+      debug('Notif: moving on track', n);
+      this.slideResources([n.args.meeple]);
     },
   });
 });

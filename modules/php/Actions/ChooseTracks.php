@@ -32,26 +32,25 @@ class ChooseTracks extends \PU\Models\Action
   public function getDescription()
   {
     $types = $this->getTypes();
-    $args = [];
-    $logs = [];
-    foreach ($types as $i => $type) {
-      $logs[] = '${type' . $i . '}';
-      $args['type' . $i] = $type;
-    }
-
     $isEnergy = $this->getCtxArg('energy') ?? false;
-    return [
-      'log' => $isEnergy
-        ? clienttranslate('Energy: advance 1 track among ${tracks}')
-        : clienttranslate('Advance ${n} track(s) among ${tracks}'),
-      'args' => [
-        'n' => $this->getN(),
-        'tracks' => [
-          'log' => join(', ', $logs),
-          'args' => $args,
+    if ($isEnergy) {
+      return [
+        'log' => clienttranslate('${type}${type_name} : advance 1 track among ${types_desc}'),
+        'args' => [
+          'types_desc' => Utils::getTypesDesc($types),
+          'type' => '',
+          'type_name' => 'energy',
         ],
-      ],
-    ];
+      ];
+    } else {
+      return [
+        'log' => clienttranslate('Advance ${n} track(s) among ${tracks}'),
+        'args' => [
+          'n' => $this->getN(),
+          'types_desc' => Utils::getTypesDesc($types),
+        ],
+      ];
+    }
   }
 
   public function argsChooseTracks()

@@ -37,6 +37,7 @@ define([
         ['refreshHand', 200],
         ['setupPlayer', 1200],
         ['placeTile', 1200],
+        ['moveTrack', null],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -723,7 +724,7 @@ define([
     },
 
     formatString(str) {
-      const ICONS = ['APPEAL'];
+      const ICONS = ['WATER', 'ROVER', 'CIV', 'BIOMASS', 'TECH'];
 
       ICONS.forEach((name) => {
         const regex = new RegExp('<' + name + ':([^>]+)>', 'g');
@@ -746,6 +747,11 @@ define([
           args.processed = true;
 
           log = this.formatString(_(log));
+
+          if (args.type !== undefined && args.type_name !== undefined) {
+            args.type = this.formatIcon(args.type_name);
+            args.type_name = '';
+          }
         }
       } catch (e) {
         console.error(log, args, 'Exception thrown', e.stack);

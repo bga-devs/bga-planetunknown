@@ -73,11 +73,16 @@ class Player extends \PU\Helpers\DB_Model
     return Meeples::getOfPlayer($this, $type);
   }
 
+  public function getTracker($type)
+  {
+    return $this->getMeeples($type)->first();
+  }
+
   public function getUiData($currentPlayerId = null)
   {
     $data = parent::getUiData();
     $current = $this->id == $currentPlayerId;
-    $data['POCards'] = ($current) ? Cards::getInLocation('hand', $this->id) : Cards::countInLocation('hand', $this->id);
+    $data['POCards'] = $current ? Cards::getInLocation('hand', $this->id) : Cards::countInLocation('hand', $this->id);
     $data['civCard'] = Cards::getInLocation('board', $this->id);
     return $data;
   }
