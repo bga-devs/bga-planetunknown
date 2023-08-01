@@ -108,7 +108,7 @@ class Actions
     $action = self::get($actionId, $ctx);
     $methodName = 'st' . $action->getClassName();
     if (\method_exists($action, $methodName)) {
-      $action->$methodName();
+      return $action->$methodName();
     }
   }
 

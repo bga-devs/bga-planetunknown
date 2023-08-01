@@ -76,6 +76,7 @@ class MoveTrack extends \PU\Models\Action
     //TODO add flag $isAutomatic if needed
     $args = $this->argsMoveTrack();
     $this->actMoveTrack($args['type'], Corporation::getSpaceId($args), true);
+    return true; // Ensure the UI is not entering the state !!!
   }
 
   public function actMoveTrack($type, $spaceId, $auto = false)

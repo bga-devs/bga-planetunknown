@@ -120,7 +120,7 @@ trait EngineTrait
   function stAtomicAction($pId)
   {
     $action = $this->getCurrentAtomicAction($pId);
-    Actions::stAction($action, Engine::getNextUnresolved($pId));
+    return Actions::stAction($action, Engine::getNextUnresolved($pId));
   }
 
   /********************************

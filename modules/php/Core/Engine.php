@@ -131,6 +131,7 @@ class Engine
   public function proceed($pId, $confirmedPartial = false, $isUndo = false)
   {
     $node = self::getNextUnresolved($pId);
+
     // Are we done ?
     if ($node == null) {
       if (PGlobals::getEngineChoices($pId) == 0) {
