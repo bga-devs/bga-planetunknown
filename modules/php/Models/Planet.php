@@ -411,6 +411,13 @@ class Planet
     return count($cells);
   }
 
+  public function getMeepleOnCell($cell, $type = null)
+  {
+    return Meeples::getOfPlayer($this->player, $type)
+      ->where('x', $cell['x'])
+      ->where('y', $cell['y']);
+  }
+
   /**
    * getConnectedCells: return list of cells adjacent to at least one tile
    */

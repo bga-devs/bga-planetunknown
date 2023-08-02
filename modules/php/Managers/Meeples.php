@@ -30,12 +30,12 @@ class Meeples extends \PU\Helpers\CachedPieces
 
   public static function getOfPlayer($player, $type = null)
   {
-    return ($type) ?
-      static::getSelectQuery()
+    return ($type)
+      ? static::getSelectQuery()
       ->where('player_id', $player->getId())
       ->where('type', $type)
-      ->get() :
-      static::getSelectQuery()
+      ->get()
+      : static::getSelectQuery()
       ->where('player_id', $player->getId())
       ->get();
   }

@@ -89,8 +89,10 @@ class MoveTrack extends \PU\Models\Action
     self::checkAction('actMoveTrack', $auto);
     $player = $this->getPlayer();
 
-    $pawn = $player->corporation()->moveTrack($type, $spaceId, $this->getWithBonus());
+    [$pawn, $bonuses] = $player->corporation()->moveTrack($type, $spaceId, $this->getWithBonus());
     Notifications::moveTrack($player, $type, $this->getN(), $pawn);
+
+    $this->createActionFromBonus($bonuses, $player);
 
     $this->resolveAction([$spaceId]);
   }

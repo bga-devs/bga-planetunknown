@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `cards` (
 ALTER TABLE `player` ADD `planet_id` varchar(10);
 ALTER TABLE `player` ADD `corporation_id` varchar(10);
 ALTER TABLE `player` ADD `position` INT(10) NOT NULL DEFAULT 0;
--- ALTER TABLE `player` ADD `civ` INT(10) NOT NULL DEFAULT 0;
+ALTER TABLE `player` ADD `last_tile_id` INT(10) NOT NULL DEFAULT 0;
 -- ALTER TABLE `player` ADD `water` INT(10) NOT NULL DEFAULT 0;
 -- ALTER TABLE `player` ADD `rover` INT(10) NOT NULL DEFAULT 0;
 -- ALTER TABLE `player` ADD `tech` INT(10) NOT NULL DEFAULT 0;

@@ -1,5 +1,7 @@
 <?php
+
 namespace PU\Models;
+
 use PU\Core\Engine;
 use PU\Core\Game;
 use PU\Core\Globals;
@@ -12,6 +14,7 @@ use PU\Helpers\FlowConvertor;
 /*
  * Action: base class to handle atomic action
  */
+
 class Action
 {
   protected $ctx = null; // Contain ctx information : current node of flow tree
@@ -127,5 +130,44 @@ class Action
       return substr($classname, $pos + 1);
     }
     return $classname;
+  }
+
+  public function createActionFromBonus($bonuses, $player)
+  {
+    if (!is_array($bonuses)) {
+      $bonuses = [$bonuses];
+    }
+
+    foreach ($bonuses as $bonus) {
+      switch ($bonus) {
+        case CIV:
+          $levelCiv = $player->corporation()->getCivLevel();
+          // TODO create action civ
+          break;
+        case BIOMASS:
+          // TODO create action biomass
+          break;
+        case TECH:
+          $levelTech = $player->corporation()->getTechLevel();
+          // TODO create action tech
+          break;
+        case SYNERGY:
+          // TODO create move track
+          break;
+        case ROVER:
+          $this->pushParallelChild(
+            [
+              'action' => PLACE_ROVER,
+            ]
+          );
+          break;
+        default:
+          //handle 'move_x' bonuses
+          if (is_string($bonus) && str_starts_with($bonus, 'move')) {
+            //TODO create action move with arg
+          }
+          break;
+      }
+    }
   }
 }

@@ -35,49 +35,23 @@ class Corporation
     $pawn->setX($newCoord['x']);
     $pawn->setY($newCoord['y']);
     if ($withBonus) {
-      $this->activateBonus($type, $oldCoord['y'], $newCoord['y']);
+      return [$pawn, $this->getBonus($type, $oldCoord['y'], $newCoord['y'])];
+    } else {
+      return [$pawn, []];
     }
-
-    return $pawn;
   }
 
-  public function activateBonus($type, $from, $to = null)
+  public function getBonus($type, $from, $to = null)
   {
     $to = $to ?? $from;
 
     $bonuses = [];
     for ($i = 1; $i <= abs($to - $from); $i++) {
       $index = $from < $to ? $from + $i : $from - $i;
-      $bonus[] = $this->tracks[$type][$index];
+      $bonuses[] = $this->tracks[$type][$index];
     }
 
-    foreach ($bonuses as $bonus) {
-      switch ($bonus) {
-        case CIV:
-          $levelCiv = $this->getCivLevel();
-          // TODO create action civ
-          break;
-        case BIOMASS:
-          // TODO create action biomass
-          break;
-        case TECH:
-          $levelTech = $this->getTechLevel();
-          // TODO create action tech
-          break;
-        case SYNERGY:
-          // TODO create move track
-          break;
-        case ROVER:
-          // TODO create action rover
-          break;
-        default:
-          //handle 'move_x' bonuses
-          if (is_string($bonus) && str_starts_with($bonus, 'move')) {
-            //TODO create action move with arg
-          }
-          break;
-      }
-    }
+    return $bonuses;
   }
 
   public function canMoveTrack($type, $n)
@@ -132,7 +106,7 @@ class Corporation
   {
     $result = 0;
     for ($i = $this->getLevelOnTrack($track); $i > 0; $i--) {
-      if ($this->tracks[$track][$i] == $track) {
+      if ($this->isOrIn($track, $this->tracks[$track][$i])) {
         $result++;
       }
     }
@@ -154,7 +128,17 @@ class Corporation
 
   public function getRoverNb()
   {
-    return count(array_filter($this->tracks[ROVER], fn ($value) => $value == ROVER));
+    return count(
+      array_filter(
+        $this->tracks[ROVER],
+        fn ($value) => $this->isOrIn(ROVER, $value)
+      )
+    );
+  }
+
+  protected function isOrIn($trackValue, $neededValue)
+  {
+    return $trackValue == $neededValue || (is_array($trackValue) && in_array($neededValue, $trackValue));
   }
 
   /*

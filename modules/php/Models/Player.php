@@ -36,6 +36,7 @@ class Player extends \PU\Helpers\DB_Model
     'planetId' => 'planet_id',
     'corporationId' => 'corporation_id',
     'position' => ['position', 'int'],
+    'lastTileId' => ['last_tile_id', 'int']
   ];
 
   // Cached attribute
@@ -71,6 +72,13 @@ class Player extends \PU\Helpers\DB_Model
   public function getMeeples($type)
   {
     return Meeples::getOfPlayer($this, $type);
+  }
+
+  public function hasRoverOnPosition($where)
+  {
+    return $this->getMeeples(ROVER)
+      ->where('location', $where)
+      ->count() != 0;
   }
 
   public function getTracker($type)
