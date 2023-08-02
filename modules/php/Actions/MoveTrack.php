@@ -36,6 +36,11 @@ class MoveTrack extends \PU\Models\Action
     return $this->getCtxArg('withBonus');
   }
 
+  public function isDoable($player)
+  {
+    return $player->corporation()->canMoveTrack($this->getType(), $this->getN());
+  }
+
   public function getDescription()
   {
     //adapt to backward

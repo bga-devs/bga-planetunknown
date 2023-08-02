@@ -80,9 +80,31 @@ class Corporation
     }
   }
 
+  public function canMoveTrack($type, $n)
+  {
+    //for negative move be sure it's fully possible
+    if ($n < 0) {
+      return $this->getLevelOnTrack($type) + $n >= 0;
+    } else {
+      //for positive progression
+      //rover can always been activated even on last level
+      if ($type == ROVER) return true;
+      else return !$this->isTrackerOnTop($type);
+    }
+  }
+
+  /*
+  * return the tracker level (how many step it's from start)
+  * could be different than Y on corporation where progression is not linear
+  */
   public function getLevelOnTrack($type)
   {
     return $this->player->getTracker($type)->getY();
+  }
+
+  public function isTrackerOnTop($type)
+  {
+    return count($this->tracks[$type]) == $this->getLevelOnTrack($type) + 1;
   }
 
   //return score on this track
