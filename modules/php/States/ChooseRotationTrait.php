@@ -22,8 +22,7 @@ trait ChooseRotationTrait
     $playerCount = Players::count();
     if ($playerCount < 3) {
       Susan::rotate(1);
-      if ($playerCount == 1) $this->gamestate->nextState(SOLO_GAME);
-      else $this->gamestate->nextState('end');
+      $this->gamestate->nextState(Globals::getEventCardsGame());
     }
   }
 }

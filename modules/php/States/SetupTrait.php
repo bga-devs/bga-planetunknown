@@ -50,10 +50,7 @@ trait SetupTrait
 
     Notifications::secondSetup();
 
-    if ($players->count() == 1) $this->gamestate->nextState(SOLO_GAME);
-    else {
-      $this->gamestate->nextState(Globals::getEventCardsGame());
-    }
+    $this->gamestate->nextState('');
   }
 
   // protected function setupPlayer($player, $notif = false)
