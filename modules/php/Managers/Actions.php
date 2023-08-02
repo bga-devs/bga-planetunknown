@@ -11,7 +11,7 @@ use PU\Core\Globals;
 
 class Actions
 {
-  static $classes = [PLACE_TILE, MOVE_TRACK, CHOOSE_TRACKS];
+  static $classes = [PLACE_TILE, MOVE_TRACK, CHOOSE_TRACKS, PLACE_ROVER];
 
   public static function get($actionId, $ctx = null)
   {

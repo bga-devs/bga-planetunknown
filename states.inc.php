@@ -245,6 +245,15 @@ $machinestates = [
     'possibleactions' => ['actChooseTracks', 'actRestart'],
   ],
 
+  ST_PLACE_ROVER => [
+    'name' => 'placeRover',
+    'descriptionmyturn' => clienttranslate('${you} must place a new Rover'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actPlaceRover', 'actRestart'],
+  ],
+
   ST_FOO_A => [
     'name' => 'fooA',
     'descriptionmyturn' => clienttranslate('${you} must fooA'),

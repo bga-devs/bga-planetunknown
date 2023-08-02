@@ -152,6 +152,11 @@ class Corporation
     return [$trackPawn->getX(), $nextSpaceY];
   }
 
+  public function getRoverNb()
+  {
+    return count(array_filter($this->tracks[ROVER], fn ($value) => $value == ROVER));
+  }
+
   /*
    *  █████  █████ ███████████ █████ █████        █████████
    * ░░███  ░░███ ░█░░░███░░░█░░███ ░░███        ███░░░░░███

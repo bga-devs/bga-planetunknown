@@ -104,9 +104,10 @@ class Meeples extends \PU\Helpers\CachedPieces
   /* Creation of lifepods after player has choosen his planet */
   public static function setupPlayer($pId)
   {
+    $player = Players::get($pId);
     $data = [];
     //create lifepods
-    $planet = Players::get($pId)->planet();
+    $planet = $player->planet();
 
     $lifepodsCoords = $planet->getStartingLifePodsCoord();
 
@@ -119,6 +120,20 @@ class Meeples extends \PU\Helpers\CachedPieces
         'y' => $lifepodCoord['y']
       ];
     }
+
+    //create rovers
+    $corporation = $player->corporation();
+
+    for ($i = 0; $i < $corporation->getRoverNb(); $i++) {
+      $data[] = [
+        'type' => ROVER,
+        'location' => 'board',
+        'player_id' => $pId,
+        'x' => '',
+        'y' => ''
+      ];
+    }
+
     static::create($data);
   }
 }

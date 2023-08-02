@@ -25,12 +25,6 @@ class Players extends \PU\Helpers\CachedDB_Manager
 
   public function setupNewGame($players, $options)
   {
-    // Planet is not determined at first unless first game/beginner mode
-    if ($options[OPTION_PLANET] == OPTION_PLANET_A) $planet = 0;
-    else $planet = ''; //TODO ATTRIBUTE A BOARD AT RANDOM
-    if ($options[OPTION_CORPORATION] == OPTION_CORPORATION_UNIVERSAL) $corporation = 0;
-    else $corporation = ''; //TODO ATTRIBUTE A BOARD AT RANDOM
-
     //positions around susan
     $positions = [
       1 => [0],
@@ -56,6 +50,14 @@ class Players extends \PU\Helpers\CachedDB_Manager
     $playerIndex = 0;
     $values = [];
     foreach ($players as $pId => $player) {
+
+      $planet = ($options[OPTION_PLANET] == OPTION_PLANET_A)
+        ? 0
+        : ''; //TODO ATTRIBUTE A BOARD AT RANDOM
+      $corporation = ($options[OPTION_CORPORATION] == OPTION_CORPORATION_UNIVERSAL)
+        ? 0
+        : ''; //TODO ATTRIBUTE A BOARD AT RANDOM
+
       $color = array_shift($colors);
       $values[] = [$pId, $color, $player['player_canal'], $player['player_name'], $player['player_avatar'], $planet, $corporation, $positions[count($players)][$playerIndex]];
       $playerIndex++;
