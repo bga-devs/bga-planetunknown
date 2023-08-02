@@ -90,10 +90,11 @@ class MoveTrack extends \PU\Models\Action
     $player = $this->getPlayer();
 
     [$pawn, $bonuses] = $player->corporation()->moveTrack($type, $spaceId, $this->getWithBonus());
+
     Notifications::moveTrack($player, $type, $this->getN(), $pawn);
 
     $this->createActionFromBonus($bonuses, $player);
 
-    $this->resolveAction([$spaceId]);
+    $this->resolveAction([$type, $spaceId]);
   }
 }

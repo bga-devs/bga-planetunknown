@@ -19,4 +19,11 @@ class Meeple extends \PU\Helpers\DB_Model
     'x' => 'x',
     'y' => 'y',
   ];
+
+  public function placeOnPlanet($cell)
+  {
+    $this->setLocation('planet');
+    $this->setX($cell['x']);
+    $this->setY($cell['y']);
+  }
 }

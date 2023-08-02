@@ -80,6 +80,10 @@ class PlaceTile extends \PU\Models\Action
 
     // Place it on the board
     list($tile, $symbols, $coveringWater, $meteor) = $player->planet()->addTile($tileId, $pos, $rotation, $flipped);
+
+    //record it
+    $player->setLastTileId($tileId);
+
     // Add asteroid meeples
     if (!is_null($meteor)) {
       $meteor = Meeples::addMeteor($player, $meteor);

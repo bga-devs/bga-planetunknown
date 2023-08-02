@@ -72,7 +72,7 @@ const ST_PLACE_ROVER = 26;
 
 const ST_FOO_A = 34;
 const ST_FOO_B = 35;
-const ST_FOO_C = 26;
+const ST_FOO_C = 36;
 
 const ST_SETUP_PRIVATE_ENGINE = 89;
 const ST_RESOLVE_STACK = 90;

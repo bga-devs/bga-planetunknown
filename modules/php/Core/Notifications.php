@@ -20,6 +20,16 @@ class Notifications
     ]);
   }
 
+  public static function collectMeteor($player, $cell)
+  {
+    $msg = clienttranslate('${player_name} collects a new meteor');
+    $data = [
+      'player' => $player,
+      'cell' => $cell
+    ];
+    static::pnotify($player, 'placeRover', $msg, $data);
+  }
+
   public static function destroyedMeeples($player, $destroyedMeeples, $type)
   {
     self::pnotify(
@@ -34,6 +44,16 @@ class Notifications
         'destroyedMeeples' => $destroyedMeeples
       ]
     );
+  }
+
+  public static function placeRover($player, $rover)
+  {
+    $msg = clienttranslate('${player_name} places a new rover on his planet');
+    $data = [
+      'player' => $player,
+      'rover' => $rover
+    ];
+    static::pnotify($player, 'placeRover', $msg, $data);
   }
 
   public static function newRotation($rotation, $player = null)

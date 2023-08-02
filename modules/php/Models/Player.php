@@ -74,11 +74,19 @@ class Player extends \PU\Helpers\DB_Model
     return Meeples::getOfPlayer($this, $type);
   }
 
-  public function hasRoverOnPosition($where)
+  public function getMeteorOnCell($cell)
+  {
+    return static::getMeeples(METEOR)
+      ->where('x', $cell['x'])
+      ->where('y', $cell['y'])
+      ->first();
+  }
+
+  public function getAvailableRover()
   {
     return $this->getMeeples(ROVER)
-      ->where('location', $where)
-      ->count() != 0;
+      ->where('location', 'board')
+      ->first();
   }
 
   public function getTracker($type)

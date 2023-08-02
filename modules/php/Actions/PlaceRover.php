@@ -11,6 +11,8 @@ use PU\Core\Stats;
 use PU\Helpers\Utils;
 use PU\Helpers\FlowConvertor;
 use PU\Managers\Susan;
+use PU\Models\Meeple;
+use PU\Models\Planet;
 
 class PlaceRover extends \PU\Models\Action
 {
@@ -21,17 +23,19 @@ class PlaceRover extends \PU\Models\Action
 
   public function isDoable($player)
   {
-    return $player->hasRoverOnPosition('board') && $this->getPossibleCells($player);
+    return $player->getAvailableRover() != null && $this->getPossibleCells($player);
   }
 
   public function getPossibleCells($player)
   {
     $lastTile = Tiles::get($player->getLastTileId());
 
-    $possibleCells = $player->planet()->getTileCoveredCells($lastTile, false)
-      ->filter(fn ($cell) => !$player->planet()->getMeepleOnCell($cell, ROVER)->count());
+    $possibleCells = array_filter(
+      $player->planet()->getTileCoveredCells($lastTile, false),
+      fn ($cell) => !$player->planet()->getMeepleOnCell($cell, ROVER)->count()
+    );
 
-    return $possibleCells;
+    return array_map(fn ($cell) => Planet::getCellId($cell), $possibleCells);
   }
 
   public function argsPlaceRover()
@@ -43,76 +47,31 @@ class PlaceRover extends \PU\Models\Action
     ];
   }
 
-  public function actPlaceRover($cell)
+  public function actPlaceRover($cellId)
   {
-    // self::checkAction('actPlaceTile');
-    // $player = $this->getPlayer();
-    // $args = $this->argsPlaceTile();
-    // $tiles = $args['tiles'];
-    // $tileOptions = $tiles[$tileId] ?? null;
-    // if (is_null($tileOptions)) {
-    //   throw new \BgaVisibleSystemException('You cannot place that tile. Should not happen');
-    // }
-    // $option = Utils::search($tileOptions, function ($option) use ($pos) {
-    //   return $option['pos']['x'] == $pos['x'] && $option['pos']['y'] == $pos['y'];
-    // });
-    // if ($option === false) {
-    //   throw new \BgaVisibleSystemException('You cannot place the tile here. Should not happen');
-    // }
-    // if (!in_array([$rotation, $flipped], $tileOptions[$option]['r'])) {
-    //   throw new \BgaVisibleSystemException('You cannot place the tile here with that rotation/flip. Should not happen');
-    // }
+    self::checkAction('actPlaceRover');
+    $player = $this->getPlayer();
+    $args = $this->argsPlaceRover();
+    if (!in_array($cellId, $args['cells'])) {
+      throw new \BgaVisibleSystemException('You cannot place your Rover here. Should not happen');
+    }
 
-    // // Place it on the board
-    // list($tile, $symbols, $coveringWater, $meteor) = $player->planet()->addTile($tileId, $pos, $rotation, $flipped);
-    // // Add asteroid meeples
-    // if (!is_null($meteor)) {
-    //   $meteor = Meeples::addMeteor($player, $meteor);
-    // }
+    $cell = Planet::getCellFromId($cellId);
 
-    // // Destroy pod/rover if any are covered
-    // [$destroyedRover, $destroyedLifepod] = Meeples::destroyCoveredMeeples($player, $tile);
+    $rover = $player->getAvailableRover();
+    // Place it on the board
+    $rover->placeOnPlanet($cell);
 
-    // // Move tracks
-    // $tileTypes = [];
-    // foreach ($symbols as $symbol) {
-    //   $type = $symbol['type'];
-    //   $tileTypes[] = $type;
+    Notifications::placeRover($player, $rover);
 
-    //   // Energy => compute the possible tracks
-    //   if ($type == ENERGY) {
-    //     $types = $player->planet()->getTypesAdjacentToEnergy($symbol['cell']);
-    //     $this->pushParallelChild([
-    //       'action' => CHOOSE_TRACKS,
-    //       'args' => [
-    //         'types' => $types,
-    //         'n' => 1,
-    //         'energy' => true,
-    //       ],
-    //     ]);
-    //     continue;
-    //   }
-    //   // Water => stop if the tile is not covering water
-    //   elseif ($type == WATER && !$coveringWater) {
-    //     continue;
-    //   }
+    //collect meteor
+    $meteor = $player->getMeteorOnCell($cell);
+    if (!$meteor) {
+      $meteor->setLocation('board');
+      //TODO caution, some planet/corporation are different
+      Notifications::collectMeteor($player, $cell);
+    }
 
-    //   // Normal case: add parallel child
-    //   $this->pushParallelChild([
-    //     'action' => MOVE_TRACK,
-    //     'args' => ['type' => $type, 'n' => 1, 'withBonus' => true],
-    //   ]);
-    // }
-
-    // Notifications::placeTile($player, $tile, $meteor, $tileTypes);
-
-    // if ($destroyedLifepod->count()) {
-    //   Notifications::destroyedMeeples($player, $destroyedLifepod, LIFEPOD);
-    // }
-    // if ($destroyedRover->count()) {
-    //   Notifications::destroyedMeeples($player, $destroyedRover, ROVER);
-    // }
-
-    // $this->resolveAction([$tileId, $pos, $rotation, $flipped]);
+    $this->resolveAction([$cellId]);
   }
 }
