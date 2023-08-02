@@ -82,12 +82,11 @@ class PlaceTile extends \PU\Models\Action
     list($tile, $symbols, $coveringWater, $meteor) = $player->planet()->addTile($tileId, $pos, $rotation, $flipped);
     // Add asteroid meeples
     if (!is_null($meteor)) {
-      // $meteor = Meeples::addMeteor($player, $meteor);
-      // die('TODO: add meteor');
+      $meteor = Meeples::addMeteor($player, $meteor);
     }
 
-    // TODO :
     // Destroy pod/rover if any are covered
+    [$destroyedRover, $destroyedLifepod] = Meeples::destroyCoveredMeeples($player, $tile);
 
     // Move tracks
     $tileTypes = [];
@@ -121,6 +120,13 @@ class PlaceTile extends \PU\Models\Action
     }
 
     Notifications::placeTile($player, $tile, $meteor, $tileTypes);
+
+    if ($destroyedLifepod->count()) {
+      Notifications::destroyedMeeples($player, $destroyedLifepod, LIFEPOD);
+    }
+    if ($destroyedRover->count()) {
+      Notifications::destroyedMeeples($player, $destroyedRover, ROVER);
+    }
 
     $this->resolveAction([$tileId, $pos, $rotation, $flipped]);
   }

@@ -387,9 +387,9 @@ class Planet
   }
 
   // Can be overwritten by some planets
-  public function isWater($x, $y)
+  public function isIce($x, $y)
   {
-    return $this->getTerrain($x, $y) == WATER;
+    return $this->getTerrain($x, $y) == ICE;
   }
 
   // Can be overwritten by some planets

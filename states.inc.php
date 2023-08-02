@@ -238,7 +238,7 @@ $machinestates = [
 
   ST_CHOOSE_TRACKS => [
     'name' => 'chooseTracks',
-    'descriptionmyturn' => clienttranslate('You must choose a track TODO'),
+    'descriptionmyturn' => clienttranslate('You must choose which track to move thanks to energy'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',

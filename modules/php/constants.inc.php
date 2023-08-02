@@ -143,6 +143,8 @@ const LAND = 'land';
 const ICE = 'ice';
 const LIFEPOD = 'lifepod';
 
+const METEOR = 'meteor';
+
 /*
  * Tiles and Space station
  */

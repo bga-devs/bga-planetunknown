@@ -7,6 +7,7 @@ use PU\Core\Globals;
 use PU\Helpers\UserException;
 use PU\Helpers\Collection;
 use PU\Helpers\Utils;
+use PU\Models\Planet;
 
 /* Class to manage all the meeples for PlanetUnknown */
 
@@ -39,6 +40,38 @@ class Meeples extends \PU\Helpers\CachedPieces
       ->get();
   }
 
+  public static function destroyCoveredMeeples($player, $tile)
+  {
+    $planet = $player->planet();
+    $toDestroy = new Collection();
+    foreach ($planet->getTileCoveredCells($tile, false) as $i => $cell) {
+      // $planet->grid[$cell['x']][$cell['y']]['tile'] = $tile;
+      $toDestroy = $toDestroy->merge(static::getSelectQuery()
+        ->whereIn('type', [LIFEPOD, ROVER])
+        ->where('player_id', $player->getId())
+        ->where('x', $cell['x'])
+        ->where('y', $cell['y'])
+        ->get());
+    }
+    static::move($toDestroy->getIds(), 'trash');
+
+    $destroyedRover = $toDestroy->where('type', ROVER);
+    $destroyedLifepod = $toDestroy->where('type', LIFEPOD);
+
+    return [$destroyedRover, $destroyedLifepod];
+  }
+
+  public static function addMeteor($player, $meteor)
+  {
+    return static::create([[
+      'type' => METEOR,
+      'location' => 'planet',
+      'player_id' => $player->getId(),
+      'x' => $meteor['x'],
+      'y' => $meteor['y']
+    ]]);
+  }
+
   ////////////////////////////////////
   //  ____       _
   // / ___|  ___| |_ _   _ _ __
@@ -48,13 +81,6 @@ class Meeples extends \PU\Helpers\CachedPieces
   //                      |_|
   ////////////////////////////////////
 
-  // `meeple_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  // `meeple_location` varchar(32) NOT NULL,
-  // `meeple_state` int(10),
-  // `type` varchar(32),
-  // `player_id` int(10) NULL,
-  // `x` varchar(100) NULL,
-  // `y` varchar(100) NULL,
 
   /* Creation of various meeples */
   public static function setupNewGame($players, $options)

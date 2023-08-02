@@ -13,16 +13,32 @@ class Notifications
 {
   public static function chooseSetup($player, $planetId, $corporationId, $rejectedCardId)
   {
-    self::notify($player, 'chooseSetup', '', [
+    self::pnotify($player, 'chooseSetup', '', [
       'planetId' => $planetId,
       'corporationId' => $corporationId,
       'rejectedCardId' => $rejectedCardId,
     ]);
   }
 
+  public static function destroyedMeeples($player, $destroyedMeeples, $type)
+  {
+    self::pnotify(
+      $player,
+      'destroyedMeeples',
+      $type == ROVER
+        ? clienttranslate('By placing his new tile, ${player_name} covers and destroys ${nb} rover(s)')
+        : clienttranslate('By placing his new tile, ${player_name} covers and destroys ${nb} lifepod(s)'),
+      [
+        'player' => $player,
+        'nb' => count($destroyedMeeples),
+        'destroyedMeeples' => $destroyedMeeples
+      ]
+    );
+  }
+
   public static function newRotation($rotation, $player = null)
   {
-    $message = $player == null ? 'S.U.S.A.N. rotates.' : '${player_name} chooses a new orientation for S.U.S.A.N.';
+    $message = $player == null ? clienttranslate('S.U.S.A.N. rotates.') : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
     $data = [
       'player' => $player,
       'newRotation' => $rotation,
@@ -37,7 +53,7 @@ class Notifications
       'UIplayers' => Players::getUiData(),
       'meeples' => Meeples::getUiData(),
     ];
-    static::notifyAll('secondSetup', 'All planets and corporations are ready to preserve the future of humanity', $data);
+    static::notifyAll('secondSetup', clienttranslate('All planets and corporations are ready to preserve the future of humanity'), $data);
   }
 
   /*************************
@@ -138,12 +154,20 @@ class Notifications
     self::notifyAll('flush', '', []);
   }
 
-  public static function placeTile($player, $tile, $metero, $types)
+  public static function placeTile($player, $tile, $meteor, $types)
   {
-    self::pnotify($player, 'placeTile', clienttranslate('${player_name} places a ${types_desc} tile on their planet'), [
-      'tile' => $tile,
-      'types' => $types,
-    ]);
+    self::pnotify(
+      $player,
+      'placeTile',
+      $meteor
+        ? clienttranslate('${player_name} places a ${types_desc} tile and a new meteor on their planet')
+        : clienttranslate('${player_name} places a ${types_desc} tile on their planet'),
+      [
+        'tile' => $tile,
+        'types' => $types,
+        'meteor' => $meteor
+      ]
+    );
   }
 
   public static function moveTrack($player, $type, $n, $pawn)
