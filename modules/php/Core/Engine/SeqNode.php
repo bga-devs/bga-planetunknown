@@ -2,6 +2,8 @@
 namespace PU\Core\Engine;
 
 use PU\Core\Engine;
+use PU\Managers\Actions;
+
 /*
  * SeqNode: a class that represent a sequence of actions
  */
@@ -38,7 +40,7 @@ class SeqNode extends AbstractNode
     if ($this->isOptional()) {
       return null;
     }
-    foreach ($this->childs as $child) {
+    foreach ($this->childs as &$child) {
       $node = $child->getUndoableMandatoryNode($player);
       if (!is_null($node)) {
         return $node;
@@ -72,10 +74,27 @@ class SeqNode extends AbstractNode
       return $this;
     }
 
-    foreach ($this->childs as $child) {
+    foreach ($this->childs as &$child) {
       if (!$child->isResolved()) {
         return $child->getNextUnresolved();
       }
+    }
+  }
+
+  /**
+   * Replay childs one by one
+   */
+  public function replay()
+  {
+    if (isset($this->infos['action']) && $this->isActionResolved()) {
+      $args = $this->infos['actionResolutionArgs'];
+      $action = Actions::get($this->infos['action'], $this);
+      $methodName = $args['actionName'];
+      $action->$methodName(...$args['args']);
+    }
+
+    foreach ($this->childs as &$child) {
+      $child->replay();
     }
   }
 

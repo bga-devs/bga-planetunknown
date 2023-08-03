@@ -25,7 +25,7 @@ class Notifications
     $msg = clienttranslate('${player_name} collects a new meteor');
     $data = [
       'player' => $player,
-      'cell' => $cell
+      'cell' => $cell,
     ];
     static::pnotify($player, 'placeRover', $msg, $data);
   }
@@ -41,7 +41,7 @@ class Notifications
       [
         'player' => $player,
         'nb' => count($destroyedMeeples),
-        'destroyedMeeples' => $destroyedMeeples
+        'destroyedMeeples' => $destroyedMeeples,
       ]
     );
   }
@@ -51,14 +51,17 @@ class Notifications
     $msg = clienttranslate('${player_name} places a new rover on his planet');
     $data = [
       'player' => $player,
-      'rover' => $rover
+      'rover' => $rover,
     ];
     static::pnotify($player, 'placeRover', $msg, $data);
   }
 
   public static function newRotation($rotation, $player = null)
   {
-    $message = $player == null ? clienttranslate('S.U.S.A.N. rotates.') : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
+    $message =
+      $player == null
+        ? clienttranslate('S.U.S.A.N. rotates.')
+        : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
     $data = [
       'player' => $player,
       'newRotation' => $rotation,
@@ -73,7 +76,11 @@ class Notifications
       'UIplayers' => Players::getUiData(),
       'meeples' => Meeples::getUiData(),
     ];
-    static::notifyAll('secondSetup', clienttranslate('All planets and corporations are ready to preserve the future of humanity'), $data);
+    static::notifyAll(
+      'secondSetup',
+      clienttranslate('All planets and corporations are ready to preserve the future of humanity'),
+      $data
+    );
   }
 
   /*************************
@@ -98,7 +105,18 @@ class Notifications
     $pId = is_int($player) ? $player : $player->getId();
     $data['player'] = $player;
     self::updateArgs($data);
-    Game::get()->notifyPlayer($pId, $name, $msg, $data);
+
+    $mode = Globals::getMode();
+    // PRIVATE MODE => send private notif
+    if ($mode == MODE_PRIVATE) {
+      Game::get()->notifyPlayer($pId, $name, $msg, $data);
+    }
+    // PUBLIC MODE => send public notif with ignore flag
+    elseif ($mode == \MODE_APPLY) {
+      $data['ignore'] = $pId;
+      $data['preserve'][] = 'ignore';
+      Game::get()->notifyAllPlayers($name, $msg, $data);
+    }
   }
 
   public static function message($txt, $args = [])
@@ -185,7 +203,7 @@ class Notifications
       [
         'tile' => $tile,
         'types' => $types,
-        'meteor' => $meteor
+        'meteor' => $meteor,
       ]
     );
   }

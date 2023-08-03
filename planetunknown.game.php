@@ -60,12 +60,17 @@ class planetunknown extends Table
     parent::__construct();
     self::$instance = $this;
     self::initGameStateLabels([
+      'mode' => 10, // DO NOT TOUCH, USED FOR SIMULATING DB MODIFICATION
       'option_planet' => 105,
       'option_corporation' => 106,
       'option_event_card' => 107,
     ]);
     Engine::boot();
     // Stats::checkExistence();
+  }
+
+  protected function initTable()
+  {
   }
 
   public static function get()
@@ -90,7 +95,7 @@ class planetunknown extends Table
       'tiles' => Tiles::getUiData(),
       'meeples' => Meeples::getUiData(),
       'cards' => Cards::getUiData(),
-      'susan' => Susan::getUiData()
+      'susan' => Susan::getUiData(),
     ];
   }
 

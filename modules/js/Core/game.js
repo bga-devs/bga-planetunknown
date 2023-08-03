@@ -260,6 +260,8 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
         } else {
           this.notifqueue.setSynchronous(notif[0]);
         }
+
+        this.notifqueue.setIgnoreNotificationCheck(notif[0], (notif) => notif.args.ignore && notif.args.ignore == this.player_id);
       });
 
       // Load production bug report handler

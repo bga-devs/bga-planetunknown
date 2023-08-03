@@ -697,6 +697,14 @@ define([
       this.attachRegisteredTooltips();
     },
 
+    onEnteringStateChooseTracks(args) {
+      args.types.forEach((type) => {
+        this.addPrimaryActionButton('btn' + type, this.fsr('${type}', { type, type_name: type }), () =>
+          this.takeAtomicAction('actChooseTracks', [[type]])
+        );
+      });
+    },
+
     onEnteringStateFooA(args) {
       this.addPrimaryActionButton('actionA', 'Done A', () => this.takeAtomicAction('actFooA', []));
     },

@@ -60,7 +60,6 @@ class PlaceTile extends \PU\Models\Action
 
   public function actPlaceTile($tileId, $pos, $rotation, $flipped)
   {
-    self::checkAction('actPlaceTile');
     $player = $this->getPlayer();
     $args = $this->argsPlaceTile();
     $tiles = $args['tiles'];
@@ -131,7 +130,5 @@ class PlaceTile extends \PU\Models\Action
     if ($destroyedRover->count()) {
       Notifications::destroyedMeeples($player, $destroyedRover, ROVER);
     }
-
-    $this->resolveAction([$tileId, $pos, $rotation, $flipped]);
   }
 }

@@ -4,8 +4,10 @@ namespace PU\Managers;
 
 use PU\Core\Game;
 use PU\Core\Engine;
-use PU\Managers\Players;
 use PU\Core\Globals;
+use PU\Core\Notifications;
+use PU\Helpers\Log;
+use PU\Managers\Players;
 
 /* Class to manage all the Actions */
 
@@ -13,7 +15,7 @@ class Actions
 {
   static $classes = [PLACE_TILE, MOVE_TRACK, CHOOSE_TRACKS, PLACE_ROVER];
 
-  public static function get($actionId, $ctx = null)
+  public static function get($actionId, &$ctx = null)
   {
     if (!in_array($actionId, self::$classes)) {
       // throw new \feException(print_r(debug_print_backtrace()));
@@ -70,16 +72,31 @@ class Actions
     return array_merge($args, ['optionalAction' => $ctx->isOptional()]);
   }
 
-  public static function takeAction($actionId, $actionName, $args, $ctx)
+  public static function takeAction($actionId, $actionName, $args, &$ctx, $automatic = false)
   {
     $player = self::getPlayer($ctx);
     if (!self::isDoable($actionId, $ctx, $player)) {
       throw new \BgaUserException(self::getErrorMessage($actionId));
     }
 
+    // Check action
+    if (!$automatic && Globals::getMode() == \MODE_PRIVATE) {
+      Game::get()->checkAction($actionName);
+      $stepId = Log::step();
+      Notifications::newUndoableStep($player, $stepId);
+    }
+
+    // Run action
     $action = self::get($actionId, $ctx);
     $methodName = $actionName; //'act' . self::$classes[$actionId];
     $action->$methodName(...$args);
+
+    // Resolve action
+    $automatic = $ctx->isAutomatic($player);
+    $checkpoint = false; // TODO
+    $ctx = $action->getCtx();
+    Engine::resolveAction(['actionName' => $actionName, 'args' => $args], $checkpoint, $ctx, $automatic);
+    Engine::proceed($player->getId());
   }
 
   public static function getPlayer($node)
@@ -108,7 +125,12 @@ class Actions
     $action = self::get($actionId, $ctx);
     $methodName = 'st' . $action->getClassName();
     if (\method_exists($action, $methodName)) {
-      return $action->$methodName();
+      $result = $action->$methodName();
+      if (!is_null($result)) {
+        $actionName = 'act' . $action->getClassName();
+        self::takeAction($actionId, $actionName, $result, $ctx, true);
+        return true; // We are changing state
+      }
     }
   }
 

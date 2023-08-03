@@ -179,6 +179,10 @@ const ALL_PLANETS = [0];
  * MISC
  */
 
+const MODE_APPLY = 0;
+const MODE_PRIVATE = 1;
+const MODE_REPLAY = 2;
+
 /************************
  ********** TILES *******
  ************************/

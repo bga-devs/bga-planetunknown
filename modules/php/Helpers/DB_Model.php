@@ -1,6 +1,7 @@
 <?php
 namespace PU\Helpers;
 use PU\Core\Game;
+use PU\Core\Globals;
 
 abstract class DB_Model extends \APP_DbObject implements \JsonSerializable
 {
@@ -130,7 +131,9 @@ abstract class DB_Model extends \APP_DbObject implements \JsonSerializable
         }
 
         // $this->DB()->update([$this->attributes[$name] => \addslashes($value)], $this->getPrimaryFieldValue());
-        $this->DB()->update([$fieldName => $updateValue], $this->getPrimaryFieldValue());
+        if (Globals::getMode() == MODE_APPLY) {
+          $this->DB()->update([$fieldName => $updateValue], $this->getPrimaryFieldValue());
+        }
         return $value;
       } elseif ($match[1] == 'inc') {
         $getter = 'get' . $match[2] . $match[3];
