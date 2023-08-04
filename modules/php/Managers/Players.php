@@ -74,7 +74,7 @@ class Players extends \PU\Helpers\CachedDB_Manager
         $player['player_avatar'],
         $planet, $corporation,
         $positions[count($players)][$playerIndex],
-        []
+        '[]'
       ];
       $playerIndex++;
     }
