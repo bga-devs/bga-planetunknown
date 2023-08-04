@@ -96,7 +96,8 @@ trait EngineTrait
     self::checkAction($actionName);
     $pId = Players::getCurrentId();
     $action = $this->getCurrentAtomicAction($pId);
-    Actions::takeAction($action, $actionName, $args, Engine::getNextUnresolved($pId));
+    $ctx = Engine::getNextUnresolved($pId);
+    Actions::takeAction($action, $actionName, $args, $ctx);
   }
 
   /**
@@ -239,8 +240,7 @@ trait EngineTrait
 
   public function stApplyEngine()
   {
-    // TODO : apply engine
-
+    Engine::apply();
     Engine::callback();
   }
 }

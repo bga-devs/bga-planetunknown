@@ -80,13 +80,11 @@ class MoveTrack extends \PU\Models\Action
   {
     //TODO add flag $isAutomatic if needed
     $args = $this->argsMoveTrack();
-    $this->actMoveTrack($args['type'], Corporation::getSpaceId($args), true);
-    return true; // Ensure the UI is not entering the state !!!
+    return [$args['type'], Corporation::getSpaceId($args)]; // Ensure the UI is not entering the state !!!
   }
 
-  public function actMoveTrack($type, $spaceId, $auto = false)
+  public function actMoveTrack($type, $spaceId)
   {
-    self::checkAction('actMoveTrack', $auto);
     $player = $this->getPlayer();
 
     [$pawn, $bonuses] = $player->corporation()->moveTrack($type, $spaceId, $this->getWithBonus());
@@ -94,7 +92,5 @@ class MoveTrack extends \PU\Models\Action
     Notifications::moveTrack($player, $type, $this->getN(), $pawn);
 
     $this->createActionFromBonus($bonuses, $player);
-
-    $this->resolveAction([$type, $spaceId]);
   }
 }

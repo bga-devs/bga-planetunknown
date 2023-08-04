@@ -2,8 +2,6 @@
 namespace PU\Core;
 use PU\Managers\Players;
 use PU\Managers\Actions;
-use PU\Managers\Scores;
-use PU\Managers\ZooCards;
 use PU\Helpers\Log;
 use PU\Helpers\QueryBuilder;
 use PU\Helpers\UserException;
@@ -14,14 +12,33 @@ use PU\Helpers\UserException;
 class Engine
 {
   public static $trees = null;
+  public static $replayed = false;
 
   public function boot()
   {
+    $cPId = Players::getCurrentId(true) ?? 0;
+
     $flows = PGlobals::getAll('engine');
     self::$trees = [];
     foreach ($flows as $pId => $t) {
       $flowTree = self::buildTree($t);
       self::$trees[$pId] = $flowTree;
+
+      if ($cPId == $pId && !static::$replayed) {
+        Globals::setReplayMode();
+        $flowTree->replay();
+        Globals::unsetReplayMode();
+        static::$replayed = true;
+      }
+    }
+  }
+
+  public function apply()
+  {
+    Log::clearCache();
+    Globals::setMode(MODE_APPLY);
+    foreach (self::$trees as $pId => $t) {
+      $t->replay();
     }
   }
 
@@ -67,6 +84,7 @@ class Engine
     $gm->setPlayersMultiactive($pIds, '', true);
     $gm->jumpToState(ST_SETUP_PRIVATE_ENGINE);
     $gm->initializePrivateStateForAllActivePlayers();
+    Globals::setMode(MODE_PRIVATE);
     self::multipleProceed($pIds);
     Log::startEngine();
   }
@@ -156,6 +174,7 @@ class Engine
       // Only one choice : auto choose
       $id = array_keys($choices)[0] ?? null;
       if (
+        false &&
         count($choices) == 1 &&
         count($allChoices) == 1 &&
         array_keys($allChoices) == array_keys($choices) &&
@@ -236,7 +255,7 @@ class Engine
   /**
    * Resolve action : resolve the action of a leaf action node
    */
-  public function resolveAction($args = [], $checkpoint = false, &$node = null)
+  public function resolveAction($args = [], $checkpoint = false, &$node = null, $automatic = false)
   {
     if (is_null($node)) {
       die('Not possible');
@@ -252,7 +271,7 @@ class Engine
     $pId = $node->getRoot()->getPId();
     self::save($pId);
 
-    if (!isset($args['automatic']) || $args['automatic'] === false) {
+    if (!$automatic) {
       PGlobals::incEngineChoices($pId);
     }
     if ($checkpoint) {

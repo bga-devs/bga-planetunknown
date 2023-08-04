@@ -19,9 +19,14 @@ class Action
 {
   protected $ctx = null; // Contain ctx information : current node of flow tree
   protected $description = '';
-  public function __construct($ctx)
+  public function __construct(&$ctx)
   {
     $this->ctx = $ctx;
+  }
+
+  public function getCtx()
+  {
+    return $this->ctx;
   }
 
   public function isDoable($player)
@@ -83,20 +88,14 @@ class Action
     return $this->getCtxArgs()[$v] ?? null;
   }
 
-  public function resolveAction($args = [], $checkpoint = false)
-  {
-    $player = Players::getActive();
-    $args['automatic'] = $this->isAutomatic($player);
-    Engine::resolveAction($args, $checkpoint, $this->ctx);
-    Engine::proceed($this->ctx->getRoot()->getPId());
-  }
-
   /**
    * Insert flow as child of current node
    */
   public function insertAsChild($flow)
   {
-    Engine::insertAsChild($flow, $this->ctx);
+    if (Globals::getMode() == \MODE_PRIVATE) {
+      Engine::insertAsChild($flow, $this->ctx);
+    }
   }
 
   /**
@@ -109,17 +108,8 @@ class Action
 
   public function pushParallelChilds($childs)
   {
-    Engine::insertOrUpdateParallelChilds($childs, $this->ctx);
-  }
-
-  public static function checkAction($action, $byPassActiveCheck = false)
-  {
-    if ($byPassActiveCheck) {
-      // Game::get()->gamestate->checkPossibleAction($action);
-    } else {
-      Game::get()->checkAction($action);
-      $stepId = Log::step();
-      Notifications::newUndoableStep(Players::getCurrent(), $stepId);
+    if (Globals::getMode() == \MODE_PRIVATE) {
+      Engine::insertOrUpdateParallelChilds($childs, $this->ctx);
     }
   }
 
@@ -155,11 +145,9 @@ class Action
           // TODO create move track
           break;
         case ROVER:
-          $this->pushParallelChild(
-            [
-              'action' => PLACE_ROVER,
-            ]
-          );
+          $this->pushParallelChild([
+            'action' => PLACE_ROVER,
+          ]);
           break;
         default:
           //handle 'move_x' bonuses

@@ -22,6 +22,15 @@ use PU\Managers\Tiles;
 
 class Log extends \APP_DbObject
 {
+  public static function clearCache()
+  {
+    Globals::fetch();
+    PGlobals::fetch();
+    Players::invalidate();
+    Tiles::invalidate();
+    // Stats::invalidate();
+  }
+
   /**
    * Add an entry
    */
@@ -200,11 +209,7 @@ class Log extends \APP_DbObject
     */
 
     // Force to clear cached informations
-    Globals::fetch();
-    PGlobals::fetch();
-    Players::invalidate();
-    Tiles::invalidate();
-    // Stats::invalidate();
+    self::clearCache();
 
     // Notify
     $datas = Game::get()->getAllDatas();

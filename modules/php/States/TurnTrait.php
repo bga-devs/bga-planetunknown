@@ -40,6 +40,7 @@ trait TurnTrait
    */
   function stEndOfTurn()
   {
-    die('END OF TURN');
+    // TODO : stuff
+    $this->gamestate->jumpToState(ST_START_PARALLEL);
   }
 }

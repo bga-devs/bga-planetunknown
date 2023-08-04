@@ -2,6 +2,7 @@
 namespace PU\Core\Engine;
 use PU\Core\Globals;
 use PU\Managers\Players;
+use PU\Managers\Actions;
 
 /*
  * AbstractNode: a class that represent an abstract Node
@@ -275,10 +276,13 @@ class AbstractNode
       return null;
     }
 
-    if (!isset($this->infos['choice']) || $this->childs[$this->infos['choice']]->isResolved()) {
+    $choices = $this->infos['choices'] ?? [];
+    $choice = empty($choices) ? null : $choices[count($choices) - 1];
+
+    if (is_null($choice) || $this->childs[$choice]->isResolved()) {
       return $this;
     } else {
-      return $this->childs[$this->infos['choice']]->getNextUnresolved();
+      return $this->childs[$choice]->getNextUnresolved();
     }
   }
 
@@ -297,6 +301,24 @@ class AbstractNode
 
     if ($this->getPId() == $pId) {
       $this->resolve(ZOMBIE);
+    }
+  }
+
+  /**
+   * Replay childs one by one in choices order
+   */
+  public function replay()
+  {
+    if (isset($this->infos['action']) && $this->isActionResolved()) {
+      $args = $this->infos['actionResolutionArgs'];
+      $action = Actions::get($this->infos['action'], $this);
+      $methodName = $args['actionName'];
+      $action->$methodName(...$args['args']);
+    }
+
+    $choices = $this->infos['choices'] ?? [];
+    foreach ($choices as $childId) {
+      $this->childs[$childId]->replay();
     }
   }
 
@@ -334,7 +356,7 @@ class AbstractNode
     $choices = [];
     $childs = $this->getType() == NODE_SEQ && !empty($this->childs) ? [0 => $this->childs[0]] : $this->childs;
 
-    foreach ($childs as $id => $child) {
+    foreach ($childs as $id => &$child) {
       if (!$child->isResolved() && ($displayAllChoices || $child->isDoable($player))) {
         $choice = [
           'id' => $id,
@@ -367,16 +389,14 @@ class AbstractNode
 
   public function choose($childIndex, $auto = false)
   {
-    $this->infos['choice'] = $childIndex;
-    $child = $this->childs[$this->infos['choice']];
+    if (!isset($this->infos['choices'])) {
+      $this->infos['choices'] = [];
+    }
+    $this->infos['choices'][] = $childIndex;
+    $child = $this->childs[$childIndex];
     if (!$auto && !($child instanceof \PU\Core\Engine\LeafNode)) {
       $child->enforceMandatory();
     }
-  }
-
-  public function unchoose()
-  {
-    unset($this->infos['choice']);
   }
 
   /************************
@@ -429,7 +449,7 @@ class AbstractNode
     if (in_array($this->getAction(), $types) && $this->isActionResolved()) {
       $actions[] = $this;
     }
-    foreach ($this->childs as $child) {
+    foreach ($this->childs as &$child) {
       $actions = array_merge($actions, $child->getResolvedActions($types));
     }
     return $actions;

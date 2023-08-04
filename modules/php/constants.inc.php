@@ -198,6 +198,10 @@ const ALL_CORPORATIONS = [0, 1, 2, 3, 4, 5, 6, 7, 8];
  * MISC
  */
 
+const MODE_APPLY = 0;
+const MODE_PRIVATE = 1;
+const MODE_REPLAY = 2;
+
 /************************
  ********** TILES *******
  ************************/

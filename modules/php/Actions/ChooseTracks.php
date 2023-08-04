@@ -64,6 +64,15 @@ class ChooseTracks extends \PU\Models\Action
 
   public function actChooseTracks($tracks)
   {
-    self::checkAction('actChooseTracks');
+    // TODO
+    // if(count($tracks) != n)
+    // ERROR
+
+    // TODO : multiple tracks
+    $type = $tracks[0];
+    $this->insertAsChild([
+      'action' => MOVE_TRACK,
+      'args' => ['type' => $type, 'n' => 1, 'withBonus' => true],
+    ]);
   }
 }

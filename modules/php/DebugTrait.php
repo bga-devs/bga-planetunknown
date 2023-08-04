@@ -1,6 +1,7 @@
 <?php
 namespace PU;
 use PU\Core\Globals;
+use PU\Core\PGlobals;
 use PU\Core\Engine;
 use PU\Core\Game;
 use PU\Core\Notifications;
@@ -18,6 +19,11 @@ trait DebugTrait
     Log::clearUndoableStepNotifications(true);
   }
 
+  function getMode()
+  {
+    var_dump(Globals::getMode());
+  }
+
   function dv()
   {
     Globals::setEndTriggered(true);
@@ -31,7 +37,8 @@ trait DebugTrait
 
   function engDisplay()
   {
-    var_dump(Globals::getEngine());
+    $pId = Players::getCurrentId();
+    var_dump(PGlobals::getEngine($pId));
   }
 
   function engProceed()

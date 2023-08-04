@@ -24,6 +24,7 @@ trait SetupTrait
    */
   protected function setupNewGame($players, $options = [])
   {
+    Globals::setMode(MODE_APPLY);
     Globals::setupNewGame($players, $options);
     Players::setupNewGame($players, $options);
     Preferences::setupNewGame($players, $this->player_preferences);

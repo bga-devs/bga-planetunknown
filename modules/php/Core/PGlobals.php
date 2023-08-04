@@ -145,7 +145,9 @@ class PGlobals extends \PU\Helpers\DB_Manager
         }
 
         self::$datas[$pId][$name] = $value;
+        // if (Globals::getMode() == MODE_APPLY || $name == 'engine') {
         self::DB()->update(['value' => \addslashes(\json_encode($value))], $name . '-' . $pId);
+        // }
         return $value;
       } elseif ($match[1] == 'inc') {
         if (self::$variables[$name] != 'int') {
