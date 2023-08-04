@@ -124,6 +124,11 @@ const BIOMASS = 'biomass';
 
 const MEDAL = 'medal';
 const SYNERGY = 'synergy';
+const SYNERGY_CIV = 'synergy_civ';
+const SYNERGY_ROVER = 'synergy_rover';
+const SYNERGY_TECH = 'synergy_tech';
+const SYNERGY_WATER = 'synergy_water';
+const SKIP = 'skip'; //doesn't exists, placeholder in the array;
 
 /*
  *	Cards
@@ -143,7 +148,15 @@ const SOLO_EVENT_CARDS = [65, 66, 67, 79, 110, 116];
 const NOTHING = 'nothing';
 const LAND = 'land';
 const ICE = 'ice';
+
+//they are LAND too
 const LIFEPOD = 'lifepod';
+const RING = 'ring';
+const HOLE = 'hole';
+const CITY = 'city';
+const TOXIC = 'toxic';
+const ELECTRIC = 'electric';
+const ELECTRIC_LIFEPOD = 'electric_lifepod';
 
 const METEOR = 'meteor';
 
@@ -172,8 +185,14 @@ const SMALL_RING = [TILE_I, TILE_t, TILE_v, TILE_L, TILE_i, TILE_O];
  */
 
 const ADVANCED_PLANETS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-const ALL_PLANETS = [0];
-//const ALL_PLANETS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+const ALL_PLANETS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+
+/*
+* CORPORATIONS
+*/
+const ADVANCED_CORPORATIONS = [1, 2, 3, 4, 5, 6, 7, 8];
+const ALL_CORPORATIONS = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
 /*
  * MISC
@@ -182,12 +201,6 @@ const ALL_PLANETS = [0];
 /************************
  ********** TILES *******
  ************************/
-
-/******************
- ****** MAPS ******
- ******************/
-// const ADVANCED_MAPS = [1, 2, 3, 4, 5, 6, 7, 8];
-// const ALL_MAPS = ['A', 0, 1, 2, 3, 4, 5, 6, 7, 8];
 
 /******************
  ****** STATS ******

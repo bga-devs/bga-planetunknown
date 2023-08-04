@@ -41,6 +41,7 @@ class Corporation
     }
   }
 
+  //to do modify, tracker progression is not linear
   public function getBonus($type, $from, $to = null)
   {
     $to = $to ?? $from;
