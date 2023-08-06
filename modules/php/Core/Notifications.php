@@ -197,9 +197,9 @@ class Notifications
     self::pnotify(
       $player,
       'placeTile',
-      $meteor
-        ? clienttranslate('${player_name} places a ${types_desc} tile and a new meteor on their planet')
-        : clienttranslate('${player_name} places a ${types_desc} tile on their planet'),
+      is_null($meteor)
+        ? clienttranslate('${player_name} places a ${types_desc} tile on their planet')
+        : clienttranslate('${player_name} places a ${types_desc} tile and a new meteor on their planet'),
       [
         'tile' => $tile,
         'types' => $types,

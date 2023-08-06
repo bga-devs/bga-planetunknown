@@ -86,18 +86,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       let needUpdateForActionCards = false;
       let workerMoved = false;
       let promises = meeples.map((resource, i) => {
-        if (resource.type == 'worker') workerMoved = true;
-
         // Get config for this slide
         let config = typeof configFn === 'function' ? configFn(resource, i) : Object.assign({}, configFn);
         if (resource.destroy) {
           resource.id = fakeId--;
           config.destroy = true;
-        }
-
-        // Need update for action cards summaries ?
-        if (['Multiplier', 'Constriction', 'Venom'].includes(resource.type)) {
-          needUpdateForActionCards = true;
         }
 
         // Default delay if not specified

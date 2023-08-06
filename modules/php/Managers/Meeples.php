@@ -30,12 +30,11 @@ class Meeples extends \PU\Helpers\CachedPieces
 
   public static function getOfPlayer($player, $type = null)
   {
-    return ($type)
+    return $type
       ? static::getAll()
-      ->where('pId', $player->getId())
-      ->where('type', $type)
-      : static::getAll()
-      ->where('pId', $player->getId());
+        ->where('pId', $player->getId())
+        ->where('type', $type)
+      : static::getAll()->where('pId', $player->getId());
   }
 
   public static function destroyCoveredMeeples($player, $tile)
@@ -44,11 +43,13 @@ class Meeples extends \PU\Helpers\CachedPieces
     $toDestroy = new Collection();
     foreach ($planet->getTileCoveredCells($tile, false) as $i => $cell) {
       // $planet->grid[$cell['x']][$cell['y']]['tile'] = $tile;
-      $toDestroy = $toDestroy->merge(static::getAll()
-        ->where('type', [LIFEPOD, ROVER])
-        ->where('pId', $player->getId())
-        ->where('x', $cell['x'])
-        ->where('y', $cell['y']));
+      $toDestroy = $toDestroy->merge(
+        static::getAll()
+          ->where('type', [LIFEPOD, ROVER])
+          ->where('pId', $player->getId())
+          ->where('x', $cell['x'])
+          ->where('y', $cell['y'])
+      );
     }
     static::move($toDestroy->getIds(), 'trash');
 
@@ -60,13 +61,13 @@ class Meeples extends \PU\Helpers\CachedPieces
 
   public static function addMeteor($player, $meteor)
   {
-    return static::create([[
+    return static::singleCreate([
       'type' => METEOR,
       'location' => 'planet',
       'player_id' => $player->getId(),
       'x' => $meteor['x'],
-      'y' => $meteor['y']
-    ]]);
+      'y' => $meteor['y'],
+    ]);
   }
 
   ////////////////////////////////////
@@ -77,7 +78,6 @@ class Meeples extends \PU\Helpers\CachedPieces
   // |____/ \___|\__|\__,_| .__/
   //                      |_|
   ////////////////////////////////////
-
 
   /* Creation of various meeples */
   public static function setupNewGame($players, $options)
@@ -91,7 +91,7 @@ class Meeples extends \PU\Helpers\CachedPieces
           'location' => 'corporation',
           'player_id' => $pId,
           'x' => $value,
-          'y' => 0
+          'y' => 0,
         ];
       }
     }
@@ -114,7 +114,7 @@ class Meeples extends \PU\Helpers\CachedPieces
         'location' => 'planet',
         'player_id' => $pId,
         'x' => $lifepodCoord['x'],
-        'y' => $lifepodCoord['y']
+        'y' => $lifepodCoord['y'],
       ];
     }
 
@@ -127,7 +127,7 @@ class Meeples extends \PU\Helpers\CachedPieces
         'location' => 'board',
         'player_id' => $pId,
         'x' => '',
-        'y' => ''
+        'y' => '',
       ];
     }
 
