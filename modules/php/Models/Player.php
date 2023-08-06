@@ -36,7 +36,8 @@ class Player extends \PU\Helpers\DB_Model
     'planetId' => 'planet_id',
     'corporationId' => 'corporation_id',
     'position' => ['position', 'int'],
-    'lastTileId' => ['last_tile_id', 'int']
+    'lastTileId' => ['last_tile_id', 'int'],
+    'extraData' => ['extra_datas', 'obj']
   ];
 
   // Cached attribute
