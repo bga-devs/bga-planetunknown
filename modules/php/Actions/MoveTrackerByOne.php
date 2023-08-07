@@ -99,10 +99,11 @@ class MoveTrackerByOne extends \PU\Models\Action
     $args = $this->argsMoveTrackerByOne();
 
     if ($type != $args['type']) {
-      throw new \BgaVisibleSystemException('You can not move this tracker now. Should not happen ', var_dump($type));
+      throw new \BgaVisibleSystemException('You can not move this tracker now. Should not happen ', $type);
     }
+
     if (!in_array($spaceId, $args['spaceIds'])) {
-      throw new \BgaVisibleSystemException('You can not move this tracker here. Should not happen ' . var_dump($spaceId));
+      throw new \BgaVisibleSystemException('You can not move this tracker here. Should not happen ' . $spaceId);
     }
 
     $bonuses = $player->corporation()->moveTrack($type, $spaceId, $this->getWithBonus());

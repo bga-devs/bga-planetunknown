@@ -35,10 +35,10 @@ class Players extends \PU\Helpers\CachedDB_Manager
       6 => [0, 1, 2, 3, 4, 5]
     ];
 
-    // $planets = ADVANCED_PLANETS;
-    // shuffle($planets);
-    // $corporations = ADVANCED_CORPORATIONS;
-    // shuffle($corporations);
+    $planets = ADVANCED_PLANETS;
+    shuffle($planets);
+    $corporations = ADVANCED_CORPORATIONS;
+    shuffle($corporations);
 
     // Create players
     $gameInfos = Game::get()->getGameinfos();
@@ -61,10 +61,10 @@ class Players extends \PU\Helpers\CachedDB_Manager
       //give a planet and corporation according to game options
       $planet = ($options[OPTION_PLANET] == OPTION_PLANET_A)
         ? 0
-        : ''; //TODO ATTRIBUTE A BOARD AT RANDOM
+        : array_shift($planets); //TODO ATTRIBUTE A BOARD AT RANDOM
       $corporation = ($options[OPTION_CORPORATION] == OPTION_CORPORATION_UNIVERSAL)
         ? 0
-        : ''; //TODO ATTRIBUTE A BOARD AT RANDOM
+        : array_shift($corporations); //TODO ATTRIBUTE A BOARD AT RANDOM
 
       $color = array_shift($colors);
       $values[] = [
@@ -73,7 +73,8 @@ class Players extends \PU\Helpers\CachedDB_Manager
         $player['player_canal'],
         $player['player_name'],
         $player['player_avatar'],
-        $planet, $corporation,
+        $planet,
+        $corporation,
         $positions[count($players)][$playerIndex],
         '[]'
       ];
