@@ -2,6 +2,10 @@
 
 namespace PU\Models\Corporations;
 
+use PU\Core\Notifications;
+
+use function PHPSTORM_META\type;
+
 class Corporation
 {
   protected $id;
@@ -24,32 +28,41 @@ class Corporation
     }
   }
 
+  /**
+   * register the new coord of a tracker
+   * and returns an Array of subsequent actions
+   */
   public function moveTrack($type, $spaceId, $withBonus = true)
   {
     $pawn = $this->player->getTracker($type);
+
+    $coord = $this->getCoordFromSpaceId($spaceId);
+
     $oldCoord = [
       'x' => $pawn->getX(),
-      'y' => $pawn->getY(),
+      'y' => $pawn->getY()
     ];
-    $newCoord = static::getCoordFromSpaceId($spaceId);
-    $pawn->setX($newCoord['x']);
-    $pawn->setY($newCoord['y']);
+
+    $pawn->setX($coord['x']);
+    $pawn->setY($coord['y']);
+
+    Notifications::moveTrack($this->player, $oldCoord, $pawn);
+
     if ($withBonus) {
-      return [$pawn, $this->getBonus($type, $oldCoord['y'], $newCoord['y'])];
+      return $this->getBonuses($coord);
     } else {
-      return [$pawn, []];
+      return [];
     }
   }
 
-  //to do modify, tracker progression is not linear
-  public function getBonus($type, $from, $to = null)
+  public function getBonuses($cell)
   {
-    $to = $to ?? $from;
-
     $bonuses = [];
-    for ($i = 1; $i <= abs($to - $from); $i++) {
-      $index = $from < $to ? $from + $i : $from - $i;
-      $bonuses[] = $this->tracks[$type][$index];
+
+    if (is_array($this->tracks[$cell['x']][$cell['y']])) {
+      $bonuses = $this->tracks[$cell['x']][$cell['y']];
+    } else if ($this->tracks[$cell['x']][$cell['y']]) {
+      $bonuses[] = $this->tracks[$cell['x']][$cell['y']];
     }
 
     return $bonuses;
@@ -63,14 +76,17 @@ class Corporation
     } else {
       //for positive progression
       //rover can always been activated even on last level
-      if ($type == ROVER) return true;
-      else return !$this->isTrackerOnTop($type);
+      if ($type == ROVER) {
+        return true;
+      } else {
+        return !$this->isTrackerOnTop($type);
+      }
     }
   }
 
   /*
   * return the tracker level (how many step it's from start)
-  * could be different than Y on corporation where progression is not linear
+  * could be different than Y on corporations where progression is not linear
   */
   public function getLevelOnTrack($type)
   {
@@ -103,6 +119,10 @@ class Corporation
     return $this->countLevel(TECH);
   }
 
+  /**
+   * count the milestones reached by a tracker
+   * to be overriden for some corporations
+   */
   public function countLevel($track)
   {
     $result = 0;
@@ -114,6 +134,10 @@ class Corporation
     return $result;
   }
 
+  /**
+   * Return an array of all cells this TYPE tracker can reach with a N move.
+   * @return Array of CellIDs ('x_y')
+   */
   public function getNextSpace($type, $n = 1)
   {
     $trackPawn = $this->player->getTracker($type);
@@ -124,9 +148,14 @@ class Corporation
     //Y can't be higher than top of the track type
     $nextSpaceY = min(count($this->tracks[$type]) - 1, $nextSpaceY);
 
-    return [$trackPawn->getX(), $nextSpaceY];
+    return [
+      $trackPawn->getX() . '_' . $nextSpaceY
+    ];
   }
 
+  /**
+   * Return the number of rover a player need for a game (from static data)
+   */
   public function getRoverNb()
   {
     return count(
@@ -135,11 +164,6 @@ class Corporation
         fn ($value) => $this->isOrIn(ROVER, $value)
       )
     );
-  }
-
-  protected function isOrIn($trackValue, $neededValue)
-  {
-    return $trackValue == $neededValue || (is_array($trackValue) && in_array($neededValue, $trackValue));
   }
 
   /*
@@ -165,5 +189,13 @@ class Corporation
   {
     $coord = explode('_', $spaceId);
     return ['x' => $coord[0], 'y' => $coord[1]];
+  }
+
+  /**
+   * as a tracker level can be an array or not, need to check both possibilities
+   */
+  protected function isOrIn($trackValue, $neededValue)
+  {
+    return $trackValue == $neededValue || (is_array($trackValue) && in_array($neededValue, $trackValue));
   }
 }

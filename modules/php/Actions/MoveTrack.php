@@ -65,32 +65,34 @@ class MoveTrack extends \PU\Models\Action
 
     $type = $this->getType();
     $n = $this->getN();
-
-    [$x, $y] = $player->corporation()->getNextSpace($type, $n);
+    $withBonus = $this->getWithBonus();
 
     return [
       'type_name' => $type,
       'type' => $type,
-      'x' => $x,
-      'y' => $y,
+      'n' => $n,
+      'withBonus' => $withBonus
     ];
   }
 
   public function stMoveTrack()
   {
-    //TODO add flag $isAutomatic if needed
     $args = $this->argsMoveTrack();
-    return [$args['type'], Corporation::getSpaceId($args)]; // Ensure the UI is not entering the state !!!
+    return [$args['type'], $args['n']]; // Ensure the UI is not entering the state !!!
   }
 
-  public function actMoveTrack($type, $spaceId)
+  public function actMoveTrack($type, $n)
   {
-    $player = $this->getPlayer();
-
-    [$pawn, $bonuses] = $player->corporation()->moveTrack($type, $spaceId, $this->getWithBonus());
-
-    Notifications::moveTrack($player, $type, $this->getN(), $pawn);
-
-    $this->createActionFromBonus($bonuses, $player);
+    for ($i = 1; $i <= abs($n); $i++) {
+      $this->insertAsChild([
+        'action' => MOVE_TRACKER_BY_ONE,
+        'args' => [
+          'type' => $type,
+          'moveId' => $i, //TO be used in a string like : "moveID on N moves" 
+          'n' => $n, //it still can be positive or negative
+          'withBonus' => $this->getWithBonus()
+        ]
+      ]);
+    }
   }
 }

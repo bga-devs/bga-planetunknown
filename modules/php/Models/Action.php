@@ -124,9 +124,7 @@ class Action
 
   public function createActionFromBonus($bonuses, $player)
   {
-    if (!is_array($bonuses)) {
-      $bonuses = [$bonuses];
-    }
+    if (!$bonuses) return;
 
     foreach ($bonuses as $bonus) {
       switch ($bonus) {
@@ -142,10 +140,16 @@ class Action
           // TODO create action tech
           break;
         case SYNERGY:
-          // TODO create move track
+          $this->insertAsChild([
+            'action' => CHOOSE_TRACKS,
+            'args' => [
+              'types' => [ALL_TYPES],
+              'n' => 1
+            ]
+          ]);
           break;
         case ROVER:
-          $this->pushParallelChild([
+          $this->insertAsChild([
             'action' => PLACE_ROVER,
           ]);
           break;

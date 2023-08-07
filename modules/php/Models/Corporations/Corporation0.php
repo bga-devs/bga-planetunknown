@@ -13,18 +13,23 @@ class Corporation0 extends Corporation
     $this->techBonuses = [
       1 => [
         'text' => clienttranslate('Tile adjacency placement restriction may be ignored.')
+        //TODO
       ],
       2 => [
         'text' => clienttranslate('You may store biomass patches to be placed at the end of game.')
+        //TODO
       ],
       3 => [
         'text' => clienttranslate('+1 each time you gain rover movement.')
+        //TODO
       ],
       4 => [
         'text' => clienttranslate('Double water advancement from water tile placement.')
+        //TODO
       ],
       5 => [
         'text' => clienttranslate('Unaffected by meteor strikes. Do not place meteorites.')
+        //TODO
       ],
     ];
     parent::__construct($player);

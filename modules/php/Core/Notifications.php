@@ -60,8 +60,8 @@ class Notifications
   {
     $message =
       $player == null
-        ? clienttranslate('S.U.S.A.N. rotates.')
-        : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
+      ? clienttranslate('S.U.S.A.N. rotates.')
+      : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
     $data = [
       'player' => $player,
       'newRotation' => $rotation,
@@ -208,19 +208,20 @@ class Notifications
     );
   }
 
-  public static function moveTrack($player, $type, $n, $pawn)
+  public static function moveTrack($player, $fromCell, $pawn)
   {
     self::pnotify(
       $player,
       'moveTrack',
-      $n > 0
-        ? clienttranslate('${player_name} moves ${n} space(s) upward on track ${types_desc}')
-        : clienttranslate('${player_name} moves ${n} space(s) downward on track ${types_desc}'),
+      $fromCell['y'] < $pawn->getY()
+        ? clienttranslate('${player_name} moves ${types_desc} tracker upward')
+        : ($fromCell['y'] > $pawn->getY()
+          ? clienttranslate('${player_name} moves ${types_desc} tracker downward')
+          : clienttranslate('${player_name} moves ${types_desc} tracker sideward')),
       [
         'player' => $player,
-        'n' => abs($n),
         'meeple' => $pawn,
-        'types' => [$type],
+        'types' => [$pawn->getType()],
       ]
     );
   }

@@ -32,8 +32,8 @@ class Meeples extends \PU\Helpers\CachedPieces
   {
     return $type
       ? static::getAll()
-        ->where('pId', $player->getId())
-        ->where('type', $type)
+      ->where('pId', $player->getId())
+      ->where('type', $type)
       : static::getAll()->where('pId', $player->getId());
   }
 
@@ -85,7 +85,7 @@ class Meeples extends \PU\Helpers\CachedPieces
     $data = [];
     foreach ($players as $pId => $player) {
       //create trackers
-      foreach ([CIV, WATER, BIOMASS, ROVER, TECH] as $value) {
+      foreach (ALL_TYPES as $value) {
         $data[] = [
           'type' => $value,
           'location' => 'corporation',

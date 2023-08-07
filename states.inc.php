@@ -234,6 +234,15 @@ $machinestates = [
     'possibleactions' => ['actMoveTrack', 'actRestart'],
   ],
 
+  ST_MOVE_TRACKER_BY_ONE => [
+    'name' => 'moveTrackerByOne',
+    'descriptionmyturn' => clienttranslate('You must move your tracker ${type} by one'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actMoveTrackerByOne', 'actPass', 'actRestart'],
+  ],
+
   ST_CHOOSE_TRACKS => [
     'name' => 'chooseTracks',
     'descriptionmyturn' => clienttranslate('You must choose which track to move thanks to energy'),

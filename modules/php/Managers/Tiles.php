@@ -119,73 +119,73 @@ class Tiles extends \PU\Helpers\CachedPieces
   }
 
   public static $shapes = [
-    0 => [
+    TILE_N => [
       'pattern' => ['2_1', '0_1', '1_1', '2_0', '3_0'],
       'meteorPlace' => '3_0',
       'symbolPlaces' => ['1_1', '2_0'],
       'types' => [0, 0, 0, 1, 1],
     ],
-    1 => [
+    TILE_F => [
       'pattern' => ['1_1', '0_1', '2_1', '2_0', '1_2'],
       'meteorPlace' => '0_1',
       'symbolPlaces' => ['2_1', '1_2'],
       'types' => [0, 0, 1, 1, 0],
     ],
-    2 => [
+    TILE_I => [
       'pattern' => ['0_1', '0_0', '0_2'],
       'meteorPlace' => '0_2',
       'symbolPlaces' => ['0_1', '0_0'],
       'types' => [0, 1, 0],
     ],
-    3 => [
+    TILE_v => [
       'pattern' => ['1_0', '0_0', '1_1'],
       'meteorPlace' => '0_0',
       'symbolPlaces' => ['1_0', '1_1'],
       'types' => [0, 0, 1],
     ],
-    4 => [
+    TILE_t => [
       'pattern' => ['1_0', '0_0', '1_1', '2_0'],
       'meteorPlace' => '1_1',
       'symbolPlaces' => ['0_0', '2_0'],
       'types' => [0, 1, 0, 0],
     ],
-    5 => [
+    TILE_s => [
       'pattern' => ['1_0', '0_1', '1_1', '2_0'],
       'meteorPlace' => '1_1',
       'symbolPlaces' => ['1_0', '0_1'],
       'types' => [1, 0, 0, 1],
     ],
-    6 => [
+    TILE_L => [
       'pattern' => ['1_1', '0_2', '1_0', '1_2'],
       'meteorPlace' => '0_2',
       'symbolPlaces' => ['1_1', '1_2'],
       'types' => [0, 1, 0, 1],
     ],
-    7 => [
+    TILE_U => [
       'pattern' => ['1_1', '0_0', '0_1', '2_0', '2_1'],
       'meteorPlace' => '2_1',
       'symbolPlaces' => ['0_0', '2_0'],
       'types' => [0, 1, 1, 0, 0],
     ],
-    8 => [
+    TILE_i => [
       'pattern' => ['0_0', '0_1'],
       'meteorPlace' => '0_1',
       'symbolPlaces' => ['0_0', '0_1'],
       'types' => [0, 1],
     ],
-    9 => [
+    TILE_BIG_I => [
       'pattern' => ['1_0', '0_0', '2_0', '3_0'],
       'meteorPlace' => '3_0',
       'symbolPlaces' => ['0_0', '2_0'],
       'types' => [0, 0, 1, 1],
     ],
-    10 => [
+    TILE_O => [
       'pattern' => ['0_0', '0_1', '1_0', '1_1'],
       'meteorPlace' => '1_0',
       'symbolPlaces' => ['0_0', '1_1'],
       'types' => [1, 0, 1, 0],
     ],
-    11 => [
+    TILE_S => [
       'pattern' => ['1_1', '0_0', '0_1', '2_1', '2_2'],
       'meteorPlace' => '0_1',
       'symbolPlaces' => ['1_1', '0_0'],

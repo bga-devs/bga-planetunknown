@@ -69,6 +69,7 @@ const ST_PLACE_TILE = 23;
 const ST_MOVE_TRACK = 24;
 const ST_CHOOSE_TRACKS = 25;
 const ST_PLACE_ROVER = 26;
+const ST_MOVE_TRACKER_BY_ONE = 27;
 
 const ST_FOO_A = 34;
 const ST_FOO_B = 35;
@@ -105,8 +106,9 @@ const PASS = 99;
 
 const PLACE_TILE = 'PlaceTile';
 const MOVE_TRACK = 'MoveTrack';
-const CHOOSE_TRACKS = 'ChooseTracks';
+const CHOOSE_TRACKS = 'ChooseTracks'; //choose which track to move between what energy offer to you (or synergy??)
 const PLACE_ROVER = 'PlaceRover';
+const MOVE_TRACKER_BY_ONE = 'MoveTrackerByOne';
 
 const FOO_A = 'FooA';
 const FOO_B = 'FooB';
@@ -121,6 +123,8 @@ const ROVER = 'rover';
 const TECH = 'tech';
 const ENERGY = 'energy';
 const BIOMASS = 'biomass';
+
+const ALL_TYPES = [CIV, WATER, BIOMASS, ROVER, TECH];
 
 const MEDAL = 'medal';
 const SYNERGY = 'synergy';

@@ -49,7 +49,6 @@ class PlaceRover extends \PU\Models\Action
 
   public function actPlaceRover($cellId)
   {
-    self::checkAction('actPlaceRover');
     $player = $this->getPlayer();
     $args = $this->argsPlaceRover();
     if (!in_array($cellId, $args['cells'])) {
@@ -59,6 +58,8 @@ class PlaceRover extends \PU\Models\Action
     $cell = Planet::getCellFromId($cellId);
 
     $rover = $player->getAvailableRover();
+
+
     // Place it on the board
     $rover->placeOnPlanet($cell);
 
@@ -71,7 +72,5 @@ class PlaceRover extends \PU\Models\Action
       //TODO caution, some planet/corporation are different
       Notifications::collectMeteor($player, $cell);
     }
-
-    $this->resolveAction([$cellId]);
   }
 }
