@@ -7,6 +7,7 @@ use PU\Core\Stats;
 use PU\Core\Notifications;
 use PU\Managers\Players;
 use PU\Managers\Tiles;
+use PU\Managers\Meeples;
 
 /**
  * Class that allows to log DB change: useful for undo feature
@@ -28,6 +29,7 @@ class Log extends \APP_DbObject
     PGlobals::fetch();
     Players::invalidate();
     Tiles::invalidate();
+    Meeples::invalidate();
     // Stats::invalidate();
   }
 

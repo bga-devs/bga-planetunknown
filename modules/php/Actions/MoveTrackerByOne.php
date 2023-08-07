@@ -80,7 +80,7 @@ class MoveTrackerByOne extends \PU\Models\Action
       'type_name' => $type,
       'type' => $type,
       'spaceIds' => $spaceIds,
-      'withBonus' => $this->getWithBonus()
+      'withBonus' => $this->getWithBonus(),
     ];
   }
 

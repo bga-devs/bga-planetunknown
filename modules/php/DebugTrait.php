@@ -16,7 +16,8 @@ trait DebugTrait
 {
   function tp()
   {
-    Log::clearUndoableStepNotifications(true);
+    //    Log::clearUndoableStepNotifications(true);
+    $this->actTakeAtomicAction('actPlaceRover', ['4_1']);
   }
 
   function getMode()
