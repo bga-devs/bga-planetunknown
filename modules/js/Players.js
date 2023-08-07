@@ -589,7 +589,13 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       let tile = n.args.tile;
       let tileId = `tile-${tile.id}`;
       this.updateTileObj($(tileId), tile);
-      this.slide($(tileId), this.getTileContainer(tile));
+      this.slide($(tileId), this.getTileContainer(tile)).then(() => {
+        if (n.args.meteor) {
+          this.slideResources([n.args.meteor], { from: 'page-title' });
+        } else {
+          this.notifqueue.setSynchronousDuration(this.isFastMode() ? 0 : 10);
+        }
+      });
     },
 
     /////////////////////////////////////////////////////////////////////////////////

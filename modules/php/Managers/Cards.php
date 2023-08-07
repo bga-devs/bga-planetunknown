@@ -20,11 +20,11 @@ class Cards extends \PU\Helpers\CachedPieces
   protected static function cast($row)
   {
     if ($row['card_id'] > 0 && $row['card_id'] <= 36) {
-      $className =  '\PU\Models\Cards\CivCard' . $row['card_id'];
-    } else if ($row['card_id'] > 36 && $row['card_id'] <= 64) {
-      $className =  '\PU\Models\Cards\OCard';
-    } else if ($row['card_id'] > 64 && $row['card_id'] <= 124) {
-      $className =  '\PU\Models\Cards\EventCard' . $row['card_id'];
+      $className = '\PU\Models\Cards\CivCard' . $row['card_id'];
+    } elseif ($row['card_id'] > 36 && $row['card_id'] <= 64) {
+      $className = '\PU\Models\Cards\OCard';
+    } elseif ($row['card_id'] > 64 && $row['card_id'] <= 124) {
+      $className = '\PU\Models\Cards\EventCard' . $row['card_id'];
     }
     return new $className($row);
   }
@@ -37,7 +37,7 @@ class Cards extends \PU\Helpers\CachedPieces
       'deck_civ_3' => static::countInLocation('deck_civ_3'),
       'deck_civ_4' => static::countInLocation('deck_civ_4'),
       'deck_event' => static::countInLocation('deck_event'),
-      'discard_event' => static::getTopOf('discard_event')
+      'discard_event' => static::getTopOf('discard_event'),
     ];
   }
 
@@ -59,11 +59,11 @@ class Cards extends \PU\Helpers\CachedPieces
         // 'id' => $i,
         'location' => 'deck_civ_' . ceil($i / 7),
       ];
-    };
+    }
     for ($i = 29; $i <= 36; $i++) {
       $data[] = [
         // 'id' => $i,
-        'location' => 'deck_civ_' . (($i - 28) % 4 + 1),
+        'location' => 'deck_civ_' . ((($i - 28) % 4) + 1),
       ];
     }
     for ($i = 37; $i <= 64; $i++) {
@@ -75,7 +75,7 @@ class Cards extends \PU\Helpers\CachedPieces
 
     static::create($data);
 
-    //keep only the right civ card number 
+    //keep only the right civ card number
     $neededCivCards = count($players) + 1;
     for ($i = 1; $i <= 4; $i++) {
       $deck = 'deck_civ_' . $i;
@@ -87,7 +87,7 @@ class Cards extends \PU\Helpers\CachedPieces
     static::shuffle('deck_objectives');
     if (count($players) == 2) {
       static::pickForLocation(3, 'deck_objectives', 'table');
-    } else if (count($players) != 1) {
+    } elseif (count($players) != 1) {
       for ($i = 0; $i < count($players); $i++) {
         static::pickOneForLocation('deck_objectives', 'table', $i);
       }
@@ -96,7 +96,7 @@ class Cards extends \PU\Helpers\CachedPieces
     //pick right number of Private Objectives cards
     if (count($players) == 1 || $options[OPTION_PRIVATE_OBJECTIVE_CARDS] == OPTION_PRIVATE_OBJECTIVE_CARDS_GAME) {
       //4 cards in solo game, only 2 in multiplayer game
-      $nbCards = (count($players) == 1) ? 4 : 2;
+      $nbCards = count($players) == 1 ? 4 : 2;
       foreach ($players as $pId => $player) {
         static::pickForLocation($nbCards, 'deck_objectives', 'hand', $pId);
       }
@@ -113,7 +113,7 @@ class Cards extends \PU\Helpers\CachedPieces
       }
       static::create($data);
 
-      //first remove solo card if needed 
+      //first remove solo card if needed
       if (count($players) != 1) {
         static::move(SOLO_EVENT_CARDS, 'box');
       }

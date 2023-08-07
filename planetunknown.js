@@ -36,7 +36,7 @@ define([
         ['refreshUI', 200],
         ['refreshHand', 200],
         ['setupPlayer', 1200],
-        ['placeTile', 1200],
+        ['placeTile', null],
         ['moveTrack', null],
       ];
 

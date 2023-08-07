@@ -1,5 +1,6 @@
 <?php
 namespace PU\Helpers;
+use PU\Core\Globals;
 
 /*
  * This is a generic class to manage game pieces.
@@ -503,20 +504,60 @@ class CachedPieces extends DB_Manager
 
     // With auto increment, we compute the set of all consecutive ids
     self::fetchIfNeeded();
-    $ids = self::DB()
-      ->multipleInsert($fields)
-      ->values($values);
 
-    foreach (
-      static::getSelectQuery()
-        ->whereIn(static::$prefix . 'id', $ids)
-        ->get()
-      as $id => $obj
-    ) {
-      static::$datas[$id] = $obj;
+    if (Globals::getMode() == MODE_APPLY) {
+      $ids = self::DB()
+        ->multipleInsert($fields)
+        ->values($values);
+
+      foreach (
+        static::getSelectQuery()
+          ->whereIn(static::$prefix . 'id', $ids)
+          ->get()
+        as $id => $obj
+      ) {
+        static::$datas[$id] = $obj;
+      }
+
+      return self::getMany($ids);
     }
+    // NO DB MODIF => SIMULATE CREATION
+    else {
+      if (static::$autoIncrement) {
+        $t = static::$table;
+        $res = self::getObjectListFromDB("SHOW TABLE STATUS WHERE `Name` = '$t'");
+        $baseId = (int) $res[0]['Auto_increment'];
+      }
 
-    return self::getMany($ids);
+      $ids = [];
+      foreach ($values as $i => $v) {
+        $row = [];
+
+        $offset = 3;
+        $id = null;
+        if (static::$autoIncrement) {
+          $id = $baseId + $i;
+          $row[static::$prefix . 'id'] = $id;
+          $row[static::$prefix . 'location'] = $v[0];
+          $row[static::$prefix . 'state'] = $v[1];
+          $offset = 2;
+        } else {
+          $id = $v[0];
+          $row[static::$prefix . 'id'] = $id;
+          $row[static::$prefix . 'location'] = $v[1];
+          $row[static::$prefix . 'state'] = $v[2];
+        }
+
+        foreach (static::$customFields as $i => $field) {
+          $row[$field] = $data[$i + $offset];
+        }
+
+        static::$datas[$id] = static::cast($row);
+        $ids[] = $id;
+      }
+
+      return self::getMany($ids);
+    }
   }
 
   /*
