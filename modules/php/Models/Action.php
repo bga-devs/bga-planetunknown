@@ -130,7 +130,12 @@ class Action
       switch ($bonus) {
         case CIV:
           $levelCiv = $player->corporation()->getCivLevel();
-          // TODO create action civ
+          $this->insertAsChild([
+            'action' => TAKE_CIV_CARD,
+            'args' => [
+              'level' => $levelCiv
+            ]
+          ]);
           break;
         case BIOMASS:
           // TODO create action biomass

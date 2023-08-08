@@ -70,6 +70,12 @@ class Player extends \PU\Helpers\DB_Model
     return $this->corporation;
   }
 
+  public function takeCivCard($card)
+  {
+    $card->setLocation('board');
+    $card->setState($this->id);
+  }
+
   public function getMeeples($type)
   {
     return Meeples::getOfPlayer($this, $type);

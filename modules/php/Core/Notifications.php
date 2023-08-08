@@ -83,6 +83,17 @@ class Notifications
     );
   }
 
+  public static function takeCivCard($player, $card, $level)
+  {
+    $msg = clienttranslate('${player_name} take a new civ card from deck ${level}');
+    $data = [
+      'player' => $player,
+      'card' => $card,
+      'level' => $level
+    ];
+    static::pnotify($player, 'takeCivCard', $msg, $data);
+  }
+
   /*************************
    **** GENERIC METHODS ****
    *************************/

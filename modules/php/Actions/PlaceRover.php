@@ -23,22 +23,25 @@ class PlaceRover extends \PU\Models\Action
 
   public function isDoable($player)
   {
-    return $player->getAvailableRover() != null && $this->getPossibleCells($player);
+    return $player->getAvailableRover() != null && $this->getPossibleSpaceIds($player);
   }
 
-  public function getPossibleCells($player)
+  public function getPossibleSpaceIds($player)
   {
-    $lastTile = Tiles::get($player->getLastTileId());
+    $lastTile = Tiles::getAll()
+      ->where('id', $player->getLastTileId())
+      ->first();
 
+    //exclude spaceIds where there is already a Rover
     $possibleCells = array_filter(
       $player->planet()->getTileCoveredCells($lastTile, false),
-      fn($cell) => !$player
+      fn ($cell) => !$player
         ->planet()
         ->getMeepleOnCell($cell, ROVER)
         ->count()
     );
 
-    return array_map(fn($cell) => Planet::getCellId($cell), $possibleCells);
+    return array_map(fn ($cell) => Planet::getCellId($cell), $possibleCells);
   }
 
   public function argsPlaceRover()
@@ -46,19 +49,19 @@ class PlaceRover extends \PU\Models\Action
     $player = $this->getPlayer();
 
     return [
-      'cells' => $this->getPossibleCells($player),
+      'spaceIds' => $this->getPossibleSpaceIds($player),
     ];
   }
 
-  public function actPlaceRover($cellId)
+  public function actPlaceRover($spaceId)
   {
     $player = $this->getPlayer();
     $args = $this->argsPlaceRover();
-    if (!in_array($cellId, $args['cells'])) {
+    if (!in_array($spaceId, $args['spaceIds'])) {
       throw new \BgaVisibleSystemException('You cannot place your Rover here. Should not happen');
     }
 
-    $cell = Planet::getCellFromId($cellId);
+    $cell = Planet::getCellFromId($spaceId);
 
     $rover = $player->getAvailableRover();
 

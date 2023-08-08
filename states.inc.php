@@ -240,7 +240,16 @@ $machinestates = [
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
-    'possibleactions' => ['actMoveTrackerByOne', 'actPass', 'actRestart'],
+    'possibleactions' => ['actMoveTrackerByOne', 'actRestart'],
+  ],
+
+  ST_TAKE_CIV_CARD => [
+    'name' => TAKE_CIV_CARD,
+    'descriptionmyturn' => clienttranslate('You must take a civ card from the deck {level}'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actTakeCivCard', 'actRestart'],
   ],
 
   ST_CHOOSE_TRACKS => [

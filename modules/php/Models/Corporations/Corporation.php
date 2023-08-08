@@ -138,7 +138,7 @@ class Corporation
    * Return an array of all cells this TYPE tracker can reach with a N move.
    * @return Array of CellIDs ('x_y')
    */
-  public function getNextSpace($type, $n = 1)
+  public function getNextSpaceIds($type, $n = 1)
   {
     $trackPawn = $this->player->getTracker($type);
 

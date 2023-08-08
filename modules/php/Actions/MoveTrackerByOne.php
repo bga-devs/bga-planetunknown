@@ -74,7 +74,7 @@ class MoveTrackerByOne extends \PU\Models\Action
 
     $type = $this->getType();
 
-    $spaceIds = $player->corporation()->getNextSpace($type, $this->getMove());
+    $spaceIds = $player->corporation()->getNextSpaceIds($type, $this->getMove());
 
     return [
       'type_name' => $type,
