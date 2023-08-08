@@ -211,13 +211,14 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
 
       return `<div class='corporation' data-id='${corpo.id}' id='corporation-${pId}'>
         ${grid}
+        <div class='rover-reserve' id='rover-reserve-${pId}'></div>
       </div>`;
     },
 
     tplPlayerBoard(player) {
       let planet = player.planetId ? this.tplPlanet(PLANETS_DATA[player.planetId], player) : '';
-      // TODO
-      let corporation = this.tplCorporation({}, player);
+      let corporation = player.corporationId ? this.tplCorporation(CORPOS_DATA[player.corporationId], player) : '';
+
       return `<div class='pu-player-board-resizable' id='player-board-resizable-${player.id}'>
           <div class='pu-player-board-planet' id='player-board-planet-${player.id}'>        
             ${planet}

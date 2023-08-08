@@ -58,7 +58,16 @@ foreach (ALL_PLANETS as $planetId) {
   $planets[$planetId] = $planet->getUiData();
 }
 
+$corpos = [];
+foreach (ALL_CORPORATIONS as $corpoId) {
+  require_once "../modules/php/Models/Corporations/Corporation$corpoId.php";
+  $className = '\PU\Models\Corporations\Corporation' . $corpoId;
+  $corpo = new $className(null);
+  $corpos[$corpoId] = $corpo->getUiData();
+}
+
 $fp = fopen('../modules/js/data.js', 'w');
 // fwrite($fp, 'const CARDS_DATA = ' . json_encode($cards) . ';');
 fwrite($fp, 'const PLANETS_DATA = ' . json_encode($planets) . ';');
+fwrite($fp, 'const CORPOS_DATA = ' . json_encode($corpos) . ';');
 fclose($fp);

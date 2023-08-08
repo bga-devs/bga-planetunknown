@@ -28,6 +28,11 @@ $planetGridHeight: 12 * $cellHeight;
             background-image: url("img/Planets/0.jpg");
             padding-top: 29px;
             padding-left: 15px;
+            @for $i from 0 to 13 {
+                &[data-id="#{$i}"] {
+                    background-image: url("img/Planets/#{$i}.jpg");
+                }
+            }
 
             .planet-grid {
                 width: 923px;
@@ -35,6 +40,12 @@ $planetGridHeight: 12 * $cellHeight;
                 display: grid;
                 grid-template-columns: repeat(13, 71px);
                 grid-template-rows: repeat(13, 71px);
+
+                .planet-grid-cell {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
             }
         }
     }
@@ -53,6 +64,13 @@ $planetGridHeight: 12 * $cellHeight;
             position: relative;
             background-image: url("img/corporations.jpg");
             background-size: 500% 200%;
+
+            @for $i from 0 to 10 {
+                &[data-id="#{$i}"] {
+                    background-position-x: ($i % 5) * 100% / 4;
+                    background-position-y: (($i - ($i % 5)) / 5) * 100% / 1;
+                }
+            }
 
             .corporation-columns {
                 width: 295px;
@@ -82,6 +100,12 @@ $planetGridHeight: 12 * $cellHeight;
                         height: 38px;
                     }
                 }
+            }
+
+            .rover-reserve {
+                position: absolute;
+                bottom: 10px;
+                left: 10px;
             }
         }
     }
