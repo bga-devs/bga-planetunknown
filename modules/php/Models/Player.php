@@ -129,9 +129,9 @@ class Player extends \PU\Helpers\DB_Model
 
   public function addEndOfTurnAction($flow)
   {
-    $actions = PGlobals::getPendingActionsEndOfTurn();
+    $actions = PGlobals::getPendingActionsEndOfTurn($this->id);
     $actions[] = $flow;
-    PGlobals::setPendingActionsEndOfTurn();
+    PGlobals::setPendingActionsEndOfTurn($this->id, $actions);
   }
 
   public function addEndOfGameAction($flow)

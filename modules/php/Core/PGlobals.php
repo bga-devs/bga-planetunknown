@@ -46,8 +46,8 @@ class PGlobals extends \PU\Helpers\DB_Manager
     self::$log = false;
 
     foreach (self::DB()
-        ->select(['value', 'name'])
-        ->get(false)
+      ->select(['value', 'name'])
+      ->get(false)
       as $uid => $variable) {
       list($name, $pId) = explode('-', $uid);
 
@@ -113,7 +113,7 @@ class PGlobals extends \PU\Helpers\DB_Manager
       self::fetch();
     }
 
-    // First arguement is always pId
+    // First argument is always pId
     $pId = $args[0];
 
     if (preg_match('/^([gs]et|inc|is)([A-Z])(.*)$/', $method, $match)) {

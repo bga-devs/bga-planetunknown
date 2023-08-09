@@ -168,7 +168,7 @@ class Corporation
   {
     return count(
       array_filter($this->tracks[ROVER], function ($value) {
-        return $this->isOrIn(ROVER, $value);
+        return $this->isOrIn($value, ROVER);
       })
     );
   }
