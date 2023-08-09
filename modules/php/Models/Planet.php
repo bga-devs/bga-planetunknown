@@ -23,6 +23,8 @@ class Planet
   protected $name = '';
   protected $desc = '';
   protected $terrains = [];
+  protected $columnMedals = [];
+  protected $rowMedals = [];
 
   // CONSTRUCT
   protected $player = null;
@@ -95,6 +97,53 @@ class Planet
     }
   }
 
+  /**
+   * Return score as an array ['row_0' => 2] id => score
+   */
+  public function score()
+  {
+    $score = [];
+    $meteors = Meeples::getOfPlayer($this->player, METEOR)
+      ->where('location', 'planet');
+    $burntRows = [];
+    $burntColumns = [];
+
+    foreach ($meteors as $id => $meteor) {
+      $burntColumns[] = $meteor->getX();
+      $burntRows[] = $meteor->getY();
+    }
+
+    foreach ($this->rowMedals as $rowId => $value) {
+      if (in_array($rowId, $burntRows)) {
+        $score['row_' . $rowId] = 0;
+        //TODO except for one TECH
+      } else {
+        $score['row_' . $rowId] = $value;
+        foreach ($this->columnMedals as $columnId => $_) {
+          if ($this->getTerrain($columnId, $rowId) != NOTHING && !$this->hasTileAtCoord($columnId, $rowId)) {
+            $score['row_' . $rowId] = 0;
+          }
+        }
+      }
+    }
+
+    foreach ($this->columnMedals as $columnId => $value) {
+      if (in_array($columnId, $burntColumns)) {
+        $score['column_' . $columnId] = 0;
+        //TODO except for one TECH
+      } else {
+        $score['column_' . $columnId] = $value;
+        foreach ($this->rowMedals as $rowId => $_) {
+          if ($this->getTerrain($columnId, $rowId) != NOTHING && !$this->hasTileAtCoord($columnId, $rowId)) {
+            $score['column_' . $columnId] = 0;
+          }
+        }
+      }
+    }
+
+    return $score;
+  }
+
   ///////////////////////////////////////////////
   //  _____ _ _
   // |_   _(_) | ___  ___
@@ -148,9 +197,19 @@ class Planet
     return $this->grid[$cell['x']][$cell['y']]['tile'] ?? null;
   }
 
+  public function getTileAtCoord($x, $y)
+  {
+    return $this->grid[$x][$y]['tile'] ?? null;
+  }
+
   public function hasTileAtPos($cell)
   {
     return !is_null($this->getTileAtPos($cell));
+  }
+
+  public function hasTileAtCoord($x, $y)
+  {
+    return !is_null($this->getTileAtCoord($x, $y));
   }
 
   public function getTilesOfType($tileType)
@@ -392,13 +451,18 @@ class Planet
     return $this->getTerrain($x, $y) == ICE;
   }
 
+  public function isPlanet($x, $y)
+  {
+    return $this->getTerrain($x, $y) != NOTHING;
+  }
+
   // Can be overwritten by some planets
   public function isEnergy($x, $y)
   {
     return $this->getType($x, $y) == ENERGY;
   }
 
-  // Count the number of empty spaces (excluding water/rock)
+  // Count the number of empty spaces 
   public function countEmptySpaces()
   {
     $cells = [];

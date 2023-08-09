@@ -108,6 +108,13 @@ class Player extends \PU\Helpers\DB_Model
     $current = $this->id == $currentPlayerId;
     $data['POCards'] = $current ? Cards::getInLocation('hand', $this->id) : Cards::countInLocation('hand', $this->id);
     $data['civCard'] = Cards::getInLocation('board', $this->id);
+    $score = $this->score($current);
+    $data['scores'] = [
+      $this->id => [
+        'detail' => $score,
+        'total' => array_reduce($score, fn ($sum, $item) => $sum + $item, 0)
+      ]
+    ];
     return $data;
   }
 
@@ -125,6 +132,26 @@ class Player extends \PU\Helpers\DB_Model
   public function canTakeAction($action, $ctx)
   {
     return Actions::isDoable($action, $ctx, $this);
+  }
+
+  //calculate player score
+  public function score($isCurrent)
+  {
+    $all_score = [];
+    //count every full row and column
+    $all_score = array_merge($all_score, $this->planet()->score());
+
+    //TODO highest value for each tracker in tracks
+
+    //TODO lifepods = 1, METEOR = 1/3
+
+    //TODO CIV Cards
+
+    //TODO POCards
+
+    //TODO NOCards
+
+    return $all_score;
   }
 
   public function addEndOfTurnAction($flow)

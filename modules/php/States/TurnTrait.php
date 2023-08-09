@@ -43,9 +43,8 @@ trait TurnTrait
    */
   function stEndOfTurn()
   {
-    // TODO : stuff
     Notifications::endOfTurn();
 
-    $this->gamestate->jumpToState(ST_START_PARALLEL);
+    $this->gamestate->jumpToState(ST_CHOOSE_ROTATION);
   }
 }
