@@ -51,6 +51,8 @@ trait SetupTrait
 
     Notifications::secondSetup();
 
+    $this->activeNextPlayer();
+
     $this->gamestate->nextState('');
   }
 

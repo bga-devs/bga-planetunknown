@@ -475,6 +475,12 @@ class Planet
     return count($cells);
   }
 
+  // Count the number of Meteor on planet
+  public function countMeteors()
+  {
+    return Meeples::getOfPlayer($this->player, METEOR)->where('location', 'planet')->count();
+  }
+
   public function getMeepleOnCell($cell, $type = null)
   {
     return Meeples::getOfPlayer($this->player, $type)

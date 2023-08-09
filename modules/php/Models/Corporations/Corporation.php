@@ -112,11 +112,20 @@ class Corporation
   public function getBestMedal($type)
   {
     for ($i = $this->getLevelOnTrack($type); $i > 0; $i--) {
-      if (is_int($this->tracks[$i])) {
-        return $this->tracks[$i];
+      if (is_int($this->tracks[$type][$i])) {
+        return $this->tracks[$type][$i];
       }
     }
     return 0;
+  }
+
+  public function score()
+  {
+    $result = [];
+    foreach (ALL_TYPES as $type) {
+      $result['tracker_' . $type] = $this->getBestMedal($type);
+    }
+    return $result;
   }
 
   public function getCivLevel()

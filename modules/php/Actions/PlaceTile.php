@@ -122,7 +122,7 @@ class PlaceTile extends \PU\Models\Action
       ]);
     }
 
-    Notifications::placeTile($player, $tile, $meteor, $tileTypes, $player->score());
+    Notifications::placeTile($player, $tile, $meteor, $tileTypes);
 
     if ($destroyedLifepod->count()) {
       Notifications::destroyedMeeples($player, $destroyedLifepod, LIFEPOD);

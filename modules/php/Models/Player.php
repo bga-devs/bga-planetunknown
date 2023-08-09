@@ -108,11 +108,11 @@ class Player extends \PU\Helpers\DB_Model
     $current = $this->id == $currentPlayerId;
     $data['POCards'] = $current ? Cards::getInLocation('hand', $this->id) : Cards::countInLocation('hand', $this->id);
     $data['civCard'] = Cards::getInLocation('board', $this->id);
-    $score = $this->score($current);
+    [$detail, $score] = $this->score($current);
     $data['scores'] = [
       $this->id => [
-        'detail' => $score,
-        'total' => array_reduce($score, fn ($sum, $item) => $sum + $item, 0)
+        'detail' => $detail,
+        'total' => $score
       ]
     ];
     return $data;
@@ -135,13 +135,14 @@ class Player extends \PU\Helpers\DB_Model
   }
 
   //calculate player score
-  public function score($isCurrent)
+  public function score($isCurrent = true, $save = true)
   {
-    $all_score = [];
+    $detail = [];
     //count every full row and column
-    $all_score = array_merge($all_score, $this->planet()->score());
+    $detail = array_merge($detail, $this->planet()->score());
 
     //TODO highest value for each tracker in tracks
+    $detail = array_merge($detail, $this->corporation()->score());
 
     //TODO lifepods = 1, METEOR = 1/3
 
@@ -150,8 +151,14 @@ class Player extends \PU\Helpers\DB_Model
     //TODO POCards
 
     //TODO NOCards
+    $score = array_reduce($detail, fn ($sum, $item) => $sum + $item, 0);
 
-    return $all_score;
+    if ($save) {
+      $this->setScore($score);
+      $this->setScoreAux(10000 - $this->planet()->countEmptySpaces() * 100 - $this->planet()->countMeteors());
+    }
+
+    return [$detail, $score];
   }
 
   public function addEndOfTurnAction($flow)

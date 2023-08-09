@@ -97,7 +97,7 @@ class Notifications
     static::pnotify($player, 'placeRover', $msg, $data);
   }
 
-  public static function placeTile($player, $tile, $meteor, $types, $score)
+  public static function placeTile($player, $tile, $meteor, $types)
   {
     self::pnotify(
       $player,
@@ -108,13 +108,7 @@ class Notifications
       [
         'tile' => $tile,
         'types' => $types,
-        'meteor' => $meteor,
-        'scores' => [
-          $player->getId() => [
-            'detail' => $score,
-            'total' => array_reduce($score, fn ($sum, $item) => $sum + $item, 0)
-          ],
-        ]
+        'meteor' => $meteor
       ]
     );
   }
@@ -269,6 +263,13 @@ class Notifications
     if (isset($data['player'])) {
       $data['player_name'] = $data['player']->getName();
       $data['player_id'] = $data['player']->getId();
+      [$detail, $score] = $data['player']->score();
+      $data['scores'] = [
+        $data['player']->getId() => [
+          'detail' => $detail,
+          'total' => $score
+        ],
+      ];
       unset($data['player']);
     }
     if (isset($data['player2'])) {
