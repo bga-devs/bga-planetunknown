@@ -1,5 +1,7 @@
 <?php
+
 namespace PU\States;
+
 use PU\Core\Globals;
 use PU\Core\Notifications;
 use PU\Core\Engine;
@@ -10,6 +12,7 @@ use PU\Managers\ActionCards;
 use PU\Managers\Meeples;
 use PU\Managers\Scores;
 use PU\Managers\Actions;
+use PU\Managers\Tiles;
 use PU\Managers\ZooCards;
 
 trait TurnTrait
@@ -41,6 +44,8 @@ trait TurnTrait
   function stEndOfTurn()
   {
     // TODO : stuff
+    Notifications::endOfTurn();
+
     $this->gamestate->jumpToState(ST_START_PARALLEL);
   }
 }

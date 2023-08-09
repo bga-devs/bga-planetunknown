@@ -8,6 +8,7 @@ use PU\Helpers\Collection;
 use PU\Core\Globals;
 use PU\Managers\Cards;
 use PU\Managers\Meeples;
+use PU\Managers\Tiles;
 
 class Notifications
 {
@@ -46,14 +47,30 @@ class Notifications
     );
   }
 
-  public static function placeRover($player, $rover)
+  public static function endOfTurn()
   {
-    $msg = clienttranslate('${player_name} places a new rover on his planet');
     $data = [
-      'player' => $player,
-      'rover' => $rover,
+      'tiles' => Tiles::getUiData()
     ];
-    static::pnotify($player, 'placeRover', $msg, $data);
+    static::notifyAll('endOfTurn', '', $data);
+  }
+
+  public static function moveTrack($player, $fromCell, $pawn)
+  {
+    self::pnotify(
+      $player,
+      'moveTrack',
+      $fromCell['y'] < $pawn->getY()
+        ? clienttranslate('${player_name} moves ${types_desc} tracker upward')
+        : ($fromCell['y'] > $pawn->getY()
+          ? clienttranslate('${player_name} moves ${types_desc} tracker downward')
+          : clienttranslate('${player_name} moves ${types_desc} tracker sideward')),
+      [
+        'player' => $player,
+        'meeple' => $pawn,
+        'types' => [$pawn->getType()],
+      ]
+    );
   }
 
   public static function newRotation($rotation, $player = null)
@@ -68,6 +85,32 @@ class Notifications
     ];
 
     static::notifyAll('newRotation', $message, $data);
+  }
+
+  public static function placeRover($player, $rover)
+  {
+    $msg = clienttranslate('${player_name} places a new rover on his planet');
+    $data = [
+      'player' => $player,
+      'rover' => $rover,
+    ];
+    static::pnotify($player, 'placeRover', $msg, $data);
+  }
+
+  public static function placeTile($player, $tile, $meteor, $types)
+  {
+    self::pnotify(
+      $player,
+      'placeTile',
+      is_null($meteor)
+        ? clienttranslate('${player_name} places a ${types_desc} tile on their planet')
+        : clienttranslate('${player_name} places a ${types_desc} tile and a new meteor on their planet'),
+      [
+        'tile' => $tile,
+        'types' => $types,
+        'meteor' => $meteor,
+      ]
+    );
   }
 
   public static function secondSetup()
@@ -201,40 +244,6 @@ class Notifications
   public static function flush()
   {
     self::notifyAll('flush', '', []);
-  }
-
-  public static function placeTile($player, $tile, $meteor, $types)
-  {
-    self::pnotify(
-      $player,
-      'placeTile',
-      is_null($meteor)
-        ? clienttranslate('${player_name} places a ${types_desc} tile on their planet')
-        : clienttranslate('${player_name} places a ${types_desc} tile and a new meteor on their planet'),
-      [
-        'tile' => $tile,
-        'types' => $types,
-        'meteor' => $meteor,
-      ]
-    );
-  }
-
-  public static function moveTrack($player, $fromCell, $pawn)
-  {
-    self::pnotify(
-      $player,
-      'moveTrack',
-      $fromCell['y'] < $pawn->getY()
-        ? clienttranslate('${player_name} moves ${types_desc} tracker upward')
-        : ($fromCell['y'] > $pawn->getY()
-          ? clienttranslate('${player_name} moves ${types_desc} tracker downward')
-          : clienttranslate('${player_name} moves ${types_desc} tracker sideward')),
-      [
-        'player' => $player,
-        'meeple' => $pawn,
-        'types' => [$pawn->getType()],
-      ]
-    );
   }
 
   ///////////////////////////////////////////////////////////////

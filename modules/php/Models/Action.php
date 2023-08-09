@@ -10,6 +10,7 @@ use PU\Managers\ZooCards;
 use PU\Managers\Players;
 use PU\Helpers\Log;
 use PU\Helpers\FlowConvertor;
+use PU\Managers\Actions;
 
 /*
  * Action: base class to handle atomic action
@@ -130,7 +131,7 @@ class Action
       switch ($bonus) {
         case CIV:
           $levelCiv = $player->corporation()->getCivLevel();
-          $this->insertAsChild([
+          $player->addEndOfTurnAction([
             'action' => TAKE_CIV_CARD,
             'args' => [
               'level' => $levelCiv

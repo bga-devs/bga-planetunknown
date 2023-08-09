@@ -10,6 +10,7 @@ use PU\Managers\Meeples;
 use PU\Managers\Buildings;
 use PU\Core\Globals;
 use PU\Core\Engine;
+use PU\Core\PGlobals;
 use PU\Helpers\FlowConvertor;
 use PU\Helpers\Utils;
 use PU\Managers\Cards;
@@ -124,5 +125,19 @@ class Player extends \PU\Helpers\DB_Model
   public function canTakeAction($action, $ctx)
   {
     return Actions::isDoable($action, $ctx, $this);
+  }
+
+  public function addEndOfTurnAction($flow)
+  {
+    $actions = PGlobals::getPendingActionsEndOfTurn();
+    $actions[] = $flow;
+    PGlobals::setPendingActionsEndOfTurn();
+  }
+
+  public function addEndOfGameAction($flow)
+  {
+    $actions = PGlobals::getPendingActionsEndOfGame($this->id);
+    $actions[] = $flow;
+    PGlobals::setPendingActionsEndOfGame($this->id, $actions);
   }
 }

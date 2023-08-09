@@ -1,4 +1,5 @@
 <?php
+
 namespace PU\Core;
 
 use PU\Core\Game;
@@ -8,6 +9,7 @@ use PU\Managers\Players;
 /*
  * PGlobals: private globals => reduce potential deadlock
  */
+
 class PGlobals extends \PU\Helpers\DB_Manager
 {
   protected static $initialized = false;
@@ -19,6 +21,9 @@ class PGlobals extends \PU\Helpers\DB_Manager
 
     'anytimeRecursion' => 'int', // DO NOT MODIFY, USED IN ENGINE MODULE
     'customTurnOrders' => 'obj', // DO NOT MODIFY, USED FOR CUSTOM TURN ORDER FEATURE
+
+    'pendingActionsEndOfTurn' => 'obj',
+    'pendingActionsEndOfGame' => 'obj'
   ];
 
   protected static $table = 'pglobal_variables';
@@ -40,12 +45,10 @@ class PGlobals extends \PU\Helpers\DB_Manager
     $tmp = self::$log;
     self::$log = false;
 
-    foreach (
-      self::DB()
+    foreach (self::DB()
         ->select(['value', 'name'])
         ->get(false)
-      as $uid => $variable
-    ) {
+      as $uid => $variable) {
       list($name, $pId) = explode('-', $uid);
 
       if (\array_key_exists($name, self::$variables)) {

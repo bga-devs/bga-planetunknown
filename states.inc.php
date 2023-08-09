@@ -68,14 +68,14 @@ $machinestates = [
       NO_EVENT_CARD_GAME => ST_SETUP_BRANCH,
       EVENT_CARD_GAME => ST_EVENT_CARD,
     ],
+  ],
 
-    ST_EVENT_CARD => [
-      'name' => 'eventCard',
-      'type' => GAME,
-      'description' => '',
-      'action' => 'stEventCard', //reveal top event card and prepare engine
-      'transitions' => ['' => ST_PLAY_AFTER_EVENT_CARD],
-    ],
+  ST_EVENT_CARD => [
+    'name' => 'eventCard',
+    'type' => GAME,
+    'description' => '',
+    'action' => 'stEventCard', //reveal top event card and prepare engine
+    'transitions' => ['' => ST_PLAY_AFTER_EVENT_CARD],
   ],
 
   // ST_NEXT_PLAYER => [
