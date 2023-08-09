@@ -38,6 +38,7 @@ define([
         ['setupPlayer', 1200],
         ['placeTile', null],
         ['moveTrack', null],
+        ['slideMeeple', null],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -702,6 +703,22 @@ define([
         this.addPrimaryActionButton('btn' + type, this.fsr('${type}', { type, type_name: type }), () =>
           this.takeAtomicAction('actChooseTracks', [[type]])
         );
+      });
+    },
+
+    onEnteringStatePlaceRover(args) {
+      let selected = null,
+        selectedCell = null;
+      args.spaceIds.forEach((spaceId) => {
+        let t = spaceId.split('_');
+        let oCell = this.getPlanetCell(this.player_id, t[0], t[1]);
+        this.onClick(oCell, () => {
+          if (selectedCell) selectedCell.classList.remove('selected');
+          selected = spaceId;
+          selectedCell = oCell;
+          oCell.classList.add('selected');
+          this.addPrimaryActionButton('btnConfirm', _('Confirm'), () => this.takeAtomicAction('actPlaceRover', [spaceId]));
+        });
       });
     },
 

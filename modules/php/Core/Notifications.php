@@ -50,7 +50,7 @@ class Notifications
   public static function endOfTurn()
   {
     $data = [
-      'tiles' => Tiles::getUiData()
+      'tiles' => Tiles::getUiData(),
     ];
     static::notifyAll('endOfTurn', '', $data);
   }
@@ -59,7 +59,7 @@ class Notifications
   {
     self::pnotify(
       $player,
-      'moveTrack',
+      'slideMeeple',
       $fromCell['y'] < $pawn->getY()
         ? clienttranslate('${player_name} moves ${types_desc} tracker upward')
         : ($fromCell['y'] > $pawn->getY()
@@ -77,8 +77,8 @@ class Notifications
   {
     $message =
       $player == null
-      ? clienttranslate('S.U.S.A.N. rotates.')
-      : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
+        ? clienttranslate('S.U.S.A.N. rotates.')
+        : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
     $data = [
       'player' => $player,
       'newRotation' => $rotation,
@@ -92,9 +92,9 @@ class Notifications
     $msg = clienttranslate('${player_name} places a new rover on his planet');
     $data = [
       'player' => $player,
-      'rover' => $rover,
+      'meeple' => $rover,
     ];
-    static::pnotify($player, 'placeRover', $msg, $data);
+    static::pnotify($player, 'slideMeeple', $msg, $data);
   }
 
   public static function placeTile($player, $tile, $meteor, $types)
@@ -108,7 +108,7 @@ class Notifications
       [
         'tile' => $tile,
         'types' => $types,
-        'meteor' => $meteor
+        'meteor' => $meteor,
       ]
     );
   }
@@ -132,7 +132,7 @@ class Notifications
     $data = [
       'player' => $player,
       'card' => $card,
-      'level' => $level
+      'level' => $level,
     ];
     static::pnotify($player, 'takeCivCard', $msg, $data);
   }
@@ -267,7 +267,7 @@ class Notifications
       $data['scores'] = [
         $data['player']->getId() => [
           'detail' => $detail,
-          'total' => $score
+          'total' => $score,
         ],
       ];
       unset($data['player']);
