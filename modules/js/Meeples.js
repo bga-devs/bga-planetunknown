@@ -73,6 +73,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       if (meeple.location == 'corporation') {
         return $(`corporation-${meeple.pId}-${meeple.x}-${meeple.y}`);
       }
+      // Rover in reserve
+      if (meeple.type == 'rover-meeple' && meeple.location == 'board') {
+        return $(`rover-reserve-${meeple.pId}`);
+      }
 
       console.error('Trying to get container of a meeple', meeple);
       return 'game_play_area';

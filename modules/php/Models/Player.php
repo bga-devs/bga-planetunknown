@@ -37,7 +37,7 @@ class Player extends \PU\Helpers\DB_Model
     'corporationId' => 'corporation_id',
     'position' => ['position', 'int'],
     'lastTileId' => ['last_tile_id', 'int'],
-    'extraData' => ['extra_datas', 'obj']
+    'extraData' => ['extra_datas', 'obj'],
   ];
 
   // Cached attribute
@@ -91,7 +91,7 @@ class Player extends \PU\Helpers\DB_Model
 
   public function getAvailableRover()
   {
-    return $this->getMeeples(ROVER)
+    return $this->getMeeples(ROVER_MEEPLE)
       ->where('location', 'board')
       ->first();
   }

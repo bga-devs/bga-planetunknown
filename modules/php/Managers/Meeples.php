@@ -32,8 +32,8 @@ class Meeples extends \PU\Helpers\CachedPieces
   {
     return $type
       ? static::getAll()
-      ->where('pId', $player->getId())
-      ->where('type', $type)
+        ->where('pId', $player->getId())
+        ->where('type', $type)
       : static::getAll()->where('pId', $player->getId());
   }
 
@@ -123,7 +123,7 @@ class Meeples extends \PU\Helpers\CachedPieces
 
     for ($i = 0; $i < $corporation->getRoverNb(); $i++) {
       $data[] = [
-        'type' => ROVER,
+        'type' => ROVER_MEEPLE,
         'location' => 'board',
         'player_id' => $pId,
         'x' => '',

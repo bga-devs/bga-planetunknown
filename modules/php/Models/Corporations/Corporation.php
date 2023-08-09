@@ -28,6 +28,16 @@ class Corporation
     }
   }
 
+  public function getUiData()
+  {
+    return [
+      'id' => $this->id,
+      'name' => $this->name,
+      'desc' => $this->desc,
+      'tracks' => $this->tracks,
+    ];
+  }
+
   /**
    * register the new coord of a tracker
    * and returns an Array of subsequent actions
@@ -40,7 +50,7 @@ class Corporation
 
     $oldCoord = [
       'x' => $pawn->getX(),
-      'y' => $pawn->getY()
+      'y' => $pawn->getY(),
     ];
 
     $pawn->setX($coord['x']);
@@ -61,7 +71,7 @@ class Corporation
 
     if (is_array($this->tracks[$cell['x']][$cell['y']])) {
       $bonuses = $this->tracks[$cell['x']][$cell['y']];
-    } else if ($this->tracks[$cell['x']][$cell['y']]) {
+    } elseif ($this->tracks[$cell['x']][$cell['y']]) {
       $bonuses[] = $this->tracks[$cell['x']][$cell['y']];
     }
 
@@ -85,9 +95,9 @@ class Corporation
   }
 
   /*
-  * return the tracker level (how many step it's from start)
-  * could be different than Y on corporations where progression is not linear
-  */
+   * return the tracker level (how many step it's from start)
+   * could be different than Y on corporations where progression is not linear
+   */
   public function getLevelOnTrack($type)
   {
     return $this->player->getTracker($type)->getY();
@@ -148,9 +158,7 @@ class Corporation
     //Y can't be higher than top of the track type
     $nextSpaceY = min(count($this->tracks[$type]) - 1, $nextSpaceY);
 
-    return [
-      $trackPawn->getX() . '_' . $nextSpaceY
-    ];
+    return [$trackPawn->getX() . '_' . $nextSpaceY];
   }
 
   /**
@@ -159,10 +167,9 @@ class Corporation
   public function getRoverNb()
   {
     return count(
-      array_filter(
-        $this->tracks[ROVER],
-        fn ($value) => $this->isOrIn(ROVER, $value)
-      )
+      array_filter($this->tracks[ROVER], function ($value) {
+        return $this->isOrIn(ROVER, $value);
+      })
     );
   }
 

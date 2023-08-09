@@ -165,6 +165,7 @@ const ELECTRIC = 'electric';
 const ELECTRIC_LIFEPOD = 'electric_lifepod';
 
 const METEOR = 'meteor';
+const ROVER_MEEPLE = 'rover-meeple';
 
 /*
  * Tiles and Space station
