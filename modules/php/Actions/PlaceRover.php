@@ -35,13 +35,13 @@ class PlaceRover extends \PU\Models\Action
     //exclude spaceIds where there is already a Rover
     $possibleCells = array_filter(
       $player->planet()->getTileCoveredCells($lastTile, false),
-      fn ($cell) => !$player
+      fn($cell) => !$player
         ->planet()
         ->getMeepleOnCell($cell, ROVER)
         ->count()
     );
 
-    return array_map(fn ($cell) => Planet::getCellId($cell), $possibleCells);
+    return array_map(fn($cell) => Planet::getCellId($cell), $possibleCells);
   }
 
   public function argsPlaceRover()
@@ -75,7 +75,7 @@ class PlaceRover extends \PU\Models\Action
     if (!is_null($meteor)) {
       $meteor->setLocation('board');
       //TODO caution, some planet/corporation are different
-      Notifications::collectMeteor($player, $cell);
+      Notifications::collectMeteor($player, $meteor);
     }
   }
 }

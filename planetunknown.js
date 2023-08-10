@@ -204,7 +204,7 @@ define([
       ['meeples', 'players', 'tiles'].forEach((value) => {
         this.gamedatas[value] = n.args.datas[value];
       });
-      // this.setupMeeples();
+      this.setupMeeples();
       this.setupTiles();
       // this.updatePlayersCounters();
       // this.updateActionCards();

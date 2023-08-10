@@ -21,14 +21,14 @@ class Notifications
     ]);
   }
 
-  public static function collectMeteor($player, $cell)
+  public static function collectMeteor($player, $meteor)
   {
     $msg = clienttranslate('${player_name} collects a new meteor');
     $data = [
       'player' => $player,
-      'cell' => $cell,
+      'meeple' => $meteor,
     ];
-    static::pnotify($player, 'placeRover', $msg, $data);
+    static::pnotify($player, 'slideMeeple', $msg, $data);
   }
 
   public static function destroyedMeeples($player, $destroyedMeeples, $type)

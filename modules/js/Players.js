@@ -216,6 +216,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       return `<div class='corporation' data-id='${corpo.id}' id='corporation-${pId}'>
         ${grid}
         <div class='rover-reserve' id='rover-reserve-${pId}'></div>
+        <div class='meteor-reserve' id='meteor-reserve-${pId}'></div>
       </div>`;
     },
 
