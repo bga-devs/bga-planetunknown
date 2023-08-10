@@ -15,7 +15,7 @@ trait EngineTrait
   function addCommonArgs($pId, &$args)
   {
     $args['previousEngineChoices'] = PGlobals::getEngineChoices($pId);
-    // $args['previousSteps'] = Log::getUndoableSteps();
+    $args['previousSteps'] = Log::getUndoableSteps($pId);
   }
 
   /**
@@ -32,6 +32,11 @@ trait EngineTrait
    */
   function argsAtomicAction($pId)
   {
+    $cId = Players::getCurrentId(true) ?? $pId;
+    if ($cId != $pId) {
+      return [];
+    }
+
     $player = Players::get($pId);
     $action = $this->getCurrentAtomicAction($pId);
     $node = Engine::getNextUnresolved($pId);
@@ -181,7 +186,7 @@ trait EngineTrait
   {
     $data = [
       'previousEngineChoices' => PGlobals::getEngineChoices($pId),
-      // 'previousSteps' => Log::getUndoableSteps(),
+      'previousSteps' => Log::getUndoableSteps($pId),
       'automaticAction' => false,
     ];
     $this->addArgsAnytimeAction($pId, $data, 'confirmTurn');
@@ -227,7 +232,8 @@ trait EngineTrait
   public function actUndoToStep($stepId)
   {
     self::checkAction('actRestart');
-    Engine::undoToStep($stepId);
+    $pId = Players::getCurrentId();
+    Engine::undoToStep($pId, $stepId);
   }
 
   public function actCancelEngine()

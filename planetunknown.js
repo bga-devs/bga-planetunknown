@@ -174,16 +174,17 @@ define([
       $(`log_${notif.logId}`).dataset.step = stepId;
       if ($(`dockedlog_${notif.mobileLogId}`)) $(`dockedlog_${notif.mobileLogId}`).dataset.step = stepId;
 
-      if (
-        this.gamedatas &&
-        this.gamedatas.gamestate &&
-        this.gamedatas.gamestate.args &&
-        this.gamedatas.gamestate.args.previousSteps &&
-        this.gamedatas.gamestate.args.previousSteps.includes(parseInt(stepId))
-      ) {
-        this.onClick($(`log_${notif.logId}`), () => this.undoToStep(stepId));
+      if (this.gamedatas && this.gamedatas.gamestate) {
+        let state = this.gamedatas.gamestate;
+        if (state.private_state) state = state.private_state;
 
-        if ($(`dockedlog_${notif.mobileLogId}`)) this.onClick($(`dockedlog_${notif.mobileLogId}`), () => this.undoToStep(stepId));
+        console.log(state);
+        if (state.args && state.args.previousSteps && state.args.previousSteps.includes(parseInt(stepId))) {
+          this.onClick($(`log_${notif.logId}`), () => this.undoToStep(stepId));
+
+          if ($(`dockedlog_${notif.mobileLogId}`))
+            this.onClick($(`dockedlog_${notif.mobileLogId}`), () => this.undoToStep(stepId));
+        }
       }
     },
 
@@ -260,6 +261,8 @@ define([
 
     clearPossible() {
       dojo.empty('pagesubtitle');
+      this.onHoverCell = null;
+      this.onClickCell = null;
 
       let toRemove = ['tile-controls', 'tile-hover', 'btnRotateClockwise', 'btnRotateCClockwise', 'btnFlip'];
       toRemove.forEach((eltId) => {
@@ -712,6 +715,8 @@ define([
       args.spaceIds.forEach((spaceId) => {
         let t = spaceId.split('_');
         let oCell = this.getPlanetCell(this.player_id, t[0], t[1]);
+        oCell.style.cursor = null;
+
         this.onClick(oCell, () => {
           if (selectedCell) selectedCell.classList.remove('selected');
           selected = spaceId;

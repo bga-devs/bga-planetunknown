@@ -14,6 +14,12 @@ class Engine
   public static $trees = null;
   public static $replayed = false;
 
+  public function invalidate()
+  {
+    static::$replayed = false;
+    self::boot();
+  }
+
   public function boot()
   {
     $cPId = Players::getCurrentId(true) ?? 0;
@@ -35,11 +41,12 @@ class Engine
 
   public function apply()
   {
-    Log::clearCache();
+    Log::clearCache(false);
     Globals::setMode(MODE_APPLY);
     foreach (self::$trees as $pId => $t) {
       $t->replay();
     }
+    Log::clearUndoableStepNotifications();
   }
 
   /**
@@ -452,17 +459,15 @@ class Engine
 
   /**
    * Restart at a given step
-   *
-  public function undoToStep($stepId)
+   */
+  public function undoToStep($pId, $stepId)
   {
-    Log::undoToStep($stepId);
+    Log::undoToStep($pId, $stepId);
 
     // Force to clear cached informations
-    Globals::fetch();
-    self::boot();
-    self::proceed(false, true);
+    self::proceed($pId, false, true);
+    Notifications::flush();
   }
-  */
 
   /**
    * Clear all nodes related to the current active zombie player

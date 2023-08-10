@@ -287,53 +287,53 @@
   background: url("img/icons.png");
   background-repeat: no-repeat; }
   .planetunknown-icon.icon-biomass {
-    background-position: 54.31654676258992% 83.57314148681056%;
-    background-size: 538.9473684210526%; }
+    background-position: 68.83745963401508% 34.77218225419664%;
+    background-size: 1077.8947368421052%; }
   .planetunknown-icon.icon-biomass-patch {
-    background-position: 30.3886925795053% 84.38256658595643%;
-    background-size: 585.1428571428571%; }
+    background-position: 57.87506673785371% 35.1089588377724%;
+    background-size: 1170.2857142857142%; }
   .planetunknown-icon.icon-civ {
-    background-position: 2.518891687657431% 56.297229219143574%;
-    background-size: 445.2173913043478%; }
+    background-position: 61.386138613861384% 2.518891687657431%;
+    background-size: 890.4347826086956%; }
   .planetunknown-icon.icon-energy {
-    background-position: 95.60723514211887% 2.5839793281653747%;
-    background-size: 409.6%; }
+    background-position: 47.052280311457174% 2.5839793281653747%;
+    background-size: 819.2%; }
   .planetunknown-icon.icon-first-player {
-    background-position: 93.51198871650212% 80.02296211251435%;
-    background-size: 325.07936507936506%; }
+    background-position: 85.9203693017888% 33.295063145809415%;
+    background-size: 650.1587301587301%; }
   .planetunknown-icon.icon-lifepod {
-    background-position: 30.99885189437428% 55.52795031055901%;
-    background-size: 669.281045751634%; }
+    background-position: 72.0844327176781% 2.484472049689441%;
+    background-size: 1338.562091503268%; }
   .planetunknown-icon.icon-meteor {
-    background-position: 81.67770419426049% 32.25806451612903%;
-    background-size: 867.7966101694915%; }
+    background-position: 94.50777202072538% 32.25806451612903%;
+    background-size: 1735.593220338983%; }
   .planetunknown-icon.icon-rover {
-    background-position: 2.481389578163772% 86.47642679900744%;
-    background-size: 469.72477064220186%; }
+    background-position: 46.22950819672131% 35.98014888337469%;
+    background-size: 939.4495412844037%; }
   .planetunknown-icon.icon-rover-meeple {
-    background-position: 6.172839506172839% 3.2414910858995136%;
-    background-size: 146.28571428571428%; }
+    background-position: 1.610305958132045% 3.992015968063872%;
+    background-size: 254.09429280397023%; }
   .planetunknown-icon.icon-tech {
-    background-position: 84.72049689440993% 55.52795031055901%;
-    background-size: 467.57990867579906%; }
+    background-position: 97.21159103335157% 2.484472049689441%;
+    background-size: 935.1598173515981%; }
   .planetunknown-icon.icon-tracker-biomass {
-    background-position: 89.95901639344262% 29.713114754098363%;
-    background-size: 2133.333333333333%; }
+    background-position: 98.1% 29.713114754098363%;
+    background-size: 4266.666666666666%; }
   .planetunknown-icon.icon-tracker-civ {
-    background-position: 96.92622950819673% 29.713114754098363%;
-    background-size: 2133.333333333333%; }
+    background-position: 98.1% 36.68032786885246%;
+    background-size: 4266.666666666666%; }
   .planetunknown-icon.icon-tracker-rover {
-    background-position: 89.95901639344262% 36.68032786885246%;
-    background-size: 2133.333333333333%; }
+    background-position: 1% 57.684426229508205%;
+    background-size: 4266.666666666666%; }
   .planetunknown-icon.icon-tracker-tech {
-    background-position: 96.92622950819673% 36.68032786885246%;
-    background-size: 2133.333333333333%; }
+    background-position: 4.3999999999999995% 57.684426229508205%;
+    background-size: 4266.666666666666%; }
   .planetunknown-icon.icon-tracker-water {
-    background-position: 94.36475409836066% 45.799180327868854%;
-    background-size: 2133.333333333333%; }
+    background-position: 7.8% 57.684426229508205%;
+    background-size: 4266.666666666666%; }
   .planetunknown-icon.icon-water {
-    background-position: 55.03105590062112% 55.52795031055901%;
-    background-size: 467.57990867579906%; }
+    background-position: 84.14434117003827% 2.484472049689441%;
+    background-size: 935.1598173515981%; }
 
 .icon-container {
   display: inline-block;
@@ -552,6 +552,17 @@
         position: absolute;
         bottom: 10px;
         left: 10px; }
+      .pu-player-board-resizable .pu-player-board-corporation .corporation .meteor-reserve {
+        position: absolute;
+        right: 35px;
+        top: 35px;
+        width: 240px;
+        height: 113px;
+        font-size: 8px;
+        display: flex;
+        flex-wrap: wrap; }
+        .pu-player-board-resizable .pu-player-board-corporation .corporation .meteor-reserve .icon-meteor {
+          margin: 5px; }
 
 .player-name svg {
   width: 25px;

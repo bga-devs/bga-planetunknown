@@ -157,8 +157,8 @@ class Notifications
         return;
     }
     $data = [
-      "player" => $player,
-      "value" => $arg,
+      'player' => $player,
+      'value' => $arg,
     ];
     static::pnotify($player, 'milestone', $message, $data);
   }
@@ -190,6 +190,7 @@ class Notifications
     // PRIVATE MODE => send private notif
     if ($mode == MODE_PRIVATE) {
       Game::get()->notifyPlayer($pId, $name, $msg, $data);
+      self::flush();
     }
     // PUBLIC MODE => send public notif with ignore flag
     elseif ($mode == \MODE_APPLY) {
@@ -220,7 +221,7 @@ class Notifications
 
   public static function clearTurn($player, $notifIds)
   {
-    self::notifyAll('clearTurn', clienttranslate('${player_name} restarts their turn'), [
+    self::notify($player, 'clearTurn', clienttranslate('You restart your turn'), [
       'player' => $player,
       'notifIds' => $notifIds,
     ]);
@@ -235,7 +236,7 @@ class Notifications
       'pId' => $card['pId'],
     ];
   }
-  public static function refreshUI($datas)
+  public static function refreshUI($pId, $datas)
   {
     // // Keep only the thing that matters
     $fDatas = [
@@ -251,7 +252,7 @@ class Notifications
     //   $player['hand'] = []; // Hide hand !
     // }
 
-    self::notifyAll('refreshUI', '', [
+    self::notify($pId, 'refreshUI', '', [
       'datas' => $fDatas,
     ]);
   }

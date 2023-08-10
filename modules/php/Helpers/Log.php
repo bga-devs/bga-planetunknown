@@ -5,6 +5,7 @@ use PU\Core\Globals;
 use PU\Core\PGlobals;
 use PU\Core\Stats;
 use PU\Core\Notifications;
+use PU\Core\Engine;
 use PU\Managers\Players;
 use PU\Managers\Tiles;
 use PU\Managers\Meeples;
@@ -23,7 +24,7 @@ use PU\Managers\Meeples;
 
 class Log extends \APP_DbObject
 {
-  public static function clearCache()
+  public static function clearCache($invalidateEngine = true)
   {
     Globals::fetch();
     PGlobals::fetch();
@@ -31,6 +32,10 @@ class Log extends \APP_DbObject
     Tiles::invalidate();
     Meeples::invalidate();
     // Stats::invalidate();
+
+    if ($invalidateEngine) {
+      Engine::invalidate();
+    }
   }
 
   /**
@@ -104,10 +109,12 @@ class Log extends \APP_DbObject
   {
     $checkpoint = self::getLastCheckpoint();
     $query = new QueryBuilder('log', null, 'id');
+    $query = $query->select(['id', 'move_id'])->where('type', 'step');
+    if ($pId != 'all') {
+      $query = $query->whereIn('player_id', [0, $pId]);
+    }
+
     $logs = $query
-      ->select(['id', 'move_id'])
-      ->where('type', 'step')
-      ->whereIn('player_id', [0, $pId])
       ->where('id', '>', $checkpoint)
       ->orderBy('id', 'DESC')
       ->get();
@@ -197,39 +204,42 @@ class Log extends \APP_DbObject
       ->run();
 
     // Cancel the game notifications
-    // TODO
-    /*
     $query = new QueryBuilder('gamelog', null, 'gamelog_packet_id');
     if (!empty($moveIds)) {
+      $minPacketId = $query->where('gamelog_move_id', '<', min($moveIds))->max('gamelog_packet_id');
+
+      $query = new QueryBuilder('gamelog', null, 'gamelog_packet_id');
       $query
         ->update(['cancel' => 1])
-        ->whereIn('gamelog_move_id', $moveIds)
+        ->where('gamelog_player', $pId)
+        ->where('gamelog_packet_id', '>', $minPacketId)
+        ->whereIn('gamelog_move_id', $moveIds, true)
         ->run();
       $notifIds = self::getCanceledNotifIds();
-      Notifications::clearTurn(Players::getCurrent(), $notifIds);
+      Notifications::clearTurn(Players::get($pId), $notifIds);
     }
-    */
 
     // Force to clear cached informations
     self::clearCache();
 
     // Notify
     $datas = Game::get()->getAllDatas();
-    Notifications::refreshUI($datas);
+    Notifications::refreshUI($pId, $datas);
     // $player = Players::getCurrent();
     // Notifications::refreshHand($player, $player->getHand()->ui());
 
     // Force notif flush to be able to delete "restart turn" notif
     Game::get()->sendNotifications();
-    // TODO
-    // if (!empty($moveIds)) {
-    //   // Delete notifications
-    //   $query = new QueryBuilder('gamelog', null, 'gamelog_packet_id');
-    //   $query
-    //     ->delete()
-    //     ->where('gamelog_move_id', '>=', min($moveIds))
-    //     ->run();
-    // }
+    if (!empty($moveIds)) {
+      // Delete notifications
+      $query = new QueryBuilder('gamelog', null, 'gamelog_packet_id');
+      $query
+        ->delete()
+        ->where('gamelog_player', $pId)
+        ->where('gamelog_move_id', '>=', min($moveIds), true)
+        ->where('gamelog_packet_id', '>', $minPacketId)
+        ->run();
+    }
 
     return $moveIds;
   }
@@ -265,7 +275,7 @@ class Log extends \APP_DbObject
       $minMoveId = 1;
     } else {
       $moveIds = [];
-      foreach (self::getUndoableSteps(false) as $step) {
+      foreach (self::getUndoableSteps('all', false) as $step) {
         $moveIds[] = (int) $step['move_id'];
       }
       if (empty($moveIds)) {

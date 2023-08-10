@@ -124,6 +124,21 @@ $planetGridHeight: 12 * $cellHeight;
                 bottom: 10px;
                 left: 10px;
             }
+
+            .meteor-reserve {
+                position: absolute;
+                right: 35px;
+                top: 35px;
+                width: 240px;
+                height: 113px;
+                font-size: 8px;
+                display: flex;
+                flex-wrap: wrap;
+
+                .icon-meteor {
+                    margin: 5px;
+                }
+            }
         }
     }
 }

@@ -306,8 +306,12 @@ class QueryBuilder extends \APP_DbObject
       $this->where .= " `{$this->primary}` = " . $this->protect($param[0]);
     }
     // Three params : WHERE $1 OP2 $3
-    elseif ($n == 3) {
-      $this->where .= '`' . trim($param[0]) . '` ' . $param[1] . ' ' . $this->protect($param[2]);
+    elseif ($n >= 3) {
+      $this->where .= '(`' . trim($param[0]) . '` ' . $param[1] . ' ' . $this->protect($param[2]);
+      if ($n == 4) {
+        $this->where .= ' OR `' . trim($param[0]) . '` IS NULL';
+      }
+      $this->where .= ')';
     }
     // Two params : $1 = $2
     elseif ($n == 2) {
@@ -336,11 +340,16 @@ class QueryBuilder extends \APP_DbObject
     $args = func_get_args();
     $field = $num_args == 1 ? $this->primary : $args[0];
     $values = $num_args == 1 ? $args[0] : $args[1];
+
     if (is_null($values)) {
       return $this;
     }
 
-    $this->where .= "`$field` IN ('" . implode("','", $values) . "')";
+    $this->where .= "(`$field` IN ('" . implode("','", $values) . "')";
+    if ($num_args == 3) {
+      $this->where .= " OR `$field` IS NULL";
+    }
+    $this->where .= ')';
     return $this;
   }
 
@@ -371,6 +380,13 @@ class QueryBuilder extends \APP_DbObject
   {
     $this->where = is_null($this->where) ? ' WHERE ' : $this->where . ($this->isOrWhere ? ' OR ' : ' AND ');
     $this->where .= "`$field` IS NOT NULL";
+    return $this;
+  }
+
+  public function whereEqualOrNull($field, $value)
+  {
+    $this->where = is_null($this->where) ? ' WHERE ' : $this->where . ($this->isOrWhere ? ' OR ' : ' AND ');
+    $this->where .= "(`$field` = '$value' OR `$filed` IS NULL)";
     return $this;
   }
 
