@@ -24,18 +24,25 @@ class PlaceTile extends \PU\Models\Action
     return $this->getPlayableTiles($player, true);
   }
 
+  public function getForcedTiles()
+  {
+    $forcedTiles = $this->getCtxArg('forcedTiles');
+    return $forcedTiles ? array_map(fn ($id) => Tiles::get($id), $forcedTiles) : null;
+  }
+
   public function getPossibleTiles($player)
   {
     $tiles = [];
     $depot = Susan::getDepotOfPlayer($player);
-    $tiles[] = Tiles::getTopOf('interior-' . $depot['interior'])->first();
-    $tiles[] = Tiles::getTopOf('exterior-' . $depot['exterior'])->first();
+    $tiles[] = Tiles::getTopOf('top-interior-' . $depot['interior'])->first();
+    $tiles[] = Tiles::getTopOf('top-exterior-' . $depot['exterior'])->first();
     return $tiles;
   }
 
   public function getPlayableTiles($player, $checkIsDoable = false, $forcedTiles = null)
   {
     $tiles = [];
+    $forcedTiles = $forcedTiles ?? $this->getForcedTiles();
     foreach ($forcedTiles ?? $this->getPossibleTiles($player) as $tile) {
       $placementOptions = $player->planet()->getPlacementOptions($tile->getType(), $checkIsDoable);
       if (!empty($placementOptions)) {

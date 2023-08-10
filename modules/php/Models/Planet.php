@@ -333,6 +333,9 @@ class Planet
 
   public function getCellsOfTileType($tileType)
   {
+    if ($tileType == BIOMASS_PATCH) {
+      return [[0, 0]];
+    }
     $types = [
       [[0, 0], [-2, 0], [-1, 0], [0, -1], [1, -1]],
       [[0, 0], [-1, 0], [1, 0], [1, -1], [0, 1]],

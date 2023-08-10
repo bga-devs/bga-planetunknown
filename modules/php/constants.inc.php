@@ -183,6 +183,7 @@ const TILE_i = 8;
 const TILE_BIG_I = 9;
 const TILE_O = 10;
 const TILE_S = 11;
+const BIOMASS_PATCH = 'biomass_patch';
 
 const LARGE_RING = [TILE_S, TILE_F, TILE_s, TILE_BIG_I, TILE_N, TILE_U];
 const SMALL_RING = [TILE_I, TILE_t, TILE_v, TILE_L, TILE_i, TILE_O];

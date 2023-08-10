@@ -154,8 +154,8 @@ define([
       );
 
       for (let j = 0; j < 6; j++) {
-        $('susan-exterior').insertAdjacentHTML('beforeend', `<div class="susan-space" id='exterior-${j}'></div>`);
-        $('susan-interior').insertAdjacentHTML('beforeend', `<div class="susan-space" id='interior-${j}'></div>`);
+        $('susan-exterior').insertAdjacentHTML('beforeend', `<div class="susan-space" id='top-exterior-${j}'></div>`);
+        $('susan-interior').insertAdjacentHTML('beforeend', `<div class="susan-space" id='top-interior-${j}'></div>`);
       }
     },
 

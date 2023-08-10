@@ -16,7 +16,7 @@ class Tile extends \PU\Helpers\DB_Model
     'id' => ['tile_id', 'int'],
     'location' => 'tile_location',
     'state' => ['tile_state', 'int'],
-    'type' => ['type', 'int'],
+    'type' => 'type',
     'pId' => 'player_id',
     'x' => ['x', 'int'],
     'y' => ['y', 'int'],

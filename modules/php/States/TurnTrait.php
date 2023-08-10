@@ -12,6 +12,7 @@ use PU\Managers\ActionCards;
 use PU\Managers\Meeples;
 use PU\Managers\Scores;
 use PU\Managers\Actions;
+use PU\Managers\Susan;
 use PU\Managers\Tiles;
 use PU\Managers\ZooCards;
 
@@ -43,6 +44,8 @@ trait TurnTrait
    */
   function stEndOfTurn()
   {
+    Susan::refill();
+
     Notifications::endOfTurn();
 
     $this->gamestate->jumpToState(ST_CHOOSE_ROTATION);
