@@ -34,6 +34,22 @@ html {
 @import url(https://fonts.googleapis.com/css?family=Permanent+Marker);
 @import url(https://fonts.googleapis.com/css?family=Caveat);
 
+// Changing size of columns
+#left-side {
+  margin-right: 355px !important;
+}
+.mobile_version #left-side {
+  margin-right: 2px !important;
+}
+
+#right-side {
+  float: left;
+  margin-left: -350px;
+  margin-top: 5px;
+  width: 350px;
+}
+////////////////////////////
+
 .notransition {
   -webkit-transition: none !important;
   -moz-transition: none !important;

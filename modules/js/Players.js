@@ -5,6 +5,51 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
   const COUNTER_MEEPLES = ['reputation', 'conservation', 'appeal'];
 
   return declare('planetunknown.players', null, {
+    /**
+     * OVERWRITE : change right column size
+     */
+    adaptPlayersPanels: function () {
+      var _4f5 = 3;
+      var _4f6 = 6;
+      var _4f7 = 350;
+      if (dojo.hasClass('ebd-body', 'mobile_version')) {
+        var _4f8 = dojo.position('right-side-first-part');
+        var _4f9 = _4f8.w;
+        var _4fa = Math.floor(_4f9 / (_4f7 + _4f5));
+        var _4fb = dojo.query('#player_boards .player-board');
+        var _4fc = _4fb.length;
+        var _4fd = Math.ceil(_4fc / _4fa);
+        var _4fe = Math.ceil(_4fc / _4fd);
+        var _4ff = Math.floor(_4f9 / _4fe) - _4f5;
+        var _500 = _4ff - _4f6;
+        var no = 0;
+        var _501 = 0;
+        var _502 = dojo.NodeList();
+        _4fb.style('height', 'auto');
+        for (var i in _4fb) {
+          if (typeof _4fb[i].id !== 'undefined') {
+            _501 = Math.max(dojo.style(_4fb[i], 'height'), _501);
+            _502.push(_4fb[i]);
+            no++;
+            if (no % _4fe == 0 || no >= _4fc) {
+              _502.style('height', _501 + 'px');
+              var _501 = 0;
+              var _502 = dojo.NodeList();
+            }
+          }
+        }
+        _4fb.style('width', _500 + 'px');
+        var _4f8 = dojo.position('right-side');
+        var h = _4f8.h;
+        dojo.style('left-side', 'marginTop', h + 'px');
+      } else {
+        dojo.query('#player_boards .player-board').style('width', _4f7 - _4f6 + 'px');
+        dojo.query('#player_boards .player-board').style('height', 'auto');
+        dojo.style('left-side', 'marginTop', '0px');
+      }
+    },
+    ///////////////////////////////////////////////
+
     getPlayers() {
       return Object.values(this.gamedatas.players);
     },
@@ -23,6 +68,12 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       // Add player board and player panel
       this.orderedPlayers.forEach((player, i) => {
         this.place('tplPlayerBoard', player, 'planetunknown-main-container');
+
+        // Susan indicators
+        if (player.no == currentNo) {
+          this._baseRotation = -player.position;
+        }
+        this.place('tplSusanIndicator', player, `indicator-${(player.position + this._baseRotation + 6) % 6}`);
         /*
         if (player.mapId) this.setupChangeBoardArrows(player.id);
 
@@ -70,6 +121,8 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
           });
         }
       });
+
+      this.rotateSusan();
       // this.setupPlayersCounters();
       // this.activateShowTileHelperButtons();
     },

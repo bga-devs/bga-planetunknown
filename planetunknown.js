@@ -135,28 +135,12 @@ define([
       $('ebd-body').dataset.startingAppeal = gamedatas.startingAppeal;
       this.setupInfoPanel();
 
-      this.setupSusan();
       // this.setupScoreBoard();
       this.setupPlayers();
       this.setupTiles();
       this.setupMeeples();
       // this.setupTour();
       this.inherited(arguments);
-    },
-
-    setupSusan() {
-      $('planetunknown-main-container').insertAdjacentHTML(
-        'beforeend',
-        `<div id="susan-container">
-          <div id="susan-exterior"></div>
-          <div id="susan-interior"></div>
-        </div>`
-      );
-
-      for (let j = 0; j < 6; j++) {
-        $('susan-exterior').insertAdjacentHTML('beforeend', `<div class="susan-space" id='top-exterior-${j}'></div>`);
-        $('susan-interior').insertAdjacentHTML('beforeend', `<div class="susan-space" id='top-interior-${j}'></div>`);
-      }
     },
 
     onLoadingComplete() {
@@ -592,10 +576,11 @@ define([
       };
 
       // Add tile selectors in pagetitle
+      $('pagesubtitle').insertAdjacentHTML('beforeend', '<div id="tile-selector"></div>');
       let callback = (tileId) => {
         // Existing placement => keep the same one
         if (selection !== null) {
-          $(`tile-${selection}`).classList.remove('selected');
+          $(`tile-${selection}-selector`).classList.remove('selected');
           selection = tileId;
           updateSelection();
         }
@@ -607,7 +592,7 @@ define([
           flipped = false;
           moveSelection(0, 0);
         }
-        let oTile = $(`tile-${tileId}`);
+        let oTile = $(`tile-${tileId}-selector`);
         $('tile-hover').dataset.type = oTile.dataset.type;
         $('tile-controls').dataset.type = oTile.dataset.type;
         $('tile-hover').dataset.shape = oTile.dataset.shape;
@@ -636,8 +621,19 @@ define([
 
       const buildableTiles = Object.keys(args.tiles);
       buildableTiles.forEach((tileId) => {
-        this.onClick(`tile-${tileId}`, () => callback(tileId));
+        let o = $(`tile-${tileId}`).cloneNode(true);
+        o.id += '-selector';
+        $('tile-selector').insertAdjacentElement('beforeend', o);
+
+        // if (buildableBuildingTypes.includes(buildingType)) {
+        this.onClick(o, () => callback(tileId));
+        // } else {
+        //   $(`building-selection-${buildingType}`).classList.add('unplacable');
+        // }
       });
+      // buildableTiles.forEach((tileId) => {
+      //   this.onClick(`tile-${tileId}`, () => callback(tileId));
+      // });
       if (buildableTiles.length == 1) {
         callback(buildableTiles[0]);
       }
@@ -834,6 +830,15 @@ define([
     },
 
     tplInfoPanel() {
+      let susanIndicators = '',
+        susanExterior = '',
+        susanInterior = '';
+      for (let j = 0; j < 6; j++) {
+        susanIndicators += `<div class="susan-indicator-slot" id='indicator-${j}'></div>`;
+        susanExterior += `<div class="susan-space" id='top-exterior-${j}'></div>`;
+        susanInterior += `<div class="susan-space" id='top-interior-${j}'></div>`;
+      }
+
       return `
    <div class='player-board' id="player_board_config">
      <div id="player_config" class="player_board_content">
@@ -862,9 +867,27 @@ define([
           </svg>         
          </div>
        </div>
+       <div class="player_config_row susan-holder">
+         <div id="susan-container">
+           <div id="susan-indicators">${susanIndicators}</div>
+           <div id="susan-exterior">
+              ${susanExterior}
+              <div id="susan-interior" data-shift="${this.gamedatas.susan.shift}">${susanInterior}</div>
+           </div>
+         </div>
+       </div>
      </div>
    </div>
    `;
+    },
+
+    tplSusanIndicator(player) {
+      return `<div class='susan-indicator' style='border-top-color:#${player.color}'></div>`;
+    },
+
+    rotateSusan() {
+      let rotation = -this.gamedatas.susan.rotation + (this._baseRotation || 0);
+      $('susan-exterior').style.transform = `rotate(${60 * rotation}deg)`;
     },
 
     updatePlayerOrdering() {
