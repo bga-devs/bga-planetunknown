@@ -137,6 +137,32 @@ class Notifications
     static::pnotify($player, 'takeCivCard', $msg, $data);
   }
 
+  public static function milestone($player, $type, $arg = null)
+  {
+    switch ($type) {
+      case ROVER:
+        $message = clienttranslate('${player_name} can place a new rover');
+        break;
+      case CIV:
+      case TECH:
+        $message = clienttranslate('${player_name} reaches a new milestone in ${type} track');
+        break;
+      case BIOMASS:
+        $message = clienttranslate('${player_name} receive a new biomass patch');
+        break;
+      case SYNERGY:
+        $message = clienttranslate('${player_name} receive a synergy bonus');
+        break;
+      default:
+        return;
+    }
+    $data = [
+      "player" => $player,
+      "value" => $arg,
+    ];
+    static::pnotify($player, 'milestone', $message, $data);
+  }
+
   /*************************
    **** GENERIC METHODS ****
    *************************/
