@@ -3,6 +3,7 @@
 namespace PU\Models\Corporations;
 
 use PU\Core\Notifications;
+use PU\Managers\Tiles;
 
 use function PHPSTORM_META\type;
 
@@ -180,6 +181,12 @@ class Corporation
         return $this->isOrIn($value, ROVER);
       })
     );
+  }
+
+  //should be overidden for certain tech level/corporations
+  public function receiveBiomassPatch()
+  {
+    return Tiles::createBiomassPatch($this->player);
   }
 
   /*

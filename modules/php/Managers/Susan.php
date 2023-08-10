@@ -44,6 +44,21 @@ class Susan
 		Notifications::newRotation($rotation, $player);
 	}
 
+	public static function refill()
+	{
+		for ($j = 0; $j < 6; $j++) {
+			$tile = Tiles::getTopOf("top-interior-$j")->first();
+			if (is_null($tile)) {
+				Tiles::move(Tiles::getTopOf("interior-$j")->first()->getId(), "top-interior-$j");
+			}
+
+			$tile = Tiles::getTopOf("top-exterior-$j")->first();
+			if (is_null($tile)) {
+				Tiles::move(Tiles::getTopOf("exterior-$j")->first()->getId(), "top-exterior-$j");
+			}
+		}
+	}
+
 	public static function getUiData()
 	{
 		return [

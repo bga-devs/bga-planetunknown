@@ -6,10 +6,11 @@ use PU\Core\Stats;
 use PU\Core\Globals;
 use PU\Helpers\UserException;
 use PU\Helpers\Collection;
+use PU\Models\Tile;
 
 /* Class to manage all the tiles for PlanetUnknown */
 
-class Tiles extends \PU\Helpers\CachedPieces
+class  Tiles extends \PU\Helpers\CachedPieces
 {
   protected static $table = 'tiles';
   protected static $prefix = 'tile_';
@@ -25,12 +26,12 @@ class Tiles extends \PU\Helpers\CachedPieces
   {
     $tiles = self::getInLocation('board');
     for ($j = 0; $j < 6; $j++) {
-      $tile = self::getTopOf("interior-$j")->first();
+      $tile = self::getTopOf("top-interior-$j")->first();
       if (!is_null($tile)) {
         $tiles[] = $tile;
       }
 
-      $tile = self::getTopOf("exterior-$j")->first();
+      $tile = self::getTopOf("top-exterior-$j")->first();
       if (!is_null($tile)) {
         $tiles[] = $tile;
       }
@@ -42,6 +43,15 @@ class Tiles extends \PU\Helpers\CachedPieces
   public static function getOfPlayer($pId)
   {
     return self::where('pId', $pId);
+  }
+
+  public static function createBiomassPatch($player)
+  {
+    return static::singleCreate([
+      'type' => BIOMASS_PATCH,
+      'location' => 'corporation',
+      'player_id' => $player->getId()
+    ]);
   }
 
   ////////////////////////////////////
@@ -81,6 +91,8 @@ class Tiles extends \PU\Helpers\CachedPieces
       self::shuffle("interior-$j");
       self::shuffle("exterior-$j");
     }
+
+    Susan::refill();
   }
 
   /*
@@ -97,9 +109,16 @@ class Tiles extends \PU\Helpers\CachedPieces
 
   static function getStaticDataFromType($type)
   {
-    $shape = Tiles::$shapes[$type % 12];
-    $tileFamily = intdiv($type, 24);
-    $hasMeteor = intdiv($type, 12) % 2 == 1;
+    if ($type == BIOMASS_PATCH) {
+      $shape = Tiles::$shapes[BIOMASS_PATCH];
+      $tileFamily = 5; //hack to indicate BIOMASS
+      $hasMeteor =  false;
+    } else {
+      $shape = Tiles::$shapes[$type % 12];
+      $tileFamily = intdiv($type, 24);
+      $hasMeteor = intdiv($type, 12) % 2 == 1;
+    }
+
     $data = [];
 
     [$baseX, $baseY] = explode('_', $shape['pattern'][0]);
@@ -191,6 +210,12 @@ class Tiles extends \PU\Helpers\CachedPieces
       'symbolPlaces' => ['1_1', '0_0'],
       'types' => [0, 1, 1, 0, 0],
     ],
+    BIOMASS_PATCH => [
+      'pattern' => ['0_0'],
+      'meteorPlace' => '',
+      'symbolPlaces' => [],
+      'types' => [0],
+    ]
   ];
 
   public static $typesNames = [[CIV, ENERGY], [ENERGY, WATER], [ROVER, TECH], [TECH, BIOMASS], [WATER, ROVER], [BIOMASS, CIV]];

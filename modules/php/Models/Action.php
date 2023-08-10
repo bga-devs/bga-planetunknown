@@ -140,7 +140,15 @@ class Action
           Notifications::milestone($player, CIV, $levelCiv);
           break;
         case BIOMASS:
-          // TODO create action biomass
+          $patchToPlace = $player->corporation()->receiveBiomassPatch();
+          if ($patchToPlace) {
+            $this->insertAsChild([
+              'action' => PLACE_TILE,
+              'args' => [
+                'forcedTiles' => [$patchToPlace->getId()]
+              ]
+            ]);
+          }
           break;
         case TECH:
           $levelTech = $player->corporation()->getTechLevel();
