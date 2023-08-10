@@ -473,7 +473,18 @@
         .pu-player-board-resizable .pu-player-board-planet .planet .planet-grid .planet-grid-cell {
           display: flex;
           justify-content: center;
-          align-items: center; }
+          align-items: center;
+          z-index: 2; }
+          .pu-player-board-resizable .pu-player-board-planet .planet .planet-grid .planet-grid-cell.selectable {
+            border: 2px dashed white;
+            background: #f7b1b190;
+            cursor: pointer; }
+            .pu-player-board-resizable .pu-player-board-planet .planet .planet-grid .planet-grid-cell.selectable:hover {
+              border: 2px solid white;
+              background: #f7b1b1d1; }
+          .pu-player-board-resizable .pu-player-board-planet .planet .planet-grid .planet-grid-cell.selected, .pu-player-board-resizable .pu-player-board-planet .planet .planet-grid .planet-grid-cell.selected:hover {
+            border: 2px solid #0f5308;
+            background: #7dfc83a1; }
   .pu-player-board-resizable .pu-player-board-corporation {
     width: 510px;
     height: 1000px;

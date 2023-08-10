@@ -67,7 +67,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       let t = meeple.location.split('_');
       // Things on the planet
       if (meeple.location == 'planet') {
-        return $(`planet-${meeple.pId}`).querySelector(`.planet-grid-cell[data-x="${meeple.x}"][data-y="${meeple.y}"]`);
+        return this.getPlanetCell(meeple.pId, meeple.x, meeple.y);
       }
       // Things on tracks
       if (meeple.location == 'corporation') {
@@ -158,8 +158,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       });
     },
 
-    notif_moveTrack(n) {
-      debug('Notif: moving on track', n);
+    notif_slideMeeple(n) {
+      debug('Notif: sliding meeple', n);
       this.slideResources([n.args.meeple]);
     },
   });

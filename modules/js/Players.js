@@ -176,6 +176,10 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       this.goToPlayerBoard(pId);
     },
 
+    getPlanetCell(pId, x, y) {
+      return $(`planet-${pId}`).querySelector(`.planet-grid-cell[data-x="${x}"][data-y="${y}"]`);
+    },
+
     tplPlanet(planet, player = null) {
       let pId = player == null ? 0 : player.id;
 
