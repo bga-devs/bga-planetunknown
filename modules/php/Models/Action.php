@@ -137,6 +137,7 @@ class Action
               'level' => $levelCiv
             ]
           ]);
+          Notifications::milestone($player, CIV, $levelCiv);
           break;
         case BIOMASS:
           // TODO create action biomass
@@ -149,15 +150,17 @@ class Action
           $this->insertAsChild([
             'action' => CHOOSE_TRACKS,
             'args' => [
-              'types' => [ALL_TYPES],
+              'types' => ALL_TYPES,
               'n' => 1
             ]
           ]);
+          Notifications::milestone($player, $bonus);
           break;
         case ROVER:
           $this->insertAsChild([
             'action' => PLACE_ROVER,
           ]);
+          Notifications::milestone($player, $bonus);
           break;
         default:
           //handle 'move_x' bonuses

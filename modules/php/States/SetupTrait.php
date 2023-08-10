@@ -34,7 +34,7 @@ trait SetupTrait
     Susan::setupNewGame($players, $options);
     // Stats::checkExistence();
 
-    Globals::setFirstPlayer($this->getNextPlayerTable()[0]);
+    // Globals::setFirstPlayer($this->getNextPlayerTable()[0]);
 
     Globals::setSetupChoices([]);
 
