@@ -90,6 +90,41 @@
     position: relative;
     flex-shrink: 0;
 
+    &.selectable {
+        cursor: pointer;
+        .tile-crosshairs {
+            visibility: visible;
+        }
+
+        &:hover {
+            transform: scale(0.95);
+        }
+
+        .tile-border {
+            background: black;
+        }
+    }
+
+    &.selected {
+        transform: scale(0.95);
+        .tile-border {
+            background: green;
+        }
+    }
+
+    &.unplacable {
+        cursor: not-allowed;
+        filter: grayscale(1);
+        -webkit-transform: translateZ(0);
+        -webkit-perspective: 1000;
+        -webkit-backface-visibility: hidden;
+        opacity: 0.7;
+
+        &:hover {
+            transform: scale(0.9);
+        }
+    }
+
     @for $i from 0 to 4 {
         @for $f from 0 to 2 {
             &[data-rotation="#{$i}"][data-flipped="#{$f}"] {
@@ -136,10 +171,10 @@
         visibility: hidden;
         pointer-events: none;
         position: absolute;
-        width: 30px;
-        height: 30px;
-        margin-left: -15px;
-        margin-top: -15px;
+        width: calc(30px * var(--tileScale));
+        height: calc(30px * var(--tileScale));
+        margin-left: calc(-15px * var(--tileScale));
+        margin-top: calc(-15px * var(--tileScale));
 
         svg {
             width: 100%;

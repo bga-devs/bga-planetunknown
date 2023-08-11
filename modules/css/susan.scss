@@ -1,3 +1,121 @@
+#tile-selector {
+    display: flex;
+    --tileScale: 0.4;
+    justify-content: center;
+    align-items: center;
+
+    .tile-container {
+        margin: 0 20px;
+    }
+}
+
+#susan-container {
+    width: 340px;
+    height: 340px;
+    position: relative;
+    --tileScale: 0.17;
+    margin: 10px 0px;
+
+    #susan-indicators {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        transform-origin: center center;
+
+        .susan-indicator-slot {
+            position: absolute;
+            top: 0;
+            left: 25%;
+            right: 25%;
+            bottom: 50%;
+            transform-origin: bottom center;
+            display: flex;
+            justify-content: center;
+
+            @for $j from 0 to 6 {
+                &#indicator-#{$j} {
+                    transform: rotate($j * 60deg);
+                }
+            }
+
+            .susan-indicator {
+                margin-top: -10px;
+                border-right: 15px solid transparent;
+                border-left: 15px solid transparent;
+                border-top-width: 15px;
+                border-top-style: solid;
+                width: 0;
+            }
+        }
+    }
+
+    #susan-exterior {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        bottom: 10px;
+        right: 10px;
+        transform-origin: center center;
+        background: #f4f4f4;
+        border-radius: 50%;
+        border: 1px solid black;
+        transform: rotate(0deg);
+        transition: transform 0.5s;
+
+        .susan-space {
+            @for $j from 0 to 6 {
+                &#top-exterior-#{$j} {
+                    transform: rotate($j * 60deg);
+                }
+            }
+        }
+    }
+
+    #susan-interior {
+        position: absolute;
+        top: 70px;
+        left: 70px;
+        bottom: 70px;
+        right: 70px;
+        transform-origin: center center;
+        background: #cecdcd;
+        border-radius: 50%;
+        border: 1px solid black;
+        @for $j from 0 to 6 {
+            &[data-shift="#{$j}"] {
+                transform: rotate($j * -60deg);
+            }
+        }
+
+        .susan-space {
+            @for $j from 0 to 6 {
+                &#top-interior-#{$j} {
+                    transform: rotate($j * 60deg);
+                }
+            }
+        }
+    }
+
+    .susan-space {
+        position: absolute;
+        top: 0;
+        left: 25%;
+        right: 25%;
+        bottom: 50%;
+        transform-origin: bottom center;
+        display: flex;
+        justify-content: center;
+        padding-top: 5px;
+
+        .tile-container {
+            margin: 0;
+        }
+    }
+}
+
+/*
 #susan-container {
     width: 100%;
     background: white;
@@ -58,3 +176,4 @@
         border-bottom: 1px solid black;
     }
 }
+*/

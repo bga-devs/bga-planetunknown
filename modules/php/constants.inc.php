@@ -108,15 +108,11 @@ const PASS = 99;
 
 const PLACE_TILE = 'PlaceTile';
 const MOVE_TRACK = 'MoveTrack';
-const CHOOSE_TRACKS = 'ChooseTracks'; //choose which track to move between what energy offer to you (or synergy??)
+const CHOOSE_TRACKS = 'ChooseTracks'; //choose which track to move between what energy offer to you (and/or synergy??)
 const PLACE_ROVER = 'PlaceRover';
 const MOVE_TRACKER_BY_ONE = 'MoveTrackerByOne';
-const TAKE_CIV_CARD = "TakeCivCard";
+const TAKE_CIV_CARD = 'TakeCivCard';
 const MOVE_ROVER = 'MoveRover';
-
-const FOO_A = 'FooA';
-const FOO_B = 'FooB';
-const FOO_C = 'FooC';
 
 /*
  * Resources
@@ -197,10 +193,9 @@ const SMALL_RING = [TILE_I, TILE_t, TILE_v, TILE_L, TILE_i, TILE_O];
 const ADVANCED_PLANETS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 const ALL_PLANETS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-
 /*
-* CORPORATIONS
-*/
+ * CORPORATIONS
+ */
 const ADVANCED_CORPORATIONS = [1, 2, 3, 4, 5, 6, 7, 8];
 const ALL_CORPORATIONS = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 

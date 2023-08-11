@@ -27,7 +27,7 @@ class PlaceTile extends \PU\Models\Action
   public function getForcedTiles()
   {
     $forcedTiles = $this->getCtxArg('forcedTiles');
-    return $forcedTiles ? array_map(fn ($id) => Tiles::get($id), $forcedTiles) : null;
+    return $forcedTiles ? Tiles::getMany($forcedTiles) : null;
   }
 
   public function getPossibleTiles($player)

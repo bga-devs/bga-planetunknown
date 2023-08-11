@@ -103,8 +103,7 @@ class Planet
   public function score()
   {
     $score = [];
-    $meteors = Meeples::getOfPlayer($this->player, METEOR)
-      ->where('location', 'planet');
+    $meteors = Meeples::getOfPlayer($this->player, METEOR)->where('location', 'planet');
     $burntRows = [];
     $burntColumns = [];
 
@@ -189,6 +188,7 @@ class Planet
       }
     }
 
+    self::invalidateCachedDatas();
     return [$tile, $symbols, $coveringWater, $meteor];
   }
 
@@ -465,7 +465,7 @@ class Planet
     return $this->getType($x, $y) == ENERGY;
   }
 
-  // Count the number of empty spaces 
+  // Count the number of empty spaces
   public function countEmptySpaces()
   {
     $cells = [];
@@ -481,7 +481,9 @@ class Planet
   // Count the number of Meteor on planet
   public function countMeteors()
   {
-    return Meeples::getOfPlayer($this->player, METEOR)->where('location', 'planet')->count();
+    return Meeples::getOfPlayer($this->player, METEOR)
+      ->where('location', 'planet')
+      ->count();
   }
 
   public function getMeepleOnCell($cell, $type = null)
