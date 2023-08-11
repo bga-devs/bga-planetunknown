@@ -80,7 +80,7 @@ class Cards extends \PU\Helpers\CachedPieces
     for ($i = 1; $i <= 4; $i++) {
       $deck = 'deck_civ_' . $i;
       static::shuffle($deck);
-      static::pickForLocation(static::countInLocation($deck) - $neededCivCards, $deck, 'box');
+      static::pickForLocation(static::countInLocation($deck) - $neededCivCards, $deck, 'reserve_civ_' . $i);
     }
 
     //pick right number of Neighbor Objectives cards

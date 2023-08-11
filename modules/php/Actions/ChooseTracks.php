@@ -19,14 +19,27 @@ class ChooseTracks extends \PU\Models\Action
     return \ST_CHOOSE_TRACKS;
   }
 
+  //types is the possibles types to choose
   public function getTypes()
   {
     return $this->getCtxArg('types');
   }
 
+  //n is the nb of tracks to choose
   public function getN()
   {
     return $this->getCtxArg('n');
+  }
+
+  //move is the numbers of move for choosen tracks
+  public function getMove()
+  {
+    return $this->getCtxArg('move') ?? 1;
+  }
+
+  public function getWithBonus()
+  {
+    return $this->getCtxArg('withBonus') ?? true;
   }
 
   public function getFrom()
@@ -64,21 +77,41 @@ class ChooseTracks extends \PU\Models\Action
 
     return [
       'types' => $this->getTypes(),
+      'n' => $this->getN(),
       'from' => $this->getFrom()
     ];
   }
 
   public function actChooseTracks($tracks)
   {
-    // TODO
-    // if(count($tracks) != n)
-    // ERROR
+    $args = $this->argsChooseTracks();
+    if (count($tracks) != $args['n']) {
+      throw new \BgaVisibleSystemException('You must choose exactly ' . $args['n'] . ' track. Should not happen');
+    }
 
-    // TODO : multiple tracks
-    $type = $tracks[0];
-    $this->insertAsChild([
-      'action' => MOVE_TRACK,
-      'args' => ['type' => $type, 'n' => 1, 'withBonus' => true],
-    ]);
+    foreach ($tracks as $key => $type) {
+      if (!in_array($type, $args['types'])) {
+        throw new \BgaVisibleSystemException('You cannot choose $type track. Should not happen');
+      }
+
+      $this->insertAsChild([
+        'action' => MOVE_TRACK,
+        'args' => ['type' => $type, 'n' => $this->getMove(), 'withBonus' => $this->getWithBonus()],
+      ]);
+      // $withBonus = $this->getWithBonus();
+      // if ($withBonus) {
+      //   for ($i = 0; $i < $this->getMove(); $i++) {
+      //     $this->insertAsChild([
+      //       'action' => MOVE_TRACK,
+      //       'args' => ['type' => $type, 'n' => 1, 'withBonus' => $withBonus],
+      //     ]);
+      //   }
+      // } else {
+      //   $this->insertAsChild([
+      //     'action' => MOVE_TRACK,
+      //     'args' => ['type' => $type, 'n' => $this->getMove(), 'withBonus' => $withBonus],
+      //   ]);
+      // }
+    }
   }
 }

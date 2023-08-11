@@ -3,6 +3,9 @@
 namespace PU\Models\Cards;
 
 use PU\Managers\Cards;
+use PU\Managers\Meeples;
+use PU\Managers\Players;
+use PU\Models\Meeple;
 
 /*
  * EventCard n°65
@@ -24,5 +27,10 @@ class EventCard65 extends \PU\Models\Cards\EventCard
   //CONTRAINT : 
   public function effect()
   {
+    $player = Players::getAll();
+
+    Meeples::add(ROVER_MEEPLE, $player);
+
+    //TODO add an action activated when you place a tile
   }
 }

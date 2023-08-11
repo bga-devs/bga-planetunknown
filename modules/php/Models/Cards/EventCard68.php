@@ -24,5 +24,15 @@ class EventCard68 extends \PU\Models\Cards\EventCard
   //CONTRAINT : 
   public function effect()
   {
+    return [
+      'action' => CHOOSE_TRACKS,
+      'args' => [
+        'types' => [CIV, BIOMASS, WATER],
+        'withBonus' => false,
+        'n' => 1,
+        'move' => 3,  
+        'from' => 'Event Card'
+      ]
+    ]
   }
 }

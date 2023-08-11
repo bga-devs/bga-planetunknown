@@ -127,7 +127,7 @@ $machinestates = [
     'name' => 'playAfterEventCard',
     'type' => GAME,
     'action' => 'stPlayAfterEventCard',
-  ], // should end with -> st_choose_rotation on normal game / setup_branch on solo game
+  ], // should end with -> ST_SETUP_BRANCH
 
   ////////////////////////////////////
   //  _____             _

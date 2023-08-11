@@ -12,6 +12,28 @@ use PU\Managers\Tiles;
 
 class Notifications
 {
+  public static function addCivCards()
+  {
+    static::notifyAll(
+      'newCards',
+      clienttranslate('A new civ card is added to each deck'),
+      [
+        'deck_civ_1' => Cards::countInLocation('deck_civ_1'),
+        'deck_civ_2' => Cards::countInLocation('deck_civ_2'),
+        'deck_civ_3' => Cards::countInLocation('deck_civ_3'),
+        'deck_civ_4' => Cards::countInLocation('deck_civ_4'),
+      ]
+    );
+  }
+
+  public static function getNewCard($player, $card)
+  {
+    static::notify($player, 'newCards', clienttranslate('${player_name} receive a new private objective card'), [
+      'player' => $player,
+      'card' => $card
+    ])
+  }
+
   public static function chooseSetup($player, $planetId, $corporationId, $rejectedCardId)
   {
     self::pnotify($player, 'chooseSetup', '', [
@@ -71,6 +93,15 @@ class Notifications
         'types' => [$pawn->getType()],
       ]
     );
+  }
+
+  public static function newEventCard($card)
+  {
+    $message = clienttranslate('A new event card is revealed');
+    $data = [
+      'event_card' => $card
+    ];
+    static::notifyAll('eventCard', $message, $data);
   }
 
   public static function newRotation($rotation, $player = null)

@@ -12,6 +12,7 @@ use PU\Managers\ActionCards;
 use PU\Managers\Meeples;
 use PU\Managers\Scores;
 use PU\Managers\Actions;
+use PU\Managers\Cards;
 use PU\Managers\Susan;
 use PU\Managers\Tiles;
 use PU\Managers\ZooCards;
@@ -33,11 +34,55 @@ trait TurnTrait
     );
   }
 
+  public function stEventCard()
+  {
+    $card = Cards::pickOneForLocation('deck_event', 'discard_event', Cards::countInLocation('discard_event'));
+
+    Notifications::newEventCard($card);
+
+    $this->gamestate->setAllPlayersMultiactive();
+    $this->gamestate->nextState('');
+  }
+
+  function argPlayAfterEventCard()
+  {
+    return [
+      'eventCardId' => Cards::getTopOf('discard_event')->first()->getId()
+    ];
+  }
+
+  function stPlayAfterEventCard()
+  {
+    $pIds = Players::getAll()->getIds();
+    $args = $this->argPlayAfterEventCard();
+    $card = Cards::get($args['eventCardId']);
+
+    $effect = $card->effect();
+    if (is_array($effect)) {
+      Engine::setup(
+        $effect,
+        ['method' => 'stEndOfEventTurn'],
+        $pIds
+      );
+    } else {
+      $this->gamestate->jumpToState(ST_SETUP_BRANCH);
+    }
+  }
+
   /*******************************
    ********************************
    ********** END OF TURN *********
    ********************************
    *******************************/
+
+  /**
+   * End of eventTurn : ST_SETUP_BRANCH
+   */
+  function stEndOfEventTurn()
+  {
+
+    $this->gamestate->jumpToState(ST_SETUP_BRANCH);
+  }
 
   /**
    * End of turn : replenish and check break

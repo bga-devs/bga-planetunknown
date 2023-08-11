@@ -70,6 +70,19 @@ class Meeples extends \PU\Helpers\CachedPieces
     ]);
   }
 
+  public static function add($type, $players)
+  {
+    $toCreate = [];
+    foreach ($players as $playerId => $player) {
+      $toCreate[] = [
+        'type' => $type,
+        'location' => 'corporation',
+        'player_id' => $playerId,
+      ];
+    }
+    return static::create($toCreate);
+  }
+
   ////////////////////////////////////
   //  ____       _
   // / ___|  ___| |_ _   _ _ __
