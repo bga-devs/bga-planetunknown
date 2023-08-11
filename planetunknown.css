@@ -432,18 +432,21 @@
     border: 1px solid black;
     transform: rotate(0deg);
     transition: transform 0.5s; }
-    #susan-container #susan-exterior .susan-space#top-exterior-0 {
-      transform: rotate(0deg); }
-    #susan-container #susan-exterior .susan-space#top-exterior-1 {
-      transform: rotate(60deg); }
-    #susan-container #susan-exterior .susan-space#top-exterior-2 {
-      transform: rotate(120deg); }
-    #susan-container #susan-exterior .susan-space#top-exterior-3 {
-      transform: rotate(180deg); }
-    #susan-container #susan-exterior .susan-space#top-exterior-4 {
-      transform: rotate(240deg); }
-    #susan-container #susan-exterior .susan-space#top-exterior-5 {
-      transform: rotate(300deg); }
+    #susan-container #susan-exterior .susan-space {
+      padding-bottom: 90px;
+      padding-top: 5px; }
+      #susan-container #susan-exterior .susan-space#top-exterior-0 {
+        transform: rotate(0deg); }
+      #susan-container #susan-exterior .susan-space#top-exterior-1 {
+        transform: rotate(60deg); }
+      #susan-container #susan-exterior .susan-space#top-exterior-2 {
+        transform: rotate(120deg); }
+      #susan-container #susan-exterior .susan-space#top-exterior-3 {
+        transform: rotate(180deg); }
+      #susan-container #susan-exterior .susan-space#top-exterior-4 {
+        transform: rotate(240deg); }
+      #susan-container #susan-exterior .susan-space#top-exterior-5 {
+        transform: rotate(300deg); }
   #susan-container #susan-interior {
     position: absolute;
     top: 70px;
@@ -466,18 +469,21 @@
       transform: rotate(-240deg); }
     #susan-container #susan-interior[data-shift="5"] {
       transform: rotate(-300deg); }
-    #susan-container #susan-interior .susan-space#top-interior-0 {
-      transform: rotate(0deg); }
-    #susan-container #susan-interior .susan-space#top-interior-1 {
-      transform: rotate(60deg); }
-    #susan-container #susan-interior .susan-space#top-interior-2 {
-      transform: rotate(120deg); }
-    #susan-container #susan-interior .susan-space#top-interior-3 {
-      transform: rotate(180deg); }
-    #susan-container #susan-interior .susan-space#top-interior-4 {
-      transform: rotate(240deg); }
-    #susan-container #susan-interior .susan-space#top-interior-5 {
-      transform: rotate(300deg); }
+    #susan-container #susan-interior .susan-space {
+      padding-bottom: 27px;
+      padding-top: 3px; }
+      #susan-container #susan-interior .susan-space#top-interior-0 {
+        transform: rotate(0deg); }
+      #susan-container #susan-interior .susan-space#top-interior-1 {
+        transform: rotate(60deg); }
+      #susan-container #susan-interior .susan-space#top-interior-2 {
+        transform: rotate(120deg); }
+      #susan-container #susan-interior .susan-space#top-interior-3 {
+        transform: rotate(180deg); }
+      #susan-container #susan-interior .susan-space#top-interior-4 {
+        transform: rotate(240deg); }
+      #susan-container #susan-interior .susan-space#top-interior-5 {
+        transform: rotate(300deg); }
   #susan-container .susan-space {
     position: absolute;
     top: 0;
@@ -487,7 +493,7 @@
     transform-origin: bottom center;
     display: flex;
     justify-content: center;
-    padding-top: 5px; }
+    align-items: center; }
     #susan-container .susan-space .tile-container {
       margin: 0; }
 
@@ -1389,6 +1395,8 @@
     #player_config .player_config_row:last-child {
       border-bottom: none;
       padding-bottom: 0px; }
+    #player_config .player_config_row#susan-holder {
+      height: 355px; }
   #player_config #help-mode-switch .checkbox {
     display: none; }
   #player_config #help-mode-switch .label {
@@ -1536,12 +1544,14 @@
       display: none; }
 
 #popin_showSettings,
+#popin_showSusan,
 #popin_showScoreboard {
   background-color: #ebd5bd;
   border-radius: 8px;
   box-shadow: 0 3px 8px black;
   position: relative; }
   #popin_showSettings .planetunknown_popin_closeicon,
+  #popin_showSusan .planetunknown_popin_closeicon,
   #popin_showScoreboard .planetunknown_popin_closeicon {
     background-color: #a47a77;
     border-radius: 50%;
@@ -1558,14 +1568,17 @@
     border: 1px solid #35302d;
     z-index: 2; }
     #popin_showSettings .planetunknown_popin_closeicon:hover,
+    #popin_showSusan .planetunknown_popin_closeicon:hover,
     #popin_showScoreboard .planetunknown_popin_closeicon:hover {
       text-decoration: none;
       color: #ccc !important;
       transform: scale(1.1); }
     #popin_showSettings .planetunknown_popin_closeicon i,
+    #popin_showSusan .planetunknown_popin_closeicon i,
     #popin_showScoreboard .planetunknown_popin_closeicon i {
       margin-top: -2px; }
   #popin_showSettings h2,
+  #popin_showSusan h2,
   #popin_showScoreboard h2 {
     font-family: MyriadPro-Semibold;
     text-align: center;
@@ -1575,6 +1588,16 @@
     border-radius: 8px 8px 0px 0px;
     padding: 11px 0px 3px;
     border-bottom: 1px solid #734f2a; }
+
+#popin_showSusan {
+  width: 620px; }
+  #popin_showSusan #susan-enlarge {
+    width: 630px;
+    height: 630px;
+    padding: 20px 5px; }
+    #popin_showSusan #susan-enlarge #susan-container {
+      transform: scale(1.8);
+      transform-origin: top left; }
 
 #left-side {
   margin-right: 355px !important; }

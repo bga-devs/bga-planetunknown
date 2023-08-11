@@ -65,6 +65,9 @@
         transition: transform 0.5s;
 
         .susan-space {
+            padding-bottom: 90px;
+            padding-top: 5px;
+
             @for $j from 0 to 6 {
                 &#top-exterior-#{$j} {
                     transform: rotate($j * 60deg);
@@ -90,6 +93,9 @@
         }
 
         .susan-space {
+            padding-bottom: 27px;
+            padding-top: 3px;
+
             @for $j from 0 to 6 {
                 &#top-interior-#{$j} {
                     transform: rotate($j * 60deg);
@@ -107,7 +113,7 @@
         transform-origin: bottom center;
         display: flex;
         justify-content: center;
-        padding-top: 5px;
+        align-items: center;
 
         .tile-container {
             margin: 0;
