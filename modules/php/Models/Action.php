@@ -37,7 +37,7 @@ class Action
 
   public function isOptional()
   {
-    return false;
+    return !$this->isDoable($this->getPlayer());
   }
 
   public function isIndependent($player = null)
@@ -152,14 +152,15 @@ class Action
           break;
         case TECH:
           $levelTech = $player->corporation()->getTechLevel();
-          // TODO create action tech
+          Notifications::milestone($player, TECH, $levelTech);
           break;
         case SYNERGY:
           $this->insertAsChild([
             'action' => CHOOSE_TRACKS,
             'args' => [
               'types' => ALL_TYPES,
-              'n' => 1
+              'n' => 1,
+              'from' => SYNERGY
             ]
           ]);
           Notifications::milestone($player, $bonus);
@@ -173,7 +174,15 @@ class Action
         default:
           //handle 'move_x' bonuses
           if (is_string($bonus) && str_starts_with($bonus, 'move')) {
-            //TODO create action move with arg
+            $levelMove = explode('_', $bonus)[1];
+            for ($i = 0; $i < $levelMove; $i++) {
+              $this->insertAsChild([
+                'action' => MOVE_ROVER,
+                'args' => [
+                  'remaining' => $levelMove - $i
+                ]
+              ]);
+            }
           }
           break;
       }

@@ -227,7 +227,7 @@ $machinestates = [
 
   ST_MOVE_TRACK => [
     'name' => 'moveTrack',
-    'descriptionmyturn' => clienttranslate('You must move your track ${type}'),
+    'descriptionmyturn' => clienttranslate('${you} must move your track ${type}'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
@@ -236,7 +236,7 @@ $machinestates = [
 
   ST_MOVE_TRACKER_BY_ONE => [
     'name' => 'moveTrackerByOne',
-    'descriptionmyturn' => clienttranslate('You must move your tracker ${type} by one'),
+    'descriptionmyturn' => clienttranslate('${you} must move your tracker ${type} by one'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
@@ -245,7 +245,7 @@ $machinestates = [
 
   ST_TAKE_CIV_CARD => [
     'name' => TAKE_CIV_CARD,
-    'descriptionmyturn' => clienttranslate('You must take a civ card from the deck {level}'),
+    'descriptionmyturn' => clienttranslate('${you} must take a civ card from the deck ${level}'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
@@ -254,7 +254,7 @@ $machinestates = [
 
   ST_CHOOSE_TRACKS => [
     'name' => 'chooseTracks',
-    'descriptionmyturn' => clienttranslate('You must choose which track to move thanks to energy'),
+    'descriptionmyturn' => clienttranslate('${you} must choose which track to move thanks to ${from}'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
@@ -268,6 +268,15 @@ $machinestates = [
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
     'possibleactions' => ['actPlaceRover', 'actRestart'],
+  ],
+
+  ST_MOVE_ROVER => [
+    'name' => 'moveRover',
+    'descriptionmyturn' => clienttranslate('${you} must move your Rover(s) (${remaining} move(s) remaining)'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actMoveRover', 'actRestart'],
   ],
 
   ST_FOO_A => [

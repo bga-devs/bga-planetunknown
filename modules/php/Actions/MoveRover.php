@@ -14,58 +14,47 @@ use PU\Managers\Susan;
 use PU\Models\Meeple;
 use PU\Models\Planet;
 
-class PlaceRover extends \PU\Models\Action
+class MoveRover extends \PU\Models\Action
 {
   public function getState()
   {
-    return \ST_PLACE_ROVER;
+    return \ST_MOVE_ROVER;
   }
 
   public function isDoable($player)
   {
-    return $player->getAvailableRover() != null && $this->getPossibleSpaceIds($player);
+    return $player->hasRoverOnPlanet() && $this->getPossibleSpaceIds($player);
   }
 
   public function getPossibleSpaceIds($player)
   {
-    $lastTile = Tiles::getAll()
-      ->where('id', $player->getLastTileId())
-      ->first();
-
-    //exclude spaceIds where there is already a Rover
-    $possibleCells = array_filter(
-      $player->planet()->getTileCoveredCells($lastTile, false),
-      fn ($cell) => !$player
-        ->planet()
-        ->getMeepleOnCell($cell, ROVER)
-        ->count()
-    );
-
-    return array_map(fn ($cell) => Planet::getCellId($cell), $possibleCells);
+    return $player->getPossibleMovesByRover();
   }
 
-  public function argsPlaceRover()
+  public function argsMoveRover()
   {
     $player = $this->getPlayer();
 
     return [
+      'player' => $player,
       'spaceIds' => $this->getPossibleSpaceIds($player),
+      'remaining' => $this->getCtxArg('remaining')
     ];
   }
 
-  public function actPlaceRover($spaceId)
+  public function actMoveRover($roverId, $spaceId)
   {
     $player = $this->getPlayer();
-    $args = $this->argsPlaceRover();
-    if (!in_array($spaceId, $args['spaceIds'])) {
-      throw new \BgaVisibleSystemException('You cannot place your Rover here. Should not happen');
+    $args = $this->argsMoveRover();
+    if (!in_array($spaceId, $args['spaceIds'][$roverId])) {
+      throw new \BgaVisibleSystemException('You cannot move your Rover here. Should not happen');
     }
 
     $cell = Planet::getCellFromId($spaceId);
 
-    $rover = $player->getAvailableRover();
+    $rover = Meeples::get($roverId);
 
-    // Place it on the board
+    // Move it on the board
     $rover->placeOnPlanet($cell);
 
     Notifications::placeRover($player, $rover);

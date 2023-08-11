@@ -73,8 +73,13 @@ class Player extends \PU\Helpers\DB_Model
 
   public function takeCivCard($card)
   {
-    $card->setLocation('board');
     $card->setState($this->id);
+    if ($card->effectType == IMMEDIATE) {
+      $card->setLocation('table');
+      $card->effect();
+    } else {
+      $card->setLocation('hand');
+    }
   }
 
   public function getMeeples($type)
@@ -90,11 +95,44 @@ class Player extends \PU\Helpers\DB_Model
       ->first();
   }
 
+  public function getRoverOnCell($cell)
+  {
+    return static::getMeeples(ROVER_MEEPLE)
+      ->where('x', $cell['x'])
+      ->where('y', $cell['y'])
+      ->first();
+  }
+
   public function getAvailableRover()
   {
     return $this->getMeeples(ROVER_MEEPLE)
-      ->where('location', 'board')
+      ->where('location', 'corporation')
       ->first();
+  }
+
+  public function hasRoverOnPlanet()
+  {
+    return count($this->getRoversOnPlanet()) > 0;
+  }
+
+  public function getRoversOnPlanet()
+  {
+    return $this->getMeeples(ROVER_MEEPLE)
+      ->where('location', 'planet');
+  }
+
+  public function getPossibleMovesByRover()
+  {
+    $rovers = $this->getRoversOnPlanet();
+
+    $spaceIds = [];
+
+    foreach ($rovers as $roverId => $rover) {
+      $neighbours = $this->planet()->getPossibleMovesFrom(['x' => $rover->getX(), 'y' => $rover->getY()]);
+      $spaceIds[$roverId] = array_map(fn ($cell) => Planet::getCellId($cell), $neighbours);
+    }
+
+    return $spaceIds;
   }
 
   public function getTracker($type)
@@ -107,7 +145,7 @@ class Player extends \PU\Helpers\DB_Model
     $data = parent::getUiData();
     $current = $this->id == $currentPlayerId;
     $data['POCards'] = $current ? Cards::getInLocation('hand', $this->id) : Cards::countInLocation('hand', $this->id);
-    $data['civCard'] = Cards::getInLocation('board', $this->id);
+    $data['civCard'] = Cards::getInLocation('table', $this->id);
     [$detail, $score] = $this->score($current);
     $data['scores'] = [
       $this->id => [

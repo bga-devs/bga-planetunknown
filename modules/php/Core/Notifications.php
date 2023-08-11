@@ -77,8 +77,8 @@ class Notifications
   {
     $message =
       $player == null
-        ? clienttranslate('S.U.S.A.N. rotates.')
-        : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
+      ? clienttranslate('S.U.S.A.N. rotates.')
+      : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
     $data = [
       'player' => $player,
       'newRotation' => $rotation,
@@ -145,7 +145,7 @@ class Notifications
         break;
       case CIV:
       case TECH:
-        $message = clienttranslate('${player_name} reaches a new milestone in ${type} track');
+        $message = clienttranslate('${player_name} reaches level ${value} on the ${type} track');
         break;
       case BIOMASS:
         $message = clienttranslate('${player_name} receive a new biomass patch');
@@ -158,6 +158,7 @@ class Notifications
     }
     $data = [
       'player' => $player,
+      'type' => $type,
       'value' => $arg,
     ];
     static::pnotify($player, 'milestone', $message, $data);

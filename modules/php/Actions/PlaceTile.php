@@ -113,6 +113,7 @@ class PlaceTile extends \PU\Models\Action
             'types' => $types,
             'n' => 1,
             'energy' => true,
+            'from' => ENERGY
           ],
         ]);
         continue;

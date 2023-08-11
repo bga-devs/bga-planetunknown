@@ -538,13 +538,13 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       }
 
       let o = this.place('tplTile', tile, container);
-      if (tile.location == 'board') {
+      if (tile.location == 'planet') {
         this.placeTile(`tile-${tile.id}`, tile.x, tile.y);
       }
     },
 
     getTileContainer(tile) {
-      if (tile.location == 'board') {
+      if (tile.location == 'planet') {
         return $(`planet-${tile.pId}`).querySelector('.planet-grid');
       } else if ($(tile.location)) {
         return $(tile.location);
@@ -580,7 +580,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       ['state', 'rotation', 'flipped'].forEach((key) => {
         o.dataset[key] = tile[key];
       });
-      if (tile.location == 'board') {
+      if (tile.location == 'planet') {
         this.placeTile(o, tile.x, tile.y);
       }
     },

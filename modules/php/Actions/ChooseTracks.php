@@ -29,6 +29,11 @@ class ChooseTracks extends \PU\Models\Action
     return $this->getCtxArg('n');
   }
 
+  public function getFrom()
+  {
+    return $this->getCtxArg('from');
+  }
+
   public function getDescription()
   {
     $types = $this->getTypes();
@@ -59,6 +64,7 @@ class ChooseTracks extends \PU\Models\Action
 
     return [
       'types' => $this->getTypes(),
+      'from' => $this->getFrom()
     ];
   }
 

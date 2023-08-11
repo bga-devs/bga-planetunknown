@@ -24,7 +24,7 @@ class  Tiles extends \PU\Helpers\CachedPieces
   }
   public static function getUiData()
   {
-    $tiles = self::getInLocation('board');
+    $tiles = self::getInLocation('planet');
     for ($j = 0; $j < 6; $j++) {
       $tile = self::getTopOf("top-interior-$j")->first();
       if (!is_null($tile)) {

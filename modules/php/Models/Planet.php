@@ -154,7 +154,7 @@ class Planet
   public function addTile($tileId, $pos, $rotation, $flipped)
   {
     $tile = Tiles::getSingle($tileId);
-    $tile->setLocation('board');
+    $tile->setLocation('planet');
     $tile->setX($pos['x']);
     $tile->setY($pos['y']);
     $tile->setRotation($rotation);
@@ -617,6 +617,14 @@ class Planet
       }
     }
     return $cells;
+  }
+
+  //to be overriden 
+  public function getPossibleMovesFrom($cell)
+  {
+    $cells = $this->getNeighbours($cell);
+    //can't move on a rover
+    return array_filter($cells, fn ($c) => !$this->player->getRoverOnCell($c));
   }
 
   protected function isIntersectionNonEmpty($cells1, $cells2)

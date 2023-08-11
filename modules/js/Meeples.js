@@ -74,11 +74,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         return $(`corporation-${meeple.pId}-${meeple.x}-${meeple.y}`);
       }
       // Rover in reserve
-      if (meeple.type == 'rover-meeple' && meeple.location == 'board') {
+      if (meeple.type == 'rover-meeple' && meeple.location == 'corporation') {
         return $(`rover-reserve-${meeple.pId}`);
       }
       // Meteor in reserve
-      if (meeple.type == 'meteor' && meeple.location == 'board') {
+      if (meeple.type == 'meteor' && meeple.location == 'corporation') {
         return $(`meteor-reserve-${meeple.pId}`);
       }
 

@@ -71,6 +71,7 @@ const ST_CHOOSE_TRACKS = 25;
 const ST_PLACE_ROVER = 26;
 const ST_MOVE_TRACKER_BY_ONE = 27;
 const ST_TAKE_CIV_CARD = 28;
+const ST_MOVE_ROVER = 29;
 
 const ST_FOO_A = 34;
 const ST_FOO_B = 35;
@@ -111,6 +112,7 @@ const CHOOSE_TRACKS = 'ChooseTracks'; //choose which track to move between what 
 const PLACE_ROVER = 'PlaceRover';
 const MOVE_TRACKER_BY_ONE = 'MoveTrackerByOne';
 const TAKE_CIV_CARD = "TakeCivCard";
+const MOVE_ROVER = 'MoveRover';
 
 const FOO_A = 'FooA';
 const FOO_B = 'FooB';
@@ -129,7 +131,7 @@ const BIOMASS = 'biomass';
 const ALL_TYPES = [CIV, WATER, BIOMASS, ROVER, TECH];
 
 const MEDAL = 'medal';
-const SYNERGY = 'synergy';
+const SYNERGY = 'Synergy';
 const SYNERGY_CIV = 'synergy_civ';
 const SYNERGY_ROVER = 'synergy_rover';
 const SYNERGY_TECH = 'synergy_tech';
