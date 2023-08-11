@@ -1,4 +1,5 @@
 #popin_showSettings,
+#popin_showSusan,
 #popin_showScoreboard {
     background-color: #ebd5bd;
     border-radius: 8px;
@@ -45,4 +46,19 @@
 }
 
 #popin_showScoreboard {
+}
+
+#popin_showSusan {
+    width: 620px;
+
+    #susan-enlarge {
+        width: 630px;
+        height: 630px;
+        padding: 20px 5px;
+
+        #susan-container {
+            transform: scale(1.8);
+            transform-origin: top left;
+        }
+    }
 }
