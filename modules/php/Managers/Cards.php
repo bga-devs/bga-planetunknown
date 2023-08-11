@@ -31,7 +31,7 @@ class Cards extends \PU\Helpers\CachedPieces
   public static function getUiData()
   {
     return [
-      'NOCards' => static::getInLocation('table'),
+      'visibleCards' => static::getInLocation('table'), //can be NOCards, IMMEDIATE civCards
       'deck_civ_1' => static::countInLocation('deck_civ_1'),
       'deck_civ_2' => static::countInLocation('deck_civ_2'),
       'deck_civ_3' => static::countInLocation('deck_civ_3'),

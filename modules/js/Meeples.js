@@ -69,10 +69,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       if (meeple.location == 'planet') {
         return this.getPlanetCell(meeple.pId, meeple.x, meeple.y);
       }
-      // Things on tracks
-      if (meeple.location == 'corporation') {
-        return $(`corporation-${meeple.pId}-${meeple.x}-${meeple.y}`);
-      }
       // Rover in reserve
       if (meeple.type == 'rover-meeple' && meeple.location == 'corporation') {
         return $(`rover-reserve-${meeple.pId}`);
@@ -80,6 +76,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       // Meteor in reserve
       if (meeple.type == 'meteor' && meeple.location == 'corporation') {
         return $(`meteor-reserve-${meeple.pId}`);
+      }
+      // Things on tracks
+      if (meeple.location == 'corporation') {
+        return $(`corporation-${meeple.pId}-${meeple.x}-${meeple.y}`);
       }
 
       console.error('Trying to get container of a meeple', meeple);
