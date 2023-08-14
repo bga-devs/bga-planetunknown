@@ -1396,7 +1396,8 @@
       border-bottom: none;
       padding-bottom: 0px; }
     #player_config .player_config_row#susan-holder {
-      height: 355px; }
+      height: 355px;
+      cursor: zoom-in; }
   #player_config #help-mode-switch .checkbox {
     display: none; }
   #player_config #help-mode-switch .label {

@@ -39,6 +39,8 @@ define([
         ['placeTile', null],
         ['moveTrack', null],
         ['slideMeeple', null],
+        ['newRotation', 1200],
+        ['endOfTurn', 100],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -901,6 +903,20 @@ define([
 
     updateLayout() {
       if (!this.settings) return;
+    },
+
+    notif_newRotation(n) {
+      debug('Notif: SUSAN is rotating', n);
+      this.gamedatas.susan.rotation = n.args.newRotation;
+      this.rotateSusan();
+    },
+
+    notif_endOfTurn(n) {
+      debug('Notif: end of turn, refilling SUSAN', n);
+      n.args.tiles.forEach((tile) => {
+        let o = $(`tile-${tile.id}`);
+        if (!o) this.addTile(tile);
+      });
     },
 
     ///////////////////////////////////////////////////////////
