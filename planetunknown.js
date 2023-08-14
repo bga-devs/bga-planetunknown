@@ -701,7 +701,7 @@ define([
 
     onEnteringStateChooseTracks(args) {
       args.types.forEach((type) => {
-        this.addPrimaryActionButton('btn' + type, this.fsr('${type}', { type, type_name: type }), () =>
+        this.addSecondaryActionButton('btn' + type, this.fsr('${type}', { type, type_name: type }), () =>
           this.takeAtomicAction('actChooseTracks', [[type]])
         );
       });
@@ -720,13 +720,46 @@ define([
           selected = spaceId;
           selectedCell = oCell;
           oCell.classList.add('selected');
-          this.addPrimaryActionButton('btnConfirm', _('Confirm'), () => this.takeAtomicAction('actPlaceRover', [spaceId]));
+          this.addPrimaryActionButton('btnConfirm', _('Confirm'), () => this.takeAtomicAction('actPlaceRover', [selected]));
         });
       });
     },
 
-    onEnteringStateFooA(args) {
-      this.addPrimaryActionButton('actionA', 'Done A', () => this.takeAtomicAction('actFooA', []));
+    onEnteringStateMoveRover(args) {
+      let selectedRover = null;
+      let selectRover = (roverId) => {
+        if (selectedRover) $(`meeple-${selectedRover}`).classList.remove('selected');
+        selectedRover = roverId;
+        $(`meeple-${selectedRover}`).classList.add('selected');
+
+        [...$(`planet-${this.player_id}`).querySelectorAll('.planet-grid-cell.selectable')].forEach((elt) => {
+          elt.classList.add('unselectable');
+          elt.classList.remove('selected');
+        });
+        args.spaceIds[roverId].forEach((spaceId) => {
+          let t = spaceId.split('_');
+          let oCell = this.getPlanetCell(this.player_id, t[0], t[1]);
+          if (!oCell.classList.contains('selectable')) this.onClick(oCell, () => selectSpace(spaceId, oCell));
+          oCell.classList.remove('unselectable');
+        });
+      };
+
+      Object.keys(args.spaceIds).forEach((roverId) => {
+        this.onClick(`meeple-${roverId}`, () => selectRover(roverId));
+      });
+
+      let selectedSpace = null;
+      let selectedCell = null;
+      let selectSpace = (spaceId, cell) => {
+        if (selectedSpace) selectedCell.classList.remove('selected');
+
+        selectedSpace = spaceId;
+        selectedCell = cell;
+        cell.classList.add('selected');
+        this.addPrimaryActionButton('btnConfirm', _('Confirm'), () =>
+          this.takeAtomicAction('actMoveRover', [selectedRover, selectedSpace])
+        );
+      };
     },
 
     ////////////////////////////////////////////////////////////

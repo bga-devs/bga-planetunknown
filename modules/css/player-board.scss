@@ -42,10 +42,8 @@ $planetGridHeight: 12 * $cellHeight;
                 grid-template-rows: repeat(13, 71px);
 
                 .planet-grid-cell {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
                     z-index: 2;
+                    position: relative;
 
                     &.selectable {
                         border: 2px dashed white;
@@ -61,6 +59,20 @@ $planetGridHeight: 12 * $cellHeight;
                     &.selected:hover {
                         border: 2px solid #0f5308;
                         background: #7dfc83a1;
+                    }
+
+                    .planetunknown-meeple {
+                        position: absolute;
+
+                        &.icon-rover-meeple {
+                            top: 17px;
+                            left: 5px;
+                        }
+
+                        &.icon-lifepod {
+                            top: 4px;
+                            left: 14px;
+                        }
                     }
                 }
             }

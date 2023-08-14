@@ -12,6 +12,11 @@ use PU\Helpers\Log;
 
 trait EngineTrait
 {
+  function stInitPrivateEngine()
+  {
+    return true; // AVOID SENDING CHANGE OF STATE
+  }
+
   function addCommonArgs($pId, &$args)
   {
     $args['previousEngineChoices'] = PGlobals::getEngineChoices($pId);
@@ -23,8 +28,8 @@ trait EngineTrait
    */
   function getCurrentAtomicAction($pId)
   {
-    $stateId = PGlobals::getState($pId);
-    return Actions::getActionOfState($stateId);
+    $node = Engine::getNextUnresolved($pId);
+    return $node->getAction();
   }
 
   /**
@@ -32,11 +37,6 @@ trait EngineTrait
    */
   function argsAtomicAction($pId)
   {
-    $cId = Players::getCurrentId(true) ?? $pId;
-    if ($cId != $pId) {
-      return [];
-    }
-
     $player = Players::get($pId);
     $action = $this->getCurrentAtomicAction($pId);
     $node = Engine::getNextUnresolved($pId);

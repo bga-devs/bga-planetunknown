@@ -362,6 +362,14 @@
   .planetunknown-meeple.icon-rover-meeple {
     width: 4em;
     height: 2.3257em; }
+    .planetunknown-meeple.icon-rover-meeple.selectable {
+      cursor: pointer; }
+    .planetunknown-meeple.icon-rover-meeple.selected {
+      background-color: #7bf27b;
+      border-top-right-radius: 16px;
+      border: 3px solid #1f8a1f;
+      margin-top: -3px;
+      margin-left: -3px; }
   .planetunknown-meeple.icon-tracker-civ, .planetunknown-meeple.icon-tracker-water, .planetunknown-meeple.icon-tracker-biomass, .planetunknown-meeple.icon-tracker-rover, .planetunknown-meeple.icon-tracker-tech {
     width: 2.4em;
     height: 2.4em;
@@ -610,10 +618,8 @@
         grid-template-columns: repeat(13, 71px);
         grid-template-rows: repeat(13, 71px); }
         .pu-player-board-resizable .pu-player-board-planet .planet .planet-grid .planet-grid-cell {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          z-index: 2; }
+          z-index: 2;
+          position: relative; }
           .pu-player-board-resizable .pu-player-board-planet .planet .planet-grid .planet-grid-cell.selectable {
             border: 2px dashed white;
             background: #f7b1b190;
@@ -624,6 +630,14 @@
           .pu-player-board-resizable .pu-player-board-planet .planet .planet-grid .planet-grid-cell.selected, .pu-player-board-resizable .pu-player-board-planet .planet .planet-grid .planet-grid-cell.selected:hover {
             border: 2px solid #0f5308;
             background: #7dfc83a1; }
+          .pu-player-board-resizable .pu-player-board-planet .planet .planet-grid .planet-grid-cell .planetunknown-meeple {
+            position: absolute; }
+            .pu-player-board-resizable .pu-player-board-planet .planet .planet-grid .planet-grid-cell .planetunknown-meeple.icon-rover-meeple {
+              top: 17px;
+              left: 5px; }
+            .pu-player-board-resizable .pu-player-board-planet .planet .planet-grid .planet-grid-cell .planetunknown-meeple.icon-lifepod {
+              top: 4px;
+              left: 14px; }
   .pu-player-board-resizable .pu-player-board-corporation {
     width: 510px;
     height: 1000px;

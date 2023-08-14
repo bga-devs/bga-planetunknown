@@ -17,13 +17,9 @@ class PGlobals extends \PU\Helpers\DB_Manager
     'state' => 'obj', // DO NOT MODIFY, USED IN ENGINE MODULE
     'engine' => 'obj', // DO NOT MODIFY, USED IN ENGINE MODULE
     'engineChoices' => 'int', // DO NOT MODIFY, USED IN ENGINE MODULE
-    'callbackEngineResolved' => 'obj', // DO NOT MODIFY, USED IN ENGINE MODULE
-
-    'anytimeRecursion' => 'int', // DO NOT MODIFY, USED IN ENGINE MODULE
-    'customTurnOrders' => 'obj', // DO NOT MODIFY, USED FOR CUSTOM TURN ORDER FEATURE
 
     'pendingActionsEndOfTurn' => 'obj',
-    'pendingActionsEndOfGame' => 'obj'
+    'pendingActionsEndOfGame' => 'obj',
   ];
 
   protected static $table = 'pglobal_variables';
@@ -45,10 +41,12 @@ class PGlobals extends \PU\Helpers\DB_Manager
     $tmp = self::$log;
     self::$log = false;
 
-    foreach (self::DB()
-      ->select(['value', 'name'])
-      ->get(false)
-      as $uid => $variable) {
+    foreach (
+      self::DB()
+        ->select(['value', 'name'])
+        ->get(false)
+      as $uid => $variable
+    ) {
       list($name, $pId) = explode('-', $uid);
 
       if (\array_key_exists($name, self::$variables)) {
@@ -148,9 +146,7 @@ class PGlobals extends \PU\Helpers\DB_Manager
         }
 
         self::$datas[$pId][$name] = $value;
-        // if (Globals::getMode() == MODE_APPLY || $name == 'engine') {
         self::DB()->update(['value' => \addslashes(\json_encode($value))], $name . '-' . $pId);
-        // }
         return $value;
       } elseif ($match[1] == 'inc') {
         if (self::$variables[$name] != 'int') {
