@@ -23,7 +23,7 @@ class CivCard4 extends \PU\Models\Cards\CivCard
 
   //move_4
   public function effect(){
-
+    return //TODO
   }
 
   public function score(){

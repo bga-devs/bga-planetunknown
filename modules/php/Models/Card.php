@@ -3,6 +3,7 @@
 namespace PU\Models;
 
 use PU\Managers\Cards;
+use PU\Managers\Players;
 
 /*
  * Card
@@ -21,4 +22,9 @@ class Card extends \PU\Helpers\DB_Model
     'extra_datas' => ['extra_datas', 'obj'],
     'pId' => 'player_id',
   ];
+
+  public function getPlayer()
+  {
+    return Players::get($this->pId);
+  }
 }
