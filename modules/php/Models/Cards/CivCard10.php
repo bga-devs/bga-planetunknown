@@ -22,12 +22,13 @@ class CivCard10 extends \PU\Models\Cards\CivCard
   }
 
   //synergy_3
-  public function effect(){
-
+  public function effect()
+  {
+    return $this->synergy(3, 1);
   }
 
-  public function score(){
+  public function score()
+  {
     return 0;
   }
-
 }

@@ -3,6 +3,7 @@
 namespace PU\Models\Cards;
 
 use PU\Managers\Cards;
+use PU\Managers\Meeples;
 
 /*
  * Card
@@ -22,12 +23,17 @@ class CivCard28 extends \PU\Models\Cards\CivCard
   }
 
   //2perLifepod
-  public function effect(){
-
+  public function effect()
+  {
   }
 
-  public function score(){
-    return 0;
+  public function score()
+  {
+    //TODO CHECK if it works if it's an acceptable way to count
+    return Meeples::getAll()
+      ->where('pId', $this->getState())
+      ->where('type', LIFEPOD)
+      ->where('location', 'corporation')
+      ->count();
   }
-
 }

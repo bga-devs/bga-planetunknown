@@ -98,7 +98,8 @@ class Cards extends \PU\Helpers\CachedPieces
       //4 cards in solo game, only 2 in multiplayer game
       $nbCards = count($players) == 1 ? 4 : 2;
       foreach ($players as $pId => $player) {
-        static::pickForLocation($nbCards, 'deck_objectives', 'hand', $pId);
+        $POCards = static::pickForLocation($nbCards, 'deck_objectives', 'hand', $pId);
+        //TODO setPId ??
       }
     }
 

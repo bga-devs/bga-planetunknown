@@ -14,6 +14,8 @@ class CivCard extends \PU\Models\Card
   protected $effectType = ''; //IMMEDIATE OR END_GAME
   protected $type = 'civCard';
   protected $level = ''; //1,2,3 or 4
+  protected $meteorRepo = false;
+  protected $commerceAgreement = false;
 
   //{ACTION}
   public function effect()
@@ -24,7 +26,8 @@ class CivCard extends \PU\Models\Card
   {
   }
 
-  public function synergy($toChoose, $nMove, $types = ALL_TYPES){
+  public function synergy($toChoose, $nMove, $types = ALL_TYPES)
+  {
     $player = $this->getPlayer();
     return [
       'action' => CHOOSE_TRACKS,
@@ -37,17 +40,34 @@ class CivCard extends \PU\Models\Card
     ];
   }
 
-  public function gainBiomass()
+  public function gainBiomass($n = 1)
   {
     $player = $this->getPlayer();
-    $patchToPlace = $player->corporation()->receiveBiomassPatch();
-          if ($patchToPlace) {
-            return [
-              'action' => PLACE_TILE,
-              'args' => [
-                'forcedTiles' => [$patchToPlace->getId()]
-              ]
-            ];
-          }
+    $childs = [];
+    for ($i = 0; $i < $n; $i++) {
+      $patchToPlace = $player->corporation()->receiveBiomassPatch();
+      if ($patchToPlace) {
+        $childs[] = [
+          'action' => PLACE_TILE,
+          'args' => [
+            'forcedTiles' => [$patchToPlace->getId()]
+          ]
+        ];
+      }
+    }
+    return [
+      'type' => NODE_PARALLEL,
+      'childs' => $childs
+    ];
+  }
+
+  public function freePlaceTile()
+  {
+    return [
+      'action' => PLACE_TILE,
+      'args' => [
+        'withBonus' => false
+      ]
+    ];
   }
 }

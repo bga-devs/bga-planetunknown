@@ -103,8 +103,8 @@ class Notifications
   {
     $message =
       $player == null
-        ? clienttranslate('S.U.S.A.N. rotates.')
-        : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
+      ? clienttranslate('S.U.S.A.N. rotates.')
+      : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
     $data = [
       'player' => $player,
       'newRotation' => $rotation,
@@ -152,12 +152,12 @@ class Notifications
     );
   }
 
-  public static function takeCivCard($player, $card, $level)
+  public static function takeCivCard($player, $cardId, $level)
   {
     $msg = clienttranslate('${player_name} take a new civ card from deck ${level}');
     $data = [
       'player' => $player,
-      'card' => $card,
+      'card' => $cardId,
       'level' => $level,
     ];
     static::pnotify($player, 'takeCivCard', $msg, $data);

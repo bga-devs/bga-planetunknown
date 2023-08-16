@@ -13,6 +13,7 @@ class CivCard35 extends \PU\Models\Cards\CivCard
   protected $effectType = END_GAME;
   protected $type = 'civCard';
   protected $level = 3;
+  protected $commerceAgreement = true;
 
   public function __construct($player)
   {
@@ -22,12 +23,12 @@ class CivCard35 extends \PU\Models\Cards\CivCard
   }
 
   //commerceAgreement
-  public function effect(){
-
+  public function effect()
+  {
   }
 
-  public function score(){
+  public function score()
+  {
     return 0;
   }
-
 }

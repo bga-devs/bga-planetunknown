@@ -74,11 +74,13 @@ class Player extends \PU\Helpers\DB_Model
   public function takeCivCard($card)
   {
     $card->setState($this->id);
+    $flow = $card->effect()
     if ($card->effectType == IMMEDIATE) {
       $card->setLocation('table');
-      $card->effect();
+      return $flow;
     } else {
       $card->setLocation('hand');
+      $this->addEndOfGameAction($flow);
     }
   }
 
@@ -218,6 +220,8 @@ class Player extends \PU\Helpers\DB_Model
 
   public function addEndOfGameAction($flow)
   {
+    if (!$flow) return; //useless to register a null flow
+
     $actions = PGlobals::getPendingActionsEndOfGame($this->id);
     $actions[] = $flow;
     PGlobals::setPendingActionsEndOfGame($this->id, $actions);

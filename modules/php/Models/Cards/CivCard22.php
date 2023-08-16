@@ -3,6 +3,7 @@
 namespace PU\Models\Cards;
 
 use PU\Managers\Cards;
+use PU\Managers\Tiles;
 
 /*
  * Card
@@ -21,13 +22,15 @@ class CivCard22 extends \PU\Models\Cards\CivCard
     parent::__construct($player);
   }
 
-  //1perBiomass
-  public function effect(){
-
+  public function effect()
+  {
   }
 
-  public function score(){
-    return 0;
+  public function score()
+  {
+    return Tiles::getAll()
+      ->where('pId', $this->getState())
+      ->where('type', BIOMASS_PATCH)
+      ->count();
   }
-
 }

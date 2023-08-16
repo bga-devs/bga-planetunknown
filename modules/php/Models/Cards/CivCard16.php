@@ -22,12 +22,13 @@ class CivCard16 extends \PU\Models\Cards\CivCard
   }
 
   //free_tile
-  public function effect(){
-
+  public function effect()
+  {
+    return $this->freePlaceTile();
   }
 
-  public function score(){
+  public function score()
+  {
     return 0;
   }
-
 }

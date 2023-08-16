@@ -22,12 +22,13 @@ class CivCard26 extends \PU\Models\Cards\CivCard
   }
 
   //biomass_3
-  public function effect(){
-
+  public function effect()
+  {
+    return $this->gainBiomass(3);
   }
 
-  public function score(){
+  public function score()
+  {
     return 0;
   }
-
 }

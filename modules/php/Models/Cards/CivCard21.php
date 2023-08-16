@@ -22,12 +22,13 @@ class CivCard21 extends \PU\Models\Cards\CivCard
   }
 
   //synergy_max5
-  public function effect(){
-
+  public function effect()
+  {
+    //TODO
   }
 
-  public function score(){
+  public function score()
+  {
     return 0;
   }
-
 }

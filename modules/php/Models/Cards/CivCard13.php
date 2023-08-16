@@ -22,12 +22,13 @@ class CivCard13 extends \PU\Models\Cards\CivCard
   }
 
   //collectLifepod_2
-  public function effect(){
-
+  public function effect()
+  {
+    //TODO
   }
 
-  public function score(){
+  public function score()
+  {
     return 0;
   }
-
 }

@@ -56,15 +56,16 @@ class TakeCivCard extends \PU\Models\Action
       throw new \BgaVisibleSystemException("You cannot take this card ($cardId) from this deck. Should not happen");
     }
 
-    $card = $args['cards'][$cardId];
+    $cardId = $args['cards'][$cardId];
+    $card = Cards::get($cardId);
 
-    // Place it on the player board
+    // Place it on the player board or hand
     $flow = $player->takeCivCard($card);
 
-    if ($flow){
+    if ($flow) {
       $this->insertAsChild($flow);
     }
 
-    Notifications::takeCivCard($player, $card, $args['level']);
+    Notifications::takeCivCard($player, $cardId, $args['level']);
   }
 }

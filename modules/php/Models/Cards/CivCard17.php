@@ -22,12 +22,13 @@ class CivCard17 extends \PU\Models\Cards\CivCard
   }
 
   //destroyMeteors_row
-  public function effect(){
-
+  public function effect()
+  {
+    //TODO
   }
 
-  public function score(){
+  public function score()
+  {
     return 0;
   }
-
 }

@@ -22,12 +22,25 @@ class CivCard4 extends \PU\Models\Cards\CivCard
   }
 
   //move_4
-  public function effect(){
-    return //TODO
+  public function effect()
+  {
+    $childs = [];
+    for ($i = 4; $i >= 1; $i--) {
+      $childs[] = [
+        'action' => MOVE_ROVER,
+        'args' => [
+          'remaining' => $i
+        ]
+      ];
+    }
+    return [
+      'type' => NODE_SEQ,
+      'childs' => $childs,
+    ];
   }
 
-  public function score(){
+  public function score()
+  {
     return 0;
   }
-
 }

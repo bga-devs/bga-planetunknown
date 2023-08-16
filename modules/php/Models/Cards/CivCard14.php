@@ -22,12 +22,13 @@ class CivCard14 extends \PU\Models\Cards\CivCard
   }
 
   //move_x
-  public function effect(){
-
+  public function effect()
+  {
+    //TODO
   }
 
-  public function score(){
+  public function score()
+  {
     return 0;
   }
-
 }

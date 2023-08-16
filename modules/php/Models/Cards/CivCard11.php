@@ -17,17 +17,18 @@ class CivCard11 extends \PU\Models\Cards\CivCard
   public function __construct($player)
   {
     $this->title = clienttranslate('Wage Increase');
-    $this->desc = clienttranslate('Advance any two differnt trackers once each.');
+    $this->desc = clienttranslate('Advance any two different trackers once each.');
     parent::__construct($player);
   }
 
   //synergy_2
-  public function effect(){
-
+  public function effect()
+  {
+    return $this->synergy(2, 1);
   }
 
-  public function score(){
+  public function score()
+  {
     return 0;
   }
-
 }
