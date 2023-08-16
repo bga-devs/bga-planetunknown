@@ -36,8 +36,7 @@ class TakeCivCard extends \PU\Models\Action
   public function getPossibleCards()
   {
     return Cards::getAll()
-      ->where('location', 'deck_civ_' . $this->getLevel())
-      ->get();
+      ->where('location', 'deck_civ_' . $this->getLevel());
   }
 
   public function argsTakeCivCard()

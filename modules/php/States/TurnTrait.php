@@ -85,7 +85,7 @@ trait TurnTrait
   }
 
   /**
-   * End of turn : replenish and check break
+   * End of turn : replenish and check break 
    */
   function stEndOfTurn()
   {
@@ -93,6 +93,6 @@ trait TurnTrait
 
     Notifications::endOfTurn();
 
-    $this->gamestate->jumpToState(ST_CHOOSE_ROTATION);
+    $this->gamestate->jumpToState(ST_PRE_CHOOSE_CIV_CARD);
   }
 }

@@ -109,6 +109,36 @@ $machinestates = [
     ],
   ],
 
+  ST_PRE_CHOOSE_CIV_CARD => [
+    'name' => 'preChooseCivCard',
+    'description' => '',
+    'type' => GAME,
+    'action' => 'stPreChooseCivCard',
+    'transitions' => [
+      '' => ST_TAKE_CIV_CARD,
+    ],
+  ],
+
+  ST_CHOOSE_CIV_CARD => [
+    'name' => 'chooseCivCard',
+    'description' => '',
+    'type' => GAME,
+    'action' => 'chooseCivCard',
+    'transitions' => [
+      '' => ST_POST_CHOOSE_CIV_CARD,
+    ],
+  ],
+
+  ST_POST_CHOOSE_CIV_CARD => [
+    'name' => 'postChooseCivCard',
+    'description' => '',
+    'type' => GAME,
+    'action' => 'stPostChooseCivCard', //remove pendings endofturn actions
+    'transitions' => [
+      '' => ST_CHOOSE_ROTATION,
+    ],
+  ],
+
   //////////////////////////////
   //  _____
   // |_   _|   _ _ __ _ __

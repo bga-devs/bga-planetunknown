@@ -54,17 +54,23 @@ const ACTIVE_PLAYER = 'activeplayer';
 const ST_GAME_SETUP = 1;
 const ST_SETUP_BRANCH = 2;
 
+//setup
 const ST_CHOOSE_SETUP = 3;
 const ST_CONFIRM_SETUP = 4;
 const ST_SECOND_SETUP = 5;
+
 const ST_EVENT_CARD = 10;
 const ST_PLAY_AFTER_EVENT_CARD = 12;
+const ST_PRE_CHOOSE_CIV_CARD = 13;
+const ST_CHOOSE_CIV_CARD = 14;
+const ST_POST_CHOOSE_CIV_CARD = 15;
 
 const ST_NEXT_PLAYER = 19;
 
 const ST_CHOOSE_ROTATION = 21;
 const ST_START_PARALLEL = 22;
 
+//atomic actions
 const ST_PLACE_TILE = 23;
 const ST_MOVE_TRACK = 24;
 const ST_CHOOSE_TRACKS = 25;

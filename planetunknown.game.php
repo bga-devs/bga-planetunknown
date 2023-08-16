@@ -53,6 +53,7 @@ class planetunknown extends Table
   use PU\States\TurnTrait;
   use PU\States\ChooseSetupTrait;
   use PU\States\ChooseRotationTrait;
+  use PU\States\CivTrait;
 
   public static $instance = null;
   function __construct()
