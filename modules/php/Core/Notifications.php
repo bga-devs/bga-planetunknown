@@ -14,24 +14,19 @@ class Notifications
 {
   public static function addCivCards()
   {
-    static::notifyAll(
-      'newCards',
-      clienttranslate('A new civ card is added to each deck'),
-      [
-        'deck_civ_1' => Cards::countInLocation('deck_civ_1'),
-        'deck_civ_2' => Cards::countInLocation('deck_civ_2'),
-        'deck_civ_3' => Cards::countInLocation('deck_civ_3'),
-        'deck_civ_4' => Cards::countInLocation('deck_civ_4'),
-      ]
-    );
+    $datas = [];
+    for ($i = 1; $i <= 4; $i++) {
+      $data["deck_civ_$i"] = Cards::countInLocation("deck_civ_$i");
+    }
+    static::notifyAll('newCards', clienttranslate('A new civ card is added to each deck'), $data);
   }
 
   public static function getNewCard($player, $card)
   {
     static::notify($player, 'newCards', clienttranslate('${player_name} receive a new private objective card'), [
       'player' => $player,
-      'card' => $card
-    ])
+      'card' => $card,
+    ]);
   }
 
   public static function chooseSetup($player, $planetId, $corporationId, $rejectedCardId)
@@ -72,7 +67,7 @@ class Notifications
   public static function endOfTurn()
   {
     $data = [
-      'tiles' => Tiles::getUiData(),
+      'tiles' => Tiles::getSusan()->toArray(),
     ];
     static::notifyAll('endOfTurn', '', $data);
   }
@@ -99,7 +94,7 @@ class Notifications
   {
     $message = clienttranslate('A new event card is revealed');
     $data = [
-      'event_card' => $card
+      'event_card' => $card,
     ];
     static::notifyAll('eventCard', $message, $data);
   }
@@ -108,8 +103,8 @@ class Notifications
   {
     $message =
       $player == null
-      ? clienttranslate('S.U.S.A.N. rotates.')
-      : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
+        ? clienttranslate('S.U.S.A.N. rotates.')
+        : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
     $data = [
       'player' => $player,
       'newRotation' => $rotation,

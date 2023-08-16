@@ -185,7 +185,9 @@ $machinestates = [
 
   ST_INIT_PRIVATE_ENGINE => [
     'name' => 'initPrivateEngine',
+    'action' => 'stInitPrivateEngine',
     'descriptionmyturn' => '',
+    'args' => 'test',
     'type' => 'private',
   ],
 

@@ -10,7 +10,7 @@ use PU\Models\Tile;
 
 /* Class to manage all the tiles for PlanetUnknown */
 
-class  Tiles extends \PU\Helpers\CachedPieces
+class Tiles extends \PU\Helpers\CachedPieces
 {
   protected static $table = 'tiles';
   protected static $prefix = 'tile_';
@@ -24,7 +24,14 @@ class  Tiles extends \PU\Helpers\CachedPieces
   }
   public static function getUiData()
   {
-    $tiles = self::getInLocation('planet');
+    return self::getInLocation('planet')
+      ->merge(self::getSusan())
+      ->toArray();
+  }
+
+  public static function getSusan()
+  {
+    $tiles = new Collection();
     for ($j = 0; $j < 6; $j++) {
       $tile = self::getTopOf("top-interior-$j")->first();
       if (!is_null($tile)) {
@@ -37,7 +44,7 @@ class  Tiles extends \PU\Helpers\CachedPieces
       }
     }
 
-    return $tiles->toArray();
+    return $tiles;
   }
 
   public static function getOfPlayer($pId)
@@ -50,7 +57,7 @@ class  Tiles extends \PU\Helpers\CachedPieces
     return static::singleCreate([
       'type' => BIOMASS_PATCH,
       'location' => 'corporation',
-      'player_id' => $player->getId()
+      'player_id' => $player->getId(),
     ]);
   }
 
@@ -112,7 +119,7 @@ class  Tiles extends \PU\Helpers\CachedPieces
     if ($type == BIOMASS_PATCH) {
       $shape = Tiles::$shapes[BIOMASS_PATCH];
       $tileFamily = 5; //hack to indicate BIOMASS
-      $hasMeteor =  false;
+      $hasMeteor = false;
     } else {
       $shape = Tiles::$shapes[$type % 12];
       $tileFamily = intdiv($type, 24);
@@ -215,7 +222,7 @@ class  Tiles extends \PU\Helpers\CachedPieces
       'meteorPlace' => '',
       'symbolPlaces' => [],
       'types' => [0],
-    ]
+    ],
   ];
 
   public static $typesNames = [[CIV, ENERGY], [ENERGY, WATER], [ROVER, TECH], [TECH, BIOMASS], [WATER, ROVER], [BIOMASS, CIV]];

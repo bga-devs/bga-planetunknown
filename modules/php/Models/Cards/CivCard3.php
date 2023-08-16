@@ -21,9 +21,9 @@ class CivCard3 extends \PU\Models\Cards\CivCard
     parent::__construct($player);
   }
 
-  //GainBiomass_2
+  //GainBiomass
   public function effect(){
-
+    return $this->gainBiomass();
   }
 
   public function score(){

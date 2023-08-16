@@ -17,6 +17,18 @@
     &.icon-rover-meeple {
         width: 4em;
         height: 2.3257em;
+
+        &.selectable {
+            cursor: pointer;
+        }
+
+        &.selected {
+            background-color: #7bf27b;
+            border-top-right-radius: 16px;
+            border: 3px solid #1f8a1f;
+            margin-top: -3px;
+            margin-left: -3px;
+        }
     }
 
     &.icon-tracker-civ,

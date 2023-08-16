@@ -13,10 +13,7 @@ use PU\Managers\Players;
 
 class Actions
 {
-  static $classes = [
-    PLACE_TILE, MOVE_TRACK, CHOOSE_TRACKS, PLACE_ROVER, MOVE_TRACKER_BY_ONE, TAKE_CIV_CARD,
-    MOVE_ROVER
-  ];
+  static $classes = [PLACE_TILE, MOVE_TRACK, CHOOSE_TRACKS, PLACE_ROVER, MOVE_TRACKER_BY_ONE, TAKE_CIV_CARD, MOVE_ROVER];
 
   public static function get($actionId, &$ctx = null)
   {
@@ -27,21 +24,6 @@ class Actions
     }
     $name = '\PU\Actions\\' . $actionId;
     return new $name($ctx);
-  }
-
-  public static function getActionOfState($stateId, $throwErrorIfNone = true)
-  {
-    foreach (self::$classes as $actionId) {
-      if (self::getState($actionId, null) == $stateId) {
-        return $actionId;
-      }
-    }
-
-    if ($throwErrorIfNone) {
-      throw new \BgaVisibleSystemException('Trying to fetch args of a non-declared atomic action in state ' . $stateId);
-    } else {
-      return null;
-    }
   }
 
   public static function isDoable($actionId, $ctx, $player)

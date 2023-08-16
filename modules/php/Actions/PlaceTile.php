@@ -24,6 +24,10 @@ class PlaceTile extends \PU\Models\Action
     return $this->getPlayableTiles($player, true);
   }
 
+  public function getWithBonus(){
+    return $this->getCtxArg('withBonus');
+  }
+
   public function getForcedTiles()
   {
     $forcedTiles = $this->getCtxArg('forcedTiles');
@@ -100,6 +104,8 @@ class PlaceTile extends \PU\Models\Action
 
     // Move tracks
     $tileTypes = [];
+    if ($this->getWithBonus()){
+      
     foreach ($symbols as $symbol) {
       $type = $symbol['type'];
       $tileTypes[] = $type;
@@ -129,6 +135,8 @@ class PlaceTile extends \PU\Models\Action
         'args' => ['type' => $type, 'n' => 1, 'withBonus' => true],
       ]);
     }
+    
+  }
 
     Notifications::placeTile($player, $tile, $meteor, $tileTypes);
 
