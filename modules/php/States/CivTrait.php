@@ -39,9 +39,10 @@ trait CivTrait
     $player = Players::getActive();
     Engine::setup(
       [
+        'type' => NODE_PARALLEL,
         'childs' => $player->getEndOfTurnActions(),
       ],
-      null, //which callback ? As a call back is defined in initCustomTurnOrder ?
+      ['order' => 'civCardTurn'],
       [$player->getId()]
     );
   }
