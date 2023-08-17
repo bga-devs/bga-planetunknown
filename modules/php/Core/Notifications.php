@@ -333,12 +333,8 @@ class Notifications
     if (isset($data['player'])) {
       $data['player_name'] = $data['player']->getName();
       $data['player_id'] = $data['player']->getId();
-      [$detail, $score] = $data['player']->score();
       $data['scores'] = [
-        $data['player']->getId() => [
-          'detail' => $detail,
-          'total' => $score,
-        ],
+        $data['player']->getId() => $data['player']->score()
       ];
       unset($data['player']);
     }

@@ -97,6 +97,7 @@ class planetunknown extends Table
       'meeples' => Meeples::getUiData(),
       'cards' => Cards::getUiData(),
       'susan' => Susan::getUiData(),
+      'scores' => Players::scores($pId)
     ];
   }
 

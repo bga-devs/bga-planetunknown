@@ -165,13 +165,6 @@ class Player extends \PU\Helpers\DB_Model
     $current = $this->id == $currentPlayerId;
     $data['POCards'] = $current ? Cards::getInLocation('hand', $this->id) : Cards::countInLocation('hand', $this->id);
     $data['civCard'] = Cards::getInLocation('table', $this->id);
-    [$detail, $score] = $this->score($current);
-    $data['scores'] = [
-      $this->id => [
-        'detail' => $detail,
-        'total' => $score
-      ]
-    ];
     return $data;
   }
 
@@ -192,14 +185,25 @@ class Player extends \PU\Helpers\DB_Model
   }
 
   //calculate player score
-  public function score($isCurrent = true, $save = true)
+  public function score($currentPlayerId = null, $save = true)
   {
-    $detail = [];
+    $current = $this->id == $currentPlayerId;
+    $result = [];
     //count every full row and column
-    $detail = array_merge($detail, $this->planet()->score());
+    $result['planet'] = [
+      'entries' => $this->planet()->score()
+    ];
+    $scorePlanet = $this->reduce_entries($result['planet']);
+    $result['planet']['total'] = $scorePlanet;
+    $total = $scorePlanet;
 
     //TODO highest value for each tracker in tracks
-    $detail = array_merge($detail, $this->corporation()->score());
+    $result['tracks'] = [
+      'entries' => $this->corporation()->score()
+    ];
+    $scoreTracks = $this->reduce_entries($result['tracks']);
+    $result['tracks']['total'] = $scoreTracks;
+    $total +=  $scoreTracks;
 
     //TODO lifepods = 1, METEOR = 1/3
 
@@ -208,14 +212,20 @@ class Player extends \PU\Helpers\DB_Model
     //TODO POCards
 
     //TODO NOCards
-    $score = array_reduce($detail, fn ($sum, $item) => $sum + $item, 0);
+
+    $result['total'] = $total;
 
     if ($save) {
-      $this->setScore($score);
+      $this->setScore($total);
       $this->setScoreAux(10000 - $this->planet()->countEmptySpaces() * 100 - $this->planet()->countMeteors());
     }
 
-    return [$detail, $score];
+    return $result;
+  }
+
+  public static function reduce_entries($array)
+  {
+    return array_reduce($array['entries'], fn ($sum, $item) => $sum + $item, 0);
   }
 
   public function addEndOfTurnAction($flow)

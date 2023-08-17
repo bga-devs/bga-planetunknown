@@ -24,8 +24,9 @@ class PlaceTile extends \PU\Models\Action
     return $this->getPlayableTiles($player, true);
   }
 
-  public function getWithBonus(){
-    return $this->getCtxArg('withBonus');
+  public function getWithBonus()
+  {
+    return $this->getCtxArg('withBonus') ?? true;
   }
 
   public function getForcedTiles()
@@ -104,39 +105,38 @@ class PlaceTile extends \PU\Models\Action
 
     // Move tracks
     $tileTypes = [];
-    if ($this->getWithBonus()){
-      
-    foreach ($symbols as $symbol) {
-      $type = $symbol['type'];
-      $tileTypes[] = $type;
+    if ($this->getWithBonus()) {
 
-      // Energy => compute the possible tracks
-      if ($type == ENERGY) {
-        $types = $player->planet()->getTypesAdjacentToEnergy($symbol['cell']);
+      foreach ($symbols as $symbol) {
+        $type = $symbol['type'];
+        $tileTypes[] = $type;
+
+        // Energy => compute the possible tracks
+        if ($type == ENERGY) {
+          $types = $player->planet()->getTypesAdjacentToEnergy($symbol['cell']);
+          $this->pushParallelChild([
+            'action' => CHOOSE_TRACKS,
+            'args' => [
+              'types' => $types,
+              'n' => 1,
+              'energy' => true,
+              'from' => ENERGY
+            ],
+          ]);
+          continue;
+        }
+        // Water => stop if the tile is not covering water
+        elseif ($type == WATER && !$coveringWater) {
+          continue;
+        }
+
+        // Normal case: add parallel child
         $this->pushParallelChild([
-          'action' => CHOOSE_TRACKS,
-          'args' => [
-            'types' => $types,
-            'n' => 1,
-            'energy' => true,
-            'from' => ENERGY
-          ],
+          'action' => MOVE_TRACK,
+          'args' => ['type' => $type, 'n' => 1, 'withBonus' => true],
         ]);
-        continue;
       }
-      // Water => stop if the tile is not covering water
-      elseif ($type == WATER && !$coveringWater) {
-        continue;
-      }
-
-      // Normal case: add parallel child
-      $this->pushParallelChild([
-        'action' => MOVE_TRACK,
-        'args' => ['type' => $type, 'n' => 1, 'withBonus' => true],
-      ]);
     }
-    
-  }
 
     Notifications::placeTile($player, $tile, $meteor, $tileTypes);
 

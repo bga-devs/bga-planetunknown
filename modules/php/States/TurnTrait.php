@@ -27,7 +27,7 @@ trait TurnTrait
     $pIds = Players::getAll()->getIds();
     Engine::setup(
       [
-        'action' => \PLACE_TILE,
+        'action' => \PLACE_TILE
       ],
       ['method' => 'stEndOfTurn'],
       $pIds

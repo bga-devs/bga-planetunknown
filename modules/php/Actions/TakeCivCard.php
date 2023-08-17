@@ -28,6 +28,11 @@ class TakeCivCard extends \PU\Models\Action
       ->count() > 1;
   }
 
+  public function getDescription()
+  {
+    return clienttranslate('Take one Civ Card');
+  }
+
   public function getLevel()
   {
     return $this->getCtxArg('level');
