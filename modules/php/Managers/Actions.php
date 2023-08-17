@@ -13,7 +13,10 @@ use PU\Managers\Players;
 
 class Actions
 {
-  static $classes = [PLACE_TILE, MOVE_TRACK, CHOOSE_TRACKS, PLACE_ROVER, MOVE_TRACKER_BY_ONE, TAKE_CIV_CARD, MOVE_ROVER];
+  static $classes = [
+    PLACE_TILE, MOVE_TRACK, CHOOSE_TRACKS, PLACE_ROVER,
+    MOVE_TRACKER_BY_ONE, TAKE_CIV_CARD, MOVE_ROVER, COLLECT_MEEPLE, DESTROY_ALL_IN_ROW
+  ];
 
   public static function get($actionId, &$ctx = null)
   {

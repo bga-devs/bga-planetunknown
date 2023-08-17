@@ -189,6 +189,13 @@ class Corporation
     return Tiles::createBiomassPatch($this->player);
   }
 
+  public function collect($meeple)
+  {
+    $meeple->setX('');
+    $meeple->setY('');
+    $meeple->setLocation('corporation');
+  }
+
   /*
    *  █████  █████ ███████████ █████ █████        █████████
    * ░░███  ░░███ ░█░░░███░░░█░░███ ░░███        ███░░░░░███

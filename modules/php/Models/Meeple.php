@@ -26,4 +26,11 @@ class Meeple extends \PU\Helpers\DB_Model
     $this->setX($cell['x']);
     $this->setY($cell['y']);
   }
+
+  public function destroy()
+  {
+    $this->setX('');
+    $this->setY('');
+    $this->setLocation('trash');
+  }
 }

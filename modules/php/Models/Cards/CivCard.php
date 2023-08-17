@@ -17,7 +17,6 @@ class CivCard extends \PU\Models\Card
   protected $meteorRepo = false;
   protected $commerceAgreement = false;
 
-  //{ACTION}
   public function effect()
   {
   }

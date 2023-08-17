@@ -22,12 +22,20 @@ class CivCard25 extends \PU\Models\Cards\CivCard
   }
 
   //destroyMeteors_3
-  public function effect(){
-
+  public function effect()
+  {
+    return [
+      'action' => COLLECT_MEEPLE,
+      'args' => [
+        'type' => METEOR,
+        'n' => 3,
+        'action' => 'destroy'
+      ]
+    ];
   }
 
-  public function score(){
-    return ;
+  public function score()
+  {
+    return;
   }
-
 }

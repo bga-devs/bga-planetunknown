@@ -21,6 +21,21 @@ class Notifications
     static::notifyAll('newCards', clienttranslate('A new civ card is added to each deck'), $data);
   }
 
+  public static function collectMeeple($player, $meeples, $action)
+  {
+    $message =
+      $action == 'destroy'
+      ? clienttranslate('${player_name} detroys ${n} ${type} from his planet')
+      : clienttranslate('${player_name} collects ${n} ${type} from his planet');
+    $data = [
+      'player' => $player,
+      'n' => count($meeples),
+      'type' => $meeples[0]->getType(),
+      'meeples' => $meeples
+    ];
+    static::pnotify($player, 'slideMeeple', $message, $data);
+  }
+
   public static function getNewCard($player, $card)
   {
     static::notify($player, 'newCards', clienttranslate('${player_name} receive a new private objective card'), [
@@ -38,15 +53,16 @@ class Notifications
     ]);
   }
 
-  public static function collectMeteor($player, $meteor)
-  {
-    $msg = clienttranslate('${player_name} collects a new meteor');
-    $data = [
-      'player' => $player,
-      'meeple' => $meteor,
-    ];
-    static::pnotify($player, 'slideMeeple', $msg, $data);
-  }
+  //deprecated -> collectMeeples
+  // public static function collectMeteor($player, $meteor)
+  // {
+  //   $msg = clienttranslate('${player_name} collects a new meteor');
+  //   $data = [
+  //     'player' => $player,
+  //     'meeple' => $meteor,
+  //   ];
+  //   static::pnotify($player, 'slideMeeple', $msg, $data);
+  // }
 
   public static function destroyedMeeples($player, $destroyedMeeples, $type)
   {

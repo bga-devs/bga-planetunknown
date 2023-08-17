@@ -73,9 +73,8 @@ class PlaceRover extends \PU\Models\Action
     //collect meteor
     $meteor = $player->getMeteorOnCell($cell);
     if (!is_null($meteor)) {
-      $meteor->setLocation('corporation');
-      //TODO caution, some planet/corporation are different
-      Notifications::collectMeteor($player, $meteor);
+      $player->corporation()->collect($meteor);
+      Notifications::collectMeeple($player, [$meteor], 'collect');
     }
   }
 }

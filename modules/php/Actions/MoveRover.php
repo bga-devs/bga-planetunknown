@@ -26,9 +26,14 @@ class MoveRover extends \PU\Models\Action
     return $player->hasRoverOnPlanet() && $this->getPossibleSpaceIds($player);
   }
 
+  public function getTeleport()
+  {
+    return $this->getCtxArg('teleport');
+  }
+
   public function getPossibleSpaceIds($player)
   {
-    return $player->getPossibleMovesByRover();
+    return $player->getPossibleMovesByRover($this->getTeleport());
   }
 
   public function argsMoveRover()
@@ -62,9 +67,8 @@ class MoveRover extends \PU\Models\Action
     //collect meteor
     $meteor = $player->getMeteorOnCell($cell);
     if (!is_null($meteor)) {
-      $meteor->setLocation('corporation');
-      //TODO caution, some planet/corporation are different
-      Notifications::collectMeteor($player, $meteor);
+      $player->corporation()->collect($meteor);
+      Notifications::collectMeeple($player, [$meteor], 'collect');
     }
   }
 }

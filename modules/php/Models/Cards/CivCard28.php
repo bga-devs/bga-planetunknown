@@ -22,11 +22,6 @@ class CivCard28 extends \PU\Models\Cards\CivCard
     parent::__construct($player);
   }
 
-  //2perLifepod
-  public function effect()
-  {
-  }
-
   public function score()
   {
     //TODO CHECK if it works if it's an acceptable way to count

@@ -24,7 +24,13 @@ class CivCard14 extends \PU\Models\Cards\CivCard
   //move_x
   public function effect()
   {
-    //TODO
+    return [
+      'action' => MOVE_ROVER,
+      'args' => [
+        'remaining' => 1,
+        'teleport' => 'anywhere'
+      ]
+    ];
   }
 
   public function score()

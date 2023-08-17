@@ -24,7 +24,14 @@ class CivCard13 extends \PU\Models\Cards\CivCard
   //collectLifepod_2
   public function effect()
   {
-    //TODO
+    return [
+      'action' => COLLECT_MEEPLE,
+      'args' => [
+        'type' => LIFEPOD,
+        'n' => 2,
+        'action' => 'collect'
+      ]
+    ];
   }
 
   public function score()

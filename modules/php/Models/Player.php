@@ -74,7 +74,7 @@ class Player extends \PU\Helpers\DB_Model
   public function takeCivCard($card)
   {
     $card->setState($this->id);
-    $flow = $card->effect()
+    $flow = $card->effect();
     if ($card->effectType == IMMEDIATE) {
       $card->setLocation('table');
       return $flow;
@@ -91,15 +91,17 @@ class Player extends \PU\Helpers\DB_Model
 
   public function getMeteorOnCell($cell)
   {
-    return static::getMeeples(METEOR)
-      ->where('x', $cell['x'])
-      ->where('y', $cell['y'])
-      ->first();
+    return static::getMeepleOnCell($cell, METEOR);
   }
 
   public function getRoverOnCell($cell)
   {
-    return static::getMeeples(ROVER_MEEPLE)
+    return static::getMeepleOnCell($cell, ROVER_MEEPLE);
+  }
+
+  public function getMeepleOnCell($cell, $type)
+  {
+    return static::getMeeples($type)
       ->where('x', $cell['x'])
       ->where('y', $cell['y'])
       ->first();
@@ -123,14 +125,29 @@ class Player extends \PU\Helpers\DB_Model
       ->where('location', 'planet');
   }
 
-  public function getPossibleMovesByRover()
+  public function hasMeteorOnPlanet()
+  {
+    return count($this->getMeteorsOnPlanet()) > 0;
+  }
+
+  public function getMeteorsOnPlanet()
+  {
+    return $this->getMeeples(METEOR)
+      ->where('location', 'planet');
+  }
+
+  public function getPossibleMovesByRover($teleport = null)
   {
     $rovers = $this->getRoversOnPlanet();
 
     $spaceIds = [];
 
     foreach ($rovers as $roverId => $rover) {
-      $neighbours = $this->planet()->getPossibleMovesFrom(['x' => $rover->getX(), 'y' => $rover->getY()]);
+      if ($teleport ==  'anywhere') {
+        $neighbours = $this->planet()->getListOfCells();
+      } else {
+        $neighbours = $this->planet()->getPossibleMovesFrom(['x' => $rover->getX(), 'y' => $rover->getY()]);
+      }
       $spaceIds[$roverId] = array_map(fn ($cell) => Planet::getCellId($cell), $neighbours);
     }
 

@@ -311,6 +311,24 @@ $machinestates = [
     'possibleactions' => ['actMoveRover', 'actRestart'],
   ],
 
+  ST_COLLECT_MEEPLE => [
+    'name' => COLLECT_MEEPLE,
+    'descriptionmyturn' => clienttranslate('${you} must ${action} ${n} {type} on your planet'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actCollectMeeple', 'actRestart'],
+  ],
+
+  ST_DESTROY_ALL_IN_ROW => [
+    'name' => DESTROY_ALL_IN_ROW,
+    'descriptionmyturn' => clienttranslate('${you} must choose a row or a column to destroy all its meteorites'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actDestroyAllInRow', 'actRestart'],
+  ],
+
   ST_FOO_A => [
     'name' => 'fooA',
     'descriptionmyturn' => clienttranslate('${you} must fooA'),
