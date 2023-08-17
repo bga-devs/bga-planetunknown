@@ -146,7 +146,10 @@ class PGlobals extends \PU\Helpers\DB_Manager
         }
 
         self::$datas[$pId][$name] = $value;
-        self::DB()->update(['value' => \addslashes(\json_encode($value))], $name . '-' . $pId);
+        if (Globals::getMode() == MODE_APPLY || in_array($name, ['state', 'engine', 'engineChoices'])) {
+          self::DB()->update(['value' => \addslashes(\json_encode($value))], $name . '-' . $pId);
+        }
+
         return $value;
       } elseif ($match[1] == 'inc') {
         if (self::$variables[$name] != 'int') {

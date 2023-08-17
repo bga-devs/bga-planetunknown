@@ -221,7 +221,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       if (isVisible($('pagemaintitletext'))) {
         return $('pagemaintitletext');
       } else {
-        return $('pagemaintitletext');
+        return $('gameaction_status');
       }
     },
 

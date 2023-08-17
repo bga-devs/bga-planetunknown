@@ -8,7 +8,7 @@ use PU\Core\Notifications;
 use PU\Helpers\Utils;
 use PU\Helpers\Log;
 use PU\Helpers\Collection;
-use PU\Managers\Buildings;
+use PU\Managers\Tiles;
 use PU\Managers\Players;
 use PU\Managers\Meeples;
 
@@ -18,6 +18,11 @@ trait DebugTrait
   {
     //    Log::clearUndoableStepNotifications(true);
     $this->actTakeAtomicAction('actPlaceRover', ['4_1']);
+  }
+
+  function susan()
+  {
+    var_dump(Tiles::getSusan()->getIds());
   }
 
   function getMode()

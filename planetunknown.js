@@ -41,6 +41,7 @@ define([
         ['slideMeeple', null],
         ['newRotation', 1200],
         ['endOfTurn', 100],
+        ['destroyedMeeples', null],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
