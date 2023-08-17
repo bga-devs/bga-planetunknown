@@ -4,6 +4,9 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
   const ALL_PLAYER_COUNTERS = PLAYER_COUNTERS.concat(RESOURCES);
   const COUNTER_MEEPLES = ['reputation', 'conservation', 'appeal'];
 
+  const SCORE_CATEGORIES = ['planet', 'tracks', 'lifepods', 'meteors', 'civ', 'objectives'];
+  const SCORE_MULTIPLE_ENTRIES = ['civ', 'objectives'];
+
   return declare('planetunknown.players', null, {
     /**
      * OVERWRITE : change right column size
@@ -657,79 +660,181 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       });
     },
 
-    /////////////////////////////////////////////////////////////////////////////////
-    //  ___                      ____
-    // |_ _|___ ___  _ __  ___  / ___| _   _ _ __ ___  _ __ ___   __ _ _ __ _   _
-    //  | |/ __/ _ \| '_ \/ __| \___ \| | | | '_ ` _ \| '_ ` _ \ / _` | '__| | | |
-    //  | | (_| (_) | | | \__ \  ___) | |_| | | | | | | | | | | | (_| | |  | |_| |
-    // |___\___\___/|_| |_|___/ |____/ \__,_|_| |_| |_|_| |_| |_|\__,_|_|   \__, |
-    //                                                                      |___/
-    /////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////
+    //  ____
+    // / ___|  ___ ___  _ __ ___  ___
+    // \___ \ / __/ _ \| '__/ _ \/ __|
+    //  ___) | (_| (_) | | |  __/\__ \
+    // |____/ \___\___/|_|  \___||___/
+    //////////////////////////////////////
 
-    tplIconsSummary(player, zooMap = false) {
-      let prefix = zooMap ? 'map-' : '';
-      let iconSummary = `<div class="icons-summary" id="icons-summary-${prefix}${player.id}">`;
-      ICONS_SUMMARY.forEach((summaryRow) => {
-        iconSummary += '<div class="icons-summary-row">';
-        summaryRow.forEach(
-          (icon) =>
-            (iconSummary += `<div class="icon-counter">
-          <span id="icons-${prefix}${player.id}-${icon}"></span>
-          <span class="badge-icon" data-type="${icon}"></span>
-        </div>`)
-        );
-        iconSummary += '</div>';
-      });
-      iconSummary += '</div>';
-      return iconSummary;
+    tplScoreModal() {
+      return `
+    <table id='players-scores'>
+      <thead>
+        <tr id="scores-names">
+          <th>${_('NAME')}</th>
+        </tr>
+        <tr id="scores-planets">
+          <th>${_('Planet Name')}</th>
+        </tr>
+        <tr id="scores-corporations">
+          <th>${_('Corporation Name')}</th>
+        </tr>
+      </thead>
+      <tbody id="scores-body">
+        <tr id="scores-row-planet">
+          <td class="row-header">${_('Planet')}</td>
+        </tr>
+        <tr id="scores-row-tracks">
+          <td class="row-header">${_('Resource Tracks')}</td>
+        </tr>
+        <tr id="scores-row-lifepods">
+          <td class="row-header">${_('Lifepods')}</td>
+        </tr>
+        <tr id="scores-row-meteors">
+          <td class="row-header">${_('Meteorites')}</td>
+        </tr>
+        <tr id="scores-row-civ">
+          <td class="row-header">${_('CIV cards')}</td>
+        </tr>
+        <tr id="scores-row-objectives">
+          <td class="row-header">${_('Objectives')}</td>
+        </tr>
+
+        <tr id="scores-row-total">
+          <td class="row-header">${_('TOTAL')}</td>
+        </tr>
+      </tbody>
+    </table>
+    `;
     },
 
-    updatePlayersIconsSummaries() {
-      this.forEachPlayer((player) => {
-        ICONS_SUMMARY.forEach((summaryRow) => {
-          summaryRow.forEach((icon) => {
-            let val = player.icons[icon];
-            let container = $(`icons-${player.id}-${icon}`);
-            container.innerHTML = val;
-            container.parentNode.classList.toggle('empty', val == 0);
+    /*
+     * Display a table with a nice overview of current situation for everyone
+     */
+    setupScoresModal() {
+      this._scoresModal = new customgame.modal('showScores', {
+        class: 'planetunknown_popin',
+        closeIcon: 'fa-times',
+        contents: this.tplScoreModal(),
+        closeAction: 'hide',
+        scale: 0.8,
+        breakpoint: 800,
+        verticalAlign: 'flex-start',
+      });
 
-            container = $(`icons-map-${player.id}-${icon}`);
-            container.innerHTML = val;
-            container.parentNode.classList.toggle('empty', val == 0);
-          });
+      // Create columns
+      this.forEachPlayer((player) => {
+        let corporationName = '';
+        let planetName = '';
+        $('scores-names').insertAdjacentHTML('beforeend', `<th style='color:#${player.color}'>${player.name}</th>`);
+        $('scores-planets').insertAdjacentHTML('beforeend', `<th>${_(corporationName)}</th>`);
+        $('scores-corporations').insertAdjacentHTML('beforeend', `<th>${_(planetName)}</th>`);
+
+        SCORE_CATEGORIES.forEach((row) => {
+          let scoreElt = '<div><span id="score-' + player.id + '-' + row + '"></span><i class="fa fa-star"></i></div>';
+          let addClass = '';
+
+          // Wrap that into a scoring entry
+          scoreElt = `<div class="scoring-entry ${addClass}">${scoreElt}</div>`;
+
+          if (SCORE_MULTIPLE_ENTRIES.includes(row)) {
+            scoreElt += `<div class="scoring-subentries" id="score-subentries-${player.id}-${row}"></div>`;
+          }
+
+          $(`scores-row-${row}`).insertAdjacentHTML('beforeend', `<td>${scoreElt}</td>`);
         });
       });
+
+      $('show-scores').addEventListener('click', () => this.showScoresModal());
+      this.addTooltip('show-scores', '', _('Show scoring details.'));
+      if (this.gamedatas.scores === null) {
+        dojo.style('show-scores', 'display', 'none');
+      }
     },
 
-    onChangePlayerIconSummarySetting(val) {
-      this.updateIconSummaryPosition(this.player_id, val);
+    showScoresModal() {
+      this._scoresModal.show();
     },
 
-    onChangeOpponentIconSummarySetting(val) {
+    onEnteringStateGameEnd() {
+      this.showScoresModal();
+      dojo.style('show-scores', 'display', 'block');
+    },
+
+    /**
+     * Create score counters
+     */
+    setupPlayersScores() {
+      this._scoresCounters = {};
+      this._scoresQtyCounters = {};
+
       this.forEachPlayer((player) => {
-        if (player.id != this.player_id) {
-          this.updateIconSummaryPosition(player.id, val);
-        }
+        this._scoresCounters[player.id] = {};
+        this._scoresQtyCounters[player.id] = {};
+
+        SCORE_CATEGORIES.forEach((category) => {
+          this._scoresCounters[player.id][category] = this.createCounter('score-' + player.id + '-' + category);
+
+          if (SCORE_QTY_CATEGORIES.includes(category)) {
+            this._scoresQtyCounters[player.id][category] = this.createCounter('score-quantity-' + player.id + '-' + category);
+          }
+        });
       });
+
+      this.updatePlayersScores(false);
     },
 
-    updateIconSummaryPosition(pId, val) {
-      // val = 0 : zoo map
-      // val = 1 : player panel
-      // val = 2 : both
-      let containerInPanel = $(`icons-summary-${pId}`);
-      let containerInMap = $(`icons-summary-map-${pId}`);
-      if (!containerInPanel || !containerInMap) return;
+    /**
+     * Update score counters
+     */
+    updatePlayersScores(anim = true) {
+      if (this.gamedatas.scores !== null) {
+        this.forEachPlayer((player) => {
+          SCORE_CATEGORIES.forEach((category) => {
+            let value =
+              category == 'total'
+                ? this.gamedatas.scores[player.id]['total']
+                : this.gamedatas.scores[player.id][category]['total'];
+            this._scoresCounters[player.id][category][anim ? 'toValue' : 'setValue'](value);
 
-      // Player panel
-      containerInPanel.classList.toggle('hidden', val == 0);
-      // Zoo Map
-      containerInMap.classList.toggle('hidden', val == 1);
+            if (SCORE_QTY_CATEGORIES.includes(category)) {
+              let n = this.gamedatas.scores[player.id][category]['entries'][0]['quantity'];
+              this._scoresQtyCounters[player.id][category][anim ? 'toValue' : 'setValue'](n);
+            }
+
+            if (SCORE_MULTIPLE_ENTRIES.includes(category)) {
+              let container = $(`score-subentries-${player.id}-${category}`);
+              dojo.empty(container);
+              this.gamedatas.scores[player.id][category]['entries'].forEach((entry) => {
+                dojo.place(
+                  `<div class="scoring-subentry">
+                  <div>${_(entry.source)}</div>
+                  <div>
+                    ${entry.score}
+                    <i class="fa fa-star"></i>
+                  </div>
+                </div>`,
+                  container
+                );
+              });
+            }
+          });
+          if (this._scoreCounters[player.id] !== undefined) {
+            this._scoreCounters[player.id].toValue(this.gamedatas.scores[player.id].total);
+          }
+        });
+      }
     },
 
-    notif_updateIncome(n) {
-      debug('Notif: update income', n);
-      this._playerCounters[n.args.player_id]['income'].toValue(n.args.income);
+    /**
+     * Notification for live scoring
+     */
+    notif_updateScores(n) {
+      debug('Notif: updating scores', n);
+      this.gamedatas.scores = n.args.scores;
+      this.updatePlayersScores();
     },
   });
 });
