@@ -1,6 +1,6 @@
 #popin_showSettings,
 #popin_showSusan,
-#popin_showScoreboard {
+#popin_showScores {
     background-color: #ebd5bd;
     border-radius: 8px;
     box-shadow: 0 3px 8px black;
@@ -45,7 +45,162 @@
     }
 }
 
-#popin_showScoreboard {
+#popin_showScores_underlay {
+    background: black !important;
+}
+
+#popin_showScores {
+    border-radius: 0px;
+
+    #popin_showScores_contents {
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            // font-family: TODO;
+
+            thead {
+                tr {
+                    border-bottom: 2px solid black;
+                    border-top: 2px solid black;
+                    th {
+                        padding: 2px 15px;
+                        min-width: 50px;
+                        height: 50px;
+                        vertical-align: middle;
+                        text-align: center;
+                        border-left: 2px solid black;
+                        border-right: 2px solid black;
+                    }
+                }
+            }
+
+            tbody {
+                tr {
+                    height: 30px;
+
+                    &:nth-child(odd) {
+                        background-color: #ccc;
+                    }
+
+                    &#scores-row-pastures,
+                    &#scores-row-vegetables,
+                    &#scores-row-cattles,
+                    &#scores-row-stables,
+                    &#scores-row-stoneRooms,
+                    &#scores-row-farmers {
+                        border-bottom: 1px solid black;
+                    }
+
+                    td {
+                        vertical-align: top;
+                        text-align: center;
+                        word-wrap: anywhere;
+                        border-left: 2px solid black;
+                        border-right: 2px solid black;
+                        min-width: 100px;
+
+                        &.row-header {
+                            text-align: right;
+                            padding: 4px 12px 3px;
+                            vertical-align: top;
+                        }
+
+                        .scoring-entry,
+                        .scoring-subentry {
+                            display: flex;
+                            justify-content: flex-end;
+                            padding: 2px 8px;
+
+                            .meeple-container {
+                                font-size: 1.1em;
+                                width: 30px;
+                                .agricola-meeple {
+                                    margin: auto;
+                                }
+                            }
+
+                            &.qty-scoring-entry,
+                            &.scoring-subentry {
+                                justify-content: space-between;
+                                padding: 0px 4px;
+
+                                > div {
+                                    padding: 2px 8px;
+                                    line-height: 28px;
+                                }
+
+                                > div:first-of-type {
+                                    border-right: 1px solid #7b7b7b91;
+                                    margin-top: 0px;
+                                    margin-bottom: 0px;
+                                    min-width: 48px;
+                                    height: 28px;
+                                    text-align: left;
+                                }
+                            }
+                            &.qty-scoring-entry > div:first-of-type {
+                                min-width: 65px;
+                                max-width: 65px;
+                                padding: 2px 0px;
+                                text-align: center;
+
+                                .meeple-farmer {
+                                    width: 0.9em;
+                                    height: 1.2em;
+                                }
+                                .meeple-stable {
+                                    width: 0.8em;
+                                    height: 1.1em;
+                                }
+                            }
+
+                            i {
+                                color: #2222229e;
+                                font-size: 0.8em;
+                                margin-left: 4px;
+                                vertical-align: middle;
+                            }
+                        }
+
+                        .scoring-subentries {
+                            border-top: 1px solid #8a8a8a59;
+
+                            .scoring-subentry {
+                                font-size: 13px;
+                                //                background-color:#dfdede;
+                                > div {
+                                    padding: 0px 4px;
+                                }
+                                > div:first-of-type {
+                                    border-right: none;
+                                    height: auto;
+                                }
+
+                                i {
+                                    margin-left: 1px;
+                                }
+                            }
+                        }
+                    }
+
+                    &#scores-row-total {
+                        height: 40px;
+                        border-top: 2px solid black;
+                        font-size: 1.2em;
+
+                        td:nth-of-type(1) {
+                            background: #515151;
+                            text-align: center;
+                            color: white;
+                            font-family: "ColibriB";
+                            font-weight: bold;
+                            text-transform: uppercase;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 #popin_showSusan {

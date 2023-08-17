@@ -1437,6 +1437,18 @@
     transform: translateX(24px); }
   #player_config #help-mode-switch svg {
     width: 27px; }
+  #player_config #show-scores {
+    height: 40px;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer; }
+    #player_config #show-scores:hover {
+      color: grey; }
+    #player_config #show-scores svg {
+      width: auto;
+      height: 40px; }
   #player_config #show-settings {
     height: 40px;
     width: 50px;
@@ -1560,14 +1572,14 @@
 
 #popin_showSettings,
 #popin_showSusan,
-#popin_showScoreboard {
+#popin_showScores {
   background-color: #ebd5bd;
   border-radius: 8px;
   box-shadow: 0 3px 8px black;
   position: relative; }
   #popin_showSettings .planetunknown_popin_closeicon,
   #popin_showSusan .planetunknown_popin_closeicon,
-  #popin_showScoreboard .planetunknown_popin_closeicon {
+  #popin_showScores .planetunknown_popin_closeicon {
     background-color: #a47a77;
     border-radius: 50%;
     width: 40px;
@@ -1584,17 +1596,17 @@
     z-index: 2; }
     #popin_showSettings .planetunknown_popin_closeicon:hover,
     #popin_showSusan .planetunknown_popin_closeicon:hover,
-    #popin_showScoreboard .planetunknown_popin_closeicon:hover {
+    #popin_showScores .planetunknown_popin_closeicon:hover {
       text-decoration: none;
       color: #ccc !important;
       transform: scale(1.1); }
     #popin_showSettings .planetunknown_popin_closeicon i,
     #popin_showSusan .planetunknown_popin_closeicon i,
-    #popin_showScoreboard .planetunknown_popin_closeicon i {
+    #popin_showScores .planetunknown_popin_closeicon i {
       margin-top: -2px; }
   #popin_showSettings h2,
   #popin_showSusan h2,
-  #popin_showScoreboard h2 {
+  #popin_showScores h2 {
     font-family: MyriadPro-Semibold;
     text-align: center;
     font-size: 25px;
@@ -1603,6 +1615,116 @@
     border-radius: 8px 8px 0px 0px;
     padding: 11px 0px 3px;
     border-bottom: 1px solid #734f2a; }
+
+#popin_showScores_underlay {
+  background: black !important; }
+
+#popin_showScores {
+  border-radius: 0px; }
+  #popin_showScores #popin_showScores_contents table {
+    width: 100%;
+    border-collapse: collapse; }
+    #popin_showScores #popin_showScores_contents table thead tr {
+      border-bottom: 2px solid black;
+      border-top: 2px solid black; }
+      #popin_showScores #popin_showScores_contents table thead tr th {
+        padding: 2px 15px;
+        min-width: 50px;
+        height: 50px;
+        vertical-align: middle;
+        text-align: center;
+        border-left: 2px solid black;
+        border-right: 2px solid black; }
+    #popin_showScores #popin_showScores_contents table tbody tr {
+      height: 30px; }
+      #popin_showScores #popin_showScores_contents table tbody tr:nth-child(odd) {
+        background-color: #ccc; }
+      #popin_showScores #popin_showScores_contents table tbody tr#scores-row-pastures, #popin_showScores #popin_showScores_contents table tbody tr#scores-row-vegetables, #popin_showScores #popin_showScores_contents table tbody tr#scores-row-cattles, #popin_showScores #popin_showScores_contents table tbody tr#scores-row-stables, #popin_showScores #popin_showScores_contents table tbody tr#scores-row-stoneRooms, #popin_showScores #popin_showScores_contents table tbody tr#scores-row-farmers {
+        border-bottom: 1px solid black; }
+      #popin_showScores #popin_showScores_contents table tbody tr td {
+        vertical-align: top;
+        text-align: center;
+        word-wrap: anywhere;
+        border-left: 2px solid black;
+        border-right: 2px solid black;
+        min-width: 100px; }
+        #popin_showScores #popin_showScores_contents table tbody tr td.row-header {
+          text-align: right;
+          padding: 4px 12px 3px;
+          vertical-align: top; }
+        #popin_showScores #popin_showScores_contents table tbody tr td .scoring-entry,
+        #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentry {
+          display: flex;
+          justify-content: flex-end;
+          padding: 2px 8px; }
+          #popin_showScores #popin_showScores_contents table tbody tr td .scoring-entry .meeple-container,
+          #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentry .meeple-container {
+            font-size: 1.1em;
+            width: 30px; }
+            #popin_showScores #popin_showScores_contents table tbody tr td .scoring-entry .meeple-container .agricola-meeple,
+            #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentry .meeple-container .agricola-meeple {
+              margin: auto; }
+          #popin_showScores #popin_showScores_contents table tbody tr td .scoring-entry.qty-scoring-entry, #popin_showScores #popin_showScores_contents table tbody tr td .scoring-entry.scoring-subentry,
+          #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentry.qty-scoring-entry,
+          #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentry.scoring-subentry {
+            justify-content: space-between;
+            padding: 0px 4px; }
+            #popin_showScores #popin_showScores_contents table tbody tr td .scoring-entry.qty-scoring-entry > div, #popin_showScores #popin_showScores_contents table tbody tr td .scoring-entry.scoring-subentry > div,
+            #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentry.qty-scoring-entry > div,
+            #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentry.scoring-subentry > div {
+              padding: 2px 8px;
+              line-height: 28px; }
+            #popin_showScores #popin_showScores_contents table tbody tr td .scoring-entry.qty-scoring-entry > div:first-of-type, #popin_showScores #popin_showScores_contents table tbody tr td .scoring-entry.scoring-subentry > div:first-of-type,
+            #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentry.qty-scoring-entry > div:first-of-type,
+            #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentry.scoring-subentry > div:first-of-type {
+              border-right: 1px solid #7b7b7b91;
+              margin-top: 0px;
+              margin-bottom: 0px;
+              min-width: 48px;
+              height: 28px;
+              text-align: left; }
+          #popin_showScores #popin_showScores_contents table tbody tr td .scoring-entry.qty-scoring-entry > div:first-of-type,
+          #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentry.qty-scoring-entry > div:first-of-type {
+            min-width: 65px;
+            max-width: 65px;
+            padding: 2px 0px;
+            text-align: center; }
+            #popin_showScores #popin_showScores_contents table tbody tr td .scoring-entry.qty-scoring-entry > div:first-of-type .meeple-farmer,
+            #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentry.qty-scoring-entry > div:first-of-type .meeple-farmer {
+              width: 0.9em;
+              height: 1.2em; }
+            #popin_showScores #popin_showScores_contents table tbody tr td .scoring-entry.qty-scoring-entry > div:first-of-type .meeple-stable,
+            #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentry.qty-scoring-entry > div:first-of-type .meeple-stable {
+              width: 0.8em;
+              height: 1.1em; }
+          #popin_showScores #popin_showScores_contents table tbody tr td .scoring-entry i,
+          #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentry i {
+            color: #2222229e;
+            font-size: 0.8em;
+            margin-left: 4px;
+            vertical-align: middle; }
+        #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentries {
+          border-top: 1px solid #8a8a8a59; }
+          #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentries .scoring-subentry {
+            font-size: 13px; }
+            #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentries .scoring-subentry > div {
+              padding: 0px 4px; }
+            #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentries .scoring-subentry > div:first-of-type {
+              border-right: none;
+              height: auto; }
+            #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentries .scoring-subentry i {
+              margin-left: 1px; }
+      #popin_showScores #popin_showScores_contents table tbody tr#scores-row-total {
+        height: 40px;
+        border-top: 2px solid black;
+        font-size: 1.2em; }
+        #popin_showScores #popin_showScores_contents table tbody tr#scores-row-total td:nth-of-type(1) {
+          background: #515151;
+          text-align: center;
+          color: white;
+          font-family: "ColibriB";
+          font-weight: bold;
+          text-transform: uppercase; }
 
 #popin_showSusan {
   width: 620px; }
