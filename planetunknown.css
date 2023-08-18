@@ -797,6 +797,10 @@
       top: calc(15% - 15px); }
   #tile-controls.hovering #tile-controls-circle #tile-confirm-btn {
     display: none; }
+  #tile-controls[data-type="biomass_patch"] #tile-controls-circle #tile-flip,
+  #tile-controls[data-type="biomass_patch"] #tile-controls-circle #tile-rotate-clockwise,
+  #tile-controls[data-type="biomass_patch"] #tile-controls-circle #tile-rotate-cclockwise {
+    display: none; }
 
 .tile-container {
   position: relative;
@@ -925,6 +929,23 @@
   background-image: url("img/tiles-1.png"); }
 .tile-container[data-sprite="2"] .tile-inner {
   background-image: url("img/tiles-2.png"); }
+.tile-container[data-type="biomass_patch"] {
+  width: calc(123px * var(--tileScale));
+  height: calc(123px * var(--tileScale));
+  margin-left: 0%;
+  margin-top: 0%;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%);
+  transform-origin: 50% 50%; }
+  .tile-container[data-type="biomass_patch"] .tile-inner {
+    background-image: url("img/tiles-1.png"); }
+  .tile-container[data-type="biomass_patch"] .tile-inner {
+    background-position: 77% 100%;
+    clip-path: polygon(2.5% 2.5%, 97.5% 2.5%, 97.5% 97.5%, 2.5% 97.5%, 2.5% 2.5%); }
+  .tile-container[data-type="biomass_patch"] .tile-border {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%, 6.25% 6.25%, 6.25% 93.75%, 93.75% 93.75%, 93.75% 6.25%, 6.25% 6.25%); }
+  .tile-container[data-type="biomass_patch"] .tile-crosshairs {
+    left: 50%;
+    top: 50%; }
 .tile-container[data-shape="0"] {
   width: calc(492px * var(--tileScale));
   height: calc(246px * var(--tileScale));

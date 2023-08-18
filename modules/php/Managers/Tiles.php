@@ -25,6 +25,7 @@ class Tiles extends \PU\Helpers\CachedPieces
   public static function getUiData()
   {
     return self::getInLocation('planet')
+      ->merge(self::getInLocation('corporation'))
       ->merge(self::getSusan())
       ->toArray();
   }

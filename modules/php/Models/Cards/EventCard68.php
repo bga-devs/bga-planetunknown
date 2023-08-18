@@ -15,13 +15,13 @@ class EventCard68 extends \PU\Models\Cards\EventCard
 
   public function __construct($player)
   {
-    $this->title = clienttranslate("Something jumped on the scanners - probably just a glitch.");
-    $this->desc = clienttranslate("Advance the civ, biomass, or water tracker 3 positions. (Do not gain benefits)");
+    $this->title = clienttranslate('Something jumped on the scanners - probably just a glitch.');
+    $this->desc = clienttranslate('Advance the civ, biomass, or water tracker 3 positions. (Do not gain benefits)');
     parent::__construct($player);
   }
 
   //ACTION : Tracker+3
-  //CONTRAINT : 
+  //CONTRAINT :
   public function effect()
   {
     return [
@@ -30,9 +30,9 @@ class EventCard68 extends \PU\Models\Cards\EventCard
         'types' => [CIV, BIOMASS, WATER],
         'withBonus' => false,
         'n' => 1,
-        'move' => 3,  
-        'from' => 'Event Card'
-      ]
-    ]
+        'move' => 3,
+        'from' => 'Event Card',
+      ],
+    ];
   }
 }

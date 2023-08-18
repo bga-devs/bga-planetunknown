@@ -186,7 +186,9 @@ class Corporation
   //should be overidden for certain tech level/corporations
   public function receiveBiomassPatch()
   {
-    return Tiles::createBiomassPatch($this->player);
+    $tile = Tiles::createBiomassPatch($this->player);
+    Notifications::receiveBiomassPatch($this->player, $tile);
+    return $tile;
   }
 
   public function collect($meeple)

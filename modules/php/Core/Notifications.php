@@ -144,9 +144,11 @@ class Notifications
     self::pnotify(
       $player,
       'placeTile',
-      is_null($meteor)
-        ? clienttranslate('${player_name} places a ${types_desc} tile on their planet')
-        : clienttranslate('${player_name} places a ${types_desc} tile and a new meteor on their planet'),
+      count($types) < 2
+        ? clienttranslate('${player_name} places a biomass patch on their planet')
+        : (is_null($meteor)
+          ? clienttranslate('${player_name} places a ${types_desc} tile on their planet')
+          : clienttranslate('${player_name} places a ${types_desc} tile and a new meteor on their planet')),
       [
         'tile' => $tile,
         'types' => $types,
@@ -204,6 +206,14 @@ class Notifications
       'value' => $arg,
     ];
     static::pnotify($player, 'milestone', $message, $data);
+  }
+
+  public static function receiveBiomassPatch($player, $tile)
+  {
+    static::pnotify($player, 'receiveBiomassPatch', \clienttranslate('${player_name} receives a new biomass patch'), [
+      'player' => $player,
+      'tile' => $tile,
+    ]);
   }
 
   /*************************

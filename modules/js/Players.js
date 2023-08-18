@@ -274,6 +274,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         ${grid}
         <div class='rover-reserve' id='rover-reserve-${pId}'></div>
         <div class='meteor-reserve' id='meteor-reserve-${pId}'></div>
+        <div class='biomass-patch-holder' id='biomass-reserve-${pId}'></div>
       </div>`;
     },
 
@@ -603,6 +604,8 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
     getTileContainer(tile) {
       if (tile.location == 'planet') {
         return $(`planet-${tile.pId}`).querySelector('.planet-grid');
+      } else if (tile.type == 'biomass_patch' && tile.location == 'corporation') {
+        return $(`biomass-reserve-${tile.pId}`);
       } else if ($(tile.location)) {
         return $(tile.location);
       }
@@ -658,6 +661,16 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         } else {
           this.notifqueue.setSynchronousDuration(this.isFastMode() ? 0 : 10);
         }
+      });
+    },
+
+    notif_receiveBiomassPatch(n) {
+      debug('Notif: gaining a biomass patch', n);
+      let tile = n.args.tile;
+      let tileId = `tile-${tile.id}`;
+      this.addTile(tile);
+      this.slide($(tileId), this.getTileContainer(tile), { from: this.getVisibleTitleContainer() }).then(() => {
+        this.notifqueue.setSynchronousDuration(this.isFastMode() ? 0 : 10);
       });
     },
 

@@ -81,6 +81,16 @@
     &.hovering #tile-controls-circle #tile-confirm-btn {
         display: none;
     }
+
+    &[data-type="biomass_patch"] {
+        #tile-controls-circle {
+            #tile-flip,
+            #tile-rotate-clockwise,
+            #tile-rotate-cclockwise {
+                display: none;
+            }
+        }
+    }
 }
 
 .tile-container {

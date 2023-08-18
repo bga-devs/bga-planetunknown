@@ -42,6 +42,7 @@ define([
         ['newRotation', 1200],
         ['endOfTurn', 100],
         ['destroyedMeeples', null],
+        ['receiveBiomassPatch', null],
       ];
 
       // Fix mobile viewport (remove CSS zoom)

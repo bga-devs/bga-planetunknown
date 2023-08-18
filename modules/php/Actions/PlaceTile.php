@@ -106,7 +106,6 @@ class PlaceTile extends \PU\Models\Action
     // Move tracks
     $tileTypes = [];
     if ($this->getWithBonus()) {
-
       foreach ($symbols as $symbol) {
         $type = $symbol['type'];
         $tileTypes[] = $type;
@@ -120,7 +119,7 @@ class PlaceTile extends \PU\Models\Action
               'types' => $types,
               'n' => 1,
               'energy' => true,
-              'from' => ENERGY
+              'from' => ENERGY,
             ],
           ]);
           continue;
