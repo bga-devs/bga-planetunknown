@@ -624,12 +624,14 @@ class Planet
     return $cells;
   }
 
-  //to be overriden 
+  //to be overriden
   public function getPossibleMovesFrom($cell)
   {
     $cells = $this->getNeighbours($cell);
     //can't move on a rover
-    return array_filter($cells, fn ($c) => !$this->player->getRoverOnCell($c));
+    return array_filter($cells, function ($c) {
+      return !$this->player->getRoverOnCell($c);
+    });
   }
 
   protected function isIntersectionNonEmpty($cells1, $cells2)

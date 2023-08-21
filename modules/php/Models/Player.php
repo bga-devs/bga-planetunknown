@@ -126,8 +126,7 @@ class Player extends \PU\Helpers\DB_Model
 
   public function getRoversOnPlanet()
   {
-    return $this->getMeeples(ROVER_MEEPLE)
-      ->where('location', 'planet');
+    return $this->getMeeples(ROVER_MEEPLE)->where('location', 'planet');
   }
 
   public function hasMeteorOnPlanet()
@@ -137,8 +136,7 @@ class Player extends \PU\Helpers\DB_Model
 
   public function getMeteorsOnPlanet()
   {
-    return $this->getMeeples(METEOR)
-      ->where('location', 'planet');
+    return $this->getMeeples(METEOR)->where('location', 'planet');
   }
 
   public function getPossibleMovesByRover($teleport = null)
@@ -148,12 +146,12 @@ class Player extends \PU\Helpers\DB_Model
     $spaceIds = [];
 
     foreach ($rovers as $roverId => $rover) {
-      if ($teleport ==  'anywhere') {
+      if ($teleport == 'anywhere') {
         $neighbours = $this->planet()->getListOfCells();
       } else {
         $neighbours = $this->planet()->getPossibleMovesFrom(['x' => $rover->getX(), 'y' => $rover->getY()]);
       }
-      $spaceIds[$roverId] = array_map(fn ($cell) => Planet::getCellId($cell), $neighbours);
+      $spaceIds[$roverId] = array_map(fn($cell) => Planet::getCellId($cell), $neighbours);
     }
 
     return $spaceIds;
@@ -196,7 +194,7 @@ class Player extends \PU\Helpers\DB_Model
     $result = [];
     //count every full row and column
     $result['planet'] = [
-      'entries' => $this->planet()->score()
+      'entries' => $this->planet()->score(),
     ];
     $scorePlanet = $this->reduce_entries($result['planet']);
     $result['planet']['total'] = $scorePlanet;
@@ -208,8 +206,9 @@ class Player extends \PU\Helpers\DB_Model
     ];
     $scoreTracks = $this->reduce_entries($result['tracks']);
     $result['tracks']['total'] = $scoreTracks;
-    $total +=  $scoreTracks;
+    $total += $scoreTracks;
 
+<<<<<<< HEAD
     //lifepods = 1, METEOR = 1/3
     $result['lifepods']['total'] = $this->corporation()->scoreByLifepods();
     $result['meteors']['total'] = $this->corporation()->scoreByMeteors();
@@ -217,7 +216,22 @@ class Player extends \PU\Helpers\DB_Model
     //TODO CIV Cards
     $result['civ']['total'] = 0;
 
+    //lifepods = 1, METEOR = 1/3
+    $result['lifepods']['total'] = $this->corporation()->scoreByLifepods();
+    $result['meteors']['total'] = $this->corporation()->scoreByMeteors();
+    $scoreLifepods = -42;
+    $result['lifepods'] = ['total' => $scoreLifepods];
+    $total += $scoreLifepods;
+
+    $scoreMeteors = -42;
+    $result['meteors'] = ['total' => $scoreMeteors];
+    $total += $scoreMeteors;
+
+    //TODO CIV Cards
+    $result['civ']['total'] = 0;
+
     //TODO POCards
+
     //TODO NOCards
     $result['objectives']['total'] = 0;
 
@@ -233,7 +247,7 @@ class Player extends \PU\Helpers\DB_Model
 
   public static function reduce_entries($array)
   {
-    return array_reduce($array['entries'], fn ($sum, $item) => $sum + $item, 0);
+    return array_reduce($array['entries'], fn($sum, $item) => $sum + $item, 0);
   }
 
   public function addEndOfTurnAction($flow)
@@ -255,7 +269,9 @@ class Player extends \PU\Helpers\DB_Model
 
   public function addEndOfGameAction($flow)
   {
-    if (!$flow) return; //useless to register a null flow
+    if (!$flow) {
+      return;
+    } //useless to register a null flow
 
     $actions = PGlobals::getPendingActionsEndOfGame($this->id);
     $actions[] = $flow;

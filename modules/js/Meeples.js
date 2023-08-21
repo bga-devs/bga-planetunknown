@@ -65,6 +65,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
     getMeepleContainer(meeple) {
       let t = meeple.location.split('_');
+      if (meeple.location == 'trash') {
+        return this.getVisibleTitleContainer();
+      }
       // Things on the planet
       if (meeple.location == 'planet') {
         return this.getPlanetCell(meeple.pId, meeple.x, meeple.y);
@@ -153,6 +156,16 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     notif_silentKill(n) {
       debug('Silent kill', n);
       debug('TODO');
+    },
+
+    notif_destroyedMeeples(n) {
+      debug('Notif: destroying meeples', n);
+      let target = this.getVisibleTitleContainer();
+      console.log(target);
+      this.slideResources(n.args.meeples, {
+        destroy: true,
+        target,
+      });
     },
 
     notif_addMeeples(n) {

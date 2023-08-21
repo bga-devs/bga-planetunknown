@@ -32,7 +32,7 @@ class Players extends \PU\Helpers\CachedDB_Manager
       3 => [0, 2, 4],
       4 => [0, 1, 3, 4],
       5 => [0, 1, 2, 3, 4],
-      6 => [0, 1, 2, 3, 4, 5]
+      6 => [0, 1, 2, 3, 4, 5],
     ];
 
     $planets = ADVANCED_PLANETS;
@@ -52,19 +52,14 @@ class Players extends \PU\Helpers\CachedDB_Manager
       'planet_id',
       'corporation_id',
       'position',
-      'extra_datas'
+      'extra_datas',
     ]);
     $playerIndex = 0;
     $values = [];
     foreach ($players as $pId => $player) {
-
       //give a planet and corporation according to game options
-      $planet = ($options[OPTION_PLANET] == OPTION_PLANET_A)
-        ? 0
-        : array_shift($planets); //TODO ATTRIBUTE A BOARD AT RANDOM
-      $corporation = ($options[OPTION_CORPORATION] == OPTION_CORPORATION_UNIVERSAL)
-        ? 0
-        : array_shift($corporations); //TODO ATTRIBUTE A BOARD AT RANDOM
+      $planet = $options[OPTION_PLANET] == OPTION_PLANET_A ? 0 : array_shift($planets); //TODO ATTRIBUTE A BOARD AT RANDOM
+      $corporation = $options[OPTION_CORPORATION] == OPTION_CORPORATION_UNIVERSAL ? 0 : array_shift($corporations); //TODO ATTRIBUTE A BOARD AT RANDOM
 
       $color = array_shift($colors);
       $values[] = [
@@ -76,7 +71,7 @@ class Players extends \PU\Helpers\CachedDB_Manager
         $planet,
         $corporation,
         $positions[count($players)][$playerIndex],
-        '[]'
+        '[]',
       ];
       $playerIndex++;
     }

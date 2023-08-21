@@ -34,6 +34,17 @@ html {
 @import url(https://fonts.googleapis.com/css?family=Permanent+Marker);
 @import url(https://fonts.googleapis.com/css?family=Caveat);
 
+@font-face {
+  font-family: "HemiHead";
+  src:
+    url("img/fonts/HemiHeadRg-BoldItalic.woff2") format("woff2"),
+    url("img/fonts/HemiHeadRg-BoldItalic.woff") format("woff"),
+    url("img/fonts/HemiHeadRg-BoldItalic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
 // Changing size of columns
 #left-side {
   margin-right: 355px !important;

@@ -797,6 +797,10 @@
       top: calc(15% - 15px); }
   #tile-controls.hovering #tile-controls-circle #tile-confirm-btn {
     display: none; }
+  #tile-controls[data-type="biomass_patch"] #tile-controls-circle #tile-flip,
+  #tile-controls[data-type="biomass_patch"] #tile-controls-circle #tile-rotate-clockwise,
+  #tile-controls[data-type="biomass_patch"] #tile-controls-circle #tile-rotate-cclockwise {
+    display: none; }
 
 .tile-container {
   position: relative;
@@ -925,6 +929,23 @@
   background-image: url("img/tiles-1.png"); }
 .tile-container[data-sprite="2"] .tile-inner {
   background-image: url("img/tiles-2.png"); }
+.tile-container[data-type="biomass_patch"] {
+  width: calc(123px * var(--tileScale));
+  height: calc(123px * var(--tileScale));
+  margin-left: 0%;
+  margin-top: 0%;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%);
+  transform-origin: 50% 50%; }
+  .tile-container[data-type="biomass_patch"] .tile-inner {
+    background-image: url("img/tiles-1.png"); }
+  .tile-container[data-type="biomass_patch"] .tile-inner {
+    background-position: 77% 100%;
+    clip-path: polygon(2.5% 2.5%, 97.5% 2.5%, 97.5% 97.5%, 2.5% 97.5%, 2.5% 2.5%); }
+  .tile-container[data-type="biomass_patch"] .tile-border {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 0%, 6.25% 6.25%, 6.25% 93.75%, 93.75% 93.75%, 93.75% 6.25%, 6.25% 6.25%); }
+  .tile-container[data-type="biomass_patch"] .tile-crosshairs {
+    left: 50%;
+    top: 50%; }
 .tile-container[data-shape="0"] {
   width: calc(492px * var(--tileScale));
   height: calc(246px * var(--tileScale));
@@ -1620,10 +1641,13 @@
   background: black !important; }
 
 #popin_showScores {
-  border-radius: 0px; }
+  border-radius: 0px;
+  background: #77bfb8; }
   #popin_showScores #popin_showScores_contents table {
     width: 100%;
-    border-collapse: collapse; }
+    border-collapse: collapse;
+    font-family: "HemiHead";
+    font-size: 17px; }
     #popin_showScores #popin_showScores_contents table thead tr {
       border-bottom: 2px solid black;
       border-top: 2px solid black; }
@@ -1635,10 +1659,19 @@
         text-align: center;
         border-left: 2px solid black;
         border-right: 2px solid black; }
+      #popin_showScores #popin_showScores_contents table thead tr#scores-names {
+        background-color: white; }
+        #popin_showScores #popin_showScores_contents table thead tr#scores-names th:first-of-type {
+          font-size: 20px; }
+        #popin_showScores #popin_showScores_contents table thead tr#scores-names th {
+          font-weight: bold; }
+      #popin_showScores #popin_showScores_contents table thead tr#scores-planets {
+        background: #ccd1d1; }
     #popin_showScores #popin_showScores_contents table tbody tr {
-      height: 30px; }
+      height: 35px;
+      border-bottom: 2px solid #828080; }
       #popin_showScores #popin_showScores_contents table tbody tr:nth-child(odd) {
-        background-color: #ccc; }
+        background-color: #ccd1d1; }
       #popin_showScores #popin_showScores_contents table tbody tr#scores-row-pastures, #popin_showScores #popin_showScores_contents table tbody tr#scores-row-vegetables, #popin_showScores #popin_showScores_contents table tbody tr#scores-row-cattles, #popin_showScores #popin_showScores_contents table tbody tr#scores-row-stables, #popin_showScores #popin_showScores_contents table tbody tr#scores-row-stoneRooms, #popin_showScores #popin_showScores_contents table tbody tr#scores-row-farmers {
         border-bottom: 1px solid black; }
       #popin_showScores #popin_showScores_contents table tbody tr td {
@@ -1656,26 +1689,16 @@
         #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentry {
           display: flex;
           justify-content: flex-end;
-          padding: 2px 8px; }
-          #popin_showScores #popin_showScores_contents table tbody tr td .scoring-entry .meeple-container,
-          #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentry .meeple-container {
-            font-size: 1.1em;
-            width: 30px; }
-            #popin_showScores #popin_showScores_contents table tbody tr td .scoring-entry .meeple-container .agricola-meeple,
-            #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentry .meeple-container .agricola-meeple {
-              margin: auto; }
-          #popin_showScores #popin_showScores_contents table tbody tr td .scoring-entry.qty-scoring-entry, #popin_showScores #popin_showScores_contents table tbody tr td .scoring-entry.scoring-subentry,
-          #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentry.qty-scoring-entry,
+          padding: 6px 8px; }
+          #popin_showScores #popin_showScores_contents table tbody tr td .scoring-entry.scoring-subentry,
           #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentry.scoring-subentry {
             justify-content: space-between;
             padding: 0px 4px; }
-            #popin_showScores #popin_showScores_contents table tbody tr td .scoring-entry.qty-scoring-entry > div, #popin_showScores #popin_showScores_contents table tbody tr td .scoring-entry.scoring-subentry > div,
-            #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentry.qty-scoring-entry > div,
+            #popin_showScores #popin_showScores_contents table tbody tr td .scoring-entry.scoring-subentry > div,
             #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentry.scoring-subentry > div {
               padding: 2px 8px;
               line-height: 28px; }
-            #popin_showScores #popin_showScores_contents table tbody tr td .scoring-entry.qty-scoring-entry > div:first-of-type, #popin_showScores #popin_showScores_contents table tbody tr td .scoring-entry.scoring-subentry > div:first-of-type,
-            #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentry.qty-scoring-entry > div:first-of-type,
+            #popin_showScores #popin_showScores_contents table tbody tr td .scoring-entry.scoring-subentry > div:first-of-type,
             #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentry.scoring-subentry > div:first-of-type {
               border-right: 1px solid #7b7b7b91;
               margin-top: 0px;
@@ -1683,24 +1706,10 @@
               min-width: 48px;
               height: 28px;
               text-align: left; }
-          #popin_showScores #popin_showScores_contents table tbody tr td .scoring-entry.qty-scoring-entry > div:first-of-type,
-          #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentry.qty-scoring-entry > div:first-of-type {
-            min-width: 65px;
-            max-width: 65px;
-            padding: 2px 0px;
-            text-align: center; }
-            #popin_showScores #popin_showScores_contents table tbody tr td .scoring-entry.qty-scoring-entry > div:first-of-type .meeple-farmer,
-            #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentry.qty-scoring-entry > div:first-of-type .meeple-farmer {
-              width: 0.9em;
-              height: 1.2em; }
-            #popin_showScores #popin_showScores_contents table tbody tr td .scoring-entry.qty-scoring-entry > div:first-of-type .meeple-stable,
-            #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentry.qty-scoring-entry > div:first-of-type .meeple-stable {
-              width: 0.8em;
-              height: 1.1em; }
           #popin_showScores #popin_showScores_contents table tbody tr td .scoring-entry i,
           #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentry i {
             color: #2222229e;
-            font-size: 0.8em;
+            font-size: 1.2em;
             margin-left: 4px;
             vertical-align: middle; }
         #popin_showScores #popin_showScores_contents table tbody tr td .scoring-subentries {
@@ -1717,12 +1726,9 @@
       #popin_showScores #popin_showScores_contents table tbody tr#scores-row-total {
         height: 40px;
         border-top: 2px solid black;
-        font-size: 1.2em; }
+        font-size: 1.2em;
+        background: white; }
         #popin_showScores #popin_showScores_contents table tbody tr#scores-row-total td:nth-of-type(1) {
-          background: #515151;
-          text-align: center;
-          color: white;
-          font-family: "ColibriB";
           font-weight: bold;
           text-transform: uppercase; }
 
@@ -1736,6 +1742,12 @@
       transform: scale(1.8);
       transform-origin: top left; }
 
+@font-face {
+  font-family: "HemiHead";
+  src: url("img/fonts/HemiHeadRg-BoldItalic.woff2") format("woff2"), url("img/fonts/HemiHeadRg-BoldItalic.woff") format("woff"), url("img/fonts/HemiHeadRg-BoldItalic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap; }
 #left-side {
   margin-right: 355px !important; }
 

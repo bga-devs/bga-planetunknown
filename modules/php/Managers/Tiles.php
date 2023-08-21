@@ -25,6 +25,7 @@ class Tiles extends \PU\Helpers\CachedPieces
   public static function getUiData()
   {
     return self::getInLocation('planet')
+      ->merge(self::getInLocation('corporation'))
       ->merge(self::getSusan())
       ->toArray();
   }
@@ -35,12 +36,12 @@ class Tiles extends \PU\Helpers\CachedPieces
     for ($j = 0; $j < 6; $j++) {
       $tile = self::getTopOf("top-interior-$j")->first();
       if (!is_null($tile)) {
-        $tiles[] = $tile;
+        $tiles[$tile->getId()] = $tile;
       }
 
       $tile = self::getTopOf("top-exterior-$j")->first();
       if (!is_null($tile)) {
-        $tiles[] = $tile;
+        $tiles[$tile->getId()] = $tile;
       }
     }
 

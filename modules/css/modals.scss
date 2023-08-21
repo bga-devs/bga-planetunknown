@@ -51,12 +51,14 @@
 
 #popin_showScores {
     border-radius: 0px;
+    background: #77bfb8;
 
     #popin_showScores_contents {
         table {
             width: 100%;
             border-collapse: collapse;
-            // font-family: TODO;
+            font-family: "HemiHead";
+            font-size: 17px;
 
             thead {
                 tr {
@@ -71,15 +73,32 @@
                         border-left: 2px solid black;
                         border-right: 2px solid black;
                     }
+
+                    &#scores-names {
+                        background-color: white;
+
+                        th:first-of-type {
+                            font-size: 20px;
+                        }
+
+                        th {
+                            font-weight: bold;
+                        }
+                    }
+
+                    &#scores-planets {
+                        background: #ccd1d1;
+                    }
                 }
             }
 
             tbody {
                 tr {
-                    height: 30px;
+                    height: 35px;
+                    border-bottom: 2px solid #828080;
 
                     &:nth-child(odd) {
-                        background-color: #ccc;
+                        background-color: #ccd1d1;
                     }
 
                     &#scores-row-pastures,
@@ -109,17 +128,8 @@
                         .scoring-subentry {
                             display: flex;
                             justify-content: flex-end;
-                            padding: 2px 8px;
+                            padding: 6px 8px;
 
-                            .meeple-container {
-                                font-size: 1.1em;
-                                width: 30px;
-                                .agricola-meeple {
-                                    margin: auto;
-                                }
-                            }
-
-                            &.qty-scoring-entry,
                             &.scoring-subentry {
                                 justify-content: space-between;
                                 padding: 0px 4px;
@@ -138,25 +148,10 @@
                                     text-align: left;
                                 }
                             }
-                            &.qty-scoring-entry > div:first-of-type {
-                                min-width: 65px;
-                                max-width: 65px;
-                                padding: 2px 0px;
-                                text-align: center;
-
-                                .meeple-farmer {
-                                    width: 0.9em;
-                                    height: 1.2em;
-                                }
-                                .meeple-stable {
-                                    width: 0.8em;
-                                    height: 1.1em;
-                                }
-                            }
 
                             i {
                                 color: #2222229e;
-                                font-size: 0.8em;
+                                font-size: 1.2em;
                                 margin-left: 4px;
                                 vertical-align: middle;
                             }
@@ -187,12 +182,9 @@
                         height: 40px;
                         border-top: 2px solid black;
                         font-size: 1.2em;
+                        background: white;
 
                         td:nth-of-type(1) {
-                            background: #515151;
-                            text-align: center;
-                            color: white;
-                            font-family: "ColibriB";
                             font-weight: bold;
                             text-transform: uppercase;
                         }

@@ -4,7 +4,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
   const ALL_PLAYER_COUNTERS = PLAYER_COUNTERS.concat(RESOURCES);
   const COUNTER_MEEPLES = ['reputation', 'conservation', 'appeal'];
 
-  const SCORE_CATEGORIES = ['planet', 'tracks', 'lifepods', 'meteors', 'civ', 'objectives'];
+  const SCORE_CATEGORIES = ['planet', 'tracks', 'lifepods', 'meteors', 'civ', 'objectives', 'total'];
   const SCORE_MULTIPLE_ENTRIES = ['civ', 'objectives'];
 
   return declare('planetunknown.players', null, {
@@ -126,6 +126,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       });
 
       this.rotateSusan();
+      this.setupPlayersScores();
       // this.setupPlayersCounters();
       // this.activateShowTileHelperButtons();
     },
@@ -273,6 +274,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         ${grid}
         <div class='rover-reserve' id='rover-reserve-${pId}'></div>
         <div class='meteor-reserve' id='meteor-reserve-${pId}'></div>
+        <div class='biomass-patch-holder' id='biomass-reserve-${pId}'></div>
       </div>`;
     },
 
@@ -602,6 +604,8 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
     getTileContainer(tile) {
       if (tile.location == 'planet') {
         return $(`planet-${tile.pId}`).querySelector('.planet-grid');
+      } else if (tile.type == 'biomass_patch' && tile.location == 'corporation') {
+        return $(`biomass-reserve-${tile.pId}`);
       } else if ($(tile.location)) {
         return $(tile.location);
       }
@@ -657,6 +661,16 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         } else {
           this.notifqueue.setSynchronousDuration(this.isFastMode() ? 0 : 10);
         }
+      });
+    },
+
+    notif_receiveBiomassPatch(n) {
+      debug('Notif: gaining a biomass patch', n);
+      let tile = n.args.tile;
+      let tileId = `tile-${tile.id}`;
+      this.addTile(tile);
+      this.slide($(tileId), this.getTileContainer(tile), { from: this.getVisibleTitleContainer() }).then(() => {
+        this.notifqueue.setSynchronousDuration(this.isFastMode() ? 0 : 10);
       });
     },
 
@@ -726,14 +740,15 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
 
       // Create columns
       this.forEachPlayer((player) => {
-        let corporationName = '';
-        let planetName = '';
+        let planetName = player.planetId ? _(PLANETS_DATA[player.planetId].name) : '';
+        let corporationName = player.corporationId ? _(CORPOS_DATA[player.corporationId].name) : '';
+
         $('scores-names').insertAdjacentHTML('beforeend', `<th style='color:#${player.color}'>${player.name}</th>`);
-        $('scores-planets').insertAdjacentHTML('beforeend', `<th>${_(corporationName)}</th>`);
-        $('scores-corporations').insertAdjacentHTML('beforeend', `<th>${_(planetName)}</th>`);
+        $('scores-planets').insertAdjacentHTML('beforeend', `<th>${_(planetName)}</th>`);
+        $('scores-corporations').insertAdjacentHTML('beforeend', `<th>${_(corporationName)}</th>`);
 
         SCORE_CATEGORIES.forEach((row) => {
-          let scoreElt = '<div><span id="score-' + player.id + '-' + row + '"></span><i class="fa fa-star"></i></div>';
+          let scoreElt = '<div><span id="score-' + player.id + '-' + row + '"></span><i class="fa fa-circle"></i></div>';
           let addClass = '';
 
           // Wrap that into a scoring entry
@@ -768,18 +783,12 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
      */
     setupPlayersScores() {
       this._scoresCounters = {};
-      this._scoresQtyCounters = {};
 
       this.forEachPlayer((player) => {
         this._scoresCounters[player.id] = {};
-        this._scoresQtyCounters[player.id] = {};
 
         SCORE_CATEGORIES.forEach((category) => {
           this._scoresCounters[player.id][category] = this.createCounter('score-' + player.id + '-' + category);
-
-          if (SCORE_QTY_CATEGORIES.includes(category)) {
-            this._scoresQtyCounters[player.id][category] = this.createCounter('score-quantity-' + player.id + '-' + category);
-          }
         });
       });
 
@@ -799,30 +808,25 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
                 : this.gamedatas.scores[player.id][category]['total'];
             this._scoresCounters[player.id][category][anim ? 'toValue' : 'setValue'](value);
 
-            if (SCORE_QTY_CATEGORIES.includes(category)) {
-              let n = this.gamedatas.scores[player.id][category]['entries'][0]['quantity'];
-              this._scoresQtyCounters[player.id][category][anim ? 'toValue' : 'setValue'](n);
-            }
-
-            if (SCORE_MULTIPLE_ENTRIES.includes(category)) {
-              let container = $(`score-subentries-${player.id}-${category}`);
-              dojo.empty(container);
-              this.gamedatas.scores[player.id][category]['entries'].forEach((entry) => {
-                dojo.place(
-                  `<div class="scoring-subentry">
-                  <div>${_(entry.source)}</div>
-                  <div>
-                    ${entry.score}
-                    <i class="fa fa-star"></i>
-                  </div>
-                </div>`,
-                  container
-                );
-              });
-            }
+            // if (SCORE_MULTIPLE_ENTRIES.includes(category)) {
+            //   let container = $(`score-subentries-${player.id}-${category}`);
+            //   dojo.empty(container);
+            //   this.gamedatas.scores[player.id][category]['entries'].forEach((entry) => {
+            //     dojo.place(
+            //       `<div class="scoring-subentry">
+            //       <div>${_(entry.source)}</div>
+            //       <div>
+            //         ${entry.score}
+            //         <i class="fa fa-star"></i>
+            //       </div>
+            //     </div>`,
+            //       container
+            //     );
+            //   });
+            // }
           });
-          if (this._scoreCounters[player.id] !== undefined) {
-            this._scoreCounters[player.id].toValue(this.gamedatas.scores[player.id].total);
+          if (this.scoreCtrl && this.scoreCtrl[player.id] !== undefined) {
+            this.scoreCtrl[player.id].toValue(this.gamedatas.scores[player.id].total);
           }
         });
       }

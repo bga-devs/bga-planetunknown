@@ -11,8 +11,6 @@ use PU\Managers\Players;
 
 class Card extends \PU\Helpers\DB_Model
 {
-  protected $title;
-  protected $desc;
   protected $table = 'cards';
   protected $primary = 'card_id';
   protected $attributes = [
@@ -22,6 +20,8 @@ class Card extends \PU\Helpers\DB_Model
     'extra_datas' => ['extra_datas', 'obj'],
     'pId' => 'player_id',
   ];
+
+  protected $staticAttributes = ['title', 'desc'];
 
   public function getPlayer()
   {

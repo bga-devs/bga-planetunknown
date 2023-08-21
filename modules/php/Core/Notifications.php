@@ -25,13 +25,13 @@ class Notifications
   {
     $message =
       $action == 'destroy'
-      ? clienttranslate('${player_name} detroys ${n} ${type} from his planet')
-      : clienttranslate('${player_name} collects ${n} ${type} from his planet');
+        ? clienttranslate('${player_name} detroys ${n} ${type} from his planet')
+        : clienttranslate('${player_name} collects ${n} ${type} from his planet');
     $data = [
       'player' => $player,
       'n' => count($meeples),
       'type' => $meeples[0]->getType(),
-      'meeples' => $meeples
+      'meeples' => $meeples,
     ];
     static::pnotify($player, 'slideMeeple', $message, $data);
   }
@@ -75,7 +75,7 @@ class Notifications
       [
         'player' => $player,
         'nb' => count($destroyedMeeples),
-        'destroyedMeeples' => $destroyedMeeples,
+        'meeples' => $destroyedMeeples->toArray(),
       ]
     );
   }
@@ -119,8 +119,8 @@ class Notifications
   {
     $message =
       $player == null
-      ? clienttranslate('S.U.S.A.N. rotates.')
-      : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
+        ? clienttranslate('S.U.S.A.N. rotates.')
+        : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
     $data = [
       'player' => $player,
       'newRotation' => $rotation,
@@ -144,9 +144,11 @@ class Notifications
     self::pnotify(
       $player,
       'placeTile',
-      is_null($meteor)
-        ? clienttranslate('${player_name} places a ${types_desc} tile on their planet')
-        : clienttranslate('${player_name} places a ${types_desc} tile and a new meteor on their planet'),
+      count($types) < 2
+        ? clienttranslate('${player_name} places a biomass patch on their planet')
+        : (is_null($meteor)
+          ? clienttranslate('${player_name} places a ${types_desc} tile on their planet')
+          : clienttranslate('${player_name} places a ${types_desc} tile and a new meteor on their planet')),
       [
         'tile' => $tile,
         'types' => $types,
@@ -204,6 +206,14 @@ class Notifications
       'value' => $arg,
     ];
     static::pnotify($player, 'milestone', $message, $data);
+  }
+
+  public static function receiveBiomassPatch($player, $tile)
+  {
+    static::pnotify($player, 'receiveBiomassPatch', \clienttranslate('${player_name} receives a new biomass patch'), [
+      'player' => $player,
+      'tile' => $tile,
+    ]);
   }
 
   /*************************
@@ -334,7 +344,7 @@ class Notifications
       $data['player_name'] = $data['player']->getName();
       $data['player_id'] = $data['player']->getId();
       $data['scores'] = [
-        $data['player']->getId() => $data['player']->score()
+        $data['player']->getId() => $data['player']->score(),
       ];
       unset($data['player']);
     }

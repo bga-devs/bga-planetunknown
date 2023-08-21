@@ -66,8 +66,26 @@ foreach (ALL_CORPORATIONS as $corpoId) {
   $corpos[$corpoId] = $corpo->getUiData();
 }
 
+$cards = [];
+for ($i = 1; $i <= 124; $i++) {
+  if ($i > 0 && $i <= 36) {
+    require_once "../modules/php/Models/Cards/CivCard$i.php";
+    $className = '\PU\Models\Cards\CivCard' . $i;
+  } elseif ($i > 36 && $i <= 64) {
+    // require_once "../modules/php/Models/Corporations/Corporation$corpoId.php";
+    // $className = '\PU\Models\Cards\OCard';
+    continue;
+  } elseif ($i > 64 && $i <= 124) {
+    require_once "../modules/php/Models/Cards/EventCard$i.php";
+    $className = '\PU\Models\Cards\EventCard' . $i;
+  }
+
+  $card = new $className(null);
+  $cards[$i] = $card->getStaticData();
+}
 $fp = fopen('../modules/js/data.js', 'w');
 // fwrite($fp, 'const CARDS_DATA = ' . json_encode($cards) . ';');
 fwrite($fp, 'const PLANETS_DATA = ' . json_encode($planets) . ';');
 fwrite($fp, 'const CORPOS_DATA = ' . json_encode($corpos) . ';');
+fwrite($fp, 'const CARDS_DATA = ' . json_encode($cards) . ';');
 fclose($fp);
