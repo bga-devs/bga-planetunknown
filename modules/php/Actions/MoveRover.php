@@ -70,5 +70,11 @@ class MoveRover extends \PU\Models\Action
       $player->corporation()->collect($meteor);
       Notifications::collectMeeple($player, [$meteor], 'collect');
     }
+
+    $lifepod = $player->getLifepodOnCell($cell);
+    if (!is_null($lifepod)) {
+      $player->corporation()->collect($lifepod);
+      Notifications::collectMeeple($player, [$lifepod], 'collect');
+    }
   }
 }

@@ -2,6 +2,8 @@
 
 namespace PU\Models\Corporations;
 
+use PU\Managers\Tiles;
+
 class Corporation0 extends Corporation
 {
   public function __construct($player)
@@ -17,19 +19,15 @@ class Corporation0 extends Corporation
       ],
       2 => [
         'text' => clienttranslate('You may store biomass patches to be placed at the end of game.')
-        //TODO
       ],
       3 => [
         'text' => clienttranslate('+1 each time you gain rover movement.')
-        //TODO
       ],
       4 => [
         'text' => clienttranslate('Double water advancement from water tile placement.')
-        //TODO
       ],
       5 => [
         'text' => clienttranslate('Unaffected by meteor strikes. Do not place meteorites.')
-        //TODO
       ],
     ];
     parent::__construct($player);
@@ -43,4 +41,30 @@ class Corporation0 extends Corporation
     ROVER => [null, ROVER, 'move_1', 'move_1', 'move_2', 'move_2', ['move_2', ROVER], 'move_2', ['move_2', 1], 'move_3', ['move_3', SYNERGY], 'move_3', ['move_3', 2], 'move_4', 'move_4', ['move_4', 5]],
     TECH => [null, null, SYNERGY, TECH, null, TECH, 1, TECH, null, null, TECH, null, SYNERGY, 2, TECH, 5]
   ];
+
+  public function moveRoverby($n)
+  {
+    return $this->getTechLevel() >= 3 ? $n + 1 : $n;
+  }
+
+  public function moveTrackBy($type, $n)
+  {
+    return ($this->getTechLevel() >= 4 && $type == WATER && $n > 0) ? $n * 2 : $n;
+  }
+
+  // add an end of game action or return patch to be placed immediately
+  public function receiveBiomassPatch()
+  {
+    $patch = Tiles::createBiomassPatch($this->player);
+    if ($this->getTechLevel() >= 2) {
+      $this->player->addEndOfGameAction([
+        'action' => PLACE_TILE,
+        'args' => [
+          'forcedTiles' => [$patch->getId()]
+        ]
+      ]);
+    } else {
+      return $patch;
+    }
+  }
 }

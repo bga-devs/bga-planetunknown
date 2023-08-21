@@ -174,7 +174,9 @@ class Action
         default:
           //handle 'move_x' bonuses
           if (is_string($bonus) && str_starts_with($bonus, 'move')) {
-            $levelMove = explode('_', $bonus)[1];
+            //TODO modify to handle more cases.
+            $levelMove = $player->corporation()->moveRoverBy(explode('_', $bonus)[1]);
+
             for ($i = 0; $i < $levelMove; $i++) {
               $this->insertAsChild([
                 'action' => MOVE_ROVER,

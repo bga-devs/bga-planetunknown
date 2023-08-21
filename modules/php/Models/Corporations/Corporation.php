@@ -3,6 +3,7 @@
 namespace PU\Models\Corporations;
 
 use PU\Core\Notifications;
+use PU\Managers\Meeples;
 use PU\Managers\Tiles;
 
 use function PHPSTORM_META\type;
@@ -37,6 +38,11 @@ class Corporation
       'desc' => $this->desc,
       'tracks' => $this->tracks,
     ];
+  }
+
+  public function moveTrackBy($type, $n)
+  {
+    return $n;
   }
 
   /**
@@ -120,13 +126,23 @@ class Corporation
     return 0;
   }
 
-  public function score()
+  public function scoreByTracks()
   {
     $result = [];
     foreach (ALL_TYPES as $type) {
       $result['tracker_' . $type] = $this->getBestMedal($type);
     }
     return $result;
+  }
+
+  public function scoreByMeteors()
+  {
+    return floor($this->getNCollected(METEOR) / 3);
+  }
+
+  public function scoreByLifepods()
+  {
+    return $this->getNCollected(LIFEPOD);
   }
 
   public function getCivLevel()
@@ -154,6 +170,12 @@ class Corporation
     return $result;
   }
 
+  //to be overidden
+  public function moveRoverBy($n)
+  {
+    return $n;
+  }
+
   /**
    * Return an array of all cells this TYPE tracker can reach with a N move.
    * @return Array of CellIDs ('x_y')
@@ -171,18 +193,6 @@ class Corporation
     return [$trackPawn->getX() . '_' . $nextSpaceY];
   }
 
-  /**
-   * Return the number of rover a player need for a game (from static data)
-   */
-  public function getRoverNb()
-  {
-    return count(
-      array_filter($this->tracks[ROVER], function ($value) {
-        return $this->isOrIn($value, ROVER);
-      })
-    );
-  }
-
   //should be overidden for certain tech level/corporations
   public function receiveBiomassPatch()
   {
@@ -194,6 +204,13 @@ class Corporation
     $meeple->setX('');
     $meeple->setY('');
     $meeple->setLocation('corporation');
+  }
+
+  public function getNCollected($type)
+  {
+    return Meeples::getOfPlayer($this->player, $type)
+      ->where('location', 'corporation')
+      ->count();
   }
 
   /*
@@ -227,5 +244,38 @@ class Corporation
   protected function isOrIn($trackValue, $neededValue)
   {
     return $trackValue == $neededValue || (is_array($trackValue) && in_array($neededValue, $trackValue));
+  }
+
+
+
+  /*
+         █████████  ██████████ ███████████ ███████████ ██████████ ███████████          
+        ███░░░░░███░░███░░░░░█░█░░░███░░░█░█░░░███░░░█░░███░░░░░█░░███░░░░░███         
+       ███     ░░░  ░███  █ ░ ░   ░███  ░ ░   ░███  ░  ░███  █ ░  ░███    ░███   █████ 
+      ░███          ░██████       ░███        ░███     ░██████    ░██████████   ███░░  
+      ░███    █████ ░███░░█       ░███        ░███     ░███░░█    ░███░░░░░███ ░░█████ 
+      ░░███  ░░███  ░███ ░   █    ░███        ░███     ░███ ░   █ ░███    ░███  ░░░░███
+       ░░█████████  ██████████    █████       █████    ██████████ █████   █████ ██████ 
+        ░░░░░░░░░  ░░░░░░░░░░    ░░░░░       ░░░░░    ░░░░░░░░░░ ░░░░░   ░░░░░ ░░░░░░  
+                                                                                       
+                                                                                       
+                                                                                       
+  */
+
+  public function getId()
+  {
+    return $this->id;
+  }
+
+  /**
+   * Return the number of rover a player need for a game (from static data)
+   */
+  public function getRoverNb()
+  {
+    return count(
+      array_filter($this->tracks[ROVER], function ($value) {
+        return $this->isOrIn($value, ROVER);
+      })
+    );
   }
 }

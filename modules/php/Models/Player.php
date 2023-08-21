@@ -94,6 +94,11 @@ class Player extends \PU\Helpers\DB_Model
     return static::getMeepleOnCell($cell, METEOR);
   }
 
+  public function getLifepodOnCell($cell)
+  {
+    return static::getMeepleOnCell($cell, LIFEPOD);
+  }
+
   public function getRoverOnCell($cell)
   {
     return static::getMeepleOnCell($cell, ROVER_MEEPLE);
@@ -197,21 +202,24 @@ class Player extends \PU\Helpers\DB_Model
     $result['planet']['total'] = $scorePlanet;
     $total = $scorePlanet;
 
-    //TODO highest value for each tracker in tracks
+    //highest value for each tracker in tracks
     $result['tracks'] = [
-      'entries' => $this->corporation()->score()
+      'entries' => $this->corporation()->scoreByTracks()
     ];
     $scoreTracks = $this->reduce_entries($result['tracks']);
     $result['tracks']['total'] = $scoreTracks;
     $total +=  $scoreTracks;
 
-    //TODO lifepods = 1, METEOR = 1/3
+    //lifepods = 1, METEOR = 1/3
+    $result['lifepods']['total'] = $this->corporation()->scoreByLifepods();
+    $result['meteors']['total'] = $this->corporation()->scoreByMeteors();
 
     //TODO CIV Cards
+    $result['civ']['total'] = 0;
 
     //TODO POCards
-
     //TODO NOCards
+    $result['objectives']['total'] = 0;
 
     $result['total'] = $total;
 

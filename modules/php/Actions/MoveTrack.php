@@ -83,13 +83,16 @@ class MoveTrack extends \PU\Models\Action
 
   public function actMoveTrack($type, $n)
   {
-    for ($i = 1; $i <= abs($n); $i++) {
+    $player = $this->getPlayer();
+    //TODO handle wih best integration of different corporation power
+    $nMove = $player->corporation()->moveTrackBy($type, $n);
+    for ($i = 1; $i <= abs($nMove); $i++) {
       $this->insertAsChild([
         'action' => MOVE_TRACKER_BY_ONE,
         'args' => [
           'type' => $type,
           'moveId' => $i, //TO be used in a string like : "moveID on N moves" 
-          'n' => $n, //it still can be positive or negative
+          'n' => $nMove, //it still can be positive or negative
           'withBonus' => $this->getWithBonus()
         ]
       ]);
