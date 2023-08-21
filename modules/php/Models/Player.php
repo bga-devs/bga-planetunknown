@@ -151,7 +151,7 @@ class Player extends \PU\Helpers\DB_Model
       } else {
         $neighbours = $this->planet()->getPossibleMovesFrom(['x' => $rover->getX(), 'y' => $rover->getY()]);
       }
-      $spaceIds[$roverId] = array_map(fn($cell) => Planet::getCellId($cell), $neighbours);
+      $spaceIds[$roverId] = array_map(fn ($cell) => Planet::getCellId($cell), $neighbours);
     }
 
     return $spaceIds;
@@ -208,32 +208,28 @@ class Player extends \PU\Helpers\DB_Model
     $result['tracks']['total'] = $scoreTracks;
     $total += $scoreTracks;
 
-<<<<<<< HEAD
     //lifepods = 1, METEOR = 1/3
-    $result['lifepods']['total'] = $this->corporation()->scoreByLifepods();
-    $result['meteors']['total'] = $this->corporation()->scoreByMeteors();
-
-    //TODO CIV Cards
-    $result['civ']['total'] = 0;
-
-    //lifepods = 1, METEOR = 1/3
-    $result['lifepods']['total'] = $this->corporation()->scoreByLifepods();
-    $result['meteors']['total'] = $this->corporation()->scoreByMeteors();
-    $scoreLifepods = -42;
-    $result['lifepods'] = ['total' => $scoreLifepods];
+    $scoreLifepods = $this->corporation()->scoreByLifepods();
+    $result['lifepods']['total'] = $scoreLifepods;
     $total += $scoreLifepods;
 
-    $scoreMeteors = -42;
-    $result['meteors'] = ['total' => $scoreMeteors];
+    $scoreMeteors = $this->corporation()->scoreByMeteors();
+    $result['meteors']['total'] = $scoreMeteors;
     $total += $scoreMeteors;
 
     //TODO CIV Cards
-    $result['civ']['total'] = 0;
+    $result['civ']['entries'] = [];
+    $scoreCivs = $this->reduce_entries($result['civ']);
+    $result['civ']['total'] = $scoreCivs;
+    $total += $scoreCivs;
 
     //TODO POCards
-
     //TODO NOCards
-    $result['objectives']['total'] = 0;
+    $result['objectives'] = [
+      'entries' => [],
+    ];
+    $scoreObjectives = $this->reduce_entries($result['objectives']);
+    $result['objectives']['total'] = $scoreObjectives;
 
     $result['total'] = $total;
 
@@ -247,7 +243,7 @@ class Player extends \PU\Helpers\DB_Model
 
   public static function reduce_entries($array)
   {
-    return array_reduce($array['entries'], fn($sum, $item) => $sum + $item, 0);
+    return array_reduce($array['entries'], fn ($sum, $item) => $sum + $item, 0);
   }
 
   public function addEndOfTurnAction($flow)
