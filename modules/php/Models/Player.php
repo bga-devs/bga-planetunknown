@@ -278,4 +278,17 @@ class Player extends \PU\Helpers\DB_Model
   {
     return PGlobals::getPendingActionsEndOfGame($this->id);
   }
+
+  /**
+   * from a techId given returns if player has this tech
+   * @param $techId String as 'tech_0_5' which means corporation0 tech 5
+   * 
+   * @return bool 
+   */
+  public function hasTech($techId)
+  {
+    [$_, $corporation, $tech] = explode('_', $techId);
+
+    return $this->corporation()->getId() == $corporation && $this->corporation()->getTechLevel() >= $tech;
+  }
 }

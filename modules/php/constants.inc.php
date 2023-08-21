@@ -175,6 +175,12 @@ const ELECTRIC_LIFEPOD = 'electric_lifepod';
 const METEOR = 'meteor';
 const ROVER_MEEPLE = 'rover-meeple';
 
+/**
+ * Corporation Tech
+ */
+
+const TECH_BYPASS_ADJACENT_CONSTRAINT = "tech_0_5";
+
 /*
  * Tiles and Space station
  */
