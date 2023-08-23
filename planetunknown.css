@@ -570,152 +570,153 @@
 .pu-player-board-resizable {
   position: relative;
   width: calc(var(--planetUnknownBoardScale) * 1510px);
-  height: calc(var(--planetUnknownBoardScale) * 1000px);
-  display: flex; }
-  .pu-player-board-resizable .pu-player-board-planet {
-    width: 1000px;
+  height: calc(var(--planetUnknownBoardScale) * 1000px); }
+  .pu-player-board-resizable .pu-player-board-fixed-size {
+    width: 1510px;
     height: 1000px;
     transform: scale(var(--planetUnknownBoardScale));
-    transform-origin: top left; }
-    .pu-player-board-resizable .pu-player-board-planet .planet {
+    transform-origin: top left;
+    display: flex; }
+    .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet {
       width: 1000px;
-      height: 1000px;
-      box-sizing: border-box;
-      background-size: 100% 100%;
-      background-image: url("img/Planets/0.jpg");
-      padding-top: 29px;
-      padding-left: 15px; }
-      .pu-player-board-resizable .pu-player-board-planet .planet[data-id="0"] {
-        background-image: url("img/Planets/0.jpg"); }
-      .pu-player-board-resizable .pu-player-board-planet .planet[data-id="1"] {
-        background-image: url("img/Planets/1.jpg"); }
-      .pu-player-board-resizable .pu-player-board-planet .planet[data-id="2"] {
-        background-image: url("img/Planets/2.jpg"); }
-      .pu-player-board-resizable .pu-player-board-planet .planet[data-id="3"] {
-        background-image: url("img/Planets/3.jpg"); }
-      .pu-player-board-resizable .pu-player-board-planet .planet[data-id="4"] {
-        background-image: url("img/Planets/4.jpg"); }
-      .pu-player-board-resizable .pu-player-board-planet .planet[data-id="5"] {
-        background-image: url("img/Planets/5.jpg"); }
-      .pu-player-board-resizable .pu-player-board-planet .planet[data-id="6"] {
-        background-image: url("img/Planets/6.jpg"); }
-      .pu-player-board-resizable .pu-player-board-planet .planet[data-id="7"] {
-        background-image: url("img/Planets/7.jpg"); }
-      .pu-player-board-resizable .pu-player-board-planet .planet[data-id="8"] {
-        background-image: url("img/Planets/8.jpg"); }
-      .pu-player-board-resizable .pu-player-board-planet .planet[data-id="9"] {
-        background-image: url("img/Planets/9.jpg"); }
-      .pu-player-board-resizable .pu-player-board-planet .planet[data-id="10"] {
-        background-image: url("img/Planets/10.jpg"); }
-      .pu-player-board-resizable .pu-player-board-planet .planet[data-id="11"] {
-        background-image: url("img/Planets/11.jpg"); }
-      .pu-player-board-resizable .pu-player-board-planet .planet[data-id="12"] {
-        background-image: url("img/Planets/12.jpg"); }
-      .pu-player-board-resizable .pu-player-board-planet .planet .planet-grid {
-        width: 923px;
-        height: 923px;
-        display: grid;
-        grid-template-columns: repeat(13, 71px);
-        grid-template-rows: repeat(13, 71px); }
-        .pu-player-board-resizable .pu-player-board-planet .planet .planet-grid .planet-grid-cell {
-          z-index: 2;
-          position: relative; }
-          .pu-player-board-resizable .pu-player-board-planet .planet .planet-grid .planet-grid-cell.selectable {
-            border: 2px dashed white;
-            background: #f7b1b190;
-            cursor: pointer; }
-            .pu-player-board-resizable .pu-player-board-planet .planet .planet-grid .planet-grid-cell.selectable:hover {
-              border: 2px solid white;
-              background: #f7b1b1d1; }
-          .pu-player-board-resizable .pu-player-board-planet .planet .planet-grid .planet-grid-cell.selected, .pu-player-board-resizable .pu-player-board-planet .planet .planet-grid .planet-grid-cell.selected:hover {
-            border: 2px solid #0f5308;
-            background: #7dfc83a1; }
-          .pu-player-board-resizable .pu-player-board-planet .planet .planet-grid .planet-grid-cell .planetunknown-meeple {
-            position: absolute; }
-            .pu-player-board-resizable .pu-player-board-planet .planet .planet-grid .planet-grid-cell .planetunknown-meeple.icon-rover-meeple {
-              top: 17px;
-              left: 5px; }
-            .pu-player-board-resizable .pu-player-board-planet .planet .planet-grid .planet-grid-cell .planetunknown-meeple.icon-lifepod {
-              top: 4px;
-              left: 14px; }
-  .pu-player-board-resizable .pu-player-board-corporation {
-    width: 510px;
-    height: 1000px;
-    transform: scale(var(--planetUnknownBoardScale));
-    transform-origin: top left; }
-    .pu-player-board-resizable .pu-player-board-corporation .corporation {
+      height: 1000px; }
+      .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet {
+        width: 1000px;
+        height: 1000px;
+        box-sizing: border-box;
+        background-size: 100% 100%;
+        background-image: url("img/Planets/0.jpg");
+        padding-top: 29px;
+        padding-left: 15px; }
+        .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet[data-id="0"] {
+          background-image: url("img/Planets/0.jpg"); }
+        .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet[data-id="1"] {
+          background-image: url("img/Planets/1.jpg"); }
+        .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet[data-id="2"] {
+          background-image: url("img/Planets/2.jpg"); }
+        .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet[data-id="3"] {
+          background-image: url("img/Planets/3.jpg"); }
+        .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet[data-id="4"] {
+          background-image: url("img/Planets/4.jpg"); }
+        .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet[data-id="5"] {
+          background-image: url("img/Planets/5.jpg"); }
+        .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet[data-id="6"] {
+          background-image: url("img/Planets/6.jpg"); }
+        .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet[data-id="7"] {
+          background-image: url("img/Planets/7.jpg"); }
+        .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet[data-id="8"] {
+          background-image: url("img/Planets/8.jpg"); }
+        .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet[data-id="9"] {
+          background-image: url("img/Planets/9.jpg"); }
+        .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet[data-id="10"] {
+          background-image: url("img/Planets/10.jpg"); }
+        .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet[data-id="11"] {
+          background-image: url("img/Planets/11.jpg"); }
+        .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet[data-id="12"] {
+          background-image: url("img/Planets/12.jpg"); }
+        .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-grid {
+          width: 923px;
+          height: 923px;
+          display: grid;
+          grid-template-columns: repeat(13, 71px);
+          grid-template-rows: repeat(13, 71px); }
+          .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-grid .planet-grid-cell {
+            z-index: 2;
+            position: relative; }
+            .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-grid .planet-grid-cell.selectable {
+              border: 2px dashed white;
+              background: #f7b1b190;
+              cursor: pointer; }
+              .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-grid .planet-grid-cell.selectable:hover {
+                border: 2px solid white;
+                background: #f7b1b1d1; }
+            .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-grid .planet-grid-cell.selected, .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-grid .planet-grid-cell.selected:hover {
+              border: 2px solid #0f5308;
+              background: #7dfc83a1; }
+            .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-grid .planet-grid-cell .planetunknown-meeple {
+              position: absolute; }
+              .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-grid .planet-grid-cell .planetunknown-meeple.icon-rover-meeple {
+                top: 17px;
+                left: 5px; }
+              .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-grid .planet-grid-cell .planetunknown-meeple.icon-lifepod {
+                top: 4px;
+                left: 14px; }
+    .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation {
       width: 510px;
-      height: 1000px;
-      box-sizing: border-box;
-      background-size: 100% 100%;
-      position: relative;
-      background-image: url("img/corporations.jpg");
-      background-size: 500% 200%; }
-      .pu-player-board-resizable .pu-player-board-corporation .corporation[data-id="0"] {
-        background-position-x: 0%;
-        background-position-y: 0%; }
-      .pu-player-board-resizable .pu-player-board-corporation .corporation[data-id="1"] {
-        background-position-x: 25%;
-        background-position-y: 0%; }
-      .pu-player-board-resizable .pu-player-board-corporation .corporation[data-id="2"] {
-        background-position-x: 50%;
-        background-position-y: 0%; }
-      .pu-player-board-resizable .pu-player-board-corporation .corporation[data-id="3"] {
-        background-position-x: 75%;
-        background-position-y: 0%; }
-      .pu-player-board-resizable .pu-player-board-corporation .corporation[data-id="4"] {
-        background-position-x: 100%;
-        background-position-y: 0%; }
-      .pu-player-board-resizable .pu-player-board-corporation .corporation[data-id="5"] {
-        background-position-x: 0%;
-        background-position-y: 100%; }
-      .pu-player-board-resizable .pu-player-board-corporation .corporation[data-id="6"] {
-        background-position-x: 25%;
-        background-position-y: 100%; }
-      .pu-player-board-resizable .pu-player-board-corporation .corporation[data-id="7"] {
-        background-position-x: 50%;
-        background-position-y: 100%; }
-      .pu-player-board-resizable .pu-player-board-corporation .corporation[data-id="8"] {
-        background-position-x: 75%;
-        background-position-y: 100%; }
-      .pu-player-board-resizable .pu-player-board-corporation .corporation[data-id="9"] {
-        background-position-x: 100%;
-        background-position-y: 100%; }
-      .pu-player-board-resizable .pu-player-board-corporation .corporation .corporation-columns {
-        width: 295px;
-        height: 608px;
-        position: absolute;
-        top: 167px;
-        left: 33px;
-        column-gap: 25px;
-        display: flex; }
-        .pu-player-board-resizable .pu-player-board-corporation .corporation .corporation-columns:hover .icon-tracker-civ,
-        .pu-player-board-resizable .pu-player-board-corporation .corporation .corporation-columns:hover .icon-tracker-water,
-        .pu-player-board-resizable .pu-player-board-corporation .corporation .corporation-columns:hover .icon-tracker-biomass,
-        .pu-player-board-resizable .pu-player-board-corporation .corporation .corporation-columns:hover .icon-tracker-rover,
-        .pu-player-board-resizable .pu-player-board-corporation .corporation .corporation-columns:hover .icon-tracker-tech {
-          transform: translateX(-75%); }
-        .pu-player-board-resizable .pu-player-board-corporation .corporation .corporation-columns .corporation-column {
-          width: 38px;
-          height: 608px; }
-          .pu-player-board-resizable .pu-player-board-corporation .corporation .corporation-columns .corporation-column .corpo-cell {
+      height: 1000px; }
+      .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation {
+        width: 510px;
+        height: 1000px;
+        box-sizing: border-box;
+        background-size: 100% 100%;
+        position: relative;
+        background-image: url("img/corporations.jpg");
+        background-size: 500% 200%; }
+        .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation[data-id="0"] {
+          background-position-x: 0%;
+          background-position-y: 0%; }
+        .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation[data-id="1"] {
+          background-position-x: 25%;
+          background-position-y: 0%; }
+        .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation[data-id="2"] {
+          background-position-x: 50%;
+          background-position-y: 0%; }
+        .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation[data-id="3"] {
+          background-position-x: 75%;
+          background-position-y: 0%; }
+        .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation[data-id="4"] {
+          background-position-x: 100%;
+          background-position-y: 0%; }
+        .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation[data-id="5"] {
+          background-position-x: 0%;
+          background-position-y: 100%; }
+        .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation[data-id="6"] {
+          background-position-x: 25%;
+          background-position-y: 100%; }
+        .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation[data-id="7"] {
+          background-position-x: 50%;
+          background-position-y: 100%; }
+        .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation[data-id="8"] {
+          background-position-x: 75%;
+          background-position-y: 100%; }
+        .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation[data-id="9"] {
+          background-position-x: 100%;
+          background-position-y: 100%; }
+        .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-columns {
+          width: 295px;
+          height: 608px;
+          position: absolute;
+          top: 167px;
+          left: 33px;
+          column-gap: 25px;
+          display: flex; }
+          .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-columns:hover .icon-tracker-civ,
+          .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-columns:hover .icon-tracker-water,
+          .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-columns:hover .icon-tracker-biomass,
+          .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-columns:hover .icon-tracker-rover,
+          .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-columns:hover .icon-tracker-tech {
+            transform: translateX(-75%); }
+          .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-columns .corporation-column {
             width: 38px;
-            height: 38px; }
-      .pu-player-board-resizable .pu-player-board-corporation .corporation .rover-reserve {
-        position: absolute;
-        bottom: 10px;
-        left: 10px; }
-      .pu-player-board-resizable .pu-player-board-corporation .corporation .meteor-reserve {
-        position: absolute;
-        right: 35px;
-        top: 35px;
-        width: 240px;
-        height: 113px;
-        font-size: 8px;
-        display: flex;
-        flex-wrap: wrap; }
-        .pu-player-board-resizable .pu-player-board-corporation .corporation .meteor-reserve .icon-meteor {
-          margin: 5px; }
+            height: 608px; }
+            .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-columns .corporation-column .corpo-cell {
+              width: 38px;
+              height: 38px; }
+        .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .rover-reserve {
+          position: absolute;
+          bottom: 10px;
+          left: 10px; }
+        .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .meteor-reserve {
+          position: absolute;
+          right: 35px;
+          top: 35px;
+          width: 240px;
+          height: 113px;
+          font-size: 8px;
+          display: flex;
+          flex-wrap: wrap; }
+          .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .meteor-reserve .icon-meteor {
+            margin: 5px; }
 
 .player-name svg {
   width: 25px;

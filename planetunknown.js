@@ -75,6 +75,21 @@ define([
           section: 'layout',
         },
 
+        boardSizes: {
+          default: 100,
+          name: _('Board size'),
+          type: 'slider',
+          sliderConfig: {
+            step: 3,
+            padding: 0,
+            range: {
+              min: [30],
+              max: [100],
+            },
+          },
+          section: 'layout',
+        },
+
         //////////////////////
         /// BOARD / PANELS ///
 
@@ -148,12 +163,12 @@ define([
     },
 
     onLoadingComplete() {
-      // this.updateLayout();
+      this.updateLayout();
       this.inherited(arguments);
     },
 
     onScreenWidthChange() {
-      // if (this.settings) this.updateLayout();
+      if (this.settings) this.updateLayout();
     },
 
     onAddingNewUndoableStepToLog(notif) {
@@ -945,10 +960,6 @@ define([
       dojo.place('player_board_config', 'player_boards', 'first');
     },
 
-    updateLayout() {
-      if (!this.settings) return;
-    },
-
     notif_newRotation(n) {
       debug('Notif: SUSAN is rotating', n);
       this.gamedatas.susan.rotation = n.args.newRotation;
@@ -961,6 +972,21 @@ define([
         let o = $(`tile-${tile.id}`);
         if (!o) this.addTile(tile);
       });
+    },
+
+    onChangeBoardSizesSetting(val) {
+      this.updateLayout();
+    },
+
+    updateLayout() {
+      if (!this.settings) return;
+      const ROOT = document.documentElement;
+
+      const WIDTH = $('planetunknown-main-container').getBoundingClientRect()['width'] - 5;
+      const BOARD_WIDTH = 1510;
+      const BOARD_SIZE = (WIDTH * this.settings.boardSizes) / 100;
+      let boardScale = BOARD_SIZE / BOARD_WIDTH;
+      ROOT.style.setProperty('--planetUnknownBoardScale', boardScale);
     },
 
     ///////////////////////////////////////////////////////////

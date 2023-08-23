@@ -283,13 +283,15 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       let corporation = player.corporationId ? this.tplCorporation(CORPOS_DATA[player.corporationId], player) : '';
 
       return `<div class='pu-player-board-resizable' id='player-board-resizable-${player.id}'>
+        <div class='pu-player-board-fixed-size'>
           <div class='pu-player-board-planet' id='player-board-planet-${player.id}'>        
             ${planet}
           </div>
           <div class="pu-player-board-corporation" id='player-board-corporation-${player.id}'>
             ${corporation}
           </div>
-        </div>`;
+        </div>
+      </div>`;
     },
 
     tplPlayerPanel(player) {
