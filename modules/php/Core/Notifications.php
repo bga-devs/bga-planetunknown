@@ -33,7 +33,7 @@ class Notifications
       'type' => $meeples[0]->getType(),
       'meeples' => $meeples,
     ];
-    static::pnotify($player, 'slideMeeple', $message, $data);
+    static::pnotify($player, 'slideMeeples', $message, $data);
   }
 
   public static function getNewCard($player, $card)

@@ -179,5 +179,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       debug('Notif: sliding meeple', n);
       this.slideResources([n.args.meeple]);
     },
+    notif_slideMeeples(n) {
+      debug('Notif: sliding meeples', n);
+      this.slideResources(n.args.meeples);
+    },
   });
 });

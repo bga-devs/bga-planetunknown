@@ -641,6 +641,9 @@
               .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-grid .planet-grid-cell .planetunknown-meeple.icon-lifepod {
                 top: 4px;
                 left: 14px; }
+              .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-grid .planet-grid-cell .planetunknown-meeple.icon-meteor {
+                top: 5px;
+                left: 3px; }
     .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation {
       width: 510px;
       height: 1000px; }

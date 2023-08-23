@@ -39,6 +39,7 @@ define([
         ['placeTile', null],
         ['moveTrack', null],
         ['slideMeeple', null],
+        ['slideMeeples', null],
         ['newRotation', 1200],
         ['endOfTurn', 100],
         ['destroyedMeeples', null],
