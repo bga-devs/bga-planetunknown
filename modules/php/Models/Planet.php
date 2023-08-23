@@ -293,7 +293,7 @@ class Planet
 
           // TODO: add check function that can be overwritten by some planets
 
-          if ($this->isIntersectionNonEmpty($cells, $checkingCells)) {
+          if ($this->isIntersectionNonEmpty($cells, $checkingCells) || $this->player->hasTech(TECH_BYPASS_ADJACENT_CONSTRAINT)) {
             $rotations[] = [$rotation, $flipped];
           }
         }
