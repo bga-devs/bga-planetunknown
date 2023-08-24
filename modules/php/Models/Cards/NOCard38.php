@@ -18,7 +18,8 @@ class NOCard38 extends \PU\Models\Cards\NOCard
     parent::__construct($player);
   }
 
-  public function score($playerLeft, $playerRight)
+  public function evalCriteria($player)
   {
+    return $player->planet()->countSymbolsOnEdge(ENERGY);
   }
 }

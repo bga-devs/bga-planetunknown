@@ -17,8 +17,4 @@ class POCard43 extends \PU\Models\Cards\POCard
     $this->desc = clienttranslate('Create a terrain area containing six civ resources.');
     parent::__construct($player);
   }
-
-  public function score($player)
-  {
-  }
 }

@@ -9,6 +9,7 @@ class Planet8 extends \PU\Models\Planet
   protected $rowMedals = [3, 3, 1, 1, 1, 0, 0, 1, 1, 1, 3, 3];
   protected $level = 3;
   protected $terrains = [
+    //TODO probably wrong to determine edge cells
     [ICE, ICE, ICE, LAND, LAND, LAND, LAND, LAND, LAND, ICE, ICE, ICE],
     [ICE, ICE, ICE, LAND, LAND, LAND, LIFEPOD, LAND, LAND, ICE, ICE, ICE],
     [ICE, ICE, ICE, LAND, NOTHING, NOTHING, NOTHING, NOTHING, LAND, ICE, ICE, ICE],

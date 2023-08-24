@@ -17,8 +17,4 @@ class POCard62 extends \PU\Models\Cards\POCard
     $this->desc = clienttranslate('Collect more lifepods than meteorites.');
     parent::__construct($player);
   }
-
-  public function score($player)
-  {
-  }
 }

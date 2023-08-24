@@ -76,7 +76,7 @@ class Player extends \PU\Helpers\DB_Model
     $card->setState($this->id);
     $flow = $card->effect();
     if ($card->effectType == IMMEDIATE) {
-      $card->setLocation('table');
+      $card->setLocation('playedCivCards');
       return $flow;
     } else {
       $card->setLocation('hand');
@@ -228,6 +228,14 @@ class Player extends \PU\Helpers\DB_Model
     $result['objectives'] = [
       'entries' => [],
     ];
+    $NOCards = Cards::getInLocation('NOCards')->where('pId', $this->id)
+      ->merge(Cards::getInLocation('NOCards')->where('pId2', $this->id));
+
+    foreach ($NOCards as $id => $NOcard) {
+      $newEntry = $NOcard->score($this);
+      $result['objectives']['entries'] = array_merge($newEntry, $result['objectives']['entries']);
+    }
+
     $scoreObjectives = $this->reduce_entries($result['objectives']);
     $result['objectives']['total'] = $scoreObjectives;
 

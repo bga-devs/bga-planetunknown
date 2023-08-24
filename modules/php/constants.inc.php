@@ -179,8 +179,11 @@ const ROVER_MEEPLE = 'rover-meeple';
  * Corporation Tech
  */
 
-const TECH_BYPASS_ADJACENT_CONSTRAINT = "tech_0_5";
-
+const TECH_BYPASS_ADJACENT_CONSTRAINT = "tech_0_1";
+const TECH_CAN_STORE_BIOMASS_PATCH = "tech_0_2";
+const TECH_ROVER_MOVE_PLUS_ONE = "tech_0_3";
+const TECH_WATER_ADVANCE_TWICE = "tech_0_4";
+const TECH_NO_METEOR = "tech_0_5";
 /*
  * Tiles and Space station
  */

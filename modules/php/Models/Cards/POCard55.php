@@ -17,8 +17,4 @@ class POCard55 extends \PU\Models\Cards\POCard
     $this->desc = clienttranslate('Advance the civ resource track to maximum.');
     parent::__construct($player);
   }
-
-  public function score($player)
-  {
-  }
 }

@@ -17,8 +17,4 @@ class POCard{ID} extends \PU\Models\Cards\POCard
     $this->desc = clienttranslate('{TEXT}');
     parent::__construct($player);
   }
-
-  public function score($player)
-  {
-  }
 }

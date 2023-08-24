@@ -17,8 +17,4 @@ class NOCard47 extends \PU\Models\Cards\NOCard
     $this->desc = clienttranslate('Have the largest single area of water terrain on your planet.');
     parent::__construct($player);
   }
-
-  public function score($playerLeft, $playerRight)
-  {
-  }
 }

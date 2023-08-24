@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS `cards` (
   `card_location` varchar(32) NOT NULL,
   `card_state` int(10) DEFAULT 0,
   `player_id` int(10) NULL,
+  `player_id2` int(10) NULL,
   `extra_datas` JSON NULL,
   PRIMARY KEY (`card_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

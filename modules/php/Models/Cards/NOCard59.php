@@ -17,8 +17,4 @@ class NOCard59 extends \PU\Models\Cards\NOCard
     $this->desc = clienttranslate('Have the least civ resources on your planet.');
     parent::__construct($player);
   }
-
-  public function score($playerLeft, $playerRight)
-  {
-  }
 }

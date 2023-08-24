@@ -83,6 +83,7 @@ class Planet
           'terrain' => self::getTerrain($x, $y),
           'tile' => null,
           'type' => null,
+          'symbol' => null
         ];
       }
     }
@@ -93,9 +94,24 @@ class Planet
       foreach ($this->getTileCoveredCells($tile, false) as $i => $cell) {
         $this->grid[$cell['x']][$cell['y']]['tile'] = $tile;
         $this->grid[$cell['x']][$cell['y']]['type'] = $datas[$i]['type'];
+        $this->grid[$cell['x']][$cell['y']]['symbol'] = $datas[$i]['symbol'] ? $datas[$i]['type'] : null;
       }
     }
   }
+
+  /*
+  █████████    █████████     ███████    ███████████   ██████████
+ ███░░░░░███  ███░░░░░███  ███░░░░░███ ░░███░░░░░███ ░░███░░░░░█
+░███    ░░░  ███     ░░░  ███     ░░███ ░███    ░███  ░███  █ ░ 
+░░█████████ ░███         ░███      ░███ ░██████████   ░██████   
+ ░░░░░░░░███░███         ░███      ░███ ░███░░░░░███  ░███░░█   
+ ███    ░███░░███     ███░░███     ███  ░███    ░███  ░███ ░   █
+░░█████████  ░░█████████  ░░░███████░   █████   █████ ██████████
+ ░░░░░░░░░    ░░░░░░░░░     ░░░░░░░    ░░░░░   ░░░░░ ░░░░░░░░░░ 
+                                                                
+                                                                
+                                                                
+*/
 
   /**
    * Return score as an array ['row_0' => 2] id => score
@@ -108,7 +124,7 @@ class Planet
     $burntColumns = [];
 
     //BIG IF except for Corporation0 tech5
-    if ($this->player->corporation()->getId() != 0 || $this->player->corporation()->getTechLevel() != 5) {
+    if ($this->player->hasTech(TECH_NO_METEOR)) {
       foreach ($meteors as $id => $meteor) {
         $burntColumns[] = $meteor->getX();
         $burntRows[] = $meteor->getY();
@@ -118,7 +134,6 @@ class Planet
     foreach ($this->rowMedals as $rowId => $value) {
       if (in_array($rowId, $burntRows)) {
         $score['row_' . $rowId] = 0;
-        //TODO except for one TECH
       } else {
         $score['row_' . $rowId] = $value;
         foreach ($this->columnMedals as $columnId => $_) {
@@ -144,6 +159,17 @@ class Planet
     }
 
     return $score;
+  }
+
+  public function countSymbolsOnEdge($type)
+  {
+    $cells = $this->getBorderCells();
+    return array_reduce(
+      $cells,
+      fn ($result, $cell) =>
+      $result + ($this->grid[$cell['x']][$cell['y']]['symbol'] == $type ? 1 : 0),
+      0
+    );
   }
 
   ///////////////////////////////////////////////

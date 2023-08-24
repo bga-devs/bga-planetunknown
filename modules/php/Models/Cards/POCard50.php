@@ -17,8 +17,4 @@ class POCard50 extends \PU\Models\Cards\POCard
     $this->desc = clienttranslate('Create a 2x5 area of biomass terrains.');
     parent::__construct($player);
   }
-
-  public function score($player)
-  {
-  }
 }

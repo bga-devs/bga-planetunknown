@@ -17,8 +17,4 @@ class NOCard61 extends \PU\Models\Cards\NOCard
     $this->desc = clienttranslate('Collect the most meteorites.');
     parent::__construct($player);
   }
-
-  public function score($playerLeft, $playerRight)
-  {
-  }
 }

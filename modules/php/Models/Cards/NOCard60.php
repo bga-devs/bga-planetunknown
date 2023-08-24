@@ -17,8 +17,4 @@ class NOCard60 extends \PU\Models\Cards\NOCard
     $this->desc = clienttranslate('Have the most resource tracks at maximum.');
     parent::__construct($player);
   }
-
-  public function score($playerLeft, $playerRight)
-  {
-  }
 }

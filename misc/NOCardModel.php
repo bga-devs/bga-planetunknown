@@ -17,8 +17,4 @@ class NOCard{ID} extends \PU\Models\Cards\NOCard
     $this->desc = clienttranslate('{TEXT}');
     parent::__construct($player);
   }
-
-  public function score($playerLeft, $playerRight)
-  {
-  }
 }

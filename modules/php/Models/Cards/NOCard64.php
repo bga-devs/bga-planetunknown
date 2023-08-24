@@ -17,8 +17,4 @@ class NOCard64 extends \PU\Models\Cards\NOCard
     $this->desc = clienttranslate('Collect the most lifepods.');
     parent::__construct($player);
   }
-
-  public function score($playerLeft, $playerRight)
-  {
-  }
 }

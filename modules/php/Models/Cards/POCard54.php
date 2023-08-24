@@ -17,8 +17,4 @@ class POCard54 extends \PU\Models\Cards\POCard
     $this->desc = clienttranslate('Create a 2x5 area of energy terrains.');
     parent::__construct($player);
   }
-
-  public function score($player)
-  {
-  }
 }

@@ -17,8 +17,4 @@ class POCard60 extends \PU\Models\Cards\POCard
     $this->desc = clienttranslate('Have the most resource tracks at maximum.');
     parent::__construct($player);
   }
-
-  public function score($player)
-  {
-  }
 }

@@ -17,8 +17,4 @@ class POCard63 extends \PU\Models\Cards\POCard
     $this->desc = clienttranslate('End the game with tiles covering all planetary ice.');
     parent::__construct($player);
   }
-
-  public function score($player)
-  {
-  }
 }

@@ -17,8 +17,4 @@ class POCard49 extends \PU\Models\Cards\POCard
     $this->desc = clienttranslate('Create a 2x5 area of civ terrains.');
     parent::__construct($player);
   }
-
-  public function score($player)
-  {
-  }
 }

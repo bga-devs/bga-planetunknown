@@ -17,8 +17,4 @@ class POCard57 extends \PU\Models\Cards\POCard
     $this->desc = clienttranslate('Have the least biomass resources on your planet.');
     parent::__construct($player);
   }
-
-  public function score($player)
-  {
-  }
 }

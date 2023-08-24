@@ -22,6 +22,11 @@ class OCard extends \PU\Models\Card
     parent::__construct($row);
   }
 
+  public function getCard()
+  {
+    return $this->getLocation('NOCards') ? $this->getNeighborSide() : $this->getPrivateSide();
+  }
+
   public function getPrivateSide()
   {
     return $this->privateSide;
@@ -30,5 +35,10 @@ class OCard extends \PU\Models\Card
   public function getNeighborSide()
   {
     return $this->neighborSide;
+  }
+
+  public function score($player)
+  {
+    return $this->getCard()->score($player);
   }
 }

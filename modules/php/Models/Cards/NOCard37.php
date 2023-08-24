@@ -3,6 +3,7 @@
 namespace PU\Models\Cards;
 
 use PU\Managers\Cards;
+use PU\Managers\Players;
 
 /*
  * NOCard
@@ -18,7 +19,8 @@ class NOCard37 extends \PU\Models\Cards\NOCard
     parent::__construct($player);
   }
 
-  public function score($playerLeft, $playerRight)
+  public function evalCriteria($player)
   {
+    return $player->planet()->countSymbolsOnEdge(CIV);
   }
 }

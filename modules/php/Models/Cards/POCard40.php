@@ -17,8 +17,4 @@ class POCard40 extends \PU\Models\Cards\POCard
     $this->desc = clienttranslate('Create a 3x3 area of water terrains.');
     parent::__construct($player);
   }
-
-  public function score($player)
-  {
-  }
 }

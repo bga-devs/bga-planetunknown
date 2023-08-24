@@ -13,7 +13,7 @@ class Cards extends \PU\Helpers\CachedPieces
 {
   protected static $table = 'cards';
   protected static $prefix = 'card_';
-  protected static $customFields = ['player_id', 'extra_datas'];
+  protected static $customFields = ['player_id', 'player_id2', 'extra_datas'];
   protected static $datas = null;
   protected static $autoremovePrefix = false;
 
@@ -31,7 +31,8 @@ class Cards extends \PU\Helpers\CachedPieces
   public static function getUiData()
   {
     return [
-      'visibleCards' => static::getInLocation('table'), //can be NOCards, IMMEDIATE civCards
+      'NOCards' => static::getInLocation('NOCards'),
+      'playedCivCards' => static::getInLocation('playedCivCards'),
       'deck_civ_1' => static::countInLocation('deck_civ_1'),
       'deck_civ_2' => static::countInLocation('deck_civ_2'),
       'deck_civ_3' => static::countInLocation('deck_civ_3'),
@@ -85,11 +86,19 @@ class Cards extends \PU\Helpers\CachedPieces
 
     //pick right number of Neighbor Objectives cards
     static::shuffle('deck_objectives');
-    if (count($players) == 2) {
-      static::pickForLocation(3, 'deck_objectives', 'table');
-    } elseif (count($players) != 1) {
-      for ($i = 0; $i < count($players); $i++) {
-        static::pickOneForLocation('deck_objectives', 'table', $i);
+    if (count($players) != 1) {
+      if (count($players) == 2) {
+        $NOcards = static::pickForLocation(3, 'deck_objectives', 'NOCards');
+        foreach ($NOcards->toArray() as $card) {
+          $card->setPId(array_keys($players)[0]);
+          $card->setPId2(array_keys($players)[1]);
+        }
+      } else {
+        for ($i = 0; $i < count($players); $i++) {
+          $NOcard = static::pickOneForLocation('deck_objectives', 'NOCards', $i);
+          $NOcard->setPId(array_keys($players)[$i]);
+          $NOcard->setPId2(array_keys($players)[($i + 1) % count($players)]);
+        }
       }
     }
 

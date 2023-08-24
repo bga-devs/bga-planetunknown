@@ -15,7 +15,6 @@ class Corporation0 extends Corporation
     $this->techBonuses = [
       1 => [
         'text' => clienttranslate('Tile adjacency placement restriction may be ignored.')
-        //TODO
       ],
       2 => [
         'text' => clienttranslate('You may store biomass patches to be placed at the end of game.')
@@ -44,19 +43,19 @@ class Corporation0 extends Corporation
 
   public function moveRoverby($n)
   {
-    return $this->getTechLevel() >= 3 ? $n + 1 : $n;
+    return $this->player->hasTech(TECH_ROVER_MOVE_PLUS_ONE) ? $n + 1 : $n;
   }
 
   public function moveTrackBy($type, $n)
   {
-    return ($this->getTechLevel() >= 4 && $type == WATER && $n > 0) ? $n * 2 : $n;
+    return ($this->player->hasTech(TECH_WATER_ADVANCE_TWICE) && $type == WATER && $n > 0) ? $n * 2 : $n;
   }
 
   // add an end of game action or return patch to be placed immediately
   public function receiveBiomassPatch()
   {
     $patch = Tiles::createBiomassPatch($this->player);
-    if ($this->getTechLevel() >= 2) {
+    if ($this->player->hasTech(TECH_CAN_STORE_BIOMASS_PATCH)) {
       $this->player->addEndOfGameAction([
         'action' => PLACE_TILE,
         'args' => [

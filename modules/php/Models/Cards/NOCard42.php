@@ -17,8 +17,4 @@ class NOCard42 extends \PU\Models\Cards\NOCard
     $this->desc = clienttranslate('Have the largest single area of biomass terrain on your planet.');
     parent::__construct($player);
   }
-
-  public function score($playerLeft, $playerRight)
-  {
-  }
 }
