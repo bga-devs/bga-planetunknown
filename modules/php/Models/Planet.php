@@ -161,15 +161,59 @@ class Planet
     return $score;
   }
 
-  public function countSymbolsOnEdge($type)
+  public function countSymbolsOnEdge($symbol)
   {
     $cells = $this->getBorderCells();
     return array_reduce(
       $cells,
       fn ($result, $cell) =>
-      $result + ($this->grid[$cell['x']][$cell['y']]['symbol'] == $type ? 1 : 0),
+      $result + ($this->getSymbol($cell['x'], $cell['y']) == $symbol ? 1 : 0),
       0
     );
+  }
+
+  public function detectZones($type)
+  {
+    $zones = [];
+
+    $cells = $this->getListOfCells();
+
+    $usedCells = [];
+
+    foreach ($cells as $cell) {
+      if (in_array($cell, $usedCells)) continue;
+
+      $validatedCells = [];
+      $adjacentCells = [$cell];
+
+      while ($candidateCell = array_shift($adjacentCells)) {
+        $usedCells[] = $candidateCell;
+        if ($this->getType($candidateCell['x'], $candidateCell['y']) == $type) {
+          $validatedCells = [$candidateCell];
+          $neighbours = array_diff($this->getNeighbours($candidateCell), $usedCells);
+          $adjacentCells = array_merge($adjacentCells, $neighbours);
+        }
+      }
+
+      if (count($validatedCells)) {
+        $zones[] = $validatedCells;
+      }
+    }
+    return $zones;
+  }
+
+  public function countZoneNb($type)
+  {
+    $zones = $this->detectZones($type);
+
+    return count($zones);
+  }
+
+  public function countLargestAdjacent($type)
+  {
+    $zones = $this->detectZones($type);
+
+    return $zones ? max(array_map(fn ($zone) => count($zone), $zones)) : 0;
   }
 
   ///////////////////////////////////////////////
@@ -475,6 +519,11 @@ class Planet
   public function getType($x, $y)
   {
     return $this->grid[$x][$y]['type'];
+  }
+
+  public function getSymbol($x, $y)
+  {
+    return $this->grid[$x][$y]['symbol'];
   }
 
   // Can be overwritten by some planets

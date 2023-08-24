@@ -17,4 +17,9 @@ class NOCard45 extends \PU\Models\Cards\NOCard
     $this->desc = clienttranslate('Have the largest single area of civ terrain on your planet.');
     parent::__construct($player);
   }
+
+  public function evalCriteria($player)
+  {
+    return $player->planet()->countLargestAdjacent(CIV);
+  }
 }

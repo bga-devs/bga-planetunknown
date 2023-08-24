@@ -17,4 +17,9 @@ class NOCard52 extends \PU\Models\Cards\NOCard
     $this->desc = clienttranslate('Have the most unique areas of tech terrain on your planet.');
     parent::__construct($player);
   }
+
+  public function evalCriteria($player)
+  {
+    return $player->planet()->countZoneNb(TECH);
+  }
 }

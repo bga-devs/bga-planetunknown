@@ -17,4 +17,9 @@ class NOCard53 extends \PU\Models\Cards\NOCard
     $this->desc = clienttranslate('Have the most unique areas of water terrain on your planet.');
     parent::__construct($player);
   }
+
+  public function evalCriteria($player)
+  {
+    return $player->planet()->countZoneNb(WATER);
+  }
 }
