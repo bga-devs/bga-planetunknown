@@ -17,4 +17,9 @@ class NOCard54 extends \PU\Models\Cards\NOCard
     $this->desc = clienttranslate('Have the least tech resources on your planet.');
     parent::__construct($player);
   }
+
+  public function evalCriteria($player)
+  {
+    return -$player->planet()->countSymbols(TECH);
+  }
 }

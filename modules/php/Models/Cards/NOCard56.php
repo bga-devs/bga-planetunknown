@@ -17,4 +17,9 @@ class NOCard56 extends \PU\Models\Cards\NOCard
     $this->desc = clienttranslate('Have the least energy resources on your planet.');
     parent::__construct($player);
   }
+
+  public function evalCriteria($player)
+  {
+    return -$player->planet()->countSymbols(ENERGY);
+  }
 }

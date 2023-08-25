@@ -17,4 +17,9 @@ class NOCard63 extends \PU\Models\Cards\NOCard
     $this->desc = clienttranslate('Collect the least meteorites.');
     parent::__construct($player);
   }
+
+  public function evalCriteria($player)
+  {
+    return -$player->corporation()->getNCollected(METEOR);
+  }
 }

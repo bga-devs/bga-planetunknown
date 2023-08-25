@@ -190,7 +190,7 @@ class Planet
         $usedCells[] = $candidateCell;
         if ($this->getType($candidateCell['x'], $candidateCell['y']) == $type) {
           $validatedCells = [$candidateCell];
-          $neighbours = array_diff($this->getNeighbours($candidateCell), $usedCells);
+          $neighbours = array_udiff($this->getNeighbours($candidateCell), $usedCells, 'static::compareCells');
           $adjacentCells = array_merge($adjacentCells, $neighbours);
         }
       }
@@ -214,6 +214,16 @@ class Planet
     $zones = $this->detectZones($type);
 
     return $zones ? max(array_map(fn ($zone) => count($zone), $zones)) : 0;
+  }
+
+  public function countSymbols($type)
+  {
+    $cells = array_filter(
+      $this->getListOfCells(),
+      fn ($cell) =>
+      $this->getSymbol($cell['x'], $cell['y']) == $type
+    );
+    return count($cells);
   }
 
   ///////////////////////////////////////////////
@@ -244,6 +254,7 @@ class Planet
       $this->grid[$cell['x']][$cell['y']]['tile'] = $tile;
       $type = $datas[$i]['type'];
       $this->grid[$cell['x']][$cell['y']]['type'] = $type;
+      $this->grid[$cell['x']][$cell['y']]['symbol'] = $datas[$i]['symbol'] ? $datas[$i]['type'] : null;
 
       if ($datas[$i]['symbol']) {
         $symbols[] = [
@@ -602,6 +613,11 @@ class Planet
   {
     $coord = explode('_', $uid);
     return ['x' => $coord[0], 'y' => $coord[1]];
+  }
+
+  public static function compareCells($a, $b)
+  {
+    return ($a['x'] * 20 + $a['y']) - ($b['x'] * 20 + $b['y']);
   }
 
   public function extractPos($tile)

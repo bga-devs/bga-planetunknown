@@ -17,4 +17,9 @@ class NOCard62 extends \PU\Models\Cards\NOCard
     $this->desc = clienttranslate('Collect the most lifepods.');
     parent::__construct($player);
   }
+
+  public function evalCriteria($player)
+  {
+    return $player->corporation()->getNCollected(LIFEPOD);
+  }
 }

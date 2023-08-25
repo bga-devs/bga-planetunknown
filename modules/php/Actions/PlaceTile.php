@@ -39,8 +39,10 @@ class PlaceTile extends \PU\Models\Action
   {
     $tiles = [];
     $depot = Susan::getDepotOfPlayer($player);
-    $tiles[] = Tiles::getTopOf('top-interior-' . $depot['interior'])->first();
-    $tiles[] = Tiles::getTopOf('top-exterior-' . $depot['exterior'])->first();
+    $tile = Tiles::getTopOf('top-interior-' . $depot['interior'])->first();
+    if ($tile) $tiles[] = $tile;
+    $tile2 = Tiles::getTopOf('top-exterior-' . $depot['exterior'])->first();
+    if ($tile2) $tiles[] = $tile2;
     return $tiles;
   }
 
