@@ -110,6 +110,14 @@ class Corporation
     return $this->player->getTracker($type)->getY();
   }
 
+  // TODO to override for some corporations
+  public function setLevelOnTrack($type, $n, $onlyForward = true)
+  {
+    if ($this->getLevelOnTrack($type) < $n && $onlyForward) {
+      $this->player->getTracker($type)->setY($n);
+    }
+  }
+
   public function isTrackerOnTop($type)
   {
     return count($this->tracks[$type]) == $this->getLevelOnTrack($type) + 1;

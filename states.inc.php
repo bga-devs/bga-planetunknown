@@ -328,6 +328,15 @@ $machinestates = [
     'action' => 'stAtomicAction',
     'possibleactions' => ['actDestroyAllInRow', 'actRestart'],
   ],
+  
+  ST_MOVE_TRACKERS_TO_FIVE => [
+    'name' => MOVE_TRACKERS_TO_FIVE,
+    'descriptionmyturn' => clienttranslate('${you} must advance all trackers to 5th position'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actMoveTrackersToFive', 'actRestart'],
+  ],
 
   ST_FOO_A => [
     'name' => 'fooA',
