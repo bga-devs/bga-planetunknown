@@ -27,7 +27,7 @@ class CollectMeeple extends \PU\Models\Action
 
   public function getN()
   {
-    return $this->getCtxArg('N');
+    return $this->getCtxArg('n');
   }
 
   public function getToDestroy()

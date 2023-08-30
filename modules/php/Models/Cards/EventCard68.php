@@ -31,7 +31,7 @@ class EventCard68 extends \PU\Models\Cards\EventCard
         'withBonus' => false,
         'n' => 1,
         'move' => 3,
-        'from' => 'Event Card',
+        'from' => clienttranslate('Event Card'),
       ],
     ];
   }

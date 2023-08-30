@@ -2,6 +2,7 @@
 
 namespace PU\Models\Corporations;
 
+use PU\Core\Notifications;
 use PU\Managers\Tiles;
 
 class Corporation0 extends Corporation
@@ -62,7 +63,10 @@ class Corporation0 extends Corporation
           'forcedTiles' => [$patch->getId()]
         ]
       ]);
+
+      Notifications::receiveBiomassPatch($this->player, $patch, true);
     } else {
+      Notifications::receiveBiomassPatch($this->player, $patch);
       return $patch;
     }
   }

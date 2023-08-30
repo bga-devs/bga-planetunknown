@@ -25,8 +25,8 @@ class Notifications
   {
     $message =
       $action == 'destroy'
-        ? clienttranslate('${player_name} detroys ${n} ${type} from his planet')
-        : clienttranslate('${player_name} collects ${n} ${type} from his planet');
+      ? clienttranslate('${player_name} detroys ${n} ${type} from his planet')
+      : clienttranslate('${player_name} collects ${n} ${type} from his planet');
     $data = [
       'player' => $player,
       'n' => count($meeples),
@@ -119,8 +119,8 @@ class Notifications
   {
     $message =
       $player == null
-        ? clienttranslate('S.U.S.A.N. rotates.')
-        : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
+      ? clienttranslate('S.U.S.A.N. rotates.')
+      : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
     $data = [
       'player' => $player,
       'newRotation' => $rotation,
@@ -208,9 +208,12 @@ class Notifications
     static::pnotify($player, 'milestone', $message, $data);
   }
 
-  public static function receiveBiomassPatch($player, $tile)
+  public static function receiveBiomassPatch($player, $tile, $bLater = false)
   {
-    static::pnotify($player, 'receiveBiomassPatch', \clienttranslate('${player_name} receives a new biomass patch'), [
+    $msg = $bLater
+      ? \clienttranslate('${player_name} receives a new biomass patch to place at the game end')
+      : \clienttranslate('${player_name} receives a new biomass patch');
+    static::pnotify($player, 'receiveBiomassPatch', $msg, [
       'player' => $player,
       'tile' => $tile,
     ]);

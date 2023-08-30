@@ -24,4 +24,17 @@ class EventCard extends \PU\Models\Card
   public function effect()
   {
   }
+
+  public function synergy($toChoose, $nMove, $types = ALL_TYPES)
+  {
+    return [
+      'action' => CHOOSE_TRACKS,
+      'args' => [
+        'types' => $types,
+        'n' => $toChoose,
+        'move' => $nMove,
+        'from' => clienttranslate('Event Card')
+      ]
+    ];
+  }
 }

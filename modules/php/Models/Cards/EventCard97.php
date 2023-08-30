@@ -24,5 +24,6 @@ class EventCard97 extends \PU\Models\Cards\EventCard
   //CONTRAINT : RoverNotWater
   public function effect()
   {
+    //TODO
   }
 }

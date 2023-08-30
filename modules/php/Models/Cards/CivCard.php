@@ -27,7 +27,6 @@ class CivCard extends \PU\Models\Card
 
   public function synergy($toChoose, $nMove, $types = ALL_TYPES)
   {
-    $player = $this->getPlayer();
     return [
       'action' => CHOOSE_TRACKS,
       'args' => [

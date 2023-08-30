@@ -24,5 +24,6 @@ class EventCard74 extends \PU\Models\Cards\EventCard
   //CONTRAINT : 
   public function effect()
   {
+    return $this->synergy(1, 1, [WATER, CIV]);
   }
 }

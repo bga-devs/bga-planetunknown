@@ -24,5 +24,13 @@ class EventCard82 extends \PU\Models\Cards\EventCard
   //CONTRAINT : 
   public function effect()
   {
+    return [
+      'action' => COLLECT_MEEPLE,
+      'args' => [
+        'type' => LIFEPOD,
+        'n' => 1,
+        'action' => 'collect'
+      ]
+    ];
   }
 }

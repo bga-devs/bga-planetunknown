@@ -58,12 +58,22 @@ trait TurnTrait
     $card = Cards::get($args['eventCardId']);
 
     $effect = $card->effect();
-    if (is_array($effect)) {
-      Engine::setup(
-        $effect,
-        ['method' => 'stEndOfEventTurn'],
-        $pIds
-      );
+    if (is_array($effect)) { //if each player have special flow
+      if (isset($effect['nestedFlows'])) {
+        foreach ($effect['nestedFlows'] as $pId => $flow) {
+          Engine::setup(
+            $flow,
+            ['method' => 'stEndOfEventTurn'],
+            $pId
+          );
+        }
+      } else {
+        Engine::setup(
+          $effect,
+          ['method' => 'stEndOfEventTurn'],
+          $pIds
+        );
+      }
     } else {
       $this->gamestate->jumpToState(ST_SETUP_BRANCH);
     }

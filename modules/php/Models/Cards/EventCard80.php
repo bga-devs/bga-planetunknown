@@ -3,6 +3,7 @@
 namespace PU\Models\Cards;
 
 use PU\Managers\Cards;
+use PU\Managers\Players;
 
 /*
  * EventCard n°80
@@ -24,5 +25,19 @@ class EventCard80 extends \PU\Models\Cards\EventCard
   //CONTRAINT : 
   public function effect()
   {
+    $players = Players::getAll();
+    $result = [];
+
+    foreach ($players as $pId => $player) {
+      $patchToPlace = $player->corporation()->receiveBiomassPatch();
+      if ($patchToPlace) {
+        $result['nestedFlows'][$pId] = [
+          'action' => PLACE_TILE,
+          'args' => [
+            'forcedTiles' => [$patchToPlace->getId()]
+          ]
+        ];
+      }
+    }
   }
 }

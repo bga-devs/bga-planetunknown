@@ -24,5 +24,13 @@ class EventCard83 extends \PU\Models\Cards\EventCard
   //CONTRAINT : 
   public function effect()
   {
+    return [
+      'action' => COLLECT_MEEPLE,
+      'args' => [
+        'type' => METEOR,
+        'n' => 1,
+        'action' => 'collect'
+      ]
+    ];
   }
 }
