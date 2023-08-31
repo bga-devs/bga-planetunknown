@@ -81,10 +81,12 @@ const ST_MOVE_ROVER = 29;
 const ST_COLLECT_MEEPLE = 30;
 const ST_DESTROY_ALL_IN_ROW = 31;
 const ST_MOVE_TRACKERS_TO_FIVE = 32;
+const ST_PLACE_MEEPLE = 33;
+const ST_CHOOSE_ROTATION_ENGINE = 34;
 
-const ST_FOO_A = 34;
-const ST_FOO_B = 35;
-const ST_FOO_C = 36;
+const ST_FOO_A = 54;
+const ST_FOO_B = 55;
+const ST_FOO_C = 56;
 
 const ST_SETUP_PRIVATE_ENGINE = 89;
 const ST_RESOLVE_STACK = 90;
@@ -125,6 +127,8 @@ const MOVE_ROVER = 'MoveRover';
 const COLLECT_MEEPLE = 'collectMeeple';
 const DESTROY_ALL_IN_ROW = 'destroyAllInRow';
 const MOVE_TRACKERS_TO_FIVE = 'moveTrackersToFive';
+const PLACE_MEEPLE = 'placeMeeple';
+const CHOOSE_ROTATION = 'chooseRotation';
 
 /*
  * Resources

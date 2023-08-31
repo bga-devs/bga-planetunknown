@@ -129,6 +129,19 @@ class Notifications
     static::notifyAll('newRotation', $message, $data);
   }
 
+  public static function placeMeeple($player, $type, $meeple)
+  {
+    $msg = clienttranslate('${player_name} places a new ${type} on his planet');
+    $data = [
+      'player' => $player,
+      'meeple' => $meeple,
+      'type' => $type,
+      'i18n' => ['type']
+    ];
+    static::pnotify($player, 'slideMeeple', $msg, $data);
+  }
+
+
   public static function placeRover($player, $rover)
   {
     $msg = clienttranslate('${player_name} places a new rover on his planet');

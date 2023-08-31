@@ -24,6 +24,12 @@ class EventCard95 extends \PU\Models\Cards\EventCard
   //CONTRAINT : 
   public function effect()
   {
-    //TODO
+    return [
+      'action' => PLACE_MEEPLE,
+      'args' => [
+        'type' => METEOR,
+        'constraint' => 'emptyMeteorSymbol'
+      ]
+    ];
   }
 }

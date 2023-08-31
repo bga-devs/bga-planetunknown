@@ -95,6 +95,7 @@ class Planet
         $this->grid[$cell['x']][$cell['y']]['tile'] = $tile;
         $this->grid[$cell['x']][$cell['y']]['type'] = $datas[$i]['type'];
         $this->grid[$cell['x']][$cell['y']]['symbol'] = $datas[$i]['symbol'] ? $datas[$i]['type'] : null;
+        $this->grid[$cell['x']][$cell['y']]['meteorSymbol'] = $datas[$i]['meteor'];
       }
     }
   }
@@ -172,6 +173,9 @@ class Planet
     );
   }
 
+  /**
+   * detect all connected area from one type given in args
+   */
   public function detectZones($type)
   {
     $zones = [];
@@ -226,6 +230,16 @@ class Planet
     return count($cells);
   }
 
+  public function getEmptyMeteorSymbolCells()
+  {
+    return array_filter(
+      $this->getListOfCells(),
+      fn ($cell) =>
+      $this->hasMeteorSymbol($cell['x'], $cell['y']) &&
+        $this->player->getMeteorOnCell($cell)
+    );
+  }
+
   ///////////////////////////////////////////////
   //  _____ _ _
   // |_   _(_) | ___  ___
@@ -255,6 +269,7 @@ class Planet
       $type = $datas[$i]['type'];
       $this->grid[$cell['x']][$cell['y']]['type'] = $type;
       $this->grid[$cell['x']][$cell['y']]['symbol'] = $datas[$i]['symbol'] ? $datas[$i]['type'] : null;
+      $this->grid[$cell['x']][$cell['y']]['meteorSymbol'] = $datas[$i]['meteor'];
 
       if ($datas[$i]['symbol']) {
         $symbols[] = [
@@ -535,6 +550,11 @@ class Planet
   public function getSymbol($x, $y)
   {
     return $this->grid[$x][$y]['symbol'];
+  }
+
+  public function hasMeteorSymbol($x, $y)
+  {
+    return $this->grid[$x][$y]['meteorSymbol'];
   }
 
   // Can be overwritten by some planets

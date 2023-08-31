@@ -16,7 +16,7 @@ class Actions
   static $classes = [
     PLACE_TILE, MOVE_TRACK, CHOOSE_TRACKS, PLACE_ROVER,
     MOVE_TRACKER_BY_ONE, TAKE_CIV_CARD, MOVE_ROVER, COLLECT_MEEPLE, DESTROY_ALL_IN_ROW,
-    MOVE_TRACKERS_TO_FIVE
+    MOVE_TRACKERS_TO_FIVE, PLACE_MEEPLE, CHOOSE_ROTATION
   ];
 
   public static function get($actionId, &$ctx = null)

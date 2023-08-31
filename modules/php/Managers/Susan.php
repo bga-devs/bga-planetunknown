@@ -36,10 +36,8 @@ class Susan
 		return $depots;
 	}
 
-	public static function rotate($nb, $player = null)
+	public static function rotate($rotation, $player = null)
 	{
-		$rotation = Globals::getSusanRotation();
-		$rotation = ($rotation + $nb) % 6;
 		Globals::setSusanRotation($rotation);
 		Notifications::newRotation($rotation, $player);
 	}

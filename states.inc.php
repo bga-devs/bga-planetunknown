@@ -328,7 +328,7 @@ $machinestates = [
     'action' => 'stAtomicAction',
     'possibleactions' => ['actDestroyAllInRow', 'actRestart'],
   ],
-  
+
   ST_MOVE_TRACKERS_TO_FIVE => [
     'name' => MOVE_TRACKERS_TO_FIVE,
     'descriptionmyturn' => clienttranslate('${you} must advance all trackers to 5th position'),
@@ -336,6 +336,24 @@ $machinestates = [
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
     'possibleactions' => ['actMoveTrackersToFive', 'actRestart'],
+  ],
+
+  ST_PLACE_MEEPLE => [
+    'name' => PLACE_MEEPLE,
+    'descriptionmyturn' => clienttranslate('${you} must place a ${type} on your planet'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actPlaceMeeple', 'actRestart'],
+  ],
+
+  ST_CHOOSE_ROTATION_ENGINE => [
+    'name' => CHOOSE_ROTATION,
+    'descriptionmyturn' => clienttranslate('${you} must choose Space Station orientation'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actChooseRotation', 'actRestart'],
   ],
 
   ST_FOO_A => [

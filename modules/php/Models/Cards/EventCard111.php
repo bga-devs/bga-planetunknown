@@ -3,6 +3,7 @@
 namespace PU\Models\Cards;
 
 use PU\Managers\Cards;
+use PU\Managers\Players;
 
 /*
  * EventCard n°111
@@ -24,14 +25,25 @@ class EventCard111 extends \PU\Models\Cards\EventCard
   //CONTRAINT : 
   public function effect()
   {
-    return [
-      'action' => COLLECT_MEEPLE,
-      'args' => [
-        'type' => ROVER_MEEPLE,
-        'n' => 1,
-        'action' => 'collect',
-        'destroy' => 'destroy'
-      ]
-    ];
+    $players = Players::getAll();
+
+    $flows = [];
+
+    foreach ($players as $pId => $player) {
+      if ($player->count($this->getRoversOnPlanet()) > 1) {
+        $flows['nestedFlows'][$pId] = [
+          'action' => COLLECT_MEEPLE,
+          'args' => [
+            'type' => ROVER_MEEPLE,
+            'n' => 1,
+            'action' => 'collect',
+            'destroy' => 'destroy'
+          ]
+        ];
+      } else {
+        $flows[$pId] = [];
+      }
+    }
+    return $flows;
   }
 }
