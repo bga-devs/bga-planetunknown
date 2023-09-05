@@ -24,5 +24,14 @@ class EventCard114 extends \PU\Models\Cards\EventCard
   //CONTRAINT : 
   public function effect()
   {
+    return [
+      'action' => COLLECT_MEEPLE,
+      'args' => [
+        'type' => LIFEPOD,
+        'n' => 2,
+        'action' => 'destroy',
+        'location' => 'corporation'
+      ]
+    ];
   }
 }

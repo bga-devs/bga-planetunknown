@@ -21,6 +21,15 @@ class Notifications
     static::notifyAll('newCards', clienttranslate('A new civ card is added to each deck'), $data);
   }
 
+  public static function removeCivCards()
+  {
+    $datas = [];
+    for ($i = 1; $i <= 4; $i++) {
+      $data["deck_civ_$i"] = Cards::countInLocation("deck_civ_$i");
+    }
+    static::notifyAll('newCards', clienttranslate('A civ card has been removed from each deck'), $data);
+  }
+
   public static function collectMeeple($player, $meeples, $action)
   {
     $message =

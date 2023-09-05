@@ -29,8 +29,7 @@ class EventCard113 extends \PU\Models\Cards\EventCard
       'args' => [
         'type' => LIFEPOD,
         'n' => 1,
-        'action' => 'collect',
-        'destroy' => 'destroy'
+        'action' => 'destroy'
       ]
     ];
   }

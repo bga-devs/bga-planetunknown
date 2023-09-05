@@ -2,6 +2,7 @@
 
 namespace PU\Models\Cards;
 
+use PU\Core\Notifications;
 use PU\Managers\Cards;
 
 /*
@@ -24,5 +25,11 @@ class EventCard112 extends \PU\Models\Cards\EventCard
   //CONTRAINT : 
   public function effect()
   {
+    for ($i = 1; $i <= 4; $i++) {
+      $deck = 'deck_civ_' . $i;
+      Cards::shuffle($deck);
+      Cards::pickOneForLocation($deck, 'reserve_civ_' . $i);
+    }
+    Notifications::removeCivCards();
   }
 }

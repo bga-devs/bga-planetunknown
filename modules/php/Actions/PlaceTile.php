@@ -7,6 +7,7 @@ use PU\Managers\Players;
 use PU\Managers\Tiles;
 use PU\Core\Notifications;
 use PU\Core\Engine;
+use PU\Core\Globals;
 use PU\Core\Stats;
 use PU\Helpers\Utils;
 use PU\Helpers\FlowConvertor;
@@ -105,9 +106,17 @@ class PlaceTile extends \PU\Models\Action
     // Destroy pod/rover if any are covered
     [$destroyedRover, $destroyedLifepod] = Meeples::destroyCoveredMeeples($player, $tile);
 
+    // Place extra Rover if it's the turn special rules
+    if (Globals::getTurnSpecialRule() ==  ADD_ROVER) {
+      $this->pushParallelChild([
+        'action' => PLACE_ROVER,
+      ]);
+    }
+
     // Move tracks
     $tileTypes = [];
     if ($this->getWithBonus()) {
+      $actions = [];
       foreach ($symbols as $symbol) {
         $type = $symbol['type'];
         $tileTypes[] = $type;
@@ -115,7 +124,7 @@ class PlaceTile extends \PU\Models\Action
         // Energy => compute the possible tracks
         if ($type == ENERGY) {
           $types = $player->planet()->getTypesAdjacentToEnergy($symbol['cell']);
-          $this->pushParallelChild([
+          $actions[] = [
             'action' => CHOOSE_TRACKS,
             'args' => [
               'types' => $types,
@@ -123,7 +132,7 @@ class PlaceTile extends \PU\Models\Action
               'energy' => true,
               'from' => ENERGY,
             ],
-          ]);
+          ];
           continue;
         }
         // Water => stop if the tile is not covering water
@@ -132,10 +141,19 @@ class PlaceTile extends \PU\Models\Action
         }
 
         // Normal case: add parallel child
-        $this->pushParallelChild([
+        $actions[] = [
           'action' => MOVE_TRACK,
           'args' => ['type' => $type, 'n' => 1, 'withBonus' => true],
+        ];
+      }
+      if (Globals::getTurnSpecialRule() == ONLY_ONE_MOVE_TRACKER) {
+        $this->pushParallelChild([
+          'type' => NODE_XOR,
+          'actions' => $actions
         ]);
+      } else {
+        //normal case
+        $this->pushParallelChilds($actions);
       }
     }
 

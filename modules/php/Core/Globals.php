@@ -59,6 +59,7 @@ class Globals extends \PU\Helpers\DB_Manager
     'corporationOption' => 'int',
     'eventCardsGame' => 'obj',
     'privateObjectiveCardsGame' => 'bool',
+    'turnSpecialRule' => 'str'
   ];
 
   protected static $table = 'global_variables';
@@ -79,12 +80,10 @@ class Globals extends \PU\Helpers\DB_Manager
     $tmp = self::$log;
     self::$log = false;
 
-    foreach (
-      self::DB()
+    foreach (self::DB()
         ->select(['value', 'name'])
         ->get(false)
-      as $name => $variable
-    ) {
+      as $name => $variable) {
       if (\array_key_exists($name, self::$variables)) {
         self::$data[$name] = $variable;
       }

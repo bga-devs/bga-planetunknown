@@ -24,5 +24,6 @@ class EventCard104 extends \PU\Models\Cards\EventCard
   //CONTRAINT : OneResource
   public function effect()
   {
+    Globals::setTurnSpecialRule(ONLY_ONE_MOVE_TRACKER);
   }
 }

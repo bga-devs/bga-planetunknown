@@ -151,6 +151,13 @@ class Player extends \PU\Helpers\DB_Model
       } else {
         $neighbours = $this->planet()->getPossibleMovesFrom(['x' => $rover->getX(), 'y' => $rover->getY()]);
       }
+
+      //filter cells depending on turn special rule :
+      $contraint = Globals::getTurnSpecialRule();
+      if (in_array($contraint, FORBIDDEN_TERRAINS)) {
+        $neighbours = array_filter($neighbours, fn ($cell) => $this->planet->getTypeAtPos($cell) != FORBIDDEN_TERRAINS[$contraint]);
+      }
+
       $spaceIds[$roverId] = array_map(fn ($cell) => Planet::getCellId($cell), $neighbours);
     }
 

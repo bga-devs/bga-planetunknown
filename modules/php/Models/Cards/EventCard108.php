@@ -2,6 +2,7 @@
 
 namespace PU\Models\Cards;
 
+use PU\Core\Globals;
 use PU\Managers\Cards;
 
 /*
@@ -24,5 +25,6 @@ class EventCard108 extends \PU\Models\Cards\EventCard
   //CONTRAINT : OneResource
   public function effect()
   {
+    Globals::setTurnSpecialRule(ONLY_ONE_MOVE_TRACKER);
   }
 }

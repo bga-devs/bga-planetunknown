@@ -27,7 +27,7 @@ class EventCard66 extends \PU\Models\Cards\EventCard
   {
     for ($i = 1; $i <= 4; $i++) {
       $deck = 'deck_civ_' . $i;
-      Cards::shuffle($deck);
+      Cards::shuffle('reserve_civ_' . $i);
       Cards::pickOneForLocation('reserve_civ_' . $i, $deck);
     }
     Notifications::addCivCards();

@@ -30,14 +30,19 @@ class CollectMeeple extends \PU\Models\Action
     return $this->getCtxArg('n');
   }
 
-  public function getToDestroy()
+  public function getAction()
   {
-    return $this->getCtxArg('destroy') == 'destroy';
+    return $this->getCtxArg('action');
   }
 
   public function getType()
   {
     return $this->getCtxArg('type');
+  }
+
+  public function getLocation()
+  {
+    return $this->getCtxArg('location') ?? 'planet';
   }
 
   public function getForcedMeeple()
@@ -49,7 +54,7 @@ class CollectMeeple extends \PU\Models\Action
   public function getCollectableMeeples($player)
   {
     $meeples = $player->getMeeples($this->getType())
-      ->where('location', 'planet')
+      ->where('location', $this->getLocation())
       ->toArray();
     return array_map(fn ($meeple) => $meeple->getX() . '_' . $meeple->getY(), $meeples);
   }
@@ -61,7 +66,7 @@ class CollectMeeple extends \PU\Models\Action
 
     return [
       'meeples' => $collectableMeeples,
-      'action' => $this->getToDestroy() ? clienttranslate('destroy') : clienttranslate('collect'),
+      'action' => $this->getAction() == 'destroy' ? clienttranslate('destroy') : clienttranslate('collect'),
       'type' => $this->getType(),
       'n' => min($this->getN(), count($collectableMeeples)),
       'i18n' => ['action', 'type']

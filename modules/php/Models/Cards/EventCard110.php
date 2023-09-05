@@ -24,5 +24,6 @@ class EventCard110 extends \PU\Models\Cards\EventCard
   //CONTRAINT : 
   public function effect()
   {
+    //TODO
   }
 }

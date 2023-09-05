@@ -24,5 +24,6 @@ class EventCard103 extends \PU\Models\Cards\EventCard
   //CONTRAINT : NotOnEdge
   public function effect()
   {
+    //TODO
   }
 }

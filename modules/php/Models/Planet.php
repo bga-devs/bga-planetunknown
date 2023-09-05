@@ -537,14 +537,21 @@ class Planet
     return $result;
   }
 
+  //terrain is on the board (mainly ICE or LAND)
   public function getTerrain($x, $y)
   {
     return $this->terrains[$y][$x];
   }
 
+  //type depends on tile
   public function getType($x, $y)
   {
     return $this->grid[$x][$y]['type'];
+  }
+
+  public function getTypeAtPos($cell)
+  {
+    return $this->getType($cell['x'], $cell['y']);
   }
 
   public function getSymbol($x, $y)

@@ -24,5 +24,6 @@ class EventCard109 extends \PU\Models\Cards\EventCard
   //CONTRAINT : NoMilestone
   public function effect()
   {
+    //TODO
   }
 }

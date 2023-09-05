@@ -2,6 +2,7 @@
 
 namespace PU\Models\Cards;
 
+use PU\Core\Globals;
 use PU\Managers\Cards;
 
 /*
@@ -24,6 +25,6 @@ class EventCard97 extends \PU\Models\Cards\EventCard
   //CONTRAINT : RoverNotWater
   public function effect()
   {
-    //TODO
+    Globals::setTurnSpecialRule(NOT_ONTO_WATER);
   }
 }

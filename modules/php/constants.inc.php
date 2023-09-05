@@ -150,6 +150,27 @@ const SYNERGY_TECH = 'synergy_tech';
 const SYNERGY_WATER = 'synergy_water';
 const SKIP = 'skip'; //doesn't exists, placeholder in the array;
 
+/* 
+ * Constraints Rules
+ */
+
+const NOT_ONTO_BIOMASS = "notOntoBiomass";
+const NOT_ONTO_CIV = "notOntoCiv";
+const NOT_ONTO_TECH = "notOntoTech";
+const NOT_ONTO_ROVER = "notOntoRover";
+const NOT_ONTO_ENERGY = "notOntoEnergy";
+const NOT_ONTO_WATER = "notOntoWater";
+const FORBIDDEN_TERRAINS = [
+	NOT_ONTO_CIV => CIV,
+	NOT_ONTO_TECH => TECH,
+	NOT_ONTO_ROVER => ROVER,
+	NOT_ONTO_WATER => WATER,
+	NOT_ONTO_ENERGY => ENERGY,
+	NOT_ONTO_BIOMASS => BIOMASS
+];
+const ADD_ROVER = "addRover";
+const ONLY_ONE_MOVE_TRACKER = "onlyOneMoveTracker";
+
 /*
  *	Cards
  */

@@ -36,8 +36,7 @@ class EventCard111 extends \PU\Models\Cards\EventCard
           'args' => [
             'type' => ROVER_MEEPLE,
             'n' => 1,
-            'action' => 'collect',
-            'destroy' => 'destroy'
+            'action' => 'destroy'
           ]
         ];
       } else {
