@@ -75,7 +75,7 @@ class Player extends \PU\Helpers\DB_Model
   {
     $card->setState($this->id);
     $flow = $card->effect();
-    if ($card->effectType == IMMEDIATE) {
+    if ($card->getEffectType() == IMMEDIATE) {
       $card->setLocation('playedCivCards');
       return $flow;
     } else {
@@ -155,10 +155,13 @@ class Player extends \PU\Helpers\DB_Model
       //filter cells depending on turn special rule :
       $contraint = Globals::getTurnSpecialRule();
       if (in_array($contraint, FORBIDDEN_TERRAINS)) {
-        $neighbours = array_filter($neighbours, fn ($cell) => $this->planet->getTypeAtPos($cell) != FORBIDDEN_TERRAINS[$contraint]);
+        $neighbours = array_filter(
+          $neighbours,
+          fn($cell) => $this->planet->getTypeAtPos($cell) != FORBIDDEN_TERRAINS[$contraint]
+        );
       }
 
-      $spaceIds[$roverId] = array_map(fn ($cell) => Planet::getCellId($cell), $neighbours);
+      $spaceIds[$roverId] = array_map(fn($cell) => Planet::getCellId($cell), $neighbours);
     }
 
     return $spaceIds;
@@ -209,7 +212,7 @@ class Player extends \PU\Helpers\DB_Model
 
     //highest value for each tracker in tracks
     $result['tracks'] = [
-      'entries' => $this->corporation()->scoreByTracks()
+      'entries' => $this->corporation()->scoreByTracks(),
     ];
     $scoreTracks = $this->reduce_entries($result['tracks']);
     $result['tracks']['total'] = $scoreTracks;
@@ -235,7 +238,8 @@ class Player extends \PU\Helpers\DB_Model
     $result['objectives'] = [
       'entries' => [],
     ];
-    $NOCards = Cards::getInLocation('NOCards')->where('pId', $this->id)
+    $NOCards = Cards::getInLocation('NOCards')
+      ->where('pId', $this->id)
       ->merge(Cards::getInLocation('NOCards')->where('pId2', $this->id));
 
     foreach ($NOCards as $id => $NOcard) {
@@ -258,7 +262,7 @@ class Player extends \PU\Helpers\DB_Model
 
   public static function reduce_entries($array)
   {
-    return array_reduce($array['entries'], fn ($sum, $item) => $sum + $item, 0);
+    return array_reduce($array['entries'], fn($sum, $item) => $sum + $item, 0);
   }
 
   public function addEndOfTurnAction($flow)
@@ -297,8 +301,8 @@ class Player extends \PU\Helpers\DB_Model
   /**
    * from a techId given returns if player has this tech
    * @param $techId String as 'tech_0_5' which means corporation0 tech 5
-   * 
-   * @return bool 
+   *
+   * @return bool
    */
   public function hasTech($techId)
   {

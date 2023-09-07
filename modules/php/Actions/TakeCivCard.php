@@ -24,8 +24,7 @@ class TakeCivCard extends \PU\Models\Action
 
   public function isDoable($player)
   {
-    return $this->getPossibleCards()
-      ->count() > 1;
+    return $this->getPossibleCards()->count() > 1;
   }
 
   public function getDescription()
@@ -40,15 +39,14 @@ class TakeCivCard extends \PU\Models\Action
 
   public function getPossibleCards()
   {
-    return Cards::getAll()
-      ->where('location', 'deck_civ_' . $this->getLevel());
+    return Cards::getAll()->where('location', 'deck_civ_' . $this->getLevel());
   }
 
   public function argsTakeCivCard()
   {
     return [
       'cards' => $this->getPossibleCards(),
-      'level' => $this->getLevel()
+      'level' => $this->getLevel(),
     ];
   }
 
@@ -61,8 +59,7 @@ class TakeCivCard extends \PU\Models\Action
       throw new \BgaVisibleSystemException("You cannot take this card ($cardId) from this deck. Should not happen");
     }
 
-    $cardId = $args['cards'][$cardId];
-    $card = Cards::get($cardId);
+    $card = $args['cards'][$cardId];
 
     // Place it on the player board or hand
     $flow = $player->takeCivCard($card);

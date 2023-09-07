@@ -17,6 +17,11 @@ class CivCard extends \PU\Models\Card
   protected $meteorRepo = false;
   protected $commerceAgreement = false;
 
+  public function getEffectType()
+  {
+    return $this->effectType;
+  }
+
   public function effect()
   {
   }
@@ -33,8 +38,8 @@ class CivCard extends \PU\Models\Card
         'types' => $types,
         'n' => $toChoose,
         'move' => $nMove,
-        'from' => clienttranslate('Civ Card')
-      ]
+        'from' => clienttranslate('Civ Card'),
+      ],
     ];
   }
 
@@ -48,14 +53,14 @@ class CivCard extends \PU\Models\Card
         $childs[] = [
           'action' => PLACE_TILE,
           'args' => [
-            'forcedTiles' => [$patchToPlace->getId()]
-          ]
+            'forcedTiles' => [$patchToPlace->getId()],
+          ],
         ];
       }
     }
     return [
       'type' => NODE_PARALLEL,
-      'childs' => $childs
+      'childs' => $childs,
     ];
   }
 
@@ -64,8 +69,8 @@ class CivCard extends \PU\Models\Card
     return [
       'action' => PLACE_TILE,
       'args' => [
-        'withBonus' => false
-      ]
+        'withBonus' => false,
+      ],
     ];
   }
 }

@@ -66,9 +66,16 @@ class Engine
   public function setup($t, $callback, $pIds = null)
   {
     Globals::setCallbackEngineResolved($callback);
-    $pIds = $pIds ?? Players::getAll()->getIds();
+    $allPIds = Players::getAll()->getIds();
+    $pIds = $pIds ?? $allPIds;
     if (empty($pIds)) {
       die('Empty pIds on engine setup => should call callback TODO');
+    }
+
+    // Clear existing engines
+    foreach ($allPIds as $pId) {
+      PGlobals::setEngine($pId, []);
+      PGlobals::setEngineChoices($pId, 0);
     }
 
     self::$trees = [];

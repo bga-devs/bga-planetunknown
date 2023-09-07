@@ -27,8 +27,9 @@ define([
   g_gamethemeurl + 'modules/js/Core/modal.js',
   g_gamethemeurl + 'modules/js/Players.js',
   g_gamethemeurl + 'modules/js/Meeples.js',
+  g_gamethemeurl + 'modules/js/Cards.js',
 ], function (dojo, declare) {
-  return declare('bgagame.planetunknown', [customgame.game, planetunknown.players, planetunknown.meeples], {
+  return declare('bgagame.planetunknown', [customgame.game, planetunknown.players, planetunknown.meeples, planetunknown.cards], {
     constructor() {
       this._activeStates = ['placeTile'];
       this._notifications = [
@@ -272,6 +273,8 @@ define([
       toRemove.forEach((eltId) => {
         if ($(eltId)) $(eltId).remove();
       });
+
+      if (this._chooseCardModal) this._chooseCardModal.destroy();
 
       this.inherited(arguments);
     },
@@ -718,11 +721,36 @@ define([
     },
 
     onEnteringStateChooseTracks(args) {
+      let tracks = [];
       args.types.forEach((type) => {
-        this.addSecondaryActionButton('btn' + type, this.fsr('${type}', { type, type_name: type }), () =>
-          this.takeAtomicAction('actChooseTracks', [[type]])
-        );
+        this.addSecondaryActionButton('btn' + type, this.fsr('${type}', { type, type_name: type }), () => {
+          // Only a single track to resolve => auto confirm
+          if (args.n == 1) {
+            this.takeAtomicAction('actChooseTracks', [[type]]);
+          }
+          // Otherwise, toggle selected
+          else {
+            let trackIndex = tracks.findIndex((t) => t == type);
+
+            if (trackIndex !== -1) {
+              tracks.splice(trackIndex, 1);
+              $(`btn${type}`).classList.remove('selected');
+            } else {
+              tracks.push(type);
+              $(`btn${type}`).classList.add('selected');
+            }
+
+            $('btnConfirmTracks').classList.toggle('disabled', tracks.length != args.n);
+          }
+        });
       });
+
+      if (args.n > 1) {
+        this.addPrimaryActionButton('btnConfirmTracks', _('Confirm'), () => {
+          if (!$('btnConfirmTracks').classList.contains('disabled')) this.takeAtomicAction('actChooseTracks', [tracks]);
+        });
+        $('btnConfirmTracks').classList.add('disabled');
+      }
     },
 
     onEnteringStatePlaceRover(args) {
@@ -778,6 +806,37 @@ define([
           this.takeAtomicAction('actMoveRover', [selectedRover, selectedSpace])
         );
       };
+    },
+
+    onEnteringStateTakeCivCard(args) {
+      this._chooseCardModal = new customgame.modal('chooseCard', {
+        class: 'planetunknown_popin',
+        closeIcon: 'fa-times',
+        title: this.fsr(_('CIV cards of level ${level}'), { level: args.level }),
+        closeAction: 'hide',
+        verticalAlign: 'flex-start',
+        contentsTpl: `<div id='planetunknown-choose-card'></div><div id="planetunknown-choose-card-footer"></div>`,
+        autoShow: true,
+      });
+
+      let selectedCard = null;
+      Object.values(args.cards).forEach((card) => {
+        this.addCard(card, 'planetunknown-choose-card');
+        this.onClick(`card-${card.id}`, () => {
+          if (selectedCard) $(`card-${selectedCard}`).classList.remove('selected');
+          selectedCard = card.id;
+          $(`card-${selectedCard}`).classList.add('selected');
+
+          this.addPrimaryActionButton(
+            'btnConfirm',
+            _('Confirm'),
+            () => this.takeAtomicAction('actTakeCivCard', [card.id]),
+            'planetunknown-choose-card-footer'
+          );
+        });
+      });
+
+      this.addPrimaryActionButton('showDeck', _('Show deck'), () => this._chooseCardModal.show());
     },
 
     ////////////////////////////////////////////////////////////
