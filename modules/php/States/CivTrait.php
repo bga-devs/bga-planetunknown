@@ -49,6 +49,8 @@ trait CivTrait
 
   public function stPostChooseCivCard()
   {
+    Susan::refill();
+
     $players = Players::getAll();
     foreach ($players as $pId => $player) {
       $player->emptyEndOfTurnActions();

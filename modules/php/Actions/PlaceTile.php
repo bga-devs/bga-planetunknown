@@ -132,47 +132,50 @@ class PlaceTile extends \PU\Models\Action
 
     // Move tracks
     $tileTypes = [];
-    if ($this->getWithBonus()) {
-      $actions = [];
-      foreach ($symbols as $symbol) {
-        $type = $symbol['type'];
-        $tileTypes[] = $type;
 
-        // Energy => compute the possible tracks
-        if ($type == ENERGY) {
-          $types = $player->planet()->getTypesAdjacentToEnergy($symbol['cell']);
-          $actions[] = [
-            'action' => CHOOSE_TRACKS,
-            'args' => [
-              'types' => $types,
-              'n' => 1,
-              'energy' => true,
-              'from' => ENERGY,
-            ],
-          ];
-          continue;
-        }
-        // Water => stop if the tile is not covering water
-        elseif ($type == WATER && !$coveringWater) {
-          continue;
-        }
+    $actions = [];
+    foreach ($symbols as $symbol) {
+      $type = $symbol['type'];
+      $tileTypes[] = $type;
 
-        // Normal case: add parallel child
+
+      if (!$this->getWithBonus()) continue;
+
+      // Energy => compute the possible tracks
+      if ($type == ENERGY) {
+        $types = $player->planet()->getTypesAdjacentToEnergy($symbol['cell']);
         $actions[] = [
-          'action' => MOVE_TRACK,
-          'args' => ['type' => $type, 'n' => 1, 'withBonus' => true],
+          'action' => CHOOSE_TRACKS,
+          'args' => [
+            'types' => $types,
+            'n' => 1,
+            'energy' => true,
+            'from' => ENERGY,
+          ],
         ];
+        continue;
       }
-      if (Globals::getTurnSpecialRule() == ONLY_ONE_MOVE_TRACKER) {
-        $this->pushParallelChild([
-          'type' => NODE_XOR,
-          'actions' => $actions,
-        ]);
-      } else {
-        //normal case
-        $this->pushParallelChilds($actions);
+      // Water => stop if the tile is not covering water
+      elseif ($type == WATER && !$coveringWater) {
+        continue;
       }
+
+      // Normal case: add parallel child
+      $actions[] = [
+        'action' => MOVE_TRACK,
+        'args' => ['type' => $type, 'n' => 1, 'withBonus' => true],
+      ];
     }
+    if (Globals::getTurnSpecialRule() == ONLY_ONE_MOVE_TRACKER) {
+      $this->pushParallelChild([
+        'type' => NODE_XOR,
+        'actions' => $actions,
+      ]);
+    } else {
+      //normal case
+      $this->pushParallelChilds($actions);
+    }
+
 
     Notifications::placeTile($player, $tile, $meteor, $tileTypes);
 

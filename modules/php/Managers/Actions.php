@@ -24,7 +24,7 @@ class Actions
     return [
       'action' => PLACE_TILE,
       'args' => [
-        'description' => clienttranslate("a biomass patch"),
+        'descriptionTile' => clienttranslate("a biomass patch"),
         'forcedTiles' => [$patchId]
       ]
     ];
