@@ -64,7 +64,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     },
 
     getMeepleContainer(meeple) {
-      let t = meeple.location.split('_');
+            let t = meeple.location.split('_');
       if (meeple.location == 'trash') {
         return this.getVisibleTitleContainer();
       }
@@ -76,8 +76,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       if (meeple.type == 'rover-meeple' && meeple.location == 'corporation') {
         return $(`rover-reserve-${meeple.pId}`);
       }
-      // Meteor in reserve
-      if (meeple.type == 'meteor' && meeple.location == 'corporation') {
+      // Meteor in reserve//TODO HACK
+      if ((meeple.type == 'meteor' || meeple.type ==  'lifepod') && meeple.location == 'corporation') {
         return $(`meteor-reserve-${meeple.pId}`);
       }
       // Things on tracks

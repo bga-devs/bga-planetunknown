@@ -142,12 +142,7 @@ class Action
         case BIOMASS:
           $patchToPlace = $player->corporation()->receiveBiomassPatch();
           if ($patchToPlace) {
-            $this->insertAsChild([
-              'action' => PLACE_TILE,
-              'args' => [
-                'forcedTiles' => [$patchToPlace->getId()]
-              ]
-            ]);
+            $this->insertAsChild(Actions::getBiomassPatchFlow($patchToPlace->getId()));
           }
           break;
         case TECH:

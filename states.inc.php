@@ -171,6 +171,7 @@ $machinestates = [
     'name' => 'setupEngine',
     'type' => 'multipleactiveplayer',
     'description' => clienttranslate('Waiting for everyone to confirm their moves'),
+    'descriptionCivCard' => clienttranslate('Waiting for players to take their civ card'),
     'descriptionmyturn' => '',
     'initialprivate' => ST_INIT_PRIVATE_ENGINE,
     'possibleactions' => ['actCancel'],
@@ -286,7 +287,7 @@ $machinestates = [
 
   ST_CHOOSE_TRACKS => [
     'name' => 'chooseTracks',
-    'descriptionmyturn' => clienttranslate('${you} must choose which track to move thanks to ${from}'),
+    'descriptionmyturn' => clienttranslate('${you} must choose ${n} track(s) to move thanks to ${from}'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',

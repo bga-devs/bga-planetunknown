@@ -64,6 +64,19 @@ class PlaceTile extends \PU\Models\Action
     return $checkIsDoable ? false : $tiles;
   }
 
+  public function getDescription()
+  {
+    $description = $this->getCtxArg('descriptionTile') ?? clienttranslate("a new tile");
+
+    return [
+      'log' => \clienttranslate('Place ${description} on your planet'),
+      'args' => [
+        'description' => $description,
+        'i18n' => ['description']
+      ],
+    ];
+  }
+
   public function argsPlaceTile()
   {
     $player = $this->getPlayer();

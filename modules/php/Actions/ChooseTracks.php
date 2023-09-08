@@ -94,7 +94,7 @@ class ChooseTracks extends \PU\Models\Action
         throw new \BgaVisibleSystemException('You cannot choose $type track. Should not happen');
       }
 
-      $this->insertAsChild([
+      $this->pushParallelChild([
         'action' => MOVE_TRACK,
         'args' => ['type' => $type, 'n' => $this->getMove(), 'withBonus' => $this->getWithBonus()],
       ]);

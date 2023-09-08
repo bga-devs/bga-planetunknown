@@ -19,6 +19,17 @@ class Actions
     MOVE_TRACKERS_TO_FIVE, PLACE_MEEPLE, CHOOSE_ROTATION
   ];
 
+  public static function getBiomassPatchFlow($patchId)
+  {
+    return [
+      'action' => PLACE_TILE,
+      'args' => [
+        'description' => clienttranslate("a biomass patch"),
+        'forcedTiles' => [$patchId]
+      ]
+    ];
+  }
+
   public static function get($actionId, &$ctx = null)
   {
     if (!in_array($actionId, self::$classes)) {

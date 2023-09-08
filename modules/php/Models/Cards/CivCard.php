@@ -2,6 +2,7 @@
 
 namespace PU\Models\Cards;
 
+use PU\Managers\Actions;
 use PU\Managers\Cards;
 use PU\Managers\Players;
 
@@ -45,12 +46,7 @@ class CivCard extends \PU\Models\Card
     for ($i = 0; $i < $n; $i++) {
       $patchToPlace = $player->corporation()->receiveBiomassPatch();
       if ($patchToPlace) {
-        $childs[] = [
-          'action' => PLACE_TILE,
-          'args' => [
-            'forcedTiles' => [$patchToPlace->getId()]
-          ]
-        ];
+        $childs[] = Actions::getBiomassPatchFlow($patchToPlace->getId());
       }
     }
     return [

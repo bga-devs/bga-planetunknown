@@ -3,6 +3,7 @@
 namespace PU\Models\Corporations;
 
 use PU\Core\Notifications;
+use PU\Managers\Actions;
 use PU\Managers\Tiles;
 
 class Corporation0 extends Corporation
@@ -57,12 +58,7 @@ class Corporation0 extends Corporation
   {
     $patch = Tiles::createBiomassPatch($this->player);
     if ($this->player->hasTech(TECH_CAN_STORE_BIOMASS_PATCH)) {
-      $this->player->addEndOfGameAction([
-        'action' => PLACE_TILE,
-        'args' => [
-          'forcedTiles' => [$patch->getId()]
-        ]
-      ]);
+      $this->player->addEndOfGameAction(Actions::getBiomassPatchFlow($patch->getId()));
 
       Notifications::receiveBiomassPatch($this->player, $patch, true);
     } else {

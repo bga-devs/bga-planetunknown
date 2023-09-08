@@ -2,6 +2,7 @@
 
 namespace PU\Models\Cards;
 
+use PU\Managers\Actions;
 use PU\Managers\Cards;
 use PU\Managers\Players;
 
@@ -31,12 +32,7 @@ class EventCard80 extends \PU\Models\Cards\EventCard
     foreach ($players as $pId => $player) {
       $patchToPlace = $player->corporation()->receiveBiomassPatch();
       if ($patchToPlace) {
-        $result['nestedFlows'][$pId] = [
-          'action' => PLACE_TILE,
-          'args' => [
-            'forcedTiles' => [$patchToPlace->getId()]
-          ]
-        ];
+        $result['nestedFlows'][$pId] = Actions::getBiomassPatchFlow($patchToPlace->getId());
       }
     }
   }
