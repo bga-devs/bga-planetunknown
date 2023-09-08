@@ -29,7 +29,7 @@ class CivCard22 extends \PU\Models\Cards\CivCard
   public function score()
   {
     return Tiles::getAll()
-      ->where('pId', $this->getState())
+      ->where('pId', $this->getPId())
       ->where('type', BIOMASS_PATCH)
       ->count();
   }

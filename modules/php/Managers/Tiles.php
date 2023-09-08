@@ -17,6 +17,8 @@ class Tiles extends \PU\Helpers\CachedPieces
   protected static $customFields = ['type', 'player_id', 'x', 'y', 'rotation', 'flipped'];
   protected static $datas = null;
   protected static $autoremovePrefix = false;
+  protected static $autoIncrement = true;
+  protected static $maxIndex = 0;
 
   protected static function cast($meeple)
   {
@@ -59,6 +61,10 @@ class Tiles extends \PU\Helpers\CachedPieces
       'type' => BIOMASS_PATCH,
       'location' => 'corporation',
       'player_id' => $player->getId(),
+      'x' => -1,
+      'y' => -1,
+      'rotation' => 0,
+      'flipped' => 0,
     ]);
   }
 

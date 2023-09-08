@@ -529,36 +529,6 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       });
     },
 
-    notif_pilferingMoney(notif) {
-      debug('Pilfering money', notif);
-      let pId1 = notif.args.player_id;
-      let pId2 = notif.args.player_id2;
-      let type = 'money';
-      let n = notif.args.bonuses.money;
-
-      if (this.isFastMode()) {
-        this._playerCounters[pId1][type].incValue(-n);
-        this._playerCounters[pId2][type].incValue(n);
-        return;
-      }
-
-      let tmpElt = `<div style='position:absolute' id='animation-${type}'>${this.formatIcon(type, Math.abs(n))}</div>`;
-      this.getVisibleTitleContainer().insertAdjacentHTML('beforebegin', tmpElt);
-      let mobileId = `animation-${type}`;
-      let counterStartId = `counter-${pId1}-${type}`;
-      let counterEndId = `counter-${pId2}-${type}`;
-
-      this._playerCounters[pId1][type].incValue(-n);
-      this.slide(mobileId, $(counterEndId), {
-        from: counterStartId,
-        destroy: true,
-        phantom: false,
-        duration: 1200,
-      }).then(() => {
-        this._playerCounters[pId2][type].incValue(n);
-      });
-    },
-
     //////////////////////////////////////////////////
     //  _____ _ _
     // |_   _(_) | ___  ___

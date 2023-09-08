@@ -32,6 +32,7 @@ class CachedPieces extends DB_Manager
 
   protected static $prefix = 'piece_';
   protected static $autoIncrement = true;
+  protected static $maxIndex = 0;
   protected static $primary;
   protected static $autoremovePrefix = true;
   protected static $autoreshuffle = false; // If true, a new deck is automatically formed with a reshuffled discard as soon at is needed
@@ -40,7 +41,6 @@ class CachedPieces extends DB_Manager
   // If defined, tell the name of the deck and what is the corresponding discard (ex : "mydeck" => "mydiscard")
   protected static $autoreshuffleCustom = [];
   protected static $customFields = [];
-  protected static $gIndex = [];
 
   public static function DB($table = null)
   {
@@ -70,6 +70,12 @@ class CachedPieces extends DB_Manager
   {
     if (is_null(static::$datas)) {
       static::$datas = static::getSelectQuery()->get();
+
+      if (static::$autoIncrement) {
+        $t = static::$table;
+        $res = self::getObjectListFromDB("SHOW TABLE STATUS WHERE `Name` = '$t'");
+        static::$maxIndex = (int) $res[0]['Auto_increment'];
+      }
     }
   }
 
@@ -523,12 +529,7 @@ class CachedPieces extends DB_Manager
     }
     // NO DB MODIF => SIMULATE CREATION
     else {
-      if (static::$autoIncrement) {
-        $t = static::$table;
-        $res = self::getObjectListFromDB("SHOW TABLE STATUS WHERE `Name` = '$t'");
-        $baseId = (int) $res[0]['Auto_increment'];
-      }
-
+      $baseId = static::$maxIndex;
       $ids = [];
       foreach ($values as $i => $v) {
         $row = [];
@@ -550,6 +551,10 @@ class CachedPieces extends DB_Manager
 
         foreach (static::$customFields as $i => $field) {
           $row[$field] = $data[$i + $offset];
+        }
+
+        if (static::$autoIncrement) {
+          static::$maxIndex += count($values);
         }
 
         static::$datas[$id] = static::cast($row);

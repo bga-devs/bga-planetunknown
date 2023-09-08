@@ -54,6 +54,7 @@ class CivCard extends \PU\Models\Card
         $childs[] = Actions::getBiomassPatchFlow($patchToPlace->getId());
       }
     }
+
     return [
       'type' => NODE_PARALLEL,
       'childs' => $childs,

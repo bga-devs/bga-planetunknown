@@ -206,7 +206,7 @@ define([
 
     notif_refreshUI(n) {
       debug('Notif: refreshing UI', n);
-
+      this.clearPossible();
       ['meeples', 'players', 'tiles'].forEach((value) => {
         this.gamedatas[value] = n.args.datas[value];
       });
