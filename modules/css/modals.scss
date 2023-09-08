@@ -1,6 +1,7 @@
 #popin_showSettings,
 #popin_showSusan,
-#popin_showScores {
+#popin_showScores,
+#popin_chooseCard {
     background-color: #ebd5bd;
     border-radius: 8px;
     box-shadow: 0 3px 8px black;
@@ -207,5 +208,31 @@
             transform: scale(1.8);
             transform-origin: top left;
         }
+    }
+}
+
+#popin_chooseCard {
+    width: 750px;
+    min-height: 300px;
+
+    #planetunknown-choose-card {
+        padding: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        .planetunknown-card {
+            margin: 7px;
+        }
+    }
+
+    #planetunknown-choose-card-footer {
+        min-height: 30px;
+        background-color: #e6e6e6d1;
+        border-top: 1px solid #6a4b2f;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+        text-align: right;
+        padding: 0px 10px;
     }
 }

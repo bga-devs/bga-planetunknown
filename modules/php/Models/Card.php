@@ -24,7 +24,7 @@ class Card extends \PU\Helpers\DB_Model
     'pId2' => 'player_id2',
   ];
 
-  protected $staticAttributes = ['title', 'desc'];
+  protected $staticAttributes = ['title', 'desc', 'type'];
 
   public function getPlayer()
   {
@@ -34,7 +34,13 @@ class Card extends \PU\Helpers\DB_Model
   public function formatScoreEntry($n)
   {
     return [
-      $this->type . '_' . $this->getId() => $n
+      $this->type . '_' . $this->getId() => $n,
     ];
+  }
+
+  // Just for testing purpose
+  public function jsonSerialize()
+  {
+    return array_merge(parent::jsonSerialize(), $this->getStaticData());
   }
 }

@@ -9,6 +9,7 @@ use PU\Core\Engine;
 use PU\Managers\Players;
 use PU\Managers\Tiles;
 use PU\Managers\Meeples;
+use PU\Managers\Cards;
 
 /**
  * Class that allows to log DB change: useful for undo feature
@@ -31,6 +32,7 @@ class Log extends \APP_DbObject
     Players::invalidate();
     Tiles::invalidate();
     Meeples::invalidate();
+    Cards::invalidate();
     // Stats::invalidate();
 
     if ($invalidateEngine) {

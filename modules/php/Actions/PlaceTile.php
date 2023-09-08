@@ -41,9 +41,13 @@ class PlaceTile extends \PU\Models\Action
     $tiles = [];
     $depot = Susan::getDepotOfPlayer($player);
     $tile = Tiles::getTopOf('top-interior-' . $depot['interior'])->first();
-    if ($tile) $tiles[] = $tile;
+    if ($tile) {
+      $tiles[] = $tile;
+    }
     $tile2 = Tiles::getTopOf('top-exterior-' . $depot['exterior'])->first();
-    if ($tile2) $tiles[] = $tile2;
+    if ($tile2) {
+      $tiles[] = $tile2;
+    }
     return $tiles;
   }
 
@@ -93,7 +97,7 @@ class PlaceTile extends \PU\Models\Action
     $tiles = $args['tiles'];
     $tileOptions = $tiles[$tileId] ?? null;
     if (is_null($tileOptions)) {
-      throw new \BgaVisibleSystemException('You cannot place that tile. Should not happen');
+      throw new \BgaVisibleSystemException('You cannot place that tile. Should not happen ' . $tileId);
     }
     $option = Utils::search($tileOptions, function ($option) use ($pos) {
       return $option['pos']['x'] == $pos['x'] && $option['pos']['y'] == $pos['y'];
@@ -120,7 +124,7 @@ class PlaceTile extends \PU\Models\Action
     [$destroyedRover, $destroyedLifepod] = Meeples::destroyCoveredMeeples($player, $tile);
 
     // Place extra Rover if it's the turn special rules
-    if (Globals::getTurnSpecialRule() ==  ADD_ROVER) {
+    if (Globals::getTurnSpecialRule() == ADD_ROVER) {
       $this->pushParallelChild([
         'action' => PLACE_ROVER,
       ]);
@@ -162,7 +166,7 @@ class PlaceTile extends \PU\Models\Action
       if (Globals::getTurnSpecialRule() == ONLY_ONE_MOVE_TRACKER) {
         $this->pushParallelChild([
           'type' => NODE_XOR,
-          'actions' => $actions
+          'actions' => $actions,
         ]);
       } else {
         //normal case
