@@ -237,6 +237,11 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
             $('pagemaintitletext').innerHTML = msg;
           }
           let timing = this[functionName](args);
+          if (args.args.scores) {
+            let pId = args.args.player_id;
+            this.gamedatas.scores[pId] = args.args.scores[pId];
+            this.updatePlayerScores(pId);
+          }
           if (timing === undefined) {
             if (notif[1] === undefined) {
               console.error("A notification don't have default timing and didn't send a timing as return value : " + notif[0]);

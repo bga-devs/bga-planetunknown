@@ -773,44 +773,36 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
     updatePlayersScores(anim = true) {
       if (this.gamedatas.scores !== null) {
         this.forEachPlayer((player) => {
-          SCORE_CATEGORIES.forEach((category) => {
-            let value =
-              category == 'total'
-                ? this.gamedatas.scores[player.id]['total']
-                : this.gamedatas.scores[player.id][category]['total'];
-            this._scoresCounters[player.id][category][anim ? 'toValue' : 'setValue'](value);
-
-            // if (SCORE_MULTIPLE_ENTRIES.includes(category)) {
-            //   let container = $(`score-subentries-${player.id}-${category}`);
-            //   dojo.empty(container);
-            //   this.gamedatas.scores[player.id][category]['entries'].forEach((entry) => {
-            //     dojo.place(
-            //       `<div class="scoring-subentry">
-            //       <div>${_(entry.source)}</div>
-            //       <div>
-            //         ${entry.score}
-            //         <i class="fa fa-star"></i>
-            //       </div>
-            //     </div>`,
-            //       container
-            //     );
-            //   });
-            // }
-          });
-          if (this.scoreCtrl && this.scoreCtrl[player.id] !== undefined) {
-            this.scoreCtrl[player.id].toValue(this.gamedatas.scores[player.id].total);
-          }
+          this.updatePlayerScores(player.id, anim);
         });
       }
     },
 
-    /**
-     * Notification for live scoring
-     */
-    notif_updateScores(n) {
-      debug('Notif: updating scores', n);
-      this.gamedatas.scores = n.args.scores;
-      this.updatePlayersScores();
+    updatePlayerScores(pId, anim = true) {
+      SCORE_CATEGORIES.forEach((category) => {
+        let value = category == 'total' ? this.gamedatas.scores[pId]['total'] : this.gamedatas.scores[pId][category]['total'];
+        this._scoresCounters[pId][category][anim ? 'toValue' : 'setValue'](value);
+
+        // if (SCORE_MULTIPLE_ENTRIES.includes(category)) {
+        //   let container = $(`score-subentries-${player.id}-${category}`);
+        //   dojo.empty(container);
+        //   this.gamedatas.scores[player.id][category]['entries'].forEach((entry) => {
+        //     dojo.place(
+        //       `<div class="scoring-subentry">
+        //       <div>${_(entry.source)}</div>
+        //       <div>
+        //         ${entry.score}
+        //         <i class="fa fa-star"></i>
+        //       </div>
+        //     </div>`,
+        //       container
+        //     );
+        //   });
+        // }
+      });
+      if (this.scoreCtrl && this.scoreCtrl[pId] !== undefined) {
+        this.scoreCtrl[pId].toValue(this.gamedatas.scores[pId].total);
+      }
     },
   });
 });
