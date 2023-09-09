@@ -157,11 +157,11 @@ class Player extends \PU\Helpers\DB_Model
       if (in_array($contraint, FORBIDDEN_TERRAINS)) {
         $neighbours = array_filter(
           $neighbours,
-          fn($cell) => $this->planet->getTypeAtPos($cell) != FORBIDDEN_TERRAINS[$contraint]
+          fn ($cell) => $this->planet->getTypeAtPos($cell) != FORBIDDEN_TERRAINS[$contraint]
         );
       }
 
-      $spaceIds[$roverId] = array_map(fn($cell) => Planet::getCellId($cell), $neighbours);
+      $spaceIds[$roverId] = array_map(fn ($cell) => Planet::getCellId($cell), $neighbours);
     }
 
     return $spaceIds;
@@ -249,6 +249,7 @@ class Player extends \PU\Helpers\DB_Model
 
     $scoreObjectives = $this->reduce_entries($result['objectives']);
     $result['objectives']['total'] = $scoreObjectives;
+    $total += $scoreObjectives;
 
     $result['total'] = $total;
 
@@ -262,7 +263,7 @@ class Player extends \PU\Helpers\DB_Model
 
   public static function reduce_entries($array)
   {
-    return array_reduce($array['entries'], fn($sum, $item) => $sum + $item, 0);
+    return array_reduce($array['entries'], fn ($sum, $item) => $sum + $item, 0);
   }
 
   public function addEndOfTurnAction($flow)
