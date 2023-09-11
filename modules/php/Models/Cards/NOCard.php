@@ -29,7 +29,7 @@ class NOCard extends \PU\Models\Card
     } else if ($this->getPId2() == $player->getId()) {
       $otherPlayer = Players::get($this->getPId());
     } else {
-      return $this->formatScoreEntry(-2); //HACK check
+      return -2; //HACK check
     }
 
     $playerValue = $this->evalCriteria($player);
@@ -41,6 +41,6 @@ class NOCard extends \PU\Models\Card
         ? $this->tie
         : -1);
 
-    return $this->formatScoreEntry($score);
+    return $score;
   }
 }

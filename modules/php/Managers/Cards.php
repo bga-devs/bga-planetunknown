@@ -107,8 +107,8 @@ class Cards extends \PU\Helpers\CachedPieces
       //4 cards in solo game, only 2 in multiplayer game
       $nbCards = count($players) == 1 ? 4 : 2;
       foreach ($players as $pId => $player) {
-        $POCards = static::pickForLocation($nbCards, 'deck_objectives', 'hand', $pId);
-        //TODO setPId ??
+        $POCards = static::pickForLocation($nbCards, 'deck_objectives', 'hand');
+        $POCards->update('pId', $pId);
       }
     }
 
@@ -125,7 +125,7 @@ class Cards extends \PU\Helpers\CachedPieces
 
       //first remove solo card if needed
       if (count($players) != 1) {
-        static::move(SOLO_EVENT_CARDS, 'box');
+        static::move(SOLO_EVENT_CARDS, 'trash');
       }
 
       //TODO this is random, can make some preset

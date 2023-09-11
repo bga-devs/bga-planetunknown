@@ -10,8 +10,7 @@ use PU\Managers\Cards;
 
 class CivCard{ID} extends \PU\Models\Cards\CivCard
 {
-  protected $effectType = {TYPE};
-  protected $type = 'civCard';
+  protected $effectType = {TYPE}; 
   protected $level = {LEVEL};
 
   public function __construct($player)

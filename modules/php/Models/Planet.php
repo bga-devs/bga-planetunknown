@@ -148,7 +148,6 @@ class Planet
     foreach ($this->columnMedals as $columnId => $value) {
       if (in_array($columnId, $burntColumns)) {
         $score['column_' . $columnId] = 0;
-        //TODO except for one TECH
       } else {
         $score['column_' . $columnId] = $value;
         foreach ($this->rowMedals as $rowId => $_) {

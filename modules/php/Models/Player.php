@@ -176,7 +176,7 @@ class Player extends \PU\Helpers\DB_Model
   {
     $data = parent::getUiData();
     $current = $this->id == $currentPlayerId;
-    $data['POCards'] = $current ? Cards::getInLocation('hand', $this->id) : Cards::countInLocation('hand', $this->id);
+    $data['cardsInHand'] = $current ? Cards::getInLocation('hand', $this->id) : Cards::countInLocation('hand', $this->id);
     $data['civCard'] = Cards::getInLocation('table', $this->id);
     return $data;
   }
@@ -200,7 +200,7 @@ class Player extends \PU\Helpers\DB_Model
   //calculate player score
   public function score($currentPlayerId = null, $save = true)
   {
-    $current = $this->id == $currentPlayerId;
+    $isCurrent = $this->id == $currentPlayerId;
     $result = [];
     //count every full row and column
     $result['planet'] = [
@@ -227,24 +227,30 @@ class Player extends \PU\Helpers\DB_Model
     $result['meteors']['total'] = $scoreMeteors;
     $total += $scoreMeteors;
 
-    //TODO CIV Cards
     $result['civ']['entries'] = [];
+    //Civ Cards and Private Objectives Cards
+    if ($isCurrent) {
+      $privateCards = Cards::getInLocation('hand')
+        ->where('pId', $this->id);
+      foreach ($privateCards as $cardId => $privateCard) {
+        if ($privateCard->getType() == 'civCard') {
+          $result['civ']['entries'] = $privateCard->getScoreEntry();
+        } else if ($privateCard->getType() == 'POCard') {
+          $result['objectives']['entries'] = $privateCard->getScoreEntry();
+        }
+      }
+    }
+
     $scoreCivs = $this->reduce_entries($result['civ']);
     $result['civ']['total'] = $scoreCivs;
     $total += $scoreCivs;
 
-    //TODO POCards
-    //TODO NOCards
-    $result['objectives'] = [
-      'entries' => [],
-    ];
     $NOCards = Cards::getInLocation('NOCards')
       ->where('pId', $this->id)
       ->merge(Cards::getInLocation('NOCards')->where('pId2', $this->id));
 
     foreach ($NOCards as $id => $NOcard) {
-      $newEntry = $NOcard->score($this);
-      $result['objectives']['entries'] = array_merge($newEntry, $result['objectives']['entries']);
+      $result['objectives']['entries'][] = $NOcard->getScoreEntry($this);
     }
 
     $scoreObjectives = $this->reduce_entries($result['objectives']);

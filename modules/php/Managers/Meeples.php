@@ -45,7 +45,7 @@ class Meeples extends \PU\Helpers\CachedPieces
       // $planet->grid[$cell['x']][$cell['y']]['tile'] = $tile;
       $toDestroy = $toDestroy->merge(
         static::getAll()
-          ->where('type', [LIFEPOD, ROVER])
+          ->where('type', [LIFEPOD, ROVER_MEEPLE])
           ->where('pId', $player->getId())
           ->where('x', $cell['x'])
           ->where('y', $cell['y'])
@@ -53,7 +53,7 @@ class Meeples extends \PU\Helpers\CachedPieces
     }
     static::move($toDestroy->getIds(), 'trash');
 
-    $destroyedRover = $toDestroy->where('type', ROVER);
+    $destroyedRover = $toDestroy->where('type', ROVER_MEEPLE);
     $destroyedLifepod = $toDestroy->where('type', LIFEPOD);
 
     return [$destroyedRover, $destroyedLifepod];

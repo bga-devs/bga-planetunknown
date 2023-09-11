@@ -236,13 +236,13 @@ const SMALL_RING = [TILE_I, TILE_t, TILE_v, TILE_L, TILE_i, TILE_O];
  * PLANETS
  */
 
-const ADVANCED_PLANETS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+const ADVANCED_PLANETS = [0]; //[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 const ALL_PLANETS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 /*
  * CORPORATIONS
  */
-const ADVANCED_CORPORATIONS = [1, 2, 3, 4, 5, 6, 7, 8];
+const ADVANCED_CORPORATIONS = [0]; //[1, 2, 3, 4, 5, 6, 7, 8];
 const ALL_CORPORATIONS = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
 /*

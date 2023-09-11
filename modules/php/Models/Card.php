@@ -13,6 +13,7 @@ class Card extends \PU\Helpers\DB_Model
 {
   protected $title;
   protected $desc;
+  protected $type;
   protected $table = 'cards';
   protected $primary = 'card_id';
   protected $attributes = [
@@ -31,10 +32,10 @@ class Card extends \PU\Helpers\DB_Model
     return Players::get($this->pId);
   }
 
-  public function formatScoreEntry($n)
+  public function getScoreEntry($player = null)
   {
     return [
-      $this->type . '_' . $this->getId() => $n,
+      $this->type . '_' . $this->getId() => $this->score($player),
     ];
   }
 
@@ -42,5 +43,10 @@ class Card extends \PU\Helpers\DB_Model
   public function jsonSerialize()
   {
     return array_merge(parent::jsonSerialize(), $this->getStaticData());
+  }
+
+  public function getType()
+  {
+    return $this->type;
   }
 }

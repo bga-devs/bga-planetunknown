@@ -11,7 +11,6 @@ use PU\Managers\Cards;
 class CivCard35 extends \PU\Models\Cards\CivCard
 {
   protected $effectType = END_GAME;
-  protected $type = 'civCard';
   protected $level = 3;
   protected $commerceAgreement = true;
 

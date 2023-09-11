@@ -11,7 +11,6 @@ use PU\Managers\Cards;
 class CivCard2 extends \PU\Models\Cards\CivCard
 {
   protected $effectType = IMMEDIATE;
-  protected $type = 'civCard';
   protected $level = 1;
 
   public function __construct($player)
@@ -22,12 +21,13 @@ class CivCard2 extends \PU\Models\Cards\CivCard
   }
 
   //twiceSynergy
-  public function effect(){
+  public function effect()
+  {
     $this->synergy(1, 2);
   }
 
-  public function score(){
+  public function score()
+  {
     return 0;
   }
-
 }

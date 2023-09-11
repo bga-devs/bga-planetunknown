@@ -40,6 +40,7 @@ class Corporation
     ];
   }
 
+  //to be overidden in case of special bonus increasing move
   public function moveTrackBy($type, $n)
   {
     return $n;

@@ -11,7 +11,6 @@ use PU\Managers\Cards;
 class CivCard20 extends \PU\Models\Cards\CivCard
 {
   protected $effectType = IMMEDIATE;
-  protected $type = 'civCard';
   protected $level = 3;
 
   public function __construct($player)
@@ -22,12 +21,12 @@ class CivCard20 extends \PU\Models\Cards\CivCard
   }
 
   //
-  public function effect(){
-
+  public function effect()
+  {
   }
 
-  public function score(){
+  public function score()
+  {
     return 3;
   }
-
 }

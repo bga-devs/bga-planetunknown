@@ -11,7 +11,6 @@ use PU\Managers\Cards;
 class CivCard30 extends \PU\Models\Cards\CivCard
 {
   protected $effectType = END_GAME;
-  protected $type = 'civCard';
   protected $level = 2;
   protected $meteorRepo = true;
 

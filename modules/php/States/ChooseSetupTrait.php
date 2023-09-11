@@ -30,7 +30,7 @@ trait ChooseSetupTrait
         'choice' => $choices[$pId] ?? null,
         'planet' => $planetId ? [0, $planetId] : [0],
         'corporation' => $corporationId ? [0, $corporationId] : [0],
-        'POCards' => Cards::getInLocation('hand', $pId)->getIds(),
+        'POCards' => Cards::getInLocation('hand')->where('pId', $pId)->getIds(),
       ];
     }
 
@@ -111,7 +111,7 @@ trait ChooseSetupTrait
         throw new \BgaVisibleSystemException('Someone hasnt made any choice yet. Should not happen');
       }
 
-      Cards::move($choice['rejectedCardId'], 'box');
+      Cards::move($choice['rejectedCardId'], 'trash');
       $player->setCorporationId($choice['corporationId']);
       $player->setPlanetId($choice['planetId']);
     }

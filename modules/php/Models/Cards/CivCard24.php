@@ -11,7 +11,6 @@ use PU\Managers\Cards;
 class CivCard24 extends \PU\Models\Cards\CivCard
 {
   protected $effectType = END_GAME;
-  protected $type = 'civCard';
   protected $level = 4;
 
   public function __construct($player)

@@ -58,8 +58,8 @@ class Players extends \PU\Helpers\CachedDB_Manager
     $values = [];
     foreach ($players as $pId => $player) {
       //give a planet and corporation according to game options
-      $planet = $options[OPTION_PLANET] == OPTION_PLANET_A ? 0 : array_shift($planets); //TODO ATTRIBUTE A BOARD AT RANDOM
-      $corporation = $options[OPTION_CORPORATION] == OPTION_CORPORATION_UNIVERSAL ? 0 : array_shift($corporations); //TODO ATTRIBUTE A BOARD AT RANDOM
+      $planet = $options[OPTION_PLANET] == OPTION_PLANET_A ? 0 : array_shift($planets);
+      $corporation = $options[OPTION_CORPORATION] == OPTION_CORPORATION_UNIVERSAL ? 0 : array_shift($corporations);
 
       $color = array_shift($colors);
       $values[] = [
