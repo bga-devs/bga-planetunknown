@@ -84,6 +84,21 @@ class Player extends \PU\Helpers\DB_Model
     }
   }
 
+  public function countMatchingCard($criteria)
+  {
+    $cards = Cards::getAll()
+      ->where('pId', $this->id)
+      ->where('location', 'hand');
+
+    $result = 0;
+    foreach ($cards as $cardId => $card) {
+      if ($card->$criteria) {
+        $result++;
+      }
+    }
+    return $result;
+  }
+
   public function getMeeples($type)
   {
     return Meeples::getOfPlayer($this, $type);
@@ -234,11 +249,15 @@ class Player extends \PU\Helpers\DB_Model
         ->where('pId', $this->id);
       foreach ($privateCards as $cardId => $privateCard) {
         if ($privateCard->getType() == 'civCard') {
+          if ($privateCard->commerceAgreement) continue;
           $result['civ']['entries'] = $privateCard->getScoreEntry();
         } else if ($privateCard->getType() == 'POCard') {
           $result['objectives']['entries'] = $privateCard->getScoreEntry();
         }
       }
+      //special for commerceAgreement
+      $scoreCommerceAgreement = [0, 1, 3, 6, 10];
+      $result['civ']['entries']['commerceAgreement'] = ['commerceAgreement' => $scoreCommerceAgreement[$this->countCivCard('commerceAgreement')]];
     }
 
     $scoreCivs = $this->reduce_entries($result['civ']);

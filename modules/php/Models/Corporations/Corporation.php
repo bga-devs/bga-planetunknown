@@ -146,7 +146,7 @@ class Corporation
 
   public function scoreByMeteors()
   {
-    return floor($this->getNCollected(METEOR) / 3);
+    return floor($this->getNCollected(METEOR) * (1 + $this->player->countMatchingCard('meteorRepo')) / 3);
   }
 
   public function scoreByLifepods()
