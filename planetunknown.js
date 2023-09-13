@@ -158,6 +158,7 @@ define([
 
       this.setupScoresModal();
       this.setupPlayers();
+      this.setupCards();
       this.setupTiles();
       this.setupMeeples();
       // this.setupTour();

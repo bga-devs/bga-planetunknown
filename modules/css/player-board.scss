@@ -3,159 +3,219 @@ $cellHeight: $cellWidth;
 $planetGridWidth: 12 * $cellWidth;
 $planetGridHeight: 12 * $cellHeight;
 
-.pu-player-board-resizable {
-    position: relative;
-    width: calc(var(--planetUnknownBoardScale) * 1510px);
-    height: calc(var(--planetUnknownBoardScale) * 1000px);
+#planetunknown-main-container {
+    display: flex;
+    flex-wrap: wrap;
+}
 
-    // [data-player-boards-layout="1"] & ~ .ark-player-board-resizable {
-    //     margin-top: 20px;
-    // }
+[data-player-boards-layout="0"] #planetunknown-main-container {
+    .pu-player-board-wrapper:not(.active) {
+        display: none;
+    }
+}
 
-    .pu-player-board-fixed-size {
-        width: 1510px;
-        height: 1000px;
-        transform: scale(var(--planetUnknownBoardScale));
-        transform-origin: top left;
+.pu-player-board-wrapper {
+    background-color: #ebd5bd;
+    border-radius: 8px;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.7);
+    border-width: 3px;
+    border-style: solid;
+    margin-bottom: 15px;
+
+    .pu-player-board-top {
         display: flex;
+        justify-content: center;
+        height: 30px;
+        overflow: hidden;
+        &:hover {
+            z-index: 10;
+            position: relative;
+            overflow: visible;
+        }
 
-        .pu-player-board-planet {
-            width: 1000px;
+        .player-board-name {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            flex-grow: 1;
+
+            .prev-player-board,
+            .next-player-board {
+                padding: 0px 10px;
+                cursor: pointer;
+                font-size: 25px;
+            }
+        }
+
+        .prev-objectives,
+        .next-objectives {
+            --cardScale: 0.3;
+            display: flex;
+            align-items: flex-end;
+            margin-bottom: -7px;
+
+            .planetunknown-card {
+                margin-left: 5px;
+            }
+        }
+    }
+
+    .pu-player-board-resizable {
+        position: relative;
+        width: calc(var(--planetUnknownBoardScale) * 1510px);
+        height: calc(var(--planetUnknownBoardScale) * 1000px);
+
+        // [data-player-boards-layout="1"] & ~ .ark-player-board-resizable {
+        //     margin-top: 20px;
+        // }
+
+        .pu-player-board-fixed-size {
+            width: 1510px;
             height: 1000px;
+            transform: scale(var(--planetUnknownBoardScale));
+            transform-origin: top left;
+            display: flex;
 
-            .planet {
+            .pu-player-board-planet {
                 width: 1000px;
                 height: 1000px;
-                box-sizing: border-box;
-                background-size: 100% 100%;
 
-                background-image: url("img/Planets/0.jpg");
-                padding-top: 29px;
-                padding-left: 15px;
-                @for $i from 0 to 13 {
-                    &[data-id="#{$i}"] {
-                        background-image: url("img/Planets/#{$i}.jpg");
+                .planet {
+                    width: 1000px;
+                    height: 1000px;
+                    box-sizing: border-box;
+                    background-size: 100% 100%;
+
+                    background-image: url("img/Planets/0.jpg");
+                    padding-top: 29px;
+                    padding-left: 15px;
+                    @for $i from 0 to 13 {
+                        &[data-id="#{$i}"] {
+                            background-image: url("img/Planets/#{$i}.jpg");
+                        }
                     }
-                }
 
-                .planet-grid {
-                    width: 923px;
-                    height: 923px;
-                    display: grid;
-                    grid-template-columns: repeat(13, 71px);
-                    grid-template-rows: repeat(13, 71px);
+                    .planet-grid {
+                        width: 923px;
+                        height: 923px;
+                        display: grid;
+                        grid-template-columns: repeat(13, 71px);
+                        grid-template-rows: repeat(13, 71px);
 
-                    .planet-grid-cell {
-                        z-index: 2;
-                        position: relative;
+                        .planet-grid-cell {
+                            z-index: 2;
+                            position: relative;
 
-                        &.selectable {
-                            border: 2px dashed white;
-                            background: #f7b1b190;
-                            cursor: pointer;
-                            &:hover {
-                                border: 2px solid white;
-                                background: #f7b1b1d1;
-                            }
-                        }
-
-                        &.selected,
-                        &.selected:hover {
-                            border: 2px solid #0f5308;
-                            background: #7dfc83a1;
-                        }
-
-                        .planetunknown-meeple {
-                            position: absolute;
-
-                            &.icon-rover-meeple {
-                                top: 17px;
-                                left: 5px;
+                            &.selectable {
+                                border: 2px dashed white;
+                                background: #f7b1b190;
+                                cursor: pointer;
+                                &:hover {
+                                    border: 2px solid white;
+                                    background: #f7b1b1d1;
+                                }
                             }
 
-                            &.icon-lifepod {
-                                top: 4px;
-                                left: 14px;
+                            &.selected,
+                            &.selected:hover {
+                                border: 2px solid #0f5308;
+                                background: #7dfc83a1;
                             }
 
-                            &.icon-meteor {
-                                top: 5px;
-                                left: 3px;
+                            .planetunknown-meeple {
+                                position: absolute;
+
+                                &.icon-rover-meeple {
+                                    top: 17px;
+                                    left: 5px;
+                                }
+
+                                &.icon-lifepod {
+                                    top: 4px;
+                                    left: 14px;
+                                }
+
+                                &.icon-meteor {
+                                    top: 5px;
+                                    left: 3px;
+                                }
                             }
                         }
                     }
                 }
             }
-        }
 
-        .pu-player-board-corporation {
-            width: 510px;
-            height: 1000px;
-
-            .corporation {
+            .pu-player-board-corporation {
                 width: 510px;
                 height: 1000px;
-                box-sizing: border-box;
-                background-size: 100% 100%;
-                position: relative;
-                background-image: url("img/corporations.jpg");
-                background-size: 500% 200%;
 
-                @for $i from 0 to 10 {
-                    &[data-id="#{$i}"] {
-                        background-position-x: ($i % 5) * 100% / 4;
-                        background-position-y: (($i - ($i % 5)) / 5) * 100% / 1;
-                    }
-                }
+                .corporation {
+                    width: 510px;
+                    height: 1000px;
+                    box-sizing: border-box;
+                    background-size: 100% 100%;
+                    position: relative;
+                    background-image: url("img/corporations.jpg");
+                    background-size: 500% 200%;
 
-                .corporation-columns {
-                    width: 295px;
-                    height: 608px;
-                    position: absolute;
-                    top: 167px;
-                    left: 33px;
-                    column-gap: 25px;
-                    display: flex;
-
-                    &:hover {
-                        .icon-tracker-civ,
-                        .icon-tracker-water,
-                        .icon-tracker-biomass,
-                        .icon-tracker-rover,
-                        .icon-tracker-tech {
-                            transform: translateX(-75%);
+                    @for $i from 0 to 10 {
+                        &[data-id="#{$i}"] {
+                            background-position-x: ($i % 5) * 100% / 4;
+                            background-position-y: (($i - ($i % 5)) / 5) * 100% / 1;
                         }
                     }
 
-                    .corporation-column {
-                        width: 38px;
+                    .corporation-columns {
+                        width: 295px;
                         height: 608px;
+                        position: absolute;
+                        top: 167px;
+                        left: 33px;
+                        column-gap: 25px;
+                        display: flex;
 
-                        .corpo-cell {
+                        &:hover {
+                            .icon-tracker-civ,
+                            .icon-tracker-water,
+                            .icon-tracker-biomass,
+                            .icon-tracker-rover,
+                            .icon-tracker-tech {
+                                transform: translateX(-75%);
+                            }
+                        }
+
+                        .corporation-column {
                             width: 38px;
-                            height: 38px;
+                            height: 608px;
+
+                            .corpo-cell {
+                                width: 38px;
+                                height: 38px;
+                            }
                         }
                     }
-                }
 
-                .rover-reserve {
-                    position: absolute;
-                    bottom: 10px;
-                    left: 10px;
-                }
+                    .rover-reserve {
+                        position: absolute;
+                        bottom: 10px;
+                        left: 10px;
+                    }
 
-                .meteor-reserve {
-                    position: absolute;
-                    right: 35px;
-                    top: 35px;
-                    width: 240px;
-                    height: 113px;
-                    font-size: 8px;
-                    display: flex;
-                    flex-wrap: wrap;
+                    .meteor-reserve {
+                        position: absolute;
+                        right: 35px;
+                        top: 35px;
+                        width: 240px;
+                        height: 113px;
+                        font-size: 8px;
+                        display: flex;
+                        flex-wrap: wrap;
 
-                    .icon-meteor {
-                        margin: 5px;
+                        .icon-meteor {
+                            margin: 5px;
+                        }
                     }
                 }
             }

@@ -5,6 +5,18 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
   return declare('planetunknown.cards', null, {
     setupCards() {
+      let neighbourObjectives = this.gamedatas.cards.NOCards;
+      Object.keys(neighbourObjectives).forEach((cardId) => {
+        let card = neighbourObjectives[cardId];
+        this.addCard(card);
+
+        // Switch pid1 and pid2 and create again
+        card.uid = card.id + 'd';
+        let tmp = card.pId2;
+        card.pId2 = card.pId;
+        card.pId = tmp;
+        this.addCard(card);
+      });
       //   // This function is refreshUI compatible
       //   let meepleIds = this.gamedatas.meeples.map((meeple) => {
       //     if (!$(`meeple-${meeple.id}`)) {
@@ -28,7 +40,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     },
 
     addCard(card, location = null) {
-      if ($('card-' + card.id)) return;
+      card.uid = card.uid || card.id;
+      if ($('card-' + card.uid)) return;
 
       let o = this.place('tplCard', card, location == null ? this.getCardContainer(card) : location);
       let tooltipDesc = this.getCardTooltip(card);
@@ -44,29 +57,27 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     },
 
     tplCard(card) {
-      return `<div id="card-${card.id}" class="planetunknown-card" data-id="${card.id}"></div>`;
+      let uid = card.uid || card.id;
+      return `<div id="card-${uid}" data-type="${card.type}" class="planetunknown-card">
+        <div class='card-inner' data-id="${card.id}"></div>
+      </div>`;
     },
 
-    getCardContainer(meeple) {
-      let t = meeple.location.split('_');
-      if (meeple.location == 'trash') {
+    getCardContainer(card) {
+      let t = card.location.split('_');
+      if (card.location == 'trash') {
         return this.getVisibleTitleContainer();
       }
-      // Things on the planet
-      if (meeple.location == 'planet') {
-        return this.getPlanetCell(meeple.pId, meeple.x, meeple.y);
-      }
-      // Rover in reserve
-      if (meeple.type == 'rover-meeple' && meeple.location == 'corporation') {
-        return $(`rover-reserve-${meeple.pId}`);
-      }
-      // Meteor in reserve
-      if (meeple.type == 'meteor' && meeple.location == 'corporation') {
-        return $(`meteor-reserve-${meeple.pId}`);
-      }
-      // Things on tracks
-      if (meeple.location == 'corporation') {
-        return $(`corporation-${meeple.pId}-${meeple.x}-${meeple.y}`);
+      if (card.type == 'NOCard' && card.location == 'NOCards') {
+        let pId1 = card.pId,
+          pId2 = card.pId2;
+
+        // pId2 is sitting at the right of pId1
+        if (this.getDeltaPlayer(pId1, 1) == pId2) {
+          return $(`next-objectives-${pId1}`);
+        } else {
+          return $(`prev-objectives-${pId1}`);
+        }
       }
 
       console.error('Trying to get container of a meeple', meeple);

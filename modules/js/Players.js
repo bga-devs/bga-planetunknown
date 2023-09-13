@@ -71,6 +71,8 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       // Add player board and player panel
       this.orderedPlayers.forEach((player, i) => {
         this.place('tplPlayerBoard', player, 'planetunknown-main-container');
+        this.setupChangeBoardArrows(player.id);
+        $(`overall_player_board_${player.id}`).addEventListener('click', () => this.goToPlayerBoard(player.id));
 
         // Susan indicators
         if (player.no == currentNo) {
@@ -193,14 +195,8 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       if (v == 0) {
         // Tabbed view
         this._focusedPlayer = pId;
-        [...$('planetunknown-main-container').querySelectorAll('.ark-player-board-resizable')].forEach((board) =>
-          board.classList.toggle('active', board.id == `player-board-resizable-${pId}`)
-        );
-        [...$('planetunknown-main-container').querySelectorAll('.player-board-cards')].forEach((board) =>
-          board.classList.toggle('active', board.id == `player-board-cards-${pId}`)
-        );
-        [...$('planetunknown-main-container').querySelectorAll('.player-board-action-cards-resizable')].forEach((board) =>
-          board.classList.toggle('active', board.id == `action-cards-${pId}`)
+        [...$('planetunknown-main-container').querySelectorAll('.pu-player-board-wrapper')].forEach((board) =>
+          board.classList.toggle('active', board.id == `player-board-${pId}`)
         );
       } else if (v == 1) {
         // Multiple view
@@ -229,7 +225,6 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
     switchPlayerBoard(delta) {
       let pId = this.getDeltaPlayer(this._focusedPlayer, delta);
       if (pId == -1) return;
-      $(`player-board-${this._focusedPlayer}`).querySelector('.tiles-helper').classList.remove('open', 'closedAnim');
       this.goToPlayerBoard(pId);
     },
 
@@ -282,13 +277,27 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       let planet = player.planetId ? this.tplPlanet(PLANETS_DATA[player.planetId], player) : '';
       let corporation = player.corporationId ? this.tplCorporation(CORPOS_DATA[player.corporationId], player) : '';
 
-      return `<div class='pu-player-board-resizable' id='player-board-resizable-${player.id}'>
-        <div class='pu-player-board-fixed-size'>
-          <div class='pu-player-board-planet' id='player-board-planet-${player.id}'>        
-            ${planet}
+      let arrows = player.name;
+      if (player != null && !this.isSolo()) {
+        arrows = `<div class='prev-player-board'>&lt;</div>${player.name}<div class='next-player-board'>&gt;</div>`;
+      }
+
+      return `<div id='player-board-${player.id}' class='pu-player-board-wrapper' style='border-color:#${player.color}'>
+        <div class='pu-player-board-top'>
+          <div class='prev-objectives' id='prev-objectives-${player.id}'></div>
+          <div class='player-board-name' style='color:#${player.color}'>
+            ${arrows}
           </div>
-          <div class="pu-player-board-corporation" id='player-board-corporation-${player.id}'>
-            ${corporation}
+          <div class='next-objectives' id='next-objectives-${player.id}'></div>
+        </div>
+        <div class='pu-player-board-resizable' id='player-board-resizable-${player.id}'>
+          <div class='pu-player-board-fixed-size'>
+            <div class='pu-player-board-planet' id='player-board-planet-${player.id}'>        
+              ${planet}
+            </div>
+            <div class="pu-player-board-corporation" id='player-board-corporation-${player.id}'>
+              ${corporation}
+            </div>
           </div>
         </div>
       </div>`;
