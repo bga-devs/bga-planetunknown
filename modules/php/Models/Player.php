@@ -257,7 +257,7 @@ class Player extends \PU\Helpers\DB_Model
       }
       //special for commerceAgreement
       $scoreCommerceAgreement = [0, 1, 3, 6, 10];
-      $result['civ']['entries']['commerceAgreement'] = ['commerceAgreement' => $scoreCommerceAgreement[$this->countCivCard('commerceAgreement')]];
+      $result['civ']['entries']['commerceAgreement'] = $scoreCommerceAgreement[$this->countMatchingCard('commerceAgreement')];
     }
 
     $scoreCivs = $this->reduce_entries($result['civ']);
