@@ -45,6 +45,16 @@ class Notifications
     static::pnotify($player, 'slideMeeples', $message, $data);
   }
 
+  public static function destroyCard($player, $cardId)
+  {
+    $message = clienttranslate('${player_name} detroys one of his objective cards');
+    $data = [
+      'player' => $player,
+      'cardId' => $cardId,
+    ];
+    static::pnotify($player, 'destroyCard', $message, $data);
+  }
+
   public static function getNewCard($player, $card)
   {
     static::notify($player, 'newCards', clienttranslate('${player_name} receive a new private objective card'), [

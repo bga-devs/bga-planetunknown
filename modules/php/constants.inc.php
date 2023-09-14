@@ -83,6 +83,7 @@ const ST_DESTROY_ALL_IN_ROW = 31;
 const ST_MOVE_TRACKERS_TO_FIVE = 32;
 const ST_PLACE_MEEPLE = 33;
 const ST_CHOOSE_ROTATION_ENGINE = 34;
+const ST_DESTROY_P_O_CARD = 35;
 
 const ST_FOO_A = 54;
 const ST_FOO_B = 55;
@@ -128,7 +129,8 @@ const COLLECT_MEEPLE = 'collectMeeple';
 const DESTROY_ALL_IN_ROW = 'destroyAllInRow';
 const MOVE_TRACKERS_TO_FIVE = 'moveTrackersToFive';
 const PLACE_MEEPLE = 'placeMeeple';
-const CHOOSE_ROTATION = 'chooseRotation';
+const CHOOSE_ROTATION_ENGINE = 'chooseRotationEngine';
+const DESTROY_P_O_CARD = 'destroyPOCard';
 
 /*
  * Resources
@@ -170,6 +172,8 @@ const FORBIDDEN_TERRAINS = [
 ];
 const ADD_ROVER = "addRover";
 const ONLY_ONE_MOVE_TRACKER = "onlyOneMoveTracker";
+const CANNOT_PLACE_ON_EDGE = "cannotPlaceOnEdge"; //TODO
+const NO_MILESTONE = "noMilestone"; //TODO
 
 /*
  *	Cards

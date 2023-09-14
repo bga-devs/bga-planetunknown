@@ -115,7 +115,11 @@ class Corporation
   public function setLevelOnTrack($type, $n, $onlyForward = true)
   {
     if ($this->getLevelOnTrack($type) < $n && $onlyForward) {
-      $this->player->getTracker($type)->setY($n);
+      $pawn = $this->player->getTracker($type);
+      $from = ['x' => $pawn->getX(), 'y' => $pawn->getY()];
+      $pawn->setY($n);
+
+      Notifications::moveTrack($this->player, $from, $pawn);
     }
   }
 

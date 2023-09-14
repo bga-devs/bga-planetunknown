@@ -23,7 +23,9 @@ class CivCard21 extends \PU\Models\Cards\CivCard
   //synergy_max5
   public function effect()
   {
-    //TODO
+    return [
+      'action' => \MOVE_TRACKERS_TO_FIVE
+    ];
   }
 
   public function score()

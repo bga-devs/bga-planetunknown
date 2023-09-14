@@ -169,7 +169,7 @@ class Action
         default:
           //handle 'move_x' bonuses
           if (is_string($bonus) && str_starts_with($bonus, 'move')) {
-            //TODO modify to handle more cases.
+
             $levelMove = $player->corporation()->moveRoverBy(explode('_', $bonus)[1]);
 
             for ($i = 0; $i < $levelMove; $i++) {

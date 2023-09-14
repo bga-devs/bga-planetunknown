@@ -32,7 +32,6 @@ class EventCard65 extends \PU\Models\Cards\EventCard
 
     Meeples::add(ROVER_MEEPLE, $player);
 
-    //TODO add an action activated when you place a tile
     Globals::setTurnSpecialRules(ADD_ROVER);
   }
 }

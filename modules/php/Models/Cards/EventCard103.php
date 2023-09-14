@@ -2,6 +2,7 @@
 
 namespace PU\Models\Cards;
 
+use PU\Core\Globals;
 use PU\Managers\Cards;
 
 /*
@@ -24,6 +25,6 @@ class EventCard103 extends \PU\Models\Cards\EventCard
   //CONTRAINT : NotOnEdge
   public function effect()
   {
-    //TODO
+    Globals::setTurnSpecialRule(CANNOT_PLACE_ON_EDGE);
   }
 }
