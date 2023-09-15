@@ -22,7 +22,9 @@ class PlaceTile extends \PU\Models\Action
 
   public function isDoable($player)
   {
-    return $this->getPlayableTiles($player, true);
+    // TODO : check rule for biomass patch
+    // Handle here
+    return true; //$this->getPlayableTiles($player, true);
   }
 
   public function getWithBonus()
@@ -55,6 +57,23 @@ class PlaceTile extends \PU\Models\Action
   {
     $tiles = [];
     $forcedTiles = $forcedTiles ?? $this->getForcedTiles();
+
+    $specialRule = Globals::getTurnSpecialRule();
+    foreach ($forcedTiles ?? $this->getPossibleTiles($player) as $tile) {
+      $placementOptions = $player->planet()->getPlacementOptions($tile->getType(), $checkIsDoable, $specialRule);
+      if (!empty($placementOptions)) {
+        if ($checkIsDoable) {
+          return true;
+        }
+        $tiles[$tile->getId()] = $placementOptions;
+      }
+    }
+
+    if (!empty($tiles)) {
+      return $tiles;
+    }
+
+    // Same without special rule
     foreach ($forcedTiles ?? $this->getPossibleTiles($player) as $tile) {
       $placementOptions = $player->planet()->getPlacementOptions($tile->getType(), $checkIsDoable);
       if (!empty($placementOptions)) {
@@ -65,18 +84,28 @@ class PlaceTile extends \PU\Models\Action
       }
     }
 
-    return $checkIsDoable ? false : $tiles;
+    if (!empty($tiles)) {
+      return $tiles;
+    } elseif ($checkIsDoable) {
+      return false;
+    }
+
+    // Otherwise, let them pick any tile without placing it
+    foreach ($forcedTiles ?? $this->getPossibleTiles($player) as $tile) {
+      $tiles[$tile->getId()] = NO_PLACEMENT;
+    }
+    return $tiles;
   }
 
   public function getDescription()
   {
-    $description = $this->getCtxArg('descriptionTile') ?? clienttranslate("a new tile");
+    $description = $this->getCtxArg('descriptionTile') ?? clienttranslate('a new tile');
 
     return [
       'log' => \clienttranslate('Place ${description} on your planet'),
       'args' => [
         'description' => $description,
-        'i18n' => ['description']
+        'i18n' => ['description'],
       ],
     ];
   }
@@ -138,8 +167,9 @@ class PlaceTile extends \PU\Models\Action
       $type = $symbol['type'];
       $tileTypes[] = $type;
 
-
-      if (!$this->getWithBonus()) continue;
+      if (!$this->getWithBonus()) {
+        continue;
+      }
 
       // Energy => compute the possible tracks
       if ($type == ENERGY) {
@@ -175,7 +205,6 @@ class PlaceTile extends \PU\Models\Action
       //normal case
       $this->pushParallelChilds($actions);
     }
-
 
     Notifications::placeTile($player, $tile, $meteor, $tileTypes);
 

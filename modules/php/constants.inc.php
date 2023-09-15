@@ -152,28 +152,28 @@ const SYNERGY_TECH = 'synergy_tech';
 const SYNERGY_WATER = 'synergy_water';
 const SKIP = 'skip'; //doesn't exists, placeholder in the array;
 
-/* 
+/*
  * Constraints Rules
  */
 
-const NOT_ONTO_BIOMASS = "notOntoBiomass";
-const NOT_ONTO_CIV = "notOntoCiv";
-const NOT_ONTO_TECH = "notOntoTech";
-const NOT_ONTO_ROVER = "notOntoRover";
-const NOT_ONTO_ENERGY = "notOntoEnergy";
-const NOT_ONTO_WATER = "notOntoWater";
+const NOT_ONTO_BIOMASS = 'notOntoBiomass';
+const NOT_ONTO_CIV = 'notOntoCiv';
+const NOT_ONTO_TECH = 'notOntoTech';
+const NOT_ONTO_ROVER = 'notOntoRover';
+const NOT_ONTO_ENERGY = 'notOntoEnergy';
+const NOT_ONTO_WATER = 'notOntoWater';
 const FORBIDDEN_TERRAINS = [
-	NOT_ONTO_CIV => CIV,
-	NOT_ONTO_TECH => TECH,
-	NOT_ONTO_ROVER => ROVER,
-	NOT_ONTO_WATER => WATER,
-	NOT_ONTO_ENERGY => ENERGY,
-	NOT_ONTO_BIOMASS => BIOMASS
+  NOT_ONTO_CIV => CIV,
+  NOT_ONTO_TECH => TECH,
+  NOT_ONTO_ROVER => ROVER,
+  NOT_ONTO_WATER => WATER,
+  NOT_ONTO_ENERGY => ENERGY,
+  NOT_ONTO_BIOMASS => BIOMASS,
 ];
-const ADD_ROVER = "addRover";
-const ONLY_ONE_MOVE_TRACKER = "onlyOneMoveTracker";
-const CANNOT_PLACE_ON_EDGE = "cannotPlaceOnEdge"; //TODO
-const NO_MILESTONE = "noMilestone"; //TODO
+const ADD_ROVER = 'addRover';
+const ONLY_ONE_MOVE_TRACKER = 'onlyOneMoveTracker';
+const CANNOT_PLACE_ON_EDGE = 'cannotPlaceOnEdge'; //TODO
+const NO_MILESTONE = 'noMilestone'; //TODO
 
 /*
  *	Cards
@@ -210,11 +210,11 @@ const ROVER_MEEPLE = 'rover-meeple';
  * Corporation Tech
  */
 
-const TECH_BYPASS_ADJACENT_CONSTRAINT = "tech_0_1";
-const TECH_CAN_STORE_BIOMASS_PATCH = "tech_0_2";
-const TECH_ROVER_MOVE_PLUS_ONE = "tech_0_3";
-const TECH_WATER_ADVANCE_TWICE = "tech_0_4";
-const TECH_NO_METEOR = "tech_0_5";
+const TECH_BYPASS_ADJACENT_CONSTRAINT = 'tech_0_1';
+const TECH_CAN_STORE_BIOMASS_PATCH = 'tech_0_2';
+const TECH_ROVER_MOVE_PLUS_ONE = 'tech_0_3';
+const TECH_WATER_ADVANCE_TWICE = 'tech_0_4';
+const TECH_NO_METEOR = 'tech_0_5';
 /*
  * Tiles and Space station
  */
@@ -256,6 +256,8 @@ const ALL_CORPORATIONS = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 const MODE_APPLY = 0;
 const MODE_PRIVATE = 1;
 const MODE_REPLAY = 2;
+
+const NO_PLACEMENT = -1;
 
 /************************
  ********** TILES *******

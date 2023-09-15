@@ -83,7 +83,7 @@ class Planet
           'terrain' => self::getTerrain($x, $y),
           'tile' => null,
           'type' => null,
-          'symbol' => null
+          'symbol' => null,
         ];
       }
     }
@@ -164,12 +164,7 @@ class Planet
   public function countSymbolsOnEdge($symbol)
   {
     $cells = $this->getBorderCells();
-    return array_reduce(
-      $cells,
-      fn ($result, $cell) =>
-      $result + ($this->getSymbol($cell['x'], $cell['y']) == $symbol ? 1 : 0),
-      0
-    );
+    return array_reduce($cells, fn($result, $cell) => $result + ($this->getSymbol($cell['x'], $cell['y']) == $symbol ? 1 : 0), 0);
   }
 
   /**
@@ -184,7 +179,9 @@ class Planet
     $usedCells = [];
 
     foreach ($cells as $cell) {
-      if (in_array($cell, $usedCells)) continue;
+      if (in_array($cell, $usedCells)) {
+        continue;
+      }
 
       $validatedCells = [];
       $adjacentCells = [$cell];
@@ -215,16 +212,12 @@ class Planet
   public function countLargestAdjacent($type)
   {
     $zones = $this->detectZones($type);
-    return $zones ? max(array_map(fn ($zone) => count($zone), $zones)) : 0;
+    return $zones ? max(array_map(fn($zone) => count($zone), $zones)) : 0;
   }
 
   public function countSymbols($type)
   {
-    $cells = array_filter(
-      $this->getListOfCells(),
-      fn ($cell) =>
-      $this->getSymbol($cell['x'], $cell['y']) == $type
-    );
+    $cells = array_filter($this->getListOfCells(), fn($cell) => $this->getSymbol($cell['x'], $cell['y']) == $type);
     return count($cells);
   }
 
@@ -232,9 +225,7 @@ class Planet
   {
     return array_filter(
       $this->getListOfCells(),
-      fn ($cell) =>
-      $this->hasMeteorSymbol($cell['x'], $cell['y']) &&
-        $this->player->getMeteorOnCell($cell)
+      fn($cell) => $this->hasMeteorSymbol($cell['x'], $cell['y']) && $this->player->getMeteorOnCell($cell)
     );
   }
 
@@ -367,9 +358,10 @@ class Planet
     $this->freeCells = null;
   }
 
-  public function getPlacementOptions($tileType, $checkIsDoable = false)
+  public function getPlacementOptions($tileType, $checkIsDoable = false, $specialRule = null)
   {
     list($checkingCells, $freeCells) = $this->getPlacementOptionsCachedDatas();
+    $border = $this->getBorderCells();
     $byPassCheck = false; // Coorpo techs
 
     $result = [];
@@ -388,6 +380,10 @@ class Planet
           // TODO: add check function that can be overwritten by some planets
 
           if ($this->isIntersectionNonEmpty($cells, $checkingCells) || $this->player->hasTech(TECH_BYPASS_ADJACENT_CONSTRAINT)) {
+            // Check if tile is intersecting border or not
+            if ($specialRule == CANNOT_PLACE_ON_EDGE && $this->isIntersectionNonEmpty($cells, $border)) {
+              continue;
+            }
             $rotations[] = [$rotation, $flipped];
           }
         }
@@ -642,7 +638,7 @@ class Planet
 
   public static function compareCells($a, $b)
   {
-    return ($a['x'] * 20 + $a['y']) - ($b['x'] * 20 + $b['y']);
+    return $a['x'] * 20 + $a['y'] - ($b['x'] * 20 + $b['y']);
   }
 
   public function extractPos($tile)
