@@ -38,6 +38,12 @@ trait TurnTrait
   {
     $card = Cards::pickOneForLocation('deck_event', 'discard_event', Cards::countInLocation('discard_event'));
 
+    //if deck_event is empty -> last round
+    if (!Cards::countInLocation('deck_event')) {
+      Globals::setGameEnded(true);
+      Notifications::lastTurn('eventCard');
+    }
+
     Notifications::newEventCard($card);
 
     $this->gamestate->setAllPlayersMultiactive();

@@ -55,6 +55,12 @@ trait CivTrait
     foreach ($players as $pId => $player) {
       $player->emptyEndOfTurnActions();
     }
-    $this->gamestate->nextState('');
+
+    //Game end if one depot is empty or if gameEnded flag is true (if a player couldn't play any tile)
+    if (Susan::hasEmptyDepot() || Globals::isGameEnded()) {
+      $this->gamestate->nextState('gameEnd');
+    }
+
+    $this->gamestate->nextState('nextTurn');
   }
 }

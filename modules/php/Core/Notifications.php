@@ -148,6 +148,22 @@ class Notifications
     static::notifyAll('newRotation', $message, $data);
   }
 
+  public static function gameEnd($reason)
+  {
+    $data = [];
+
+    switch ($reason) {
+      case 'eventCard':
+        $msg = clienttranslate('This was the last event card. The game will finish at the end of this turn');
+        break;
+
+      default:
+        $msg = clienttranslate('The game is ended.');
+    }
+
+    static::notifyAll('lastTurn', $msg, $data);
+  }
+
   public static function placeMeeple($player, $type, $meeple)
   {
     $msg = clienttranslate('${player_name} places a new ${type} on his planet');

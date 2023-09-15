@@ -7,6 +7,7 @@ use PU\Managers\Players;
 use PU\Managers\Tiles;
 use PU\Core\Notifications;
 use PU\Core\Engine;
+use PU\Core\Globals;
 use PU\Core\Stats;
 use PU\Helpers\Utils;
 use PU\Helpers\FlowConvertor;
@@ -38,7 +39,7 @@ class MoveTrackerByOne extends \PU\Models\Action
 
   public function getWithBonus()
   {
-    return $this->getCtxArg('withBonus');
+    return $this->getCtxArg('withBonus') && Globals::getTurnSpecialRule() != NO_MILESTONE;
   }
 
   public function getMoveId()

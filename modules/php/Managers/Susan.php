@@ -47,14 +47,32 @@ class Susan
 		for ($j = 0; $j < 6; $j++) {
 			$tile = Tiles::getTopOf("top-interior-$j")->first();
 			if (is_null($tile)) {
-				Tiles::move(Tiles::getTopOf("interior-$j")->first()->getId(), "top-interior-$j");
+				$next_tile = Tiles::getTopOf("interior-$j")->first();
+				if (!is_null($next_tile)) {
+					Tiles::move($next_tile->getId(), "top-interior-$j");
+				}
 			}
 
 			$tile = Tiles::getTopOf("top-exterior-$j")->first();
 			if (is_null($tile)) {
-				Tiles::move(Tiles::getTopOf("exterior-$j")->first()->getId(), "top-exterior-$j");
+				$next_tile = Tiles::getTopOf("exterior-$j")->first();
+				if (!is_null($next_tile)) {
+					Tiles::move($next_tile->getId(), "top-exterior-$j");
+				}
 			}
 		}
+	}
+
+	public static function hasEmptyDepot()
+	{
+		$depots = static::getDepots();
+
+		for ($i = 0; $i < 6; $i++) {
+			if (!$depots[$i]['interior'] && !$depots[$i]['exterior']) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static function getUiData()
