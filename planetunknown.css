@@ -293,140 +293,140 @@
   box-shadow: 2px 2px 6px -1px black;
   box-sizing: border-box; }
 
-.planetunknown-card[data-type="civ"] {
+.planetunknown-card[data-type="civCard"] {
   width: calc(var(--cardScale) * 316px);
   height: calc(var(--cardScale) * 208px); }
 
-.planetunknown-card[data-type="civ"] .card-inner {
+.planetunknown-card[data-type="civCard"] .card-inner {
   width: 316px;
   height: 208px;
   background-image: url("img/civ.jpg");
   background-size: 500% 800%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="1"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="1"] {
     background-position-x: 0%;
     background-position-y: 0%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="2"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="2"] {
     background-position-x: 25%;
     background-position-y: 0%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="3"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="3"] {
     background-position-x: 50%;
     background-position-y: 0%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="4"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="4"] {
     background-position-x: 75%;
     background-position-y: 0%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="5"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="5"] {
     background-position-x: 100%;
     background-position-y: 0%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="6"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="6"] {
     background-position-x: 0%;
     background-position-y: 14.2857142857%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="7"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="7"] {
     background-position-x: 25%;
     background-position-y: 14.2857142857%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="8"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="8"] {
     background-position-x: 50%;
     background-position-y: 14.2857142857%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="9"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="9"] {
     background-position-x: 75%;
     background-position-y: 14.2857142857%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="10"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="10"] {
     background-position-x: 100%;
     background-position-y: 14.2857142857%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="11"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="11"] {
     background-position-x: 0%;
     background-position-y: 28.5714285714%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="12"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="12"] {
     background-position-x: 25%;
     background-position-y: 28.5714285714%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="13"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="13"] {
     background-position-x: 50%;
     background-position-y: 28.5714285714%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="14"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="14"] {
     background-position-x: 75%;
     background-position-y: 28.5714285714%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="15"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="15"] {
     background-position-x: 100%;
     background-position-y: 28.5714285714%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="16"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="16"] {
     background-position-x: 0%;
     background-position-y: 42.8571428571%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="17"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="17"] {
     background-position-x: 25%;
     background-position-y: 42.8571428571%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="18"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="18"] {
     background-position-x: 50%;
     background-position-y: 42.8571428571%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="19"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="19"] {
     background-position-x: 75%;
     background-position-y: 42.8571428571%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="20"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="20"] {
     background-position-x: 100%;
     background-position-y: 42.8571428571%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="21"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="21"] {
     background-position-x: 0%;
     background-position-y: 57.1428571429%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="22"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="22"] {
     background-position-x: 25%;
     background-position-y: 57.1428571429%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="23"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="23"] {
     background-position-x: 50%;
     background-position-y: 57.1428571429%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="24"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="24"] {
     background-position-x: 75%;
     background-position-y: 57.1428571429%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="25"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="25"] {
     background-position-x: 100%;
     background-position-y: 57.1428571429%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="26"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="26"] {
     background-position-x: 0%;
     background-position-y: 71.4285714286%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="27"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="27"] {
     background-position-x: 25%;
     background-position-y: 71.4285714286%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="28"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="28"] {
     background-position-x: 50%;
     background-position-y: 71.4285714286%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="29"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="29"] {
     background-position-x: 75%;
     background-position-y: 71.4285714286%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="30"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="30"] {
     background-position-x: 100%;
     background-position-y: 71.4285714286%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="31"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="31"] {
     background-position-x: 0%;
     background-position-y: 85.7142857143%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="32"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="32"] {
     background-position-x: 25%;
     background-position-y: 85.7142857143%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="33"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="33"] {
     background-position-x: 50%;
     background-position-y: 85.7142857143%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="34"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="34"] {
     background-position-x: 75%;
     background-position-y: 85.7142857143%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="35"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="35"] {
     background-position-x: 100%;
     background-position-y: 85.7142857143%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="36"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="36"] {
     background-position-x: 0%;
     background-position-y: 100%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="37"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="37"] {
     background-position-x: 25%;
     background-position-y: 100%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="38"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="38"] {
     background-position-x: 50%;
     background-position-y: 100%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="39"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="39"] {
     background-position-x: 75%;
     background-position-y: 100%; }
-  .planetunknown-card[data-type="civ"] .card-inner[data-id="40"] {
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="40"] {
     background-position-x: 100%;
     background-position-y: 100%; }
-  .planetunknown-card[data-type="civ"] .card-inner.selectable {
+  .planetunknown-card[data-type="civCard"].selectable .card-inner {
     cursor: pointer; }
-    .planetunknown-card[data-type="civ"] .card-inner.selectable:hover {
+    .planetunknown-card[data-type="civCard"].selectable .card-inner:hover {
       transform: scale(1.05); }
-  .planetunknown-card[data-type="civ"] .card-inner.selected {
+  .planetunknown-card[data-type="civCard"].selected .card-inner {
     border: 4px solid #1caf1c; }
 
 .planetunknown-card[data-type="NOCard"] {

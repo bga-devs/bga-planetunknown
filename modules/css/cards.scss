@@ -11,11 +11,11 @@
     box-sizing: border-box;
 }
 
-.planetunknown-card[data-type="civ"] {
+.planetunknown-card[data-type="civCard"] {
     width: calc(var(--cardScale) * 316px);
     height: calc(var(--cardScale) * 208px);
 }
-.planetunknown-card[data-type="civ"] .card-inner {
+.planetunknown-card[data-type="civCard"] .card-inner {
     width: 316px;
     height: 208px;
     background-image: url("img/civ.jpg");

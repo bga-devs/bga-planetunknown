@@ -243,6 +243,7 @@ class Player extends \PU\Helpers\DB_Model
     $total += $scoreMeteors;
 
     $result['civ']['entries'] = [];
+    $result['objectives']['entries'] = [];
     //Civ Cards and Private Objectives Cards
     if ($isCurrent) {
       $privateCards = Cards::getInLocation('hand')
@@ -252,7 +253,7 @@ class Player extends \PU\Helpers\DB_Model
           if ($privateCard->commerceAgreement) continue;
           $result['civ']['entries'] = $privateCard->getScoreEntry();
         } else if ($privateCard->getType() == 'POCard') {
-          $result['objectives']['entries'] = $privateCard->getScoreEntry();
+          $result['objectives']['entries'] = array_merge($result['objectives']['entries'], $privateCard->getScoreEntry());
         }
       }
       //special for commerceAgreement
@@ -269,7 +270,7 @@ class Player extends \PU\Helpers\DB_Model
       ->merge(Cards::getInLocation('NOCards')->where('pId2', $this->id));
 
     foreach ($NOCards as $id => $NOcard) {
-      $result['objectives']['entries'][] = $NOcard->getScoreEntry($this);
+      $result['objectives']['entries'] = array_merge($result['objectives']['entries'], $NOcard->getScoreEntry($this));
     }
 
     $scoreObjectives = $this->reduce_entries($result['objectives']);

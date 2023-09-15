@@ -23,7 +23,6 @@ class CivCard28 extends \PU\Models\Cards\CivCard
 
   public function score()
   {
-    //TODO CHECK if it works if it's an acceptable way to count
     return Meeples::getAll()
       ->where('pId', $this->getPId())
       ->where('type', LIFEPOD)

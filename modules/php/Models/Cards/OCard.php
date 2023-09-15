@@ -47,7 +47,7 @@ class OCard extends \PU\Models\Card
 
   public function getScoreEntry($player = null)
   {
-    return $this->getCard()->score($player);
+    return $this->getCard()->getScoreEntry($player);
   }
 
   public function getType()

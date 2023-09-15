@@ -192,7 +192,7 @@ class Planet
       while ($candidateCell = array_shift($adjacentCells)) {
         $usedCells[] = $candidateCell;
         if ($this->getType($candidateCell['x'], $candidateCell['y']) == $type) {
-          $validatedCells = [$candidateCell];
+          $validatedCells[] = $candidateCell;
           $neighbours = array_udiff($this->getNeighbours($candidateCell), $usedCells, 'static::compareCells');
           $adjacentCells = array_merge($adjacentCells, $neighbours);
         }
@@ -215,7 +215,6 @@ class Planet
   public function countLargestAdjacent($type)
   {
     $zones = $this->detectZones($type);
-
     return $zones ? max(array_map(fn ($zone) => count($zone), $zones)) : 0;
   }
 

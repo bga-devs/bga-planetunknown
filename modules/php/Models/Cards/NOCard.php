@@ -39,7 +39,7 @@ class NOCard extends \PU\Models\Card
       ? $this->win
       : ($playerValue == $otherValue
         ? $this->tie
-        : -1);
+        : 0);
 
     return $score;
   }

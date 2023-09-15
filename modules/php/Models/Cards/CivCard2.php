@@ -23,7 +23,7 @@ class CivCard2 extends \PU\Models\Cards\CivCard
   //twiceSynergy
   public function effect()
   {
-    $this->synergy(1, 2);
+    return $this->synergy(1, 2);
   }
 
   public function score()
