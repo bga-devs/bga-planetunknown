@@ -135,7 +135,8 @@ $machinestates = [
     'type' => GAME,
     'action' => 'stPostChooseCivCard', //remove pendings endofturn actions
     'transitions' => [
-      '' => ST_CHOOSE_ROTATION,
+      'gameEnd' => ST_PRE_END_OF_GAME,
+      'nextTurn' => ST_CHOOSE_ROTATION,
     ],
   ],
 

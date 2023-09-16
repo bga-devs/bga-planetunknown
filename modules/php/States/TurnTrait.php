@@ -41,7 +41,7 @@ trait TurnTrait
     //if deck_event is empty -> last round
     if (!Cards::countInLocation('deck_event')) {
       Globals::setGameEnded(true);
-      Notifications::lastTurn('eventCard');
+      Notifications::gameEnd('eventCard');
     }
 
     Notifications::newEventCard($card);

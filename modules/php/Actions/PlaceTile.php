@@ -125,6 +125,8 @@ class PlaceTile extends \PU\Models\Action
     $args = $this->argsPlaceTile();
     $tiles = $args['tiles'];
     $tileOptions = $tiles[$tileId] ?? null;
+    $no_placement = $tileOptions == NO_PLACEMENT;
+
     if (is_null($tileOptions)) {
       throw new \BgaVisibleSystemException('You cannot place that tile. Should not happen ' . $tileId);
     }
@@ -139,24 +141,26 @@ class PlaceTile extends \PU\Models\Action
     }
 
     // Place it on the board
-    list($tile, $symbols, $coveringWater, $meteor) = $player->planet()->addTile($tileId, $pos, $rotation, $flipped);
+    list($tile, $symbols, $coveringWater, $meteor) = $player->planet()->addTile($tileId, $pos, $rotation, $flipped, $no_placement);
 
-    //record it
-    $player->setLastTileId($tileId);
+    if (!$no_placement) {
+      //record it
+      $player->setLastTileId($tileId);
 
-    // Add asteroid meeples
-    if (!is_null($meteor)) {
-      $meteor = Meeples::addMeteor($player, $meteor);
-    }
+      // Add asteroid meeples
+      if (!is_null($meteor)) {
+        $meteor = Meeples::addMeteor($player, $meteor);
+      }
 
-    // Destroy pod/rover if any are covered
-    [$destroyedRover, $destroyedLifepod] = Meeples::destroyCoveredMeeples($player, $tile);
+      // Destroy pod/rover if any are covered
+      [$destroyedRover, $destroyedLifepod] = Meeples::destroyCoveredMeeples($player, $tile);
 
-    // Place extra Rover if it's the turn special rules
-    if (Globals::getTurnSpecialRule() == ADD_ROVER) {
-      $this->pushParallelChild([
-        'action' => PLACE_ROVER,
-      ]);
+      // Place extra Rover if it's the turn special rules
+      if (Globals::getTurnSpecialRule() == ADD_ROVER) {
+        $this->pushParallelChild([
+          'action' => PLACE_ROVER,
+        ]);
+      }
     }
 
     // Move tracks
@@ -186,7 +190,7 @@ class PlaceTile extends \PU\Models\Action
         continue;
       }
       // Water => stop if the tile is not covering water
-      elseif ($type == WATER && !$coveringWater) {
+      elseif ($type == WATER && !$coveringWater && !$no_placement) {
         continue;
       }
 

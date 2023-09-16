@@ -12,7 +12,7 @@ class CivCard32 extends \PU\Models\Cards\CivCard
 {
   protected $effectType = END_GAME;
   protected $level = 4;
-  protected $meteorRepo = true;
+  public $meteorRepo = true;
 
   public function __construct($player)
   {

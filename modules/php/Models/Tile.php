@@ -33,4 +33,26 @@ class Tile extends \PU\Helpers\DB_Model
   {
     return Tiles::getStaticDataFromType($this->getType());
   }
+
+  public function getSymbolsForDiscardedTile()
+  {
+    $datas = $this->getData();
+    $result = [];
+    foreach ($datas as $cell) {
+      if ($cell['symbol']) {
+        $result[] = [
+          'type' => $cell['type']
+        ];
+      }
+    }
+
+    //remove ENERGY and replace it by the other symbol
+    if ($result[0]['type'] == ENERGY) {
+      $result[0]['type'] = $result[1]['type'];
+    } elseif ($result[1]['type'] == ENERGY) {
+      $result[1]['type'] = $result[0]['type'];
+    }
+
+    return $result;
+  }
 }

@@ -12,7 +12,7 @@ class CivCard35 extends \PU\Models\Cards\CivCard
 {
   protected $effectType = END_GAME;
   protected $level = 3;
-  protected $commerceAgreement = true;
+  public $commerceAgreement = true;
 
   public function __construct($player)
   {

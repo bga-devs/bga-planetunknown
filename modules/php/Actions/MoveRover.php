@@ -31,6 +31,16 @@ class MoveRover extends \PU\Models\Action
     return $this->getCtxArg('teleport');
   }
 
+  public function getDescription()
+  {
+    return [
+      'log' => clienttranslate('Move your rover (${remaining})'),
+      'args' => [
+        'remaining' => $this->getCtxArg('remaining')
+      ],
+    ];
+  }
+
   public function getPossibleSpaceIds($player)
   {
     return $player->getPossibleMovesByRover($this->getTeleport());
@@ -75,6 +85,16 @@ class MoveRover extends \PU\Models\Action
     if (!is_null($lifepod)) {
       $player->corporation()->collect($lifepod);
       Notifications::collectMeeple($player, [$lifepod], 'collect');
+    }
+
+    //if move is not ended add a new movement option
+    if ($this->getCtxArg('remaining') > 1) {
+      $this->pushParallelChild([
+        'action' => MOVE_ROVER,
+        'args' => [
+          'remaining' => $this->getCtxArg('remaining') - 1
+        ]
+      ]);
     }
   }
 }

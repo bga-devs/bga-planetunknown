@@ -161,7 +161,7 @@ class Action
           Notifications::milestone($player, $bonus);
           break;
         case ROVER:
-          $this->insertAsChild([
+          $this->pushParallelChild([
             'action' => PLACE_ROVER,
           ]);
           Notifications::milestone($player, $bonus);
@@ -172,14 +172,12 @@ class Action
 
             $levelMove = $player->corporation()->moveRoverBy(explode('_', $bonus)[1]);
 
-            for ($i = 0; $i < $levelMove; $i++) {
-              $this->insertAsChild([
-                'action' => MOVE_ROVER,
-                'args' => [
-                  'remaining' => $levelMove - $i
-                ]
-              ]);
-            }
+            $this->pushParallelChild([
+              'action' => MOVE_ROVER,
+              'args' => [
+                'remaining' => $levelMove
+              ]
+            ]);
           }
           break;
       }

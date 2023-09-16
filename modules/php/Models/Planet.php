@@ -164,7 +164,7 @@ class Planet
   public function countSymbolsOnEdge($symbol)
   {
     $cells = $this->getBorderCells();
-    return array_reduce($cells, fn($result, $cell) => $result + ($this->getSymbol($cell['x'], $cell['y']) == $symbol ? 1 : 0), 0);
+    return array_reduce($cells, fn ($result, $cell) => $result + ($this->getSymbol($cell['x'], $cell['y']) == $symbol ? 1 : 0), 0);
   }
 
   /**
@@ -212,12 +212,12 @@ class Planet
   public function countLargestAdjacent($type)
   {
     $zones = $this->detectZones($type);
-    return $zones ? max(array_map(fn($zone) => count($zone), $zones)) : 0;
+    return $zones ? max(array_map(fn ($zone) => count($zone), $zones)) : 0;
   }
 
   public function countSymbols($type)
   {
-    $cells = array_filter($this->getListOfCells(), fn($cell) => $this->getSymbol($cell['x'], $cell['y']) == $type);
+    $cells = array_filter($this->getListOfCells(), fn ($cell) => $this->getSymbol($cell['x'], $cell['y']) == $type);
     return count($cells);
   }
 
@@ -225,7 +225,7 @@ class Planet
   {
     return array_filter(
       $this->getListOfCells(),
-      fn($cell) => $this->hasMeteorSymbol($cell['x'], $cell['y']) && $this->player->getMeteorOnCell($cell)
+      fn ($cell) => $this->hasMeteorSymbol($cell['x'], $cell['y']) && $this->player->getMeteorOnCell($cell)
     );
   }
 
@@ -236,44 +236,52 @@ class Planet
   //   | | | | |  __/\__ \
   //   |_| |_|_|\___||___/
   ///////////////////////////////////////////////
-  public function addTile($tileId, $pos, $rotation, $flipped)
+  public function addTile($tileId, $pos, $rotation, $flipped, $no_placement)
   {
     $tile = Tiles::getSingle($tileId);
-    $tile->setLocation('planet');
-    $tile->setX($pos['x']);
-    $tile->setY($pos['y']);
-    $tile->setRotation($rotation);
-    $tile->setFlipped($flipped ? 1 : 0);
+
+    if (!$no_placement) {
+      $tile->setLocation('planet');
+      $tile->setX($pos['x']);
+      $tile->setY($pos['y']);
+      $tile->setRotation($rotation);
+      $tile->setFlipped($flipped ? 1 : 0);
+    }
+
     $tile->setPId($this->pId);
     $this->tiles[$tile->getId()] = $tile;
-    // Stats::incCoveredCells($this->pId, count(BUILDINGS[$tileType]));
 
     $datas = $tile->getData();
     $coveringWater = false;
     $meteor = null;
 
     $symbols = [];
-    foreach ($this->getTileCoveredCells($tile, false) as $i => $cell) {
-      $this->grid[$cell['x']][$cell['y']]['tile'] = $tile;
-      $type = $datas[$i]['type'];
-      $this->grid[$cell['x']][$cell['y']]['type'] = $type;
-      $this->grid[$cell['x']][$cell['y']]['symbol'] = $datas[$i]['symbol'] ? $datas[$i]['type'] : null;
-      $this->grid[$cell['x']][$cell['y']]['meteorSymbol'] = $datas[$i]['meteor'];
+    if (!$no_placement) {
 
-      if ($datas[$i]['symbol']) {
-        $symbols[] = [
-          'cell' => $cell,
-          'type' => $type,
-        ];
-      }
+      foreach ($this->getTileCoveredCells($tile, false) as $i => $cell) {
+        $this->grid[$cell['x']][$cell['y']]['tile'] = $tile;
+        $type = $datas[$i]['type'];
+        $this->grid[$cell['x']][$cell['y']]['type'] = $type;
+        $this->grid[$cell['x']][$cell['y']]['symbol'] = $datas[$i]['symbol'] ? $datas[$i]['type'] : null;
+        $this->grid[$cell['x']][$cell['y']]['meteorSymbol'] = $datas[$i]['meteor'];
 
-      if ($datas[$i]['meteor']) {
-        $meteor = $cell;
-      }
+        if ($datas[$i]['symbol']) {
+          $symbols[] = [
+            'cell' => $cell,
+            'type' => $type,
+          ];
+        }
 
-      if ($type == WATER && $this->getTerrain($cell['x'], $cell['y']) == ICE) {
-        $coveringWater = true;
+        if ($datas[$i]['meteor']) {
+          $meteor = $cell;
+        }
+
+        if ($type == WATER && $this->getTerrain($cell['x'], $cell['y']) == ICE) {
+          $coveringWater = true;
+        }
       }
+    } else {
+      $symbols = $tile->getSymbolsForDiscardedTile();
     }
 
     self::invalidateCachedDatas();

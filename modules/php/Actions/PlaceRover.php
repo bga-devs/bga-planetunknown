@@ -26,6 +26,11 @@ class PlaceRover extends \PU\Models\Action
     return $player->getAvailableRover() != null && $this->getPossibleSpaceIds($player);
   }
 
+  public function getDescription()
+  {
+    return clienttranslate('Place a new Rover');
+  }
+
   public function getPossibleSpaceIds($player)
   {
     $lastTile = Tiles::getAll()
