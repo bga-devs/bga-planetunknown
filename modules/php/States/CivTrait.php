@@ -58,7 +58,6 @@ trait CivTrait
 
     //Game end if one depot is empty or if gameEnded flag is true (if a player couldn't play any tile)
     if (Susan::hasEmptyDepot() || Globals::isGameEnded()) {
-      var_dump(['endiiiid', Globals::isGameEnded()]);
       $this->gamestate->nextState('gameEnd');
     }
 

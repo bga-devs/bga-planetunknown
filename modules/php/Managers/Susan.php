@@ -68,7 +68,7 @@ class Susan
 		$depots = static::getDepots();
 
 		for ($i = 0; $i < 6; $i++) {
-			if (!$depots[$i]['interior'] && !$depots[$i]['exterior']) {
+			if (!Tiles::getTopOf("top-interior-" . $depots[$i]['interior'])->first() && !Tiles::getTopOf("top-exterior-" . $depots[$i]['exterior'])->first()) {
 				return true;
 			}
 		}
