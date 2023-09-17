@@ -251,14 +251,14 @@ class Player extends \PU\Helpers\DB_Model
       foreach ($privateCards as $cardId => $privateCard) {
         if ($privateCard->getType() == 'civCard') {
           if ($privateCard->commerceAgreement) continue;
-          $result['civ']['entries'] = $privateCard->getScoreEntry();
+          $result['civ']['private_entries'] = $privateCard->getScoreEntry();
         } else if ($privateCard->getType() == 'POCard') {
-          $result['objectives']['entries'] = array_merge($result['objectives']['entries'], $privateCard->getScoreEntry());
+          $result['objectives']['private_entries'] = array_merge($result['objectives']['entries'], $privateCard->getScoreEntry());
         }
       }
       //special for commerceAgreement
       $scoreCommerceAgreement = [0, 1, 3, 6, 10];
-      $result['civ']['entries']['commerceAgreement'] = $scoreCommerceAgreement[$this->countMatchingCard('commerceAgreement')];
+      $result['civ']['private_entries']['commerceAgreement'] = $scoreCommerceAgreement[$this->countMatchingCard('commerceAgreement')];
     }
 
     $scoreCivs = $this->reduce_entries($result['civ']);

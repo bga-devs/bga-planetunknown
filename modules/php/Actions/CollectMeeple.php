@@ -67,7 +67,7 @@ class CollectMeeple extends \PU\Models\Action
     return [
       'meeples' => $collectableMeeples,
       'action' => $this->getAction() == 'destroy' ? clienttranslate('destroy') : clienttranslate('collect'),
-      'type' => $this->getType(),
+      'type' => $this->getType() == LIFEPOD ? clienttranslate('lifepod(s)') : clienttranslate('Rover(s)'),
       'n' => min($this->getN(), count($collectableMeeples)),
       'i18n' => ['action', 'type']
     ];

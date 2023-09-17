@@ -125,12 +125,12 @@ const PLACE_ROVER = 'PlaceRover';
 const MOVE_TRACKER_BY_ONE = 'MoveTrackerByOne';
 const TAKE_CIV_CARD = 'TakeCivCard';
 const MOVE_ROVER = 'MoveRover';
-const COLLECT_MEEPLE = 'collectMeeple';
-const DESTROY_ALL_IN_ROW = 'destroyAllInRow';
-const MOVE_TRACKERS_TO_FIVE = 'moveTrackersToFive';
-const PLACE_MEEPLE = 'placeMeeple';
-const CHOOSE_ROTATION_ENGINE = 'chooseRotationEngine';
-const DESTROY_P_O_CARD = 'destroyPOCard';
+const COLLECT_MEEPLE = 'CollectMeeple';
+const DESTROY_ALL_IN_ROW = 'DestroyAllInRow';
+const MOVE_TRACKERS_TO_FIVE = 'MoveTrackersToFive';
+const PLACE_MEEPLE = 'PlaceMeeple';
+const CHOOSE_ROTATION_ENGINE = 'ChooseRotationEngine';
+const DESTROY_P_O_CARD = 'DestroyPOCard';
 
 /*
  * Resources
