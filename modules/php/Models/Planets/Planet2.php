@@ -29,4 +29,33 @@ class Planet2 extends \PU\Models\Planet
     $this->desc = clienttranslate('Gain a bonus 2 medals for each planet your tiles cover completely.');
     parent::__construct($player);
   }
+
+  public function score()
+  {
+    $score = parent::score();
+
+    //cerberus [fromX, fromY, toX, toY]
+    $c1 = [6, 0, 11, 5, 'Cerberus1'];
+    $c2 = [0, 4, 6, 11, 'Cerberus2'];
+    $c3 = [7, 7, 11, 11, 'Cerberus3'];
+
+    $cerberus = [$c1, $c2, $c3];
+    foreach ($cerberus as $c) {
+      $score = 2;
+      for ($x = $c[0]; $x < $c[2]; $x++) {
+        for ($y = $c[1]; $y = $c[3]; $y++) {
+          if ($x == 6 && $y == 5 && $c[4] == 'Cerberus1') continue; // (only exception)
+          if ($this->isPlanet($x, $y) && !$this->hasTileAtCoord($x, $y)) {
+            $score = 0;
+            break;
+          }
+        }
+        if ($score == 0) {
+          break;
+        }
+      }
+      $score[$c[4]] = $score;
+    }
+    return $score;
+  }
 }

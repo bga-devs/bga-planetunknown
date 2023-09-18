@@ -148,7 +148,7 @@ class Action
           }
           break;
         case TECH:
-          $levelTech = $player->corporation()->getTechLevel();
+          $levelTech = $player->corporation()->getTechLevel($this);
           Notifications::milestone($player, TECH, $levelTech);
           break;
         case SYNERGY:

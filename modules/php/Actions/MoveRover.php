@@ -89,10 +89,18 @@ class MoveRover extends \PU\Models\Action
 
     //if move is not ended add a new movement option
     if ($this->getCtxArg('remaining') > 1) {
+      $cost = 1;
+      if (
+        $player->hasTech(TECH_FREE_MOVE_ON_ENERGY) &&
+        ($player->planet->getVisible($cell) == ENERGY || $player->planet()->getVisible($cell) == ELECTRIC)
+      ) {
+        $cost = 0;
+      }
+
       $this->pushParallelChild([
         'action' => MOVE_ROVER,
         'args' => [
-          'remaining' => $this->getCtxArg('remaining') - 1
+          'remaining' => $this->getCtxArg('remaining') - $cost
         ]
       ]);
     }

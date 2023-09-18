@@ -84,6 +84,7 @@ const ST_MOVE_TRACKERS_TO_FIVE = 32;
 const ST_PLACE_MEEPLE = 33;
 const ST_CHOOSE_ROTATION_ENGINE = 34;
 const ST_DESTROY_P_O_CARD = 35;
+const ST_POSITION_LIFEPOD_ON_TRACK = 36;
 
 const ST_FOO_A = 54;
 const ST_FOO_B = 55;
@@ -131,6 +132,7 @@ const MOVE_TRACKERS_TO_FIVE = 'MoveTrackersToFive';
 const PLACE_MEEPLE = 'PlaceMeeple';
 const CHOOSE_ROTATION_ENGINE = 'ChooseRotationEngine';
 const DESTROY_P_O_CARD = 'DestroyPOCard';
+const POSITION_LIFEPOD_ON_TRACK = 'PositionLifepodOnTrack';
 
 /*
  * Resources
@@ -201,7 +203,6 @@ const HOLE = 'hole';
 const CITY = 'city';
 const TOXIC = 'toxic';
 const ELECTRIC = 'electric';
-const ELECTRIC_LIFEPOD = 'electric_lifepod';
 
 const METEOR = 'meteor';
 const ROVER_MEEPLE = 'rover-meeple';
@@ -215,6 +216,12 @@ const TECH_CAN_STORE_BIOMASS_PATCH = 'tech_0_2';
 const TECH_ROVER_MOVE_PLUS_ONE = 'tech_0_3';
 const TECH_WATER_ADVANCE_TWICE = 'tech_0_4';
 const TECH_NO_METEOR = 'tech_0_5';
+
+const TECH_ROVER_MOVE_DIAG = 'tech_1_1';
+const TECH_REPOSITION_LIFEPOD_AFTER_ENERGY = 'tech_1_3';
+const TECH_FREE_MOVE_ON_ENERGY = 'tech_1_4';
+const TECH_REPOSITION_ONE_LIFEPOD_EACH_TURN = 'tech_1_5';
+
 /*
  * Tiles and Space station
  */

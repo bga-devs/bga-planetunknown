@@ -167,6 +167,17 @@ class PlaceTile extends \PU\Models\Action
     $tileTypes = [];
 
     $actions = [];
+
+    //ADD EXTRA ACTION EACH TURN
+    if ($player->hasTech(TECH_REPOSITION_ONE_LIFEPOD_EACH_TURN)) {
+      $actions = [
+        'action' => POSITION_LIFEPOD_ON_TRACK,
+        'args' => [
+          'remaining' => 1
+        ]
+      ];
+    }
+
     foreach ($symbols as $symbol) {
       $type = $symbol['type'];
       $tileTypes[] = $type;
@@ -177,6 +188,16 @@ class PlaceTile extends \PU\Models\Action
 
       // Energy => compute the possible tracks
       if ($type == ENERGY) {
+        //big if for corpo1
+        if ($player->hasTech(TECH_REPOSITION_LIFEPOD_AFTER_ENERGY)) {
+          $actions[] = [
+            'action' => POSITION_LIFEPOD_ON_TRACK,
+            'args' => [
+              'remaining' => 1
+            ]
+          ];
+        }
+
         $types = $player->planet()->getTypesAdjacentToEnergy($symbol['cell']);
         $actions[] = [
           'action' => CHOOSE_TRACKS,

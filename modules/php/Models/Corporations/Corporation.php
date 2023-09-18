@@ -128,6 +128,11 @@ class Corporation
     return count($this->tracks[$type]) == $this->getLevelOnTrack($type) + 1;
   }
 
+  public function getMaxIndexOnTrack($type)
+  {
+    return count($this->tracks[$type]) - 1;
+  }
+
   //return score on this track
   public function getBestMedal($type)
   {
@@ -163,7 +168,7 @@ class Corporation
     return $this->countLevel(CIV);
   }
 
-  public function getTechLevel()
+  public function getTechLevel($action = null)
   {
     return $this->countLevel(TECH);
   }
@@ -218,6 +223,7 @@ class Corporation
   {
     $meeple->setX('');
     $meeple->setY('');
+    // $meeple->setPId($this->pId); useless, is already owned by player
     $meeple->setLocation('corporation');
   }
 

@@ -30,7 +30,7 @@ class Notifications
     static::notifyAll('newCards', clienttranslate('A civ card has been removed from each deck'), $data);
   }
 
-  public static function collectMeeple($player, $meeples, $action)
+  public static function collectMeeple($player, $meeples, $action = 'collect')
   {
     $message =
       $action == 'destroy'

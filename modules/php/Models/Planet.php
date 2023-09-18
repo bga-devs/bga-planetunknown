@@ -15,7 +15,7 @@ use PU\Core\Stats;
  */
 
 const DIRECTIONS = [['x' => -1, 'y' => 0], ['x' => 0, 'y' => -1], ['x' => 1, 'y' => 0], ['x' => 0, 'y' => 1]];
-
+const DIRECTIONS_DIAG = [['x' => -1, 'y' => 0], ['x' => -1, 'y' => -1], ['x' => -1, 'y' => 1], ['x' => 0, 'y' => -1], ['x' => 1, 'y' => 0], ['x' => 1, 'y' => 1], ['x' => 1, 'y' => -1], ['x' => 0, 'y' => 1]];
 class Planet
 {
   // STATIC DATA
@@ -138,7 +138,7 @@ class Planet
       } else {
         $score['row_' . $rowId] = $value;
         foreach ($this->columnMedals as $columnId => $_) {
-          if ($this->getTerrain($columnId, $rowId) != NOTHING && !$this->hasTileAtCoord($columnId, $rowId)) {
+          if ($this->isCoveredCoord($columnId, $rowId)) {
             $score['row_' . $rowId] = 0;
           }
         }
@@ -151,7 +151,7 @@ class Planet
       } else {
         $score['column_' . $columnId] = $value;
         foreach ($this->rowMedals as $rowId => $_) {
-          if ($this->getTerrain($columnId, $rowId) != NOTHING && !$this->hasTileAtCoord($columnId, $rowId)) {
+          if ($this->isCoveredCoord($columnId, $rowId)) {
             $score['column_' . $columnId] = 0;
           }
         }
@@ -481,6 +481,11 @@ class Planet
     return true;
   }
 
+  public function isCoveredCoord($x, $y)
+  {
+    return ($this->isPlanet($x, $y) && !$this->hasTileAtCoord($x, $y));
+  }
+
   /**
    * getTypesAdjacentToEnergy: given a energy cell, compute the types adjacent to the zone
    */
@@ -549,6 +554,13 @@ class Planet
   public function getType($x, $y)
   {
     return $this->grid[$x][$y]['type'];
+  }
+
+  //return what is visible at coord (tile or terrain if there is no tile)
+  //return type if not null else terrain
+  public function getVisible($x, $y)
+  {
+    return $this->getType($x, $y) ?? $this->getTerrain($x, $y);
   }
 
   public function getTypeAtPos($cell)
@@ -729,10 +741,13 @@ class Planet
     return $cell1['x'] == $cell2['x'] && $cell1['y'] == $cell2['y'];
   }
 
-  public function getNeighbours($cell)
+  public function getNeighbours($cell, $bool_diag = false)
   {
     $cells = [];
-    foreach (DIRECTIONS as $dir) {
+
+    $directions = $bool_diag ? DIRECTIONS_DIAG : DIRECTIONS;
+
+    foreach ($directions as $dir) {
       $newCell = [
         'x' => $cell['x'] + $dir['x'],
         'y' => $cell['y'] + $dir['y'],
@@ -747,7 +762,7 @@ class Planet
   //to be overriden
   public function getPossibleMovesFrom($cell)
   {
-    $cells = $this->getNeighbours($cell);
+    $cells = $this->getNeighbours($cell, $this->player->hasTech(TECH_ROVER_MOVE_DIAG));
     //can't move on a rover
     return array_filter($cells, function ($c) {
       return !$this->player->getRoverOnCell($c);

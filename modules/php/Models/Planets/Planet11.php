@@ -19,7 +19,7 @@ class Planet11 extends \PU\Models\Planet
     [LAND, ELECTRIC, ELECTRIC, LAND, LIFEPOD, ELECTRIC, LAND, ELECTRIC, LIFEPOD, ELECTRIC, LAND, LAND],
     [NOTHING, ELECTRIC, LAND, LAND, ELECTRIC, ELECTRIC, ELECTRIC, ELECTRIC, ELECTRIC, ELECTRIC, LAND, NOTHING],
     [NOTHING, ELECTRIC, ELECTRIC, ELECTRIC, ELECTRIC, LAND, LAND, ELECTRIC, LAND, LAND, LAND, NOTHING],
-    [NOTHING, NOTHING, LAND, LIFEPOD, LAND, LAND, LAND, ELECTRIC, ELECTRIC_LIFEPOD, LAND, NOTHING, NOTHING],
+    [NOTHING, NOTHING, LAND, LIFEPOD, LAND, LAND, LAND, ELECTRIC, ELECTRIC, LAND, NOTHING, NOTHING],
     [NOTHING, NOTHING, NOTHING, LAND, LAND, LAND, LAND, LAND, ELECTRIC, NOTHING, NOTHING, NOTHING],
     [NOTHING, NOTHING, NOTHING, NOTHING, NOTHING, LAND, LAND, NOTHING, NOTHING, NOTHING, NOTHING, NOTHING],
   ];
@@ -33,17 +33,12 @@ class Planet11 extends \PU\Models\Planet
 
   public function getStartingLifePodsCoord()
   {
-    $result = [];
-    for ($y = 0; $y < count($this->terrains); $y++) {
-      for ($x = 0; $x < count($this->terrains[$y]); $x++) {
-        if ($this->terrains[$y][$x] == LIFEPOD || $this->terrains[$y][$x] == ELECTRIC_LIFEPOD) {
-          $result[] = [
-            'x' => $x,
-            'y' => $y,
-          ];
-        }
-      }
-    }
+    $result = parent::getStartingLifePodsCoord();
+    //add an extra lifepod (on ELECTRIC cell)
+    $result[] = [
+      'x' => 8,
+      'y' => 9
+    ];
     return $result;
   }
 }

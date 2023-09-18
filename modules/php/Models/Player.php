@@ -119,12 +119,26 @@ class Player extends \PU\Helpers\DB_Model
     return static::getMeepleOnCell($cell, ROVER_MEEPLE);
   }
 
-  public function getMeepleOnCell($cell, $type)
+  public function getMeepleOnCell($cell, $type, $bool_planet = true)
   {
     return static::getMeeples($type)
+      ->where('location', $bool_planet ? 'planet' : 'corporation')
       ->where('x', $cell['x'])
       ->where('y', $cell['y'])
       ->first();
+  }
+
+  public function hasLifepodOnTrack($x, $y)
+  {
+    return $this->getLifepodOnTrack()->count() > 0;
+  }
+
+  public function getLifepodOnTrack($x, $y)
+  {
+    return $this->getMeeples(LIFEPOD)
+      ->where('location', 'corporation')
+      ->where('x', $x)
+      ->where('y', $y);
   }
 
   public function getAvailableRover()
@@ -147,6 +161,14 @@ class Player extends \PU\Helpers\DB_Model
   public function hasMeteorOnPlanet()
   {
     return count($this->getMeteorsOnPlanet()) > 0;
+  }
+
+  public function getCollectedLifepod()
+  {
+    return $this->getMeeples(LIFEPOD)
+      ->where('location', 'corporation')
+      ->where('x', '')
+      ->where('y', '');
   }
 
   public function getMeteorsOnPlanet()
@@ -172,7 +194,7 @@ class Player extends \PU\Helpers\DB_Model
       if (in_array($contraint, FORBIDDEN_TERRAINS)) {
         $neighbours = array_filter(
           $neighbours,
-          fn ($cell) => $this->planet->getTypeAtPos($cell) != FORBIDDEN_TERRAINS[$contraint]
+          fn ($cell) => $this->planet->getVisible($cell['x'], $cell['y']) != FORBIDDEN_TERRAINS[$contraint]
         );
       }
 

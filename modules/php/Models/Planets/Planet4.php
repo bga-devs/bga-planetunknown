@@ -29,4 +29,18 @@ class Planet4 extends \PU\Models\Planet
     $this->desc = clienttranslate('Every city not covered by tiles scores two medals. Score complete rows and columns as normal.');
     parent::__construct($player);
   }
+
+  public function score()
+  {
+    $score = parent::score();
+
+    $cities = ['5_0', '2_2', '9_2', '11_5', '0_6', '2_9', '9_9', '6_11'];
+
+    foreach ($cities as $coord) {
+      $cell = $this->getCellFromId($coord);
+      $score['city_' . $coord] = $this->hasTileAtPos($cell) ? 0 : 2;
+    }
+
+    return $score;
+  }
 }
