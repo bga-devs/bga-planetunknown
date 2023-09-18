@@ -127,6 +127,8 @@ class Action
   {
     if (!$bonuses) return;
 
+    $actions = [];
+
     foreach ($bonuses as $bonus) {
       switch ($bonus) {
         case CIV:
@@ -142,7 +144,7 @@ class Action
         case BIOMASS:
           $patchToPlace = $player->corporation()->receiveBiomassPatch();
           if ($patchToPlace) {
-            $this->insertAsChild(Actions::getBiomassPatchFlow($patchToPlace->getId()));
+            $actions[] = Actions::getBiomassPatchFlow($patchToPlace->getId());
           }
           break;
         case TECH:
@@ -150,20 +152,20 @@ class Action
           Notifications::milestone($player, TECH, $levelTech);
           break;
         case SYNERGY:
-          $this->insertAsChild([
+          $actions[] = [
             'action' => CHOOSE_TRACKS,
             'args' => [
               'types' => ALL_TYPES,
               'n' => 1,
               'from' => SYNERGY
             ]
-          ]);
+          ];
           Notifications::milestone($player, $bonus);
           break;
         case ROVER:
-          $this->pushParallelChild([
+          $actions[] = [
             'action' => PLACE_ROVER,
-          ]);
+          ];
           Notifications::milestone($player, $bonus);
           break;
         default:
@@ -172,15 +174,21 @@ class Action
 
             $levelMove = $player->corporation()->moveRoverBy(explode('_', $bonus)[1]);
 
-            $this->pushParallelChild([
+            $actions[] = [
               'action' => MOVE_ROVER,
               'args' => [
                 'remaining' => $levelMove
               ]
-            ]);
+            ];
           }
           break;
       }
     }
+
+    // if (count($actions) > 1) {
+    $this->pushParallelChilds($actions);
+    // } elseif (count($actions) == 1) {
+    //   $this->insertAsChild($actions[0]);
+    // }
   }
 }

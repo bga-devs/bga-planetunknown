@@ -82,6 +82,14 @@ class ChooseTracks extends \PU\Models\Action
     ];
   }
 
+  public function stChooseTracks()
+  {
+    $args = $this->argsChooseTracks();
+    if (count($args['types']) == 1 && $args['n'] == 1) {
+      return [$args['types']];
+    }
+  }
+
   public function actChooseTracks($tracks)
   {
     $args = $this->argsChooseTracks();
@@ -94,10 +102,19 @@ class ChooseTracks extends \PU\Models\Action
         throw new \BgaVisibleSystemException('You cannot choose $type track. Should not happen');
       }
 
+      // if (count($tracks) > 1) {
       $this->pushParallelChild([
         'action' => MOVE_TRACK,
         'args' => ['type' => $type, 'n' => $this->getMove(), 'withBonus' => $this->getWithBonus()],
       ]);
+      // } else {
+      //   $this->insertAsChild([
+      //     'action' => MOVE_TRACK,
+      //     'args' => ['type' => $type, 'n' => $this->getMove(), 'withBonus' => $this->getWithBonus()],
+      //   ]);
+      // }
+
+
       // $withBonus = $this->getWithBonus();
       // if ($withBonus) {
       //   for ($i = 0; $i < $this->getMove(); $i++) {
