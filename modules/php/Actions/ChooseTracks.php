@@ -60,9 +60,16 @@ class ChooseTracks extends \PU\Models\Action
           'type_name' => 'energy',
         ],
       ];
+    } else if (count($types) == 5) {
+      return [
+        'log' => clienttranslate('Advance ${n} track(s)'),
+        'args' => [
+          'n' => $this->getN(),
+        ],
+      ];
     } else {
       return [
-        'log' => clienttranslate('Advance ${n} track(s) among ${tracks}'),
+        'log' => clienttranslate('Advance ${n} track(s) among ${types_desc}'),
         'args' => [
           'n' => $this->getN(),
           'types_desc' => Utils::getTypesDesc($types),
