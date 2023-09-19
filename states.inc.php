@@ -319,7 +319,7 @@ $machinestates = [
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
-    'possibleactions' => ['actMoveRover', 'actRestart'],
+    'possibleactions' => ['actMoveRover', 'actRestart', 'actPassOptionalAction'],
   ],
 
   ST_COLLECT_MEEPLE => [

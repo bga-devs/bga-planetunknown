@@ -79,8 +79,21 @@ class Susan
 	{
 		return [
 			'shift' => Globals::getSusanShift(),
-			'rotation' => Globals::getSusanRotation()
+			'rotation' => Globals::getSusanRotation(),
+			'decks' => static::getDecks()
 		];
+	}
+
+	public static function getDecks()
+	{
+		$result = [];
+		for ($i = 0; $i < 6; $i++) {
+			foreach (['interior-', 'exterior-'] as $side) {
+				$deck = $side . $i;
+				$result[$deck] = Tiles::countInLocation($deck) + Tiles::countInLocation('top-' . $deck);
+			}
+		}
+		return $result;
 	}
 
 	/*

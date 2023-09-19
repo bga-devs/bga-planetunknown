@@ -116,7 +116,7 @@ class Notifications
         ? clienttranslate('${player_name} moves ${types_desc} tracker upward')
         : ($fromCell['y'] > $pawn->getY()
           ? clienttranslate('${player_name} moves ${types_desc} tracker downward')
-          : clienttranslate('${player_name} moves ${types_desc} tracker sideward')),
+          : clienttranslate('${player_name} moves ${types_desc} tracker but stay at same level')),
       [
         'player' => $player,
         'meeple' => $pawn,
@@ -394,9 +394,7 @@ class Notifications
     if (isset($data['player'])) {
       $data['player_name'] = $data['player']->getName();
       $data['player_id'] = $data['player']->getId();
-      $data['scores'] = [
-        $data['player']->getId() => $data['player']->score(),
-      ];
+      $data['scores'] = Players::scores($data['player']->getId());
       unset($data['player']);
     }
     if (isset($data['player2'])) {

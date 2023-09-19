@@ -26,6 +26,11 @@ class MoveRover extends \PU\Models\Action
     return $player->hasRoverOnPlanet() && $this->getPossibleSpaceIds($player);
   }
 
+  public function isOptional()
+  {
+    return true;
+  }
+
   public function getTeleport()
   {
     return $this->getCtxArg('teleport');
@@ -53,7 +58,8 @@ class MoveRover extends \PU\Models\Action
     return [
       'player' => $player,
       'spaceIds' => $this->getPossibleSpaceIds($player),
-      'remaining' => $this->getCtxArg('remaining')
+      'remaining' => $this->getCtxArg('remaining'),
+      'currentRoverId' => $this->getCtxArg('currentRoverId') ?? ""
     ];
   }
 
@@ -100,7 +106,8 @@ class MoveRover extends \PU\Models\Action
       $this->pushParallelChild([
         'action' => MOVE_ROVER,
         'args' => [
-          'remaining' => $this->getCtxArg('remaining') - $cost
+          'remaining' => $this->getCtxArg('remaining') - $cost,
+          'currentRoverId' => $roverId
         ]
       ]);
     }

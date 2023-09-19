@@ -48,11 +48,6 @@ class Corporation0 extends Corporation
     return $this->player->hasTech(TECH_ROVER_MOVE_PLUS_ONE) ? $n + 1 : $n;
   }
 
-  public function moveTrackBy($type, $n)
-  {
-    return ($this->player->hasTech(TECH_WATER_ADVANCE_TWICE) && $type == WATER && $n > 0) ? $n * 2 : $n;
-  }
-
   // add an end of game action or return patch to be placed immediately
   public function receiveBiomassPatch()
   {
