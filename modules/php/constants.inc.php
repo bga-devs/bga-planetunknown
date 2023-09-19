@@ -85,6 +85,7 @@ const ST_PLACE_MEEPLE = 33;
 const ST_CHOOSE_ROTATION_ENGINE = 34;
 const ST_DESTROY_P_O_CARD = 35;
 const ST_POSITION_LIFEPOD_ON_TRACK = 36;
+const ST_CHOOSE_FLUX_TRACK = 37;
 
 const ST_FOO_A = 54;
 const ST_FOO_B = 55;
@@ -133,6 +134,7 @@ const PLACE_MEEPLE = 'PlaceMeeple';
 const CHOOSE_ROTATION_ENGINE = 'ChooseRotationEngine';
 const DESTROY_P_O_CARD = 'DestroyPOCard';
 const POSITION_LIFEPOD_ON_TRACK = 'PositionLifepodOnTrack';
+const CHOOSE_FLUX_TRACK = 'ChooseFluxTrack';
 
 /*
  * Resources
@@ -221,6 +223,12 @@ const TECH_ROVER_MOVE_DIAG = 'tech_1_1';
 const TECH_REPOSITION_LIFEPOD_AFTER_ENERGY = 'tech_1_3';
 const TECH_FREE_MOVE_ON_ENERGY = 'tech_1_4';
 const TECH_REPOSITION_ONE_LIFEPOD_EACH_TURN = 'tech_1_5';
+
+const FLUX = 2;
+const TECH_GET_2_MOVES_ON_FLUX = 'tech_2_1';
+const TECH_UPGRADED_FLUX_TRACK = 'tech_2_3';
+const TECH_COLLECT_METEOR_FLUX = 'tech_2_4';
+const TECH_ADVANCE_FLUX = 'tech_2_5';
 
 /*
  * Tiles and Space station

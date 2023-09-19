@@ -27,12 +27,12 @@ class CollectMeeple extends \PU\Models\Action
 
   public function getN()
   {
-    return $this->getCtxArg('n');
+    return $this->getCtxArg('n') ?? 1;
   }
 
   public function getAction()
   {
-    return $this->getCtxArg('action');
+    return $this->getCtxArg('action') ?? 'collect';
   }
 
   public function getType()
@@ -67,7 +67,7 @@ class CollectMeeple extends \PU\Models\Action
     return [
       'meeples' => $collectableMeeples,
       'action' => $this->getAction() == 'destroy' ? clienttranslate('destroy') : clienttranslate('collect'),
-      'type' => $this->getType() == LIFEPOD ? clienttranslate('lifepod(s)') : clienttranslate('Rover(s)'),
+      'type' => $this->getType() == LIFEPOD ? clienttranslate('lifepod(s)') : clienttranslate('rover(s)'),
       'n' => min($this->getN(), count($collectableMeeples)),
       'i18n' => ['action', 'type']
     ];

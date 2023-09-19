@@ -5,6 +5,7 @@ namespace PU\States;
 use PU\Core\Globals;
 use PU\Core\Notifications;
 use PU\Core\Engine;
+use PU\Core\PGlobals;
 use PU\Core\Stats;
 use PU\Helpers\Log;
 use PU\Managers\Players;
@@ -24,13 +25,29 @@ trait TurnTrait
    */
   function stStartParallel()
   {
-    $pIds = Players::getAll()->getIds();
-    Engine::setup(
-      [
-        'action' => \PLACE_TILE
-      ],
-      ['method' => 'stEndOfTurn'],
-      $pIds
+    $players = Players::getAll();
+
+    $flows = [];
+
+    foreach ($players as $pId => $player) {
+      $actions = [
+        [
+          'action' => \PLACE_TILE
+        ]
+      ];
+
+      //ADD EXTRA ACTION EACH TURN
+      $player->corporation()->addAutomaticActions($actions);
+
+      $flows[$pId] = [
+        'type' => NODE_PARALLEL,
+        'childs' => $actions
+      ];
+    }
+
+    Engine::multipleSetup(
+      $flows,
+      ['method' => 'stEndOfTurn']
     );
   }
 
@@ -66,13 +83,11 @@ trait TurnTrait
     $effect = $card->effect();
     if (is_array($effect)) { //if each player have special flow
       if (isset($effect['nestedFlows'])) {
-        foreach ($effect['nestedFlows'] as $pId => $flow) {
-          Engine::setup(
-            $flow,
-            ['method' => 'stEndOfEventTurn'],
-            $pId
-          );
-        }
+        Engine::multipleSetup(
+          $effect['nestedFlows'],
+          ['method' => 'stEndOfEventTurn'],
+          $pIds
+        );
       } else {
         Engine::setup(
           $effect,

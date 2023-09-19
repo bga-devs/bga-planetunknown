@@ -168,6 +168,7 @@ class Corporation
     return $this->countLevel(CIV);
   }
 
+  //receive $action when reach the mileston to add an action if needed
   public function getTechLevel($action = null)
   {
     return $this->countLevel(TECH);
@@ -232,6 +233,10 @@ class Corporation
     return Meeples::getOfPlayer($this->player, $type)
       ->where('location', 'corporation')
       ->count();
+  }
+
+  public function addAutomaticActions(&$actions)
+  {
   }
 
   /*

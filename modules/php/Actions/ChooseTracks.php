@@ -28,7 +28,7 @@ class ChooseTracks extends \PU\Models\Action
   //n is the nb of tracks to choose
   public function getN()
   {
-    return $this->getCtxArg('n');
+    return $this->getCtxArg('n') ?? 1;
   }
 
   //move is the numbers of move for choosen tracks

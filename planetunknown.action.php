@@ -1,4 +1,5 @@
 <?php
+
 /**
  *------
  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
@@ -26,6 +27,18 @@ class action_planetunknown extends APP_GameAction
       $this->view = 'planetunknown_planetunknown';
       self::trace('Complete reinitialization of board game');
     }
+  }
+
+  public function actChooseSetup()
+  {
+    self::setAjaxMode();
+    $planetId = (int) self::getArg('planetId', AT_int, true);
+    $corporationId = (int) self::getArg('corporationId', AT_int, true);
+    $rejectedCardId = (int) self::getArg('rejectedCardId', AT_int, false);
+    $flux = self::getArg('flux', AT_alphanum, false);
+
+    $this->game->actChooseSetup($planetId, $corporationId, $rejectedCardId, $flux);
+    self::ajaxResponse();
   }
 
   public function loadBugSQL()

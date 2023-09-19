@@ -5,6 +5,7 @@ namespace PU\States;
 use PU\Core\Globals;
 use PU\Core\Notifications;
 use PU\Core\Engine;
+use PU\Core\PGlobals;
 use PU\Core\Stats;
 use PU\Helpers\Log;
 use PU\Managers\Players;
@@ -70,7 +71,7 @@ trait ChooseSetupTrait
     }
   }
 
-  public function actChooseSetup($planetId, $corporationId, $rejectedCardId = null, $pId = null)
+  public function actChooseSetup($planetId, $corporationId, $rejectedCardId = null, $flux = null, $pId = null)
   {
     $this->queryStandardTables();
     // Sanity checks
@@ -88,6 +89,9 @@ trait ChooseSetupTrait
     if (count($args['_private'][$pId]['POCards']) > 0 && !array_key_exists($rejectedCardId, $args['_private'][$pId]['POCards'])) {
       throw new \BgaVisibleSystemException('You have to reject a card that you have in hand!! Should not happen');
     }
+    if ($corporationId == FLUX && !in_array($flux, ALL_TYPES)) {
+      throw new \BgaVisibleSystemException('If you choose Flux Industries, you need to choose a flux track. ');
+    }
 
     $choices = Globals::getSetupChoices();
     if (!is_array($choices[$pId])) {
@@ -96,6 +100,8 @@ trait ChooseSetupTrait
     $choices[$pId]['planetId'] = $planetId;
     $choices[$pId]['corporationId'] = $corporationId;
     $choices[$pId]['rejectedCardId'] = $rejectedCardId;
+    $choices[$pId]['flux'] = $flux;
+
     Globals::setSetupChoices($choices);
     Notifications::chooseSetup(Players::get($pId), $planetId, $corporationId, $rejectedCardId);
     $this->updateActivePlayersAndChangeState();
@@ -114,6 +120,7 @@ trait ChooseSetupTrait
       Cards::move($choice['rejectedCardId'], 'trash');
       $player->setCorporationId($choice['corporationId']);
       $player->setPlanetId($choice['planetId']);
+      PGlobals::setFluxTrack($player->getId(), $choice['flux']);
     }
 
     $this->gamestate->nextState('');

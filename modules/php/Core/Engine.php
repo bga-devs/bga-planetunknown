@@ -1,5 +1,7 @@
 <?php
+
 namespace PU\Core;
+
 use PU\Managers\Players;
 use PU\Managers\Actions;
 use PU\Helpers\Log;
@@ -9,6 +11,7 @@ use PU\Helpers\UserException;
 /*
  * Engine: a class that allows to handle complex flow
  */
+
 class Engine
 {
   public static $trees = null;
@@ -81,7 +84,7 @@ class Engine
     self::$trees = [];
     foreach ($pIds as $pId) {
       // Build the tree while enforcing $pId at root
-      $aTree = $aTress[$pId];
+      $aTree = $aTrees[$pId];
       $aTree['pId'] = $pId;
       $tree = self::buildTree($aTree);
       if (!$tree instanceof \PU\Core\Engine\SeqNode) {
@@ -155,7 +158,7 @@ class Engine
   {
     return self::$tree->getUndoableMandatoryNode($player);
   }
-  */
+   */
 
   /**
    * Change state
@@ -501,5 +504,5 @@ class Engine
   {
     self::$tree->clearZombieNodes($pId);
   }
-  */
+   */
 }

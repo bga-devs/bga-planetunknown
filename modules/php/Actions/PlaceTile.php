@@ -8,6 +8,7 @@ use PU\Managers\Tiles;
 use PU\Core\Notifications;
 use PU\Core\Engine;
 use PU\Core\Globals;
+use PU\Core\PGlobals;
 use PU\Core\Stats;
 use PU\Helpers\Utils;
 use PU\Helpers\FlowConvertor;
@@ -168,22 +169,21 @@ class PlaceTile extends \PU\Models\Action
 
     $actions = [];
 
-    //ADD EXTRA ACTION EACH TURN
-    if ($player->hasTech(TECH_REPOSITION_ONE_LIFEPOD_EACH_TURN)) {
-      $actions = [
-        'action' => POSITION_LIFEPOD_ON_TRACK,
-        'args' => [
-          'remaining' => 1
-        ]
-      ];
-    }
-
     foreach ($symbols as $symbol) {
       $type = $symbol['type'];
       $tileTypes[] = $type;
 
       if (!$this->getWithBonus()) {
         continue;
+      }
+
+      if ($player->hasTech(TECH_COLLECT_METEOR_FLUX) && $type == PGlobals::getFluxTrack($player->getId)) {
+        $actions[] = [
+          'action' => COLLECT_MEEPLE,
+          'args' => [
+            'type' => METEOR
+          ]
+        ];
       }
 
       // Energy => compute the possible tracks

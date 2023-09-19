@@ -123,14 +123,14 @@ class Corporation1 extends Corporation
   {
     $result = $this->countLevel(TECH);
 
-    if ($action && $result == 2 && !PGlobals::isTech2Used()) {
+    if ($action && $result == 2 && !PGlobals::isTech2Used($this->player->getId())) {
       $action->pushParallelChild([
         'action' => POSITION_LIFEPOD_ON_TRACK,
         'args' => [
           'remaining' => 3
         ]
       ]);
-      PGlobals::setTech2used(true);
+      PGlobals::setTech2used($this->player->getId(), true);
     }
 
     return $result;
@@ -145,5 +145,17 @@ class Corporation1 extends Corporation
       }
     }
     return 0;
+  }
+
+  public function addAutomaticActions(&$actions)
+  {
+    if ($this->player->hasTech(TECH_REPOSITION_ONE_LIFEPOD_EACH_TURN)) {
+      $actions[] = [
+        'action' => POSITION_LIFEPOD_ON_TRACK,
+        'args' => [
+          'remaining' => 1
+        ]
+      ];
+    }
   }
 }
