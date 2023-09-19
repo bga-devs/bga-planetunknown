@@ -206,7 +206,6 @@ class Engine
       // Only one choice : auto choose
       $id = array_keys($choices)[0] ?? null;
       if (
-        false &&
         count($choices) == 1 &&
         count($allChoices) == 1 &&
         array_keys($allChoices) == array_keys($choices) &&
