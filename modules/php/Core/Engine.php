@@ -63,11 +63,11 @@ class Engine
    * Setup the engine, given an array representing a tree
    * @param array $t
    */
-  public function setup($t, $callback, $pIds = null)
+  public function multipleSetup($aTrees, $callback)
   {
     Globals::setCallbackEngineResolved($callback);
     $allPIds = Players::getAll()->getIds();
-    $pIds = $pIds ?? $allPIds;
+    $pIds = array_keys($aTrees);
     if (empty($pIds)) {
       die('Empty pIds on engine setup => should call callback TODO');
     }
@@ -81,8 +81,9 @@ class Engine
     self::$trees = [];
     foreach ($pIds as $pId) {
       // Build the tree while enforcing $pId at root
-      $t['pId'] = $pId;
-      $tree = self::buildTree($t);
+      $aTree = $aTress[$pId];
+      $aTree['pId'] = $pId;
+      $tree = self::buildTree($aTree);
       if (!$tree instanceof \PU\Core\Engine\SeqNode) {
         $tree = new \PU\Core\Engine\SeqNode(['pId' => $pId], [$tree]);
       }
@@ -101,6 +102,23 @@ class Engine
     Globals::setMode(MODE_PRIVATE);
     self::multipleProceed($pIds);
     Log::startEngine();
+  }
+
+  public function setup($t, $callback, $pIds = null)
+  {
+    Globals::setCallbackEngineResolved($callback);
+    $allPIds = Players::getAll()->getIds();
+    $pIds = $pIds ?? $allPIds;
+    if (empty($pIds)) {
+      die('Empty pIds on engine setup => should call callback TODO');
+    }
+
+    $aTrees = [];
+    foreach ($pIds as $pId) {
+      $aTrees[$pId] = $t;
+    }
+
+    self::multipleSetup($aTrees, $callback);
   }
 
   /**
