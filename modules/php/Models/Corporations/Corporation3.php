@@ -13,16 +13,16 @@ class Corporation3 extends Corporation
       1 => [ //TODO
         'text' => clienttranslate('Rover tiles may be placed ignoring placement restrictions.')
       ],
-      2 => [ //TODO
+      2 => [
         'text' => clienttranslate('Gain one movement for each rover carrying a meteorite at round start.')
       ],
-      3 => [ //TODO
+      3 => [
         'text' => clienttranslate('Gain biomass patch when you collect a meteorite.')
       ],
-      4 => [ //TODO
+      4 => [
         'text' => clienttranslate('Destroy a meteorite by delivering it to water terrain.')
       ],
-      5 => [ //TODO
+      5 => [
         'text' => clienttranslate('Advance your rover tracker. Once per round.')
       ],
     ];
@@ -38,4 +38,44 @@ class Corporation3 extends Corporation
     TECH => [null, null, SYNERGY, TECH, null, TECH, 1, TECH, null, null, TECH, null, SYNERGY, 2, TECH, 5]
   ];
   protected $level = 2;
+
+  public function addAutomaticActions(&$actions)
+  {
+    if ($this->player->hasTech(TECH_ADVANCE_ROVER)) {
+      $actions[] = [
+        'action' => MOVE_TRACK,
+        'args' => [
+          'type' => ROVER,
+          'n' => 1,
+          'withBonus' => true
+        ]
+      ];
+    }
+
+    if ($this->player->hasTech(TECH_GET_1_MOVE_CARRYING_METEOR)) {
+      $actions[] = $this->get1MoveCarryingMeteor();
+    }
+  }
+
+  public function get1MoveCarryingMeteor()
+  {
+    $rovers = $this->player->getRoversOnPlanet();
+
+    $move = 0;
+
+    foreach ($rovers as $id => $rover) {
+      if ($this->player->getMeteorOnCell($rover->getCell())) {
+        $move += 1;
+      }
+    }
+
+    if ($move > 0) {
+      return [
+        'action' => MOVE_ROVER,
+        'args' => [
+          'remaining' => $move
+        ]
+      ];
+    }
+  }
 }

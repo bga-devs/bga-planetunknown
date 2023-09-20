@@ -74,23 +74,33 @@ class MoveRover extends \PU\Models\Action
     $cell = Planet::getCellFromId($spaceId);
 
     $rover = Meeples::get($roverId);
+    $meteor = null;
+
+    //horizon group move meteor with rover
+    if ($player->corporation() == HORIZON_GROUP) {
+      $meteor = $player->planet()->getMeteorOnCell($rover->getCell());
+      //can move meteor only if the destination has no meteor yet
+      if (!is_null($meteor) && !$player->planet()->getMeteorOnCell($cell)) {
+        $meteor->placeOnPlanet($cell);
+      } else {
+        $meteor = null; //(meteor has not been moved)
+      }
+    }
 
     // Move it on the board
     $rover->placeOnPlanet($cell);
 
-    Notifications::placeRover($player, $rover);
+    Notifications::moveRover($player, $rover, $meteor);
 
-    //collect meteor
-    $meteor = $player->getMeteorOnCell($cell);
-    if (!is_null($meteor)) {
-      $player->corporation()->collect($meteor);
-      Notifications::collectMeeple($player, [$meteor], 'collect');
+    //if a $meteor has been convoyed on water terrain, it's destroyed
+    if ($meteor && $player->hasTech(TECH_DESTROY_METEORITE_ON_WATER) && $player->planet()->getVisible() == WATER) {
+      $player->corporation->destroy($meteor);
     }
 
-    $lifepod = $player->getLifepodOnCell($cell);
-    if (!is_null($lifepod)) {
-      $player->corporation()->collect($lifepod);
-      Notifications::collectMeeple($player, [$lifepod], 'collect');
+    //collect lifepod or meteor
+    $action = $player->collectOnCell($cell);
+    if ($action) {
+      $this->pushParallelChild($action);
     }
 
     //if move is not ended add a new movement option

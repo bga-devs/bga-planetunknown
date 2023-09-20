@@ -196,6 +196,17 @@ class Notifications
     static::pnotify($player, 'slideMeeple', $msg, $data);
   }
 
+
+  public static function moveRover($player, $rover, $meteor = null)
+  {
+    $msg = clienttranslate('${player_name} moves his rover on his planet');
+    $data = [
+      'player' => $player,
+      'meeples' => $meteor ? [$rover, $meteor] : [$rover],
+    ];
+    static::pnotify($player, 'slideMeeples', $msg, $data);
+  }
+
   public static function placeTile($player, $tile, $meteor, $types)
   {
     self::pnotify(

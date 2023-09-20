@@ -228,6 +228,13 @@ class Corporation
     $meeple->setLocation('corporation');
   }
 
+  public function destroy($meeple)
+  {
+    $meeple->setX('');
+    $meeple->setY('');
+    $meeple->setLocation('trash');
+  }
+
   public function getNCollected($type)
   {
     return Meeples::getOfPlayer($this->player, $type)

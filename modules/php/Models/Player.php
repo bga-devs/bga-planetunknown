@@ -373,4 +373,34 @@ class Player extends \PU\Helpers\DB_Model
       return $this->corporation()->getId() == $corporation && $this->corporation()->getTechLevel() >= $tech;
     }
   }
+
+  public function collectOnCell($cell)
+  {
+    $flow = null;
+
+    //collect meteor
+    $meteor = $this->getMeteorOnCell($cell);
+
+    //Corpo HOrizon Group need to be on Rover terrain to collect meteor
+    if (!is_null($meteor) && ($this->corporation()->getId() != HORIZON_GROUP || $this->planet()->getSymbolAtPos($cell) == ROVER)) {
+      $this->corporation()->collect($meteor);
+      Notifications::collectMeeple($this, [$meteor], 'collect');
+
+      if ($this->hasTech(TECH_GET_BIOMASS_COLLECTING_METEOR)) {
+        $patchToPlace = $this->corporation()->receiveBiomassPatch();
+        if ($patchToPlace) {
+          $flow = Actions::getBiomassPatchFlow($patchToPlace->getId());
+        }
+      }
+    }
+
+    //collect lifepod
+    $lifepod = $this->getLifepodOnCell($cell);
+    if (!is_null($lifepod)) {
+      $this->corporation()->collect($lifepod);
+      Notifications::collectMeeple($this, [$lifepod], 'collect');
+    }
+
+    return $flow;
+  }
 }

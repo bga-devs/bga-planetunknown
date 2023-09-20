@@ -234,6 +234,14 @@ const TECH_UPGRADED_FLUX_TRACK = 'tech_2_3';
 const TECH_COLLECT_METEOR_FLUX = 'tech_2_4';
 const TECH_ADVANCE_FLUX = 'tech_2_5';
 
+const HORIZON_GROUP = 3;
+const TECH_ROVER_TILES_EVERYWHERE = 'tech_3_1';
+const TECH_GET_1_MOVE_CARRYING_METEOR = 'tech_3_2';
+const TECH_GET_BIOMASS_COLLECTING_METEOR = 'tech_3_3';
+const TECH_DESTROY_METEORITE_ON_WATER = 'tech_3_4';
+const TECH_ADVANCE_ROVER = 'tech_3_5';
+
+
 /*
  * Tiles and Space station
  */

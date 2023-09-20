@@ -33,4 +33,12 @@ class Meeple extends \PU\Helpers\DB_Model
     $this->setY('');
     $this->setLocation('trash');
   }
+
+  public function getCell()
+  {
+    return [
+      'x' => $this->getX(),
+      'y' => $this->getY()
+    ];
+  }
 }

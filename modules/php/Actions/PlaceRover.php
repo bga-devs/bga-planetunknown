@@ -76,10 +76,9 @@ class PlaceRover extends \PU\Models\Action
     Notifications::placeRover($player, $rover);
 
     //collect meteor
-    $meteor = $player->getMeteorOnCell($cell);
-    if (!is_null($meteor)) {
-      $player->corporation()->collect($meteor);
-      Notifications::collectMeeple($player, [$meteor], 'collect');
+    $action = $player->collectOnCell($cell);
+    if ($action) {
+      $this->pushParallelChild($action);
     }
   }
 }

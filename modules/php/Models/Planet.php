@@ -573,6 +573,11 @@ class Planet
     return $this->grid[$x][$y]['symbol'];
   }
 
+  public function getSymbolAtPos($cell)
+  {
+    return $this->getSymbol($cell['x'], $cell['y']);
+  }
+
   public function hasMeteorSymbol($x, $y)
   {
     return $this->grid[$x][$y]['meteorSymbol'];
