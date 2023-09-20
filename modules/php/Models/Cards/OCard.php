@@ -45,9 +45,9 @@ class OCard extends \PU\Models\Card
     return $this->neighborSide;
   }
 
-  public function getScoreEntry($player = null)
+  public function score($player = null)
   {
-    return $this->getCard()->getScoreEntry($player);
+    return $this->getCard()->score($player);
   }
 
   public function getType()

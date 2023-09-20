@@ -32,13 +32,6 @@ class Card extends \PU\Helpers\DB_Model
     return Players::get($this->pId);
   }
 
-  public function getScoreEntry($player = null)
-  {
-    return [
-      $this->type . '_' . $this->getId() => $this->score($player),
-    ];
-  }
-
   // Just for testing purpose
   public function jsonSerialize()
   {

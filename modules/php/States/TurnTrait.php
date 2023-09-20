@@ -30,11 +30,12 @@ trait TurnTrait
     $flows = [];
 
     foreach ($players as $pId => $player) {
-      $actions = [
+      $actions = [];
+
+      $actions[] =
         [
           'action' => \PLACE_TILE
-        ]
-      ];
+        ];
 
       //ADD EXTRA ACTION EACH TURN
       $player->corporation()->addAutomaticActions($actions);
@@ -111,7 +112,6 @@ trait TurnTrait
    */
   function stEndOfEventTurn()
   {
-
     $this->gamestate->jumpToState(ST_SETUP_BRANCH);
   }
 

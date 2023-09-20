@@ -239,21 +239,23 @@ class Player extends \PU\Helpers\DB_Model
   {
     $isCurrent = $this->id == $currentPlayerId;
     $result = [];
+    $total = 0;
+
     //count every full row and column
     $result['planet'] = [
       'entries' => $this->planet()->score(),
     ];
-    $scorePlanet = $this->reduce_entries($result['planet']);
-    $result['planet']['total'] = $scorePlanet;
-    $total = $scorePlanet;
 
     //highest value for each tracker in tracks
     $result['tracks'] = [
       'entries' => $this->corporation()->scoreByTracks(),
     ];
-    $scoreTracks = $this->reduce_entries($result['tracks']);
-    $result['tracks']['total'] = $scoreTracks;
-    $total += $scoreTracks;
+
+    foreach ($result as $category => $entries) {
+      $score = $this->reduce_entries($entries);
+      $result[$category]['total'] = $score;
+      $total += $score;
+    }
 
     //lifepods = 1, METEOR = 1/3
     $scoreLifepods = $this->corporation()->scoreByLifepods();
@@ -264,18 +266,20 @@ class Player extends \PU\Helpers\DB_Model
     $result['meteors']['total'] = $scoreMeteors;
     $total += $scoreMeteors;
 
+
+    //Civ Cards and Private Objectives Cards
     $result['civ']['entries'] = [];
     $result['objectives']['entries'] = [];
-    //Civ Cards and Private Objectives Cards
+
     if ($isCurrent) {
       $privateCards = Cards::getInLocation('hand')
         ->where('pId', $this->id);
       foreach ($privateCards as $cardId => $privateCard) {
         if ($privateCard->getType() == 'civCard') {
           if ($privateCard->commerceAgreement) continue;
-          $result['civ']['private_entries'] = $privateCard->getScoreEntry();
+          $result['civ']['private_entries'][$privateCard->getType() . '_' . $cardId] = $privateCard->score();
         } else if ($privateCard->getType() == 'POCard') {
-          $result['objectives']['private_entries'] = array_merge($result['objectives']['entries'], $privateCard->getScoreEntry());
+          $result['objectives']['private_entries'][$privateCard->getType() . '_' . $cardId] = $privateCard->score();
         }
       }
       //special for commerceAgreement
@@ -292,7 +296,7 @@ class Player extends \PU\Helpers\DB_Model
       ->merge(Cards::getInLocation('NOCards')->where('pId2', $this->id));
 
     foreach ($NOCards as $id => $NOcard) {
-      $result['objectives']['entries'] = array_merge($result['objectives']['entries'], $NOcard->getScoreEntry($this));
+      $result['objectives']['entries'][$NOcard->getType() . '_' . $id] = $NOcard->score($this);
     }
 
     $scoreObjectives = $this->reduce_entries($result['objectives']);
@@ -329,6 +333,11 @@ class Player extends \PU\Helpers\DB_Model
   public function emptyEndOfTurnActions()
   {
     PGlobals::setPendingActionsEndOfTurn($this->id, []);
+  }
+
+  public function emptyEndOfGameActions()
+  {
+    PGlobals::setPendingActionsEndOfGame($this->id, []);
   }
 
   public function addEndOfGameAction($flow)

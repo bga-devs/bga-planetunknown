@@ -101,6 +101,15 @@ class Notifications
 
   public static function endOfTurn()
   {
+    $players = Players::getAll();
+
+    foreach ($players as $pId => $player) {
+      $privateData = [
+        'scores' => Players::scores($pId)
+      ];
+      static::notify($player, 'scores', '', $privateData);
+    }
+
     $data = [
       'tiles' => Tiles::getSusan()->toArray(),
     ];
@@ -394,7 +403,7 @@ class Notifications
     if (isset($data['player'])) {
       $data['player_name'] = $data['player']->getName();
       $data['player_id'] = $data['player']->getId();
-      $data['scores'] = Players::scores($data['player']->getId());
+      $data['scores'] = Players::scores($data['player']->getId(), false);
       unset($data['player']);
     }
     if (isset($data['player2'])) {

@@ -51,6 +51,8 @@ trait CivTrait
   {
     Susan::refill();
 
+    Notifications::endOfTurn();
+
     $players = Players::getAll();
     foreach ($players as $pId => $player) {
       $player->emptyEndOfTurnActions();

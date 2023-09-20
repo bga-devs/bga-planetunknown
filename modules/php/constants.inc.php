@@ -91,6 +91,10 @@ const ST_FOO_A = 54;
 const ST_FOO_B = 55;
 const ST_FOO_C = 56;
 
+const ST_PRE_END_GAME_TURN = 80;
+const ST_END_GAME_TURN = 81;
+const ST_POST_END_GAME_TURN = 82;
+
 const ST_SETUP_PRIVATE_ENGINE = 89;
 const ST_RESOLVE_STACK = 90;
 const ST_RESOLVE_CHOICE = 91;

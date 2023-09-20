@@ -145,11 +145,11 @@ class Players extends \PU\Helpers\CachedDB_Manager
       ->toAssoc();
   }
 
-  public static function scores($pId = null)
+  public static function scores($pId = null, $save = false)
   {
     return self::getAll()
-      ->map(function ($player) use ($pId) {
-        return $player->score($pId);
+      ->map(function ($player) use ($pId, $save) {
+        return $player->score($pId, $save);
       })
       ->toAssoc();
   }
