@@ -83,5 +83,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       console.error('Trying to get container of a meeple', meeple);
       return 'game_play_area';
     },
+
+    notif_takeCivCard(n) {
+      debug('Notif: take civ card', n);
+    },
   });
 });

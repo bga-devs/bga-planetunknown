@@ -66,7 +66,7 @@ class Engine
    * Setup the engine, given an array representing a tree
    * @param array $t
    */
-  public function multipleSetup($aTrees, $callback, $descPrefix)
+  public function multipleSetup($aTrees, $callback, $descPrefix = '')
   {
     Globals::setEngineWaitingDescriptionSuffix($descPrefix);
     Globals::setCallbackEngineResolved($callback);

@@ -45,6 +45,7 @@ define([
         ['endOfTurn', 100],
         ['destroyedMeeples', null],
         ['receiveBiomassPatch', null],
+        ['takeCivCard', 1200],
       ];
 
       // Fix mobile viewport (remove CSS zoom)

@@ -68,6 +68,6 @@ class TakeCivCard extends \PU\Models\Action
       $this->insertAsChild($flow);
     }
 
-    Notifications::takeCivCard($player, $cardId, $args['level']);
+    Notifications::takeCivCard($player, $card, $args['level']);
   }
 }

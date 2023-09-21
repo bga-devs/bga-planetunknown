@@ -226,12 +226,17 @@ class Notifications
     );
   }
 
-  public static function takeCivCard($player, $cardId, $level)
+  public static function takeCivCard($player, $card, $level)
   {
+    // Card go to hand ? Hide it!
+    if (Globals::getMode() == MODE_APPLY && $card->getLocation() == 'hand') {
+      $card = ['id' => -1];
+    }
+
     $msg = clienttranslate('${player_name} take a new civ card from deck ${level}');
     $data = [
       'player' => $player,
-      'card' => $cardId,
+      'card' => $card,
       'level' => $level,
     ];
     static::pnotify($player, 'takeCivCard', $msg, $data);
@@ -435,8 +440,11 @@ class Notifications
       $data['i18n'][] = 'types_desc';
     }
 
-    if (isset($data['meeple'])) {
+    if (isset($data['meeple']) && is_object($data['meeple'])) {
       $data['meeple'] = $data['meeple']->jsonSerialize();
+    }
+    if (isset($data['card']) && is_object($data['card'])) {
+      $data['card'] = $data['card']->jsonSerialize();
     }
   }
 }
