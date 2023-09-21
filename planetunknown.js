@@ -31,7 +31,7 @@ define([
 ], function (dojo, declare) {
   return declare('bgagame.planetunknown', [customgame.game, planetunknown.players, planetunknown.meeples, planetunknown.cards], {
     constructor() {
-      this._activeStates = ['placeTile'];
+      this._activeStates = ['chooseRotation'];
       this._notifications = [
         ['clearTurn', 200],
         ['refreshUI', 200],
@@ -214,11 +214,7 @@ define([
       this.setupMeeples();
       this.setupTiles();
       // this.updatePlayersCounters();
-      // this.updateActionCards();
-      // this.updateBreakCounter();
-      // this.updateScoreboardBonuses();
       // this.updateLastRoundBanner();
-      // this.updateCardCosts();
 
       // this.forEachPlayer((player) => {
       //   this._scoreCounters[player.id].toValue(player.newScore);
@@ -276,6 +272,8 @@ define([
       });
 
       if (this._chooseCardModal) this._chooseCardModal.destroy();
+      this._susanModal.hide();
+      $('susan-modal-footer').classList.remove('active');
 
       this.inherited(arguments);
     },
@@ -394,6 +392,40 @@ define([
       // // Worker counter
       // this._playerCounters[player.id]['worker'] = this.createCounter(`counter-${player.id}-worker`, 0);
       // this.updateWorkerCounters();
+    },
+
+    onEnteringStateChooseRotation(args) {
+      this.addPrimaryActionButton('btnZoomIn', _('Zoom in on S.U.S.A.N.'), () => this._susanModal.show());
+      this._susanModal.show();
+
+      // Enable buttons in modal
+      $('susan-modal-footer').classList.add('active');
+      this.onClick('susan-rotate-cclockwise', () => {
+        this.gamedatas.susan.rotation++;
+        this.rotateSusan();
+      });
+      this.onClick('susan-rotate-clockwise', () => {
+        this.gamedatas.susan.rotation--;
+        this.rotateSusan();
+      });
+
+      this.onClick('btnConfirmSusanRotation', () => {
+        this._susanModal.hide();
+        this.takeAction('actChooseRotation', { rotation: this.gamedatas.susan.rotation });
+      });
+
+      // Add buttons in top bar
+      this.addSecondaryActionButton('btnSusanRotateCclockwise', '<svg><use href="#rotate-cclockwise-svg" /></svg>', () => {
+        this.gamedatas.susan.rotation++;
+        this.rotateSusan();
+      });
+      this.addPrimaryActionButton('btnSusanConfirmRotation', _('Confirm'), () => {
+        this.takeAction('actChooseRotation', { rotation: this.gamedatas.susan.rotation });
+      });
+      this.addSecondaryActionButton('btnSusanRotateClockwise', '<svg><use href="#rotate-clockwise-svg" /></svg>', () => {
+        this.gamedatas.susan.rotation--;
+        this.rotateSusan();
+      });
     },
 
     ////////////////////////////////////////
@@ -931,9 +963,14 @@ define([
         title: _('S.U.S.A.N.'),
         closeAction: 'hide',
         verticalAlign: 'flex-start',
-        contentsTpl: `<div id='susan-enlarge'></div>`,
-        onShow: () => $('susan-enlarge').insertAdjacentElement('beforeend', $('susan-container')),
-        onHide: () => $('susan-holder').insertAdjacentElement('beforeend', $('susan-container')),
+        contentsTpl: `<div id='susan-modal-footer'>
+          <div id="susan-rotate-cclockwise"><svg><use href="#rotate-cclockwise-svg" /></svg></div>
+          <a href="#" class="action-button bgabutton bgabutton_blue" id="btnConfirmSusanRotation">${_('Confirm')}</a>
+          <div id="susan-rotate-clockwise"><svg><use href="#rotate-clockwise-svg" /></svg></div>
+        </div>
+        <div id='susan-enlarge'></div>`,
+        onStartShow: () => $('susan-enlarge').insertAdjacentElement('beforeend', $('susan-container')),
+        onStartHide: () => $('susan-holder').insertAdjacentElement('beforeend', $('susan-container')),
       });
       this.onClick('susan-holder', () => this._susanModal.show(), false);
 

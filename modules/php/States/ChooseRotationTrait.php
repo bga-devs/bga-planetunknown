@@ -21,7 +21,6 @@ trait ChooseRotationTrait
   {
     $playerCount = Players::count();
     if ($playerCount < 3) {
-
       $rotation = Globals::getSusanRotation();
       $rotation = ($rotation + 5) % 6;
 
@@ -32,14 +31,9 @@ trait ChooseRotationTrait
 
   public function actChooseRotation($rotation)
   {
-    $player = Players::getActive();
-
     $this->checkAction('actChooseRotation');
-
-    if ($rotation < 0 || $rotation > 5) {
-      throw new \BgaVisibleSystemException('You cannot rotate Susan in position ' . $rotation . '. Should not happen');
-    }
-    Susan::rotate($rotation, $player);
+    $player = Players::getActive();
+    Susan::rotate((($rotation % 6) + 6) % 6, $player);
     $this->gamestate->nextState(Globals::getEventCardsGame());
   }
 }

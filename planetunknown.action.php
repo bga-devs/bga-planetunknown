@@ -29,6 +29,14 @@ class action_planetunknown extends APP_GameAction
     }
   }
 
+  public function actChooseRotation()
+  {
+    self::setAjaxMode();
+    $rotation = (int) self::getArg('rotation', AT_int, true);
+    $this->game->actChooseRotation($rotation);
+    self::ajaxResponse();
+  }
+
   public function actChooseSetup()
   {
     self::setAjaxMode();
@@ -148,22 +156,6 @@ class action_planetunknown extends APP_GameAction
   {
     self::setAjaxMode();
     $this->game->actCancelSelection();
-    self::ajaxResponse();
-  }
-
-  public function actBreakDiscardSelectCards()
-  {
-    self::setAjaxMode();
-    $cardIds = self::getArg('cardIds', AT_json, true);
-    $this->validateJSonAlphaNum($cardIds, 'cardIds');
-    $this->game->actBreakDiscardSelectCards($cardIds);
-    self::ajaxResponse();
-  }
-
-  public function actCancelBreakDiscardSelection()
-  {
-    self::setAjaxMode();
-    $this->game->actCancelBreakDiscardSelection();
     self::ajaxResponse();
   }
 
