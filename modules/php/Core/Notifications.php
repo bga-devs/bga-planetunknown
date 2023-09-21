@@ -34,8 +34,8 @@ class Notifications
   {
     $message =
       $action == 'destroy'
-      ? clienttranslate('${player_name} detroys ${n} ${type} from his planet')
-      : clienttranslate('${player_name} collects ${n} ${type} from his planet');
+        ? clienttranslate('${player_name} detroys ${n} ${type} from his planet')
+        : clienttranslate('${player_name} collects ${n} ${type} from his planet');
     $data = [
       'player' => $player,
       'n' => count($meeples),
@@ -105,7 +105,7 @@ class Notifications
 
     foreach ($players as $pId => $player) {
       $privateData = [
-        'scores' => Players::scores($pId)
+        'scores' => Players::scores($pId),
       ];
       static::notify($player, 'scores', '', $privateData);
     }
@@ -147,8 +147,8 @@ class Notifications
   {
     $message =
       $player == null
-      ? clienttranslate('S.U.S.A.N. rotates.')
-      : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
+        ? clienttranslate('S.U.S.A.N. rotates.')
+        : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
     $data = [
       'player' => $player,
       'newRotation' => $rotation,
@@ -180,11 +180,10 @@ class Notifications
       'player' => $player,
       'meeple' => $meeple,
       'type' => $type,
-      'i18n' => ['type']
+      'i18n' => ['type'],
     ];
     static::pnotify($player, 'slideMeeple', $msg, $data);
   }
-
 
   public static function placeRover($player, $rover)
   {
@@ -434,6 +433,10 @@ class Notifications
     if (isset($data['types'])) {
       $data['types_desc'] = Utils::getTypesDesc($data['types']);
       $data['i18n'][] = 'types_desc';
+    }
+
+    if (isset($data['meeple'])) {
+      $data['meeple'] = $data['meeple']->jsonSerialize();
     }
   }
 }

@@ -97,7 +97,7 @@ class planetunknown extends Table
       'meeples' => Meeples::getUiData(),
       'cards' => Cards::getUiData(),
       'susan' => Susan::getUiData(),
-      'scores' => Players::scores($pId)
+      'scores' => Players::scores($pId),
     ];
   }
 
@@ -205,28 +205,28 @@ class planetunknown extends Table
    *  => this is achieved using custom turn order with an arg containing the eventType
    *  => the custom order will call the genericPlayerCheckListeners that will getReaction from cards if any
    */
-  public function checkCardListeners($typeEvent, $endCallback, $event = [], $order = null)
-  {
-    $event['type'] = $typeEvent;
-    $event['method'] = $typeEvent;
-    $this->initCustomTurnOrder($typeEvent, $order, 'genericPlayerCheckListeners', $endCallback, false, true, $event);
-  }
+  // public function checkCardListeners($typeEvent, $endCallback, $event = [], $order = null)
+  // {
+  //   $event['type'] = $typeEvent;
+  //   $event['method'] = $typeEvent;
+  //   $this->initCustomTurnOrder($typeEvent, $order, 'genericPlayerCheckListeners', $endCallback, false, true, $event);
+  // }
 
-  function genericPlayerCheckListeners($event)
-  {
-    $pId = Players::getActiveId();
-    $event['pId'] = $pId;
-    $reaction = ZooCards::getReaction($event);
+  // function genericPlayerCheckListeners($event)
+  // {
+  //   $pId = Players::getActiveId();
+  //   $event['pId'] = $pId;
+  //   $reaction = ZooCards::getReaction($event);
 
-    if (is_null($reaction)) {
-      // No reaction => just go to next player
-      $this->nextPlayerCustomOrder($event['type']);
-    } else {
-      // Reaction => boot up the Engine
-      Engine::setup($reaction, ['order' => $event['type']]);
-      Engine::proceed();
-    }
-  }
+  //   if (is_null($reaction)) {
+  //     // No reaction => just go to next player
+  //     $this->nextPlayerCustomOrder($event['type']);
+  //   } else {
+  //     // Reaction => boot up the Engine
+  //     Engine::setup($reaction, ['order' => $event['type']]);
+  //     Engine::proceed();
+  //   }
+  // }
 
   ////////////////////////////////////
   ////////////   Zombie   ////////////

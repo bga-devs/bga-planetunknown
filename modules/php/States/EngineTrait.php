@@ -17,6 +17,13 @@ trait EngineTrait
     return true; // AVOID SENDING CHANGE OF STATE
   }
 
+  function argsSetupEngine()
+  {
+    return [
+      'descSuffix' => Globals::getEngineWaitingDescriptionSuffix(),
+    ];
+  }
+
   function addCommonArgs($pId, &$args)
   {
     $args['previousEngineChoices'] = PGlobals::getEngineChoices($pId);

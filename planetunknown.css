@@ -1009,6 +1009,17 @@
             flex-wrap: wrap; }
             .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .meteor-reserve .icon-meteor {
               margin: 5px; }
+          .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .lifepod-reserve {
+            position: absolute;
+            left: 25px;
+            top: 23px;
+            width: 221px;
+            height: 138px;
+            font-size: 12px;
+            display: flex;
+            flex-wrap: wrap; }
+            .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .lifepod-reserve .icon-lifepod {
+              margin: 10px 17px; }
 
 .player-name svg {
   width: 25px;
@@ -2037,12 +2048,14 @@
       transform: scale(1.8);
       transform-origin: top left; }
   #popin_showSusan #susan-modal-footer {
+    display: none;
     min-height: 50px;
     background-color: #e6e6e6d1;
     border-bottom: 1px solid #6a4b2f;
-    display: flex;
     justify-content: space-between;
     align-items: center; }
+    #popin_showSusan #susan-modal-footer.active {
+      display: flex; }
     #popin_showSusan #susan-modal-footer #susan-rotate-cclockwise,
     #popin_showSusan #susan-modal-footer #susan-rotate-clockwise {
       flex-basis: 33%;

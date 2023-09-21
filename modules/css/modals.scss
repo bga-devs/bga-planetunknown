@@ -211,10 +211,14 @@
     }
 
     #susan-modal-footer {
+        display: none;
+        &.active {
+            display: flex;
+        }
+
         min-height: 50px;
         background-color: #e6e6e6d1;
         border-bottom: 1px solid #6a4b2f;
-        display: flex;
         justify-content: space-between;
         align-items: center;
 

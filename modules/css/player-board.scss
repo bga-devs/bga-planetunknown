@@ -217,6 +217,21 @@ $planetGridHeight: 12 * $cellHeight;
                             margin: 5px;
                         }
                     }
+
+                    .lifepod-reserve {
+                        position: absolute;
+                        left: 25px;
+                        top: 23px;
+                        width: 221px;
+                        height: 138px;
+                        font-size: 12px;
+                        display: flex;
+                        flex-wrap: wrap;
+
+                        .icon-lifepod {
+                            margin: 10px 17px;
+                        }
+                    }
                 }
             }
         }

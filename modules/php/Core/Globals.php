@@ -45,6 +45,7 @@ class Globals extends \PU\Helpers\DB_Manager
     'callbackEngineResolved' => 'obj', // DO NOT MODIFY, USED IN ENGINE MODULE
     'anytimeRecursion' => 'int', // DO NOT MODIFY, USED IN ENGINE MODULE
     'customTurnOrders' => 'obj', // DO NOT MODIFY, USED FOR CUSTOM TURN ORDER FEATURE
+    'engineWaitingDescriptionSuffix' => 'str', // DO NOT MODIFY, USED IN ENGINE MODULE
 
     'firstPlayer' => 'int',
 
@@ -60,7 +61,7 @@ class Globals extends \PU\Helpers\DB_Manager
     'eventCardsGame' => 'obj',
     'privateObjectiveCardsGame' => 'bool',
     'turnSpecialRule' => 'str',
-    'gameEnded' => 'bool'
+    'gameEnded' => 'bool',
   ];
 
   protected static $table = 'global_variables';
@@ -81,10 +82,12 @@ class Globals extends \PU\Helpers\DB_Manager
     $tmp = self::$log;
     self::$log = false;
 
-    foreach (self::DB()
-      ->select(['value', 'name'])
-      ->get(false)
-      as $name => $variable) {
+    foreach (
+      self::DB()
+        ->select(['value', 'name'])
+        ->get(false)
+      as $name => $variable
+    ) {
       if (\array_key_exists($name, self::$variables)) {
         self::$data[$name] = $variable;
       }

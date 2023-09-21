@@ -43,6 +43,7 @@ trait CivTrait
         'childs' => $player->getEndOfTurnActions(),
       ],
       ['order' => 'civCardTurn'],
+      'CivCard',
       [$player->getId()]
     );
   }

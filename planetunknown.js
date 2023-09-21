@@ -282,6 +282,10 @@ define([
       debug('Entering state: ' + stateName, args);
       if (this.isFastMode() && ![].includes(stateName)) return;
 
+      if (this._focusedPlayer != null && this._focusedPlayer != this.player_id) {
+        this.goToPlayerBoard(this.player_id);
+      }
+
       if (args.args && args.args.descSuffix) {
         this.changePageTitle(args.args.descSuffix);
       }
@@ -395,6 +399,10 @@ define([
     },
 
     onEnteringStateChooseRotation(args) {
+      if (this.getPlayers().length < 3) {
+        return;
+      }
+
       this.addPrimaryActionButton('btnZoomIn', _('Zoom in on S.U.S.A.N.'), () => this._susanModal.show());
       this._susanModal.show();
 

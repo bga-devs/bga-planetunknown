@@ -174,6 +174,7 @@ $machinestates = [
     'description' => clienttranslate('Waiting for everyone to confirm their moves'),
     'descriptionCivCard' => clienttranslate('Waiting for players to take their civ card'),
     'descriptionmyturn' => '',
+    'args' => 'argsSetupEngine',
     'initialprivate' => ST_INIT_PRIVATE_ENGINE,
     'possibleactions' => ['actCancel'],
     'transitions' => ['done' => ST_APPLY_ENGINE],
