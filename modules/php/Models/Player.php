@@ -251,6 +251,34 @@ class Player extends \PU\Helpers\DB_Model
       'entries' => $this->corporation()->scoreByTracks(),
     ];
 
+    //Civ Cards and Private Objectives Cards
+    $result['civ']['entries'] = [];
+    $result['objectives']['entries'] = [];
+
+    if ($isCurrent) {
+      $privateCards = Cards::getInLocation('hand')
+        ->where('pId', $this->id);
+      foreach ($privateCards as $cardId => $privateCard) {
+        if ($privateCard->getType() == 'civCard') {
+          if ($privateCard->commerceAgreement) continue;
+          $result['civ']['entries'][$privateCard->getType() . '_' . $cardId] = $privateCard->score();
+        } else if ($privateCard->getType() == 'POCard') {
+          $result['objectives']['entries'][$privateCard->getType() . '_' . $cardId] = $privateCard->score();
+        } else die(var_dump($privateCard->getType()));
+      }
+      //special for commerceAgreement
+      $scoreCommerceAgreement = [0, 1, 3, 6, 10];
+      $result['civ']['entries']['commerceAgreement'] = $scoreCommerceAgreement[$this->countMatchingCard('commerceAgreement')];
+    }
+
+    $NOCards = Cards::getInLocation('NOCards')
+      ->where('pId', $this->id)
+      ->merge(Cards::getInLocation('NOCards')->where('pId2', $this->id));
+
+    foreach ($NOCards as $id => $NOcard) {
+      $result['objectives']['entries'][$NOcard->getType() . '_' . $id] = $NOcard->score($this);
+    }
+
     foreach ($result as $category => $entries) {
       $score = $this->reduce_entries($entries);
       $result[$category]['total'] = $score;
@@ -266,42 +294,6 @@ class Player extends \PU\Helpers\DB_Model
     $result['meteors']['total'] = $scoreMeteors;
     $total += $scoreMeteors;
 
-
-    //Civ Cards and Private Objectives Cards
-    $result['civ']['entries'] = [];
-    $result['objectives']['entries'] = [];
-
-    if ($isCurrent) {
-      $privateCards = Cards::getInLocation('hand')
-        ->where('pId', $this->id);
-      foreach ($privateCards as $cardId => $privateCard) {
-        if ($privateCard->getType() == 'civCard') {
-          if ($privateCard->commerceAgreement) continue;
-          $result['civ']['private_entries'][$privateCard->getType() . '_' . $cardId] = $privateCard->score();
-        } else if ($privateCard->getType() == 'POCard') {
-          $result['objectives']['private_entries'][$privateCard->getType() . '_' . $cardId] = $privateCard->score();
-        }
-      }
-      //special for commerceAgreement
-      $scoreCommerceAgreement = [0, 1, 3, 6, 10];
-      $result['civ']['private_entries']['commerceAgreement'] = $scoreCommerceAgreement[$this->countMatchingCard('commerceAgreement')];
-    }
-
-    $scoreCivs = $this->reduce_entries($result['civ']);
-    $result['civ']['total'] = $scoreCivs;
-    $total += $scoreCivs;
-
-    $NOCards = Cards::getInLocation('NOCards')
-      ->where('pId', $this->id)
-      ->merge(Cards::getInLocation('NOCards')->where('pId2', $this->id));
-
-    foreach ($NOCards as $id => $NOcard) {
-      $result['objectives']['entries'][$NOcard->getType() . '_' . $id] = $NOcard->score($this);
-    }
-
-    $scoreObjectives = $this->reduce_entries($result['objectives']);
-    $result['objectives']['total'] = $scoreObjectives;
-    $total += $scoreObjectives;
 
     $result['total'] = $total;
 

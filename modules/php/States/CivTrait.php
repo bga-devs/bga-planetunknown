@@ -40,7 +40,7 @@ trait CivTrait
     Engine::setup(
       [
         'type' => NODE_PARALLEL,
-        'childs' => $player->getEndOfTurnActions(),
+        'childs' => $player->getEndOfTurnActions()
       ],
       ['order' => 'civCardTurn'],
       'CivCard',
@@ -51,6 +51,10 @@ trait CivTrait
   public function stPostChooseCivCard()
   {
     Susan::refill();
+
+    $nextId = Players::getNextId(Globals::getFirstPlayer());
+    Globals::setFirstPlayer($nextId);
+    Notifications::changeFirstPlayer($nextId);
 
     Notifications::endOfTurn();
 

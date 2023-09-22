@@ -125,7 +125,7 @@ class Planet
     $burntColumns = [];
 
     //BIG IF except for Corporation0 tech5
-    if ($this->player->hasTech(TECH_NO_METEOR)) {
+    if (!$this->player->hasTech(TECH_NO_METEOR)) {
       foreach ($meteors as $id => $meteor) {
         $burntColumns[] = $meteor->getX();
         $burntRows[] = $meteor->getY();
@@ -272,7 +272,7 @@ class Planet
           ];
         }
 
-        if ($datas[$i]['meteor']) {
+        if ($datas[$i]['meteor'] && !$this->player->hasTech(TECH_NO_METEOR)) {
           $meteor = $cell;
         }
 

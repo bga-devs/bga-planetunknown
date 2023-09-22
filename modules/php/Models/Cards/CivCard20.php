@@ -10,7 +10,7 @@ use PU\Managers\Cards;
 
 class CivCard20 extends \PU\Models\Cards\CivCard
 {
-  protected $effectType = IMMEDIATE;
+  protected $effectType = END_GAME;
   protected $level = 3;
 
   public function __construct($player)

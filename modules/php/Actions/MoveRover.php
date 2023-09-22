@@ -77,7 +77,7 @@ class MoveRover extends \PU\Models\Action
     $meteor = null;
 
     //horizon group move meteor with rover
-    if ($player->corporation() == HORIZON_GROUP) {
+    if ($player->corporation()->getId() == HORIZON_GROUP) {
       $meteor = $player->planet()->getMeteorOnCell($rover->getCell());
       //can move meteor only if the destination has no meteor yet
       if (!is_null($meteor) && !$player->planet()->getMeteorOnCell($cell)) {

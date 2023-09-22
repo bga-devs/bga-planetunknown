@@ -25,6 +25,17 @@ class ChooseTracks extends \PU\Models\Action
     return $this->getCtxArg('types');
   }
 
+  public function getChoosableTypes()
+  {
+    $types = $this->getTypes();
+    $player = $this->getPlayer();
+
+    return array_values(array_filter(
+      $types,
+      fn ($type) => $player->corporation()->canMoveTrack($type, $this->getN())
+    ));
+  }
+
   //n is the nb of tracks to choose
   public function getN()
   {
@@ -81,10 +92,12 @@ class ChooseTracks extends \PU\Models\Action
   public function argsChooseTracks()
   {
     $player = $this->getPlayer();
+    $choosableTypes = $this->getChoosableTypes();
 
     return [
       'types' => $this->getTypes(),
-      'n' => $this->getN(),
+      'choosableTypes' => $choosableTypes,
+      'n' => min($this->getN(), count($choosableTypes)), //if you can't move N types, you don't HAVE TO, just do your best
       'from' => $this->getFrom()
     ];
   }
