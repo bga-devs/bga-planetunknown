@@ -829,7 +829,7 @@
   .pu-player-board-wrapper .pu-player-board-top {
     display: flex;
     justify-content: center;
-    height: 30px;
+    height: 40px;
     overflow: hidden; }
     .pu-player-board-wrapper .pu-player-board-top:hover {
       z-index: 10;
@@ -849,10 +849,10 @@
         font-size: 25px; }
     .pu-player-board-wrapper .pu-player-board-top .prev-objectives,
     .pu-player-board-wrapper .pu-player-board-top .next-objectives {
-      --cardScale: 0.3;
+      --cardScale: 0.4;
       display: flex;
       align-items: flex-end;
-      margin-bottom: -7px; }
+      margin-bottom: -10px; }
       .pu-player-board-wrapper .pu-player-board-top .prev-objectives .planetunknown-card,
       .pu-player-board-wrapper .pu-player-board-top .next-objectives .planetunknown-card {
         margin-left: 5px; }
@@ -1009,6 +1009,17 @@
             flex-wrap: wrap; }
             .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .meteor-reserve .icon-meteor {
               margin: 5px; }
+          .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .lifepod-reserve {
+            position: absolute;
+            left: 25px;
+            top: 23px;
+            width: 221px;
+            height: 138px;
+            font-size: 12px;
+            display: flex;
+            flex-wrap: wrap; }
+            .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .lifepod-reserve .icon-lifepod {
+              margin: 10px 17px; }
 
 .player-name svg {
   width: 25px;
@@ -2036,6 +2047,42 @@
     #popin_showSusan #susan-enlarge #susan-container {
       transform: scale(1.8);
       transform-origin: top left; }
+  #popin_showSusan #susan-modal-footer {
+    display: none;
+    min-height: 50px;
+    background-color: #e6e6e6d1;
+    border-bottom: 1px solid #6a4b2f;
+    justify-content: space-between;
+    align-items: center; }
+    #popin_showSusan #susan-modal-footer.active {
+      display: flex; }
+    #popin_showSusan #susan-modal-footer #susan-rotate-cclockwise,
+    #popin_showSusan #susan-modal-footer #susan-rotate-clockwise {
+      flex-basis: 33%;
+      height: 48px;
+      background: white;
+      cursor: pointer;
+      text-align: center;
+      padding-top: 2px; }
+      #popin_showSusan #susan-modal-footer #susan-rotate-cclockwise svg,
+      #popin_showSusan #susan-modal-footer #susan-rotate-clockwise svg {
+        height: 45px;
+        width: 50px; }
+    #popin_showSusan #susan-modal-footer #btnConfirmSusanRotation {
+      display: block;
+      flex-basis: 33%;
+      margin: 0;
+      border-radius: 0;
+      height: 37px;
+      display: flex;
+      justify-content: center;
+      align-items: center; }
+
+#btnSusanRotateCclockwise svg,
+#btnSusanRotateClockwise svg {
+  height: 26px;
+  width: 30px;
+  margin: -4px 0px -4px; }
 
 #popin_chooseCard {
   width: 750px;

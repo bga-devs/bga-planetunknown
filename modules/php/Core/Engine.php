@@ -66,8 +66,9 @@ class Engine
    * Setup the engine, given an array representing a tree
    * @param array $t
    */
-  public function multipleSetup($aTrees, $callback)
+  public function multipleSetup($aTrees, $callback, $descPrefix = '')
   {
+    Globals::setEngineWaitingDescriptionSuffix($descPrefix);
     Globals::setCallbackEngineResolved($callback);
     $allPIds = Players::getAll()->getIds();
     $pIds = array_keys($aTrees);
@@ -107,9 +108,8 @@ class Engine
     Log::startEngine();
   }
 
-  public function setup($t, $callback, $pIds = null)
+  public function setup($t, $callback, $descPrefix = '', $pIds = null)
   {
-    Globals::setCallbackEngineResolved($callback);
     $allPIds = Players::getAll()->getIds();
     $pIds = $pIds ?? $allPIds;
     if (empty($pIds)) {
@@ -121,7 +121,7 @@ class Engine
       $aTrees[$pId] = $t;
     }
 
-    self::multipleSetup($aTrees, $callback);
+    self::multipleSetup($aTrees, $callback, $descPrefix);
   }
 
   /**
@@ -212,6 +212,7 @@ class Engine
         count($choices) == 1 &&
         count($allChoices) == 1 &&
         array_keys($allChoices) == array_keys($choices) &&
+        count($node->getChilds()) == 1 &&
         !$choices[$id]['irreversibleAction']
       ) {
         self::chooseNode($player, $id, true);

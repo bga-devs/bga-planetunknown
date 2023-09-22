@@ -209,6 +209,54 @@
             transform-origin: top left;
         }
     }
+
+    #susan-modal-footer {
+        display: none;
+        &.active {
+            display: flex;
+        }
+
+        min-height: 50px;
+        background-color: #e6e6e6d1;
+        border-bottom: 1px solid #6a4b2f;
+        justify-content: space-between;
+        align-items: center;
+
+        #susan-rotate-cclockwise,
+        #susan-rotate-clockwise {
+            flex-basis: 33%;
+            height: 48px;
+            background: white;
+            cursor: pointer;
+            text-align: center;
+            padding-top: 2px;
+
+            svg {
+                height: 45px;
+                width: 50px;
+            }
+        }
+
+        #btnConfirmSusanRotation {
+            display: block;
+            flex-basis: 33%;
+            margin: 0;
+            border-radius: 0;
+            height: 37px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}
+
+#btnSusanRotateCclockwise,
+#btnSusanRotateClockwise {
+    svg {
+        height: 26px;
+        width: 30px;
+        margin: -4px 0px -4px;
+    }
 }
 
 #popin_chooseCard {

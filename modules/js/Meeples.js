@@ -64,7 +64,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     },
 
     getMeepleContainer(meeple) {
-            let t = meeple.location.split('_');
+      let t = meeple.location.split('_');
       if (meeple.location == 'trash') {
         return this.getVisibleTitleContainer();
       }
@@ -76,9 +76,13 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       if (meeple.type == 'rover-meeple' && meeple.location == 'corporation') {
         return $(`rover-reserve-${meeple.pId}`);
       }
-      // Meteor in reserve//TODO HACK
-      if ((meeple.type == 'meteor' || meeple.type ==  'lifepod') && meeple.location == 'corporation') {
+      // Meteor in reserve
+      if (meeple.type == 'meteor' && meeple.location == 'corporation') {
         return $(`meteor-reserve-${meeple.pId}`);
+      }
+      // Lifepod in reserve
+      if (meeple.type == 'lifepod' && meeple.location == 'corporation') {
+        return $(`lifepod-reserve-${meeple.pId}`);
       }
       // Things on tracks
       if (meeple.location == 'corporation') {
@@ -107,6 +111,12 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         // Default delay if not specified
         let delay = config.delay ? config.delay : 100 * i;
         config.delay = 0;
+
+        // Make sure we are looking at other's board
+        if (this._focusedPlayer != null && this._focusedPlayer != resource.pId) {
+          this.goToPlayerBoard(resource.pId);
+        }
+
         // Use meepleContainer if target not specified
         let target = config.target ? config.target : this.getMeepleContainer(resource);
         if (!isVisible(target)) {

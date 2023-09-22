@@ -269,6 +269,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         ${grid}
         <div class='rover-reserve' id='rover-reserve-${pId}'></div>
         <div class='meteor-reserve' id='meteor-reserve-${pId}'></div>
+        <div class='lifepod-reserve' id='lifepod-reserve-${pId}'></div>
         <div class='biomass-patch-holder' id='biomass-reserve-${pId}'></div>
       </div>`;
     },
@@ -635,6 +636,10 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
 
       let tile = n.args.tile;
       let tileId = `tile-${tile.id}`;
+      if (this._focusedPlayer != null && this._focusedPlayer != tile.pId) {
+        this.goToPlayerBoard(tile.pId);
+      }
+
       this.updateTileObj($(tileId), tile);
       this.slide($(tileId), this.getTileContainer(tile)).then(() => {
         if (n.args.meteor) {

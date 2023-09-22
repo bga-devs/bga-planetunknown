@@ -25,7 +25,7 @@ $planetGridHeight: 12 * $cellHeight;
     .pu-player-board-top {
         display: flex;
         justify-content: center;
-        height: 30px;
+        height: 40px;
         overflow: hidden;
         &:hover {
             z-index: 10;
@@ -51,10 +51,10 @@ $planetGridHeight: 12 * $cellHeight;
 
         .prev-objectives,
         .next-objectives {
-            --cardScale: 0.3;
+            --cardScale: 0.4;
             display: flex;
             align-items: flex-end;
-            margin-bottom: -7px;
+            margin-bottom: -10px;
 
             .planetunknown-card {
                 margin-left: 5px;
@@ -215,6 +215,21 @@ $planetGridHeight: 12 * $cellHeight;
 
                         .icon-meteor {
                             margin: 5px;
+                        }
+                    }
+
+                    .lifepod-reserve {
+                        position: absolute;
+                        left: 25px;
+                        top: 23px;
+                        width: 221px;
+                        height: 138px;
+                        font-size: 12px;
+                        display: flex;
+                        flex-wrap: wrap;
+
+                        .icon-lifepod {
+                            margin: 10px 17px;
                         }
                     }
                 }

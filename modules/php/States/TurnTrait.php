@@ -32,24 +32,20 @@ trait TurnTrait
     foreach ($players as $pId => $player) {
       $actions = [];
 
-      $actions[] =
-        [
-          'action' => \PLACE_TILE
-        ];
+      $actions[] = [
+        'action' => \PLACE_TILE,
+      ];
 
       //ADD EXTRA ACTION EACH TURN
       $player->corporation()->addAutomaticActions($actions);
 
       $flows[$pId] = [
         'type' => NODE_PARALLEL,
-        'childs' => $actions
+        'childs' => $actions,
       ];
     }
 
-    Engine::multipleSetup(
-      $flows,
-      ['method' => 'stEndOfTurn']
-    );
+    Engine::multipleSetup($flows, ['method' => 'stEndOfTurn']);
   }
 
   public function stEventCard()
@@ -71,7 +67,9 @@ trait TurnTrait
   function argPlayAfterEventCard()
   {
     return [
-      'eventCardId' => Cards::getTopOf('discard_event')->first()->getId()
+      'eventCardId' => Cards::getTopOf('discard_event')
+        ->first()
+        ->getId(),
     ];
   }
 
@@ -82,19 +80,12 @@ trait TurnTrait
     $card = Cards::get($args['eventCardId']);
 
     $effect = $card->effect();
-    if (is_array($effect)) { //if each player have special flow
+    if (is_array($effect)) {
+      //if each player have special flow
       if (isset($effect['nestedFlows'])) {
-        Engine::multipleSetup(
-          $effect['nestedFlows'],
-          ['method' => 'stEndOfEventTurn'],
-          $pIds
-        );
+        Engine::multipleSetup($effect['nestedFlows'], ['method' => 'stEndOfEventTurn'], 'endOfTurn', $pIds);
       } else {
-        Engine::setup(
-          $effect,
-          ['method' => 'stEndOfEventTurn'],
-          $pIds
-        );
+        Engine::setup($effect, ['method' => 'stEndOfEventTurn'], 'endOfTurn', $pIds);
       }
     } else {
       $this->gamestate->jumpToState(ST_SETUP_BRANCH);
@@ -116,7 +107,7 @@ trait TurnTrait
   }
 
   /**
-   * End of turn : replenish and check break 
+   * End of turn : replenish and check break
    */
   function stEndOfTurn()
   {

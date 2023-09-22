@@ -63,7 +63,7 @@ $machinestates = [
     'description' => clienttranslate('${actplayer} must choose Space Station orientation'),
     'descriptionmyturn' => clienttranslate('${you} must choose Space Station orientation'),
     'action' => 'stChooseRotation',
-    'possibleactions' => ['rotate'],
+    'possibleactions' => ['actChooseRotation'],
     'transitions' => [
       NO_EVENT_CARD_GAME => ST_SETUP_BRANCH,
       EVENT_CARD_GAME => ST_EVENT_CARD,
@@ -174,6 +174,7 @@ $machinestates = [
     'description' => clienttranslate('Waiting for everyone to confirm their moves'),
     'descriptionCivCard' => clienttranslate('Waiting for players to take their civ card'),
     'descriptionmyturn' => '',
+    'args' => 'argsSetupEngine',
     'initialprivate' => ST_INIT_PRIVATE_ENGINE,
     'possibleactions' => ['actCancel'],
     'transitions' => ['done' => ST_APPLY_ENGINE],
