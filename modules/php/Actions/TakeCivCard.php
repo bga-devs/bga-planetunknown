@@ -60,6 +60,7 @@ class TakeCivCard extends \PU\Models\Action
     }
 
     $card = $args['cards'][$cardId];
+    Notifications::takeCivCard($player, $card, $args['level']);
 
     // Place it on the player board or hand
     $flow = $player->takeCivCard($card);
@@ -67,7 +68,5 @@ class TakeCivCard extends \PU\Models\Action
     if ($flow) {
       $this->insertAsChild($flow);
     }
-
-    Notifications::takeCivCard($player, $card, $args['level']);
   }
 }

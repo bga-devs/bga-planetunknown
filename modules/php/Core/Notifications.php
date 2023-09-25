@@ -27,7 +27,7 @@ class Notifications
       'player' => Players::get($playerId),
     ];
     $message = clienttranslate('${player_name} becomes the new Station Commander');
-    static::notifyAll('ChangeFirstPlayer', $message, $data);
+    static::notifyAll('changeFirstPlayer', $message, $data);
   }
 
   public static function removeCivCards()

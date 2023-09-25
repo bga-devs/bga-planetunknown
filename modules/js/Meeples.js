@@ -27,6 +27,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           this.destroy(oMeeple);
         }
       });
+
+      if (!$(`meeple-firstPlayer`)) {
+        console.log($(`firstPlayer-${this.gamedatas.firstPlayer}`), `firstPlayer-${this.gamedatas.firstPlayer}`);
+        this.addMeeple({ id: 'firstPlayer', type: 'first-player' }, $(`firstPlayer-${this.gamedatas.firstPlayer}`));
+      }
       this.updatePlayersCounters();
     },
 
@@ -46,6 +51,12 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       let type = meeple.type;
       if (type == 'lifepod') {
         return [_('Lifepod')];
+      }
+      if (type == 'meteor') {
+        return [_('Meteor')];
+      }
+      if (type == 'first-player') {
+        return [_('Station Commander')];
       }
       return null;
     },
@@ -192,6 +203,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     notif_slideMeeples(n) {
       debug('Notif: sliding meeples', n);
       this.slideResources(n.args.meeples);
+    },
+
+    notif_changeFirstPlayer(n) {
+      debug('Notif: change of first player', n);
+      this.slide($(`meeple-firstPlayer`), $(`firstPlayer-${n.args.player_id}`));
     },
   });
 });

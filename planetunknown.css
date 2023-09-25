@@ -620,6 +620,9 @@
     height: 2.4em;
     transform: translateX(0);
     transition: transform 0.5s; }
+  .planetunknown-meeple.icon-first-player {
+    width: 5em;
+    height: 2.4em; }
 
 .action-button .icon-container ~ .planetunknown-meeple {
   margin-left: 0.5em; }
@@ -1031,6 +1034,13 @@
 .player-info {
   display: flex;
   justify-content: space-between; }
+
+.planetunknown-first-player-holder {
+  position: absolute;
+  height: 40px;
+  right: 49px;
+  top: 7px;
+  width: 80px; }
 
 #tile-controls {
   display: flex;

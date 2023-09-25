@@ -104,6 +104,7 @@ class planetunknown extends Table
       'cards' => Cards::getUiData(),
       'susan' => Susan::getUiData(),
       'scores' => $scores,
+      'firstPlayer' => Globals::getFirstPlayer(),
     ];
   }
 
