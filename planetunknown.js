@@ -214,6 +214,8 @@ define([
       });
       this.setupMeeples();
       this.setupTiles();
+      this.updatePlayersScores();
+      this.rotateSusan();
       // this.updatePlayersCounters();
       // this.updateLastRoundBanner();
 

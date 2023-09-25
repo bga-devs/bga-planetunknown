@@ -24,9 +24,9 @@ class Notifications
   public static function changeFirstPlayer($playerId)
   {
     $data = [
-      "player" => Players::get($playerId)
+      'player' => Players::get($playerId),
     ];
-    $message =  clienttranslate('${player_name} becomes the new Station Commander');
+    $message = clienttranslate('${player_name} becomes the new Station Commander');
     static::notifyAll('ChangeFirstPlayer', $message, $data);
   }
 
@@ -43,8 +43,8 @@ class Notifications
   {
     $message =
       $action == 'destroy'
-      ? clienttranslate('${player_name} detroys ${n} ${type} from his planet')
-      : clienttranslate('${player_name} collects ${n} ${type} from his planet');
+        ? clienttranslate('${player_name} detroys ${n} ${type} from his planet')
+        : clienttranslate('${player_name} collects ${n} ${type} from his planet');
     $data = [
       'player' => $player,
       'n' => count($meeples),
@@ -121,7 +121,7 @@ class Notifications
 
     $data = [
       'tiles' => Tiles::getSusan()->toArray(),
-      'firstPlayerId' => Globals::getFirstPlayer()
+      'firstPlayerId' => Globals::getFirstPlayer(),
     ];
     static::notifyAll('endOfTurn', '', $data);
   }
@@ -157,8 +157,8 @@ class Notifications
   {
     $message =
       $player == null
-      ? clienttranslate('S.U.S.A.N. rotates.')
-      : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
+        ? clienttranslate('S.U.S.A.N. rotates.')
+        : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
     $data = [
       'player' => $player,
       'newRotation' => $rotation,
@@ -204,7 +204,6 @@ class Notifications
     ];
     static::pnotify($player, 'slideMeeple', $msg, $data);
   }
-
 
   public static function moveRover($player, $rover, $meteor = null)
   {
@@ -381,6 +380,8 @@ class Notifications
       'players' => $datas['players'],
       'tiles' => $datas['tiles'],
       'meeples' => $datas['meeples'],
+      'susan' => $datas['susan'],
+      'scores' => $datas['scores'],
     ];
 
     // foreach ($fDatas['cards'] as $i => $card) {
