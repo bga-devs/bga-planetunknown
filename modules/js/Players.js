@@ -1,8 +1,5 @@
 define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (dojo, declare) => {
-  const PLAYER_COUNTERS = ['appeal', 'reputation', 'conservation', 'money', 'handCount', 'scoringHandCount', 'xtoken', 'income'];
-  const RESOURCES = [];
-  const ALL_PLAYER_COUNTERS = PLAYER_COUNTERS.concat(RESOURCES);
-  const COUNTER_MEEPLES = ['reputation', 'conservation', 'appeal'];
+  const PLAYER_COUNTERS = ['handCount', 'civPlayedCount'];
 
   const SCORE_CATEGORIES = ['planet', 'tracks', 'lifepods', 'meteors', 'civ', 'objectives', 'total'];
   const SCORE_MULTIPLE_ENTRIES = ['civ', 'objectives'];
@@ -106,8 +103,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
 
       this.rotateSusan();
       this.setupPlayersScores();
-      // this.setupPlayersCounters();
-      // this.activateShowTileHelperButtons();
+      this.setupPlayersCounters();
     },
 
     onChangeHandLocationSetting(v) {
@@ -270,6 +266,12 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
     tplPlayerPanel(player) {
       return `<div class="planetunknown-first-player-holder" id="firstPlayer-${player.id}"></div>
       <div class='player-info'>
+        <div class='civ-hand'>
+          <span id='counter-${player.id}-civPlayedCount'>0</span>
+          +
+          <span id='counter-${player.id}-handCount'>0</span>
+          ${this.formatIcon('civ')}
+        </div>
       </div>`;
     },
 
@@ -285,41 +287,13 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
      * Create all the counters for player panels
      */
     setupPlayersCounters() {
-      return ''; // TODO
-
       this._playerCounters = {};
-      this._playerCountersMeeples = {};
-      this._scoreCounters = {};
       this.forEachPlayer((player) => {
         this._playerCounters[player.id] = {};
-        this._playerCountersMeeples[player.id] = {};
-        ALL_PLAYER_COUNTERS.forEach((res) => {
+        PLAYER_COUNTERS.forEach((res) => {
           let v = player[res];
           this._playerCounters[player.id][res] = this.createCounter(`counter-${player.id}-${res}`, v);
-
-          if (COUNTER_MEEPLES.includes(res)) {
-            this._playerCountersMeeples[player.id][res] = this.addMeeple({
-              id: `${res}-${player.id}`,
-              pId: player.id,
-              type: 'cylinder',
-              location: `${res}_${v}`,
-            });
-          }
         });
-        this._scoreCounters[player.id] = this.createCounter('player_new_score_' + player.id, player.newScore);
-
-        // DUPLICATED CYLINDER FOR CONSERVATION
-        this._playerCountersMeeples[player.id]['conservation-duplicate'] = this.addMeeple({
-          id: `conservation-duplicate-${player.id}`,
-          pId: player.id,
-          type: 'cylinder',
-          location: `conservation-duplicate_${player.conservation}`,
-        });
-
-        // Worker counter
-        if ($(`counter-${player.id}-worker`)) {
-          this._playerCounters[player.id]['worker'] = this.createCounter(`counter-${player.id}-worker`, 0);
-        }
       });
       this.updatePlayersCounters(false);
     },
@@ -328,73 +302,12 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
      * Update all the counters in player panels according to gamedatas, useful for reloading
      */
     updatePlayersCounters(anim = true) {
-      return ''; // TODO
-
       this.forEachPlayer((player) => {
         PLAYER_COUNTERS.forEach((res) => {
           let value = player[res];
           this._playerCounters[player.id][res].goTo(value, anim);
-
-          // Slide meeples
-          if (COUNTER_MEEPLES.includes(res)) {
-            let meeple = this._playerCountersMeeples[player.id][res];
-            let container = this.getMeepleContainer({
-              location: `${res}_${value}`,
-              pId: player.id,
-            });
-            if (meeple.parentNode != container) {
-              if (anim) {
-                this.slide(meeple, container);
-              } else {
-                dojo.place(meeple, container);
-              }
-            }
-
-            // DUPLICATED CONSERVATION
-            if (res == 'conservation') {
-              meeple = this._playerCountersMeeples[player.id]['conservation-duplicate'];
-              container = this.getMeepleContainer({
-                location: `conservation-duplicate_${value}`,
-                pId: player.id,
-              });
-              if (meeple.parentNode != container) {
-                if (anim) {
-                  this.slide(meeple, container);
-                } else {
-                  dojo.place(meeple, container);
-                }
-              }
-            }
-          }
         });
       });
-
-      this.updateWorkerCounters(anim);
-      this.updateDuplicateConservationBoard();
-      this.updatePlayersIconsSummaries();
-    },
-
-    updateWorkerCounters(anim = true) {
-      this.forEachPlayer((player) => {
-        if (!this._playerCounters[player.id]['worker']) return;
-
-        let pId = player.id;
-        let workers = $(`reserve-${pId}`).querySelectorAll('.icon-worker').length;
-        this._playerCounters[pId]['worker'].goTo(workers, anim);
-      });
-    },
-
-    /**
-     * Use this tpl for any counters that represent qty of meeples in "reserve", eg xtokens
-     */
-    tplResourceCounter(player, res, prefix = '') {
-      return this.formatString(`
-        <div class='player-resource resource-${res}'>
-          <span id='${prefix}counter-${player.id}-${res}' 
-            class='${prefix}resource-${res}'></span>${this.formatIcon(res)}
-          <div class='reserve' id='${prefix}reserve-${player.id}-${res}'></div>
-        </div>
-      `);
     },
 
     /**

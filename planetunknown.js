@@ -217,7 +217,7 @@ define([
       this.setupTiles();
       this.updatePlayersScores();
       this.rotateSusan();
-      // this.updatePlayersCounters();
+      this.updatePlayersCounters();
       // this.updateLastRoundBanner();
 
       // this.forEachPlayer((player) => {

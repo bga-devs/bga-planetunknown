@@ -194,11 +194,11 @@ class Player extends \PU\Helpers\DB_Model
       if (in_array($contraint, FORBIDDEN_TERRAINS)) {
         $neighbours = array_filter(
           $neighbours,
-          fn ($cell) => $this->planet->getVisible($cell['x'], $cell['y']) != FORBIDDEN_TERRAINS[$contraint]
+          fn($cell) => $this->planet->getVisible($cell['x'], $cell['y']) != FORBIDDEN_TERRAINS[$contraint]
         );
       }
 
-      $spaceIds[$roverId] = array_map(fn ($cell) => Planet::getCellId($cell), $neighbours);
+      $spaceIds[$roverId] = array_map(fn($cell) => Planet::getCellId($cell), $neighbours);
     }
 
     return $spaceIds;
@@ -213,9 +213,21 @@ class Player extends \PU\Helpers\DB_Model
   {
     $data = parent::getUiData();
     $current = $this->id == $currentPlayerId;
-    $data['cardsInHand'] = $current ? Cards::getInLocation('hand', $this->id) : Cards::countInLocation('hand', $this->id);
-    $data['civCard'] = Cards::getInLocation('table', $this->id);
+    $data['hand'] = $current ? $this->getHand() : [];
+    $data['handCount'] = $this->getHand()->count();
+    $data['civPlayed'] = $this->getPlayedCivCards();
+    $data['civPlayedCount'] = $this->getPlayedCivCards()->count();
     return $data;
+  }
+
+  public function getHand()
+  {
+    return Cards::getInLocation('hand')->where('pId', $this->id);
+  }
+
+  public function getPlayedCivCards()
+  {
+    return Cards::getInLocation('playedCivCards')->where('pId', $this->id);
   }
 
   public function getPref($prefId)
@@ -256,15 +268,18 @@ class Player extends \PU\Helpers\DB_Model
     $result['objectives']['entries'] = [];
 
     if ($isCurrent) {
-      $privateCards = Cards::getInLocation('hand')
-        ->where('pId', $this->id);
+      $privateCards = $this->getHand();
       foreach ($privateCards as $cardId => $privateCard) {
         if ($privateCard->getType() == 'civCard') {
-          if ($privateCard->commerceAgreement) continue;
+          if ($privateCard->commerceAgreement) {
+            continue;
+          }
           $result['civ']['entries'][$privateCard->getType() . '_' . $cardId] = $privateCard->score();
-        } else if ($privateCard->getType() == 'POCard') {
+        } elseif ($privateCard->getType() == 'POCard') {
           $result['objectives']['entries'][$privateCard->getType() . '_' . $cardId] = $privateCard->score();
-        } else die(var_dump($privateCard->getType()));
+        } else {
+          die(var_dump($privateCard->getType()));
+        }
       }
       //special for commerceAgreement
       $scoreCommerceAgreement = [0, 1, 3, 6, 10];
@@ -294,7 +309,6 @@ class Player extends \PU\Helpers\DB_Model
     $result['meteors']['total'] = $scoreMeteors;
     $total += $scoreMeteors;
 
-
     $result['total'] = $total;
 
     if ($save) {
@@ -307,7 +321,7 @@ class Player extends \PU\Helpers\DB_Model
 
   public static function reduce_entries($array)
   {
-    return array_reduce($array['entries'], fn ($sum, $item) => $sum + $item, 0);
+    return array_reduce($array['entries'], fn($sum, $item) => $sum + $item, 0);
   }
 
   public function addEndOfTurnAction($flow)
@@ -374,7 +388,10 @@ class Player extends \PU\Helpers\DB_Model
     $meteor = $this->getMeteorOnCell($cell);
 
     //Corpo HOrizon Group need to be on Rover terrain to collect meteor
-    if (!is_null($meteor) && ($this->corporation()->getId() != HORIZON_GROUP || $this->planet()->getSymbolAtPos($cell) == ROVER)) {
+    if (
+      !is_null($meteor) &&
+      ($this->corporation()->getId() != HORIZON_GROUP || $this->planet()->getSymbolAtPos($cell) == ROVER)
+    ) {
       $this->corporation()->collect($meteor);
       Notifications::collectMeeple($this, [$meteor], 'collect');
 
