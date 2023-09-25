@@ -90,14 +90,20 @@ class planetunknown extends Table
   public function getAllDatas()
   {
     $pId = self::getCurrentPId();
+    $scores = Players::scores($pId);
+    $players = Players::getUiData($pId);
+    foreach ($players as $pId => &$infos) {
+      $infos['score'] = $scores[$pId]['total'];
+    }
+
     return [
       'prefs' => Preferences::getUiData($pId),
-      'players' => Players::getUiData($pId),
+      'players' => $players,
       'tiles' => Tiles::getUiData(),
       'meeples' => Meeples::getUiData(),
       'cards' => Cards::getUiData(),
       'susan' => Susan::getUiData(),
-      'scores' => Players::scores($pId),
+      'scores' => $scores,
     ];
   }
 
