@@ -43,8 +43,8 @@ class Notifications
   {
     $message =
       $action == 'destroy'
-        ? clienttranslate('${player_name} detroys ${n} ${type} from his planet')
-        : clienttranslate('${player_name} collects ${n} ${type} from his planet');
+      ? clienttranslate('${player_name} detroys ${n} ${type} from his planet')
+      : clienttranslate('${player_name} collects ${n} ${type} from his planet');
     $data = [
       'player' => $player,
       'n' => count($meeples),
@@ -157,8 +157,8 @@ class Notifications
   {
     $message =
       $player == null
-        ? clienttranslate('S.U.S.A.N. rotates.')
-        : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
+      ? clienttranslate('S.U.S.A.N. rotates.')
+      : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
     $data = [
       'player' => $player,
       'newRotation' => $rotation,
@@ -249,7 +249,7 @@ class Notifications
   public static function takeCivCard($player, $card, $level)
   {
     // Card go to hand ? Hide it!
-    if (Globals::getMode() == MODE_APPLY && $card->getLocation() == 'hand') {
+    if (Globals::getMode() == MODE_APPLY && $card->getLocation() == 'hand_civ') {
       $card = ['id' => -1];
     }
 
@@ -396,16 +396,16 @@ class Notifications
     ]);
   }
 
-  public static function refreshHand($player, $hand)
-  {
-    foreach ($hand as &$card) {
-      $card = self::filterCardDatas($card);
-    }
-    self::notify($player, 'refreshHand', '', [
-      'player' => $player,
-      'hand' => $hand,
-    ]);
-  }
+  // public static function refreshHand($player, $hand)
+  // {
+  //   foreach ($hand as &$card) {
+  //     $card = self::filterCardDatas($card);
+  //   }
+  //   self::notify($player, 'refreshHand', '', [
+  //     'player' => $player,
+  //     'hand' => $hand,
+  //   ]);
+  // }
 
   public static function flush()
   {

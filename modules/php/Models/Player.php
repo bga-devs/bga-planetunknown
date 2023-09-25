@@ -79,7 +79,7 @@ class Player extends \PU\Helpers\DB_Model
       $card->setLocation('playedCivCards');
       return $flow;
     } else {
-      $card->setLocation('hand');
+      $card->setLocation('hand_civ');
       $this->addEndOfGameAction($flow);
     }
   }
@@ -88,7 +88,7 @@ class Player extends \PU\Helpers\DB_Model
   {
     $cards = Cards::getAll()
       ->where('pId', $this->id)
-      ->where('location', 'hand');
+      ->where('location', ['hand_obj', 'hand_civ']);
 
     $result = 0;
     foreach ($cards as $cardId => $card) {
@@ -194,11 +194,11 @@ class Player extends \PU\Helpers\DB_Model
       if (in_array($contraint, FORBIDDEN_TERRAINS)) {
         $neighbours = array_filter(
           $neighbours,
-          fn($cell) => $this->planet->getVisible($cell['x'], $cell['y']) != FORBIDDEN_TERRAINS[$contraint]
+          fn ($cell) => $this->planet->getVisible($cell['x'], $cell['y']) != FORBIDDEN_TERRAINS[$contraint]
         );
       }
 
-      $spaceIds[$roverId] = array_map(fn($cell) => Planet::getCellId($cell), $neighbours);
+      $spaceIds[$roverId] = array_map(fn ($cell) => Planet::getCellId($cell), $neighbours);
     }
 
     return $spaceIds;
@@ -213,16 +213,22 @@ class Player extends \PU\Helpers\DB_Model
   {
     $data = parent::getUiData();
     $current = $this->id == $currentPlayerId;
-    $data['hand'] = $current ? $this->getHand() : [];
+    $data['hand_civ'] = $current ? $this->getHandCiv() : [];
+    $data['hand_obj'] = $current ? $this->getHandObj() : [];
     $data['handCount'] = $this->getHand()->count();
     $data['civPlayed'] = $this->getPlayedCivCards();
     $data['civPlayedCount'] = $this->getPlayedCivCards()->count();
     return $data;
   }
 
-  public function getHand()
+  public function getHandCiv()
   {
-    return Cards::getInLocation('hand')->where('pId', $this->id);
+    return Cards::getInLocation('hand_civ')->where('pId', $this->id);
+  }
+
+  public function getHandObj()
+  {
+    return Cards::getInLocation('hand_obj')->where('pId', $this->id);
   }
 
   public function getPlayedCivCards()
@@ -321,7 +327,7 @@ class Player extends \PU\Helpers\DB_Model
 
   public static function reduce_entries($array)
   {
-    return array_reduce($array['entries'], fn($sum, $item) => $sum + $item, 0);
+    return array_reduce($array['entries'], fn ($sum, $item) => $sum + $item, 0);
   }
 
   public function addEndOfTurnAction($flow)

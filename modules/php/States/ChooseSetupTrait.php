@@ -31,7 +31,7 @@ trait ChooseSetupTrait
         'choice' => $choices[$pId] ?? null,
         'planet' => $planetId ? [0, $planetId] : [0],
         'corporation' => $corporationId ? [0, $corporationId] : [0],
-        'POCards' => Cards::getInLocation('hand')->where('pId', $pId)->getIds(),
+        'POCards' => Cards::getInLocation('hand_obj')->where('pId', $pId)->getIds(),
       ];
     }
 

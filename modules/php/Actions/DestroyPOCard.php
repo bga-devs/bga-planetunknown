@@ -27,11 +27,8 @@ class DestroyPOCard extends \PU\Models\Action
     $player = $this->getPlayer();
 
     $cards = Cards::getAll()
-      ->where('location', 'hand')
-      ->where('pId', $player->getId())
-      ->filter(function ($card) {
-        return $card->type == 'POCard';
-      });
+      ->where('location', 'hand_obj')
+      ->where('pId', $player->getId());
 
     return [
       'cards' => $cards
@@ -42,11 +39,9 @@ class DestroyPOCard extends \PU\Models\Action
   {
     $player = $this->getPlayer();
     $cardsIds = Cards::getAll()
-      ->where('location', 'hand')
+      ->where('location', 'hand_obj')
       ->where('pId', $player->getId())
-      ->filter(function ($card) {
-        return $card->type == 'POCard';
-      })->getIds();
+      ->getIds();
 
     if (!in_array($cardId, $cardsIds)) {
       throw new \BgaVisibleSystemException('You cannot discard this card ' . $cardId . '. Should not happen');

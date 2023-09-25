@@ -27,7 +27,7 @@ class EventCard67 extends \PU\Models\Cards\EventCard
   public function effect()
   {
     $player = Players::getAll()->first(); // as it is solo card
-    $card = Cards::pickOneForLocation('deck_objectives', 'hand', $player->getId());
+    $card = Cards::pickOneForLocation('deck_objectives', 'hand_obj', $player->getId());
 
     Notifications::getNewCard($player, $card);
   }

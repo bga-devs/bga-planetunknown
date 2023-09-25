@@ -21,7 +21,7 @@ class Actions
     //from event card 
     CHOOSE_ROTATION_ENGINE, DESTROY_P_O_CARD, PLACE_MEEPLE,
     //from corpo
-    POSITION_LIFEPOD_ON_TRACK,
+    POSITION_LIFEPOD_ON_TRACK, CHOOSE_FLUX_TRACK
   ];
 
   public static function getBiomassPatchFlow($patchId)
