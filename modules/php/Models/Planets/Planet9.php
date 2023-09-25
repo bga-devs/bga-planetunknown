@@ -26,7 +26,7 @@ class Planet9 extends \PU\Models\Planet
   public function __construct($player)
   {
     $this->name = clienttranslate('Pajitnov');
-    $this->desc = clienttranslate('You must be able to slide your tiles into place.');
+    $this->desc = clienttranslate('You must be able to slide your tiles into place.'); // TODOTissac
     parent::__construct($player);
   }
 }

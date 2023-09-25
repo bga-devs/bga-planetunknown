@@ -26,7 +26,7 @@ class Planet1 extends \PU\Models\Planet
   public function __construct($player)
   {
     $this->name = clienttranslate('Arashi');
-    $this->desc = clienttranslate('Every Tile placed onto the planet\'s ring must also be anchored outside the ring.');
+    $this->desc = clienttranslate('Every Tile placed onto the planet\'s ring must also be anchored outside the ring.'); // TODOTissac
     parent::__construct($player);
   }
 }

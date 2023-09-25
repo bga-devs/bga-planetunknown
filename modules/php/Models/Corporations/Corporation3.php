@@ -10,7 +10,7 @@ class Corporation3 extends Corporation
     $this->desc = clienttranslate('To Collect meteorite, your rover must pick it up and deliver it to a rover resource on your planet.'); //TODO
 
     $this->techBonuses = [
-      1 => [ //TODO
+      1 => [ //TODOTissac
         'text' => clienttranslate('Rover tiles may be placed ignoring placement restrictions.')
       ],
       2 => [

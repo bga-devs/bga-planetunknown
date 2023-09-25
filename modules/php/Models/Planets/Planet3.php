@@ -26,7 +26,7 @@ class Planet3 extends \PU\Models\Planet
   public function __construct($player)
   {
     $this->name = clienttranslate('Charybdis');
-    $this->desc = clienttranslate('First tile placement must cover one of the central four squares.');
+    $this->desc = clienttranslate('First tile placement must cover one of the central four squares.'); // TODOTissac
     parent::__construct($player);
   }
 }

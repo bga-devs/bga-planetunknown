@@ -15,7 +15,7 @@ class Corporation1 extends Corporation
 
     $this->techBonuses = [
       1 => [
-        'text' => clienttranslate('Your rover may move diagonally;')
+        'text' => clienttranslate('Your rover may move diagonally')
       ],
       2 => [
         'text' => clienttranslate('Reposition three collected lifepods immediately. Once per game.')
