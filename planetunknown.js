@@ -885,6 +885,21 @@ define([
       this.addPrimaryActionButton('showDeck', _('Show deck'), () => this._chooseCardModal.show());
     },
 
+    onEnteringStateCollectMeeple(args) {
+      let spaces = {};
+      args.meeples.forEach((spaceId) => {
+        let t = spaceId.split('_');
+        let oCell = this.getPlanetCell(this.player_id, t[0], t[1]);
+        spaces[spaceId] = oCell;
+      });
+
+      this.onSelectN({
+        elements: spaces,
+        n: args.n,
+        callback: (selectedSpaces) => this.takeAtomicAction('actCollectMeeple', [selectedSpaces]),
+      });
+    },
+
     ////////////////////////////////////////////////////////////
     // _____                          _   _   _
     // |  ___|__  _ __ _ __ ___   __ _| |_| |_(_)_ __   __ _
