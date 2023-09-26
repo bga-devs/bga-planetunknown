@@ -238,9 +238,10 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
           }
           let timing = this[functionName](args);
           if (args.args.scores) {
-            let pId = args.args.player_id;
-            this.gamedatas.scores[pId] = args.args.scores[pId];
-            this.updatePlayerScores(pId);
+            Object.keys(args.args.scores).forEach((pId) => {
+              this.gamedatas.scores[pId] = args.args.scores[pId];
+              this.updatePlayerScores(pId);
+            });
           }
           if (timing === undefined) {
             if (notif[1] === undefined) {
