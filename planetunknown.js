@@ -839,6 +839,9 @@ define([
       Object.keys(args.spaceIds).forEach((roverId) => {
         this.onClick(`meeple-${roverId}`, () => selectRover(roverId));
       });
+      let roverIds = Object.keys(args.spaceIds);
+      if (args.currentRoverId != '') selectRover(args.currentRoverId);
+      else if (roverIds.length == 1) selectRover(roverIds[0]);
 
       let selectedSpace = null;
       let selectedCell = null;
@@ -848,9 +851,11 @@ define([
         selectedSpace = spaceId;
         selectedCell = cell;
         cell.classList.add('selected');
-        this.addPrimaryActionButton('btnConfirm', _('Confirm'), () =>
-          this.takeAtomicAction('actMoveRover', [selectedRover, selectedSpace])
-        );
+        this.takeAtomicAction('actMoveRover', [selectedRover, selectedSpace]);
+
+        // this.addPrimaryActionButton('btnConfirm', _('Confirm'), () =>
+        //   this.takeAtomicAction('actMoveRover', [selectedRover, selectedSpace])
+        // );
       };
     },
 
