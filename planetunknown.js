@@ -218,6 +218,7 @@ define([
       this.updatePlayersScores();
       this.rotateSusan();
       this.updatePlayersCounters();
+      this.updateHand();
       // this.updateLastRoundBanner();
 
       // this.forEachPlayer((player) => {
@@ -860,7 +861,7 @@ define([
         title: this.fsr(_('CIV cards of level ${level}'), { level: args.level }),
         closeAction: 'hide',
         verticalAlign: 'flex-start',
-        contentsTpl: `<div id='planetunknown-choose-card'></div><div id="planetunknown-choose-card-footer"></div>`,
+        contentsTpl: `<div id='planetunknown-choose-card'></div><div id="planetunknown-choose-card-footer" class="active"></div>`,
         autoShow: true,
       });
 

@@ -32,6 +32,10 @@
         padding-left: 4px;
         box-shadow: 2px 2px 3px black;
         cursor: pointer;
+        position: relative;
+        .planetunknown-card {
+            position: absolute;
+        }
     }
 }
 

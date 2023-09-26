@@ -17,26 +17,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         card.pId = tmp;
         this.addCard(card);
       });
-      //   // This function is refreshUI compatible
-      //   let meepleIds = this.gamedatas.meeples.map((meeple) => {
-      //     if (!$(`meeple-${meeple.id}`)) {
-      //       this.addMeeple(meeple);
-      //     }
-      //     let o = $(`meeple-${meeple.id}`);
-      //     if (!o) return null;
-      //     let container = this.getMeepleContainer(meeple);
-      //     if (o.parentNode != $(container)) {
-      //       dojo.place(o, container);
-      //     }
-      //     o.dataset.state = meeple.state;
-      //     return meeple.id;
-      //   });
-      //   document.querySelectorAll('.planetunknown-meeple[id^="meeple-"]').forEach((oMeeple) => {
-      //     if (!meepleIds.includes(parseInt(oMeeple.getAttribute('data-id'))) && oMeeple.getAttribute('data-type') != 'cylinder') {
-      //       this.destroy(oMeeple);
-      //     }
-      //   });
-      //   this.updatePlayersCounters();
 
       this._fakeCardCounter = -2;
       this._handModals = {};
@@ -58,6 +38,19 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         Object.values(player.handCiv).forEach((card) => {
           this.addCard(card, `cards-${player.id}`);
         });
+      });
+    },
+
+    updateHand() {
+      let pId = this.player_id;
+      let player = this.gamedatas.players[pId];
+      this.empty(`cards-${pId}`);
+      Object.values(player.playedCiv).forEach((card) => {
+        this.addCard(card, `cards-${player.id}`);
+      });
+
+      Object.values(player.handCiv).forEach((card) => {
+        this.addCard(card, `cards-${player.id}`);
       });
     },
 
@@ -120,6 +113,30 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
     notif_takeCivCard(n) {
       debug('Notif: take civ card', n);
+      if ($('planetunknown-choose-card-footer')) $('planetunknown-choose-card-footer').remove();
+
+      let pId = n.args.player_id;
+      let card = n.args.card;
+
+      let oCard = null;
+      // Private notif
+      if (card.id < 0) {
+        this.addCard(card, 'planetunknown-main-container');
+        oCard = $(`card-${card.uid}`);
+      }
+      // Public notif
+      else {
+        if (!$(`card-${card.id}`)) this.addCard(card, 'planetunknown-main-container');
+        oCard = $(`card-${card.id}`);
+      }
+      console.log(oCard);
+
+      this.slide(oCard, `civ-cards-indicator-${pId}`).then(() => {
+        dojo.place(oCard, `cards-${pId}`);
+        let counter = card.location == 'playedCivCards' ? 'playedCivCount' : 'handCivCount';
+        this.gamedatas.players[pId][counter]++;
+        this._playerCounters[pId][counter].incValue(1);
+      });
     },
   });
 });

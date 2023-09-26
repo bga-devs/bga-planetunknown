@@ -43,8 +43,8 @@ class Notifications
   {
     $message =
       $action == 'destroy'
-      ? clienttranslate('${player_name} detroys ${n} ${type} from his planet')
-      : clienttranslate('${player_name} collects ${n} ${type} from his planet');
+        ? clienttranslate('${player_name} detroys ${n} ${type} from his planet')
+        : clienttranslate('${player_name} collects ${n} ${type} from his planet');
     $data = [
       'player' => $player,
       'n' => count($meeples),
@@ -157,8 +157,8 @@ class Notifications
   {
     $message =
       $player == null
-      ? clienttranslate('S.U.S.A.N. rotates.')
-      : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
+        ? clienttranslate('S.U.S.A.N. rotates.')
+        : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
     $data = [
       'player' => $player,
       'newRotation' => $rotation,
@@ -250,7 +250,8 @@ class Notifications
   {
     // Card go to hand ? Hide it!
     if (Globals::getMode() == MODE_APPLY && $card->getLocation() == 'hand_civ') {
-      $card = ['id' => -1];
+      $cards = Utils::filterPrivateDatas([$card]);
+      $card = $cards[0];
     }
 
     $msg = clienttranslate('${player_name} take a new civ card from deck ${level}');

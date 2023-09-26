@@ -74,12 +74,19 @@ class Player extends \PU\Helpers\DB_Model
   public function takeCivCard($card)
   {
     $card->setPId($this->id);
-    $flow = $card->effect();
     if ($card->getEffectType() == IMMEDIATE) {
       $card->setLocation('playedCivCards');
-      return $flow;
     } else {
       $card->setLocation('hand_civ');
+    }
+  }
+
+  public function activateCivCard($card)
+  {
+    $flow = $card->effect();
+    if ($card->getEffectType() == IMMEDIATE) {
+      return $flow;
+    } else {
       $this->addEndOfGameAction($flow);
     }
   }
