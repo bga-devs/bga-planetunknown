@@ -430,6 +430,14 @@
   .planetunknown-card[data-type="civCard"] .card-inner[data-id="40"] {
     background-position-x: 100%;
     background-position-y: 100%; }
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="-1"][data-level="1"] {
+    background-position: 25% 100%; }
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="-1"][data-level="2"] {
+    background-position: 50% 100%; }
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="-1"][data-level="3"] {
+    background-position: 75% 100%; }
+  .planetunknown-card[data-type="civCard"] .card-inner[data-id="-1"][data-level="4"] {
+    background-position: 100% 100%; }
 
 .planetunknown-card[data-type="NOCard"] {
   width: calc(var(--cardScale) * 396px);
@@ -1919,15 +1927,22 @@
 #popin_showSettings,
 #popin_showSusan,
 #popin_showScores,
-#popin_chooseCard {
+#popin_chooseCard,
+.planetunknown_popin_cards {
   background-color: #ebd5bd;
   border-radius: 8px;
   box-shadow: 0 3px 8px black;
   position: relative; }
   #popin_showSettings .planetunknown_popin_closeicon,
+  #popin_showSettings .planetunknown_popin_cards_closeicon,
   #popin_showSusan .planetunknown_popin_closeicon,
+  #popin_showSusan .planetunknown_popin_cards_closeicon,
   #popin_showScores .planetunknown_popin_closeicon,
-  #popin_chooseCard .planetunknown_popin_closeicon {
+  #popin_showScores .planetunknown_popin_cards_closeicon,
+  #popin_chooseCard .planetunknown_popin_closeicon,
+  #popin_chooseCard .planetunknown_popin_cards_closeicon,
+  .planetunknown_popin_cards .planetunknown_popin_closeicon,
+  .planetunknown_popin_cards .planetunknown_popin_cards_closeicon {
     background-color: #a47a77;
     border-radius: 50%;
     width: 40px;
@@ -1943,21 +1958,34 @@
     border: 1px solid #35302d;
     z-index: 2; }
     #popin_showSettings .planetunknown_popin_closeicon:hover,
+    #popin_showSettings .planetunknown_popin_cards_closeicon:hover,
     #popin_showSusan .planetunknown_popin_closeicon:hover,
+    #popin_showSusan .planetunknown_popin_cards_closeicon:hover,
     #popin_showScores .planetunknown_popin_closeicon:hover,
-    #popin_chooseCard .planetunknown_popin_closeicon:hover {
+    #popin_showScores .planetunknown_popin_cards_closeicon:hover,
+    #popin_chooseCard .planetunknown_popin_closeicon:hover,
+    #popin_chooseCard .planetunknown_popin_cards_closeicon:hover,
+    .planetunknown_popin_cards .planetunknown_popin_closeicon:hover,
+    .planetunknown_popin_cards .planetunknown_popin_cards_closeicon:hover {
       text-decoration: none;
       color: #ccc !important;
       transform: scale(1.1); }
     #popin_showSettings .planetunknown_popin_closeicon i,
+    #popin_showSettings .planetunknown_popin_cards_closeicon i,
     #popin_showSusan .planetunknown_popin_closeicon i,
+    #popin_showSusan .planetunknown_popin_cards_closeicon i,
     #popin_showScores .planetunknown_popin_closeicon i,
-    #popin_chooseCard .planetunknown_popin_closeicon i {
+    #popin_showScores .planetunknown_popin_cards_closeicon i,
+    #popin_chooseCard .planetunknown_popin_closeicon i,
+    #popin_chooseCard .planetunknown_popin_cards_closeicon i,
+    .planetunknown_popin_cards .planetunknown_popin_closeicon i,
+    .planetunknown_popin_cards .planetunknown_popin_cards_closeicon i {
       margin-top: -2px; }
   #popin_showSettings h2,
   #popin_showSusan h2,
   #popin_showScores h2,
-  #popin_chooseCard h2 {
+  #popin_chooseCard h2,
+  .planetunknown_popin_cards h2 {
     font-family: MyriadPro-Semibold;
     text-align: center;
     font-size: 25px;
@@ -2126,6 +2154,17 @@
     border-bottom-right-radius: 8px;
     text-align: right;
     padding: 0px 10px; }
+
+.planetunknown_popin_cards {
+  width: 750px;
+  min-height: 300px; }
+  .planetunknown_popin_cards .modal-cards-holder {
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; }
+    .planetunknown_popin_cards .modal-cards-holder .planetunknown-card {
+      margin: 7px; }
 
 @font-face {
   font-family: "HemiHead";

@@ -37,10 +37,34 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       //     }
       //   });
       //   this.updatePlayersCounters();
+
+      this._fakeCardCounter = -2;
+      this._handModals = {};
+      this.orderedPlayers.forEach((player, i) => {
+        this._handModals[player.id] = new customgame.modal('showCards' + player.id, {
+          class: 'planetunknown_popin_cards',
+          closeIcon: 'fa-times',
+          title: _('Cards of ') + `<span style='color:#${player.color}'>${player.name}</span>`,
+          closeAction: 'hide',
+          verticalAlign: 'flex-start',
+          contentsTpl: `<div class='modal-cards-holder' id='cards-${player.id}'></div>`,
+        });
+        this.onClick(`civ-cards-indicator-${player.id}`, () => this._handModals[player.id].show(), false);
+
+        Object.values(player.playedCiv).forEach((card) => {
+          this.addCard(card, `cards-${player.id}`);
+        });
+
+        Object.values(player.handCiv).forEach((card) => {
+          this.addCard(card, `cards-${player.id}`);
+        });
+      });
     },
 
     addCard(card, location = null) {
       card.uid = card.uid || card.id;
+      if (card.uid == -1) card.uid = this._fakeCardCounter--;
+
       if ($('card-' + card.uid)) return;
 
       let o = this.place('tplCard', card, location == null ? this.getCardContainer(card) : location);
@@ -53,13 +77,23 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     },
 
     getCardTooltip(card) {
+      if (card.id < 0) {
+        if (card.type == 'civCard') {
+          return [this.fsr(_('Civ Card of level ${lvl}'), { lvl: card.level })];
+        }
+        return [_('TODO')];
+      }
+
       return [_(card.title), _(card.desc)];
     },
 
     tplCard(card) {
       let uid = card.uid || card.id;
-      return `<div id="card-${uid}" data-type="${card.type}" class="planetunknown-card">
-        <div class='card-inner' data-id="${card.id}"></div>
+      let level = '';
+      if (card.level) level = `data-level="${card.level}"`;
+
+      return `<div id="card-${uid}" data-type="${card.type}" class="planetunknown-card ${card.id < 0 ? 'fake' : ''}">
+        <div class='card-inner' data-id="${card.id}" ${level}></div>
       </div>`;
     },
 

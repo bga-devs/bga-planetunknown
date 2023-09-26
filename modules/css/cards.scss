@@ -41,6 +41,19 @@
             background-position-y: (($i - ($i % 5)) / 5) * 100% / 7;
         }
     }
+
+    &[data-id="-1"][data-level="1"] {
+        background-position: 25% 100%;
+    }
+    &[data-id="-1"][data-level="2"] {
+        background-position: 50% 100%;
+    }
+    &[data-id="-1"][data-level="3"] {
+        background-position: 75% 100%;
+    }
+    &[data-id="-1"][data-level="4"] {
+        background-position: 100% 100%;
+    }
 }
 
 .planetunknown-card[data-type="NOCard"] {

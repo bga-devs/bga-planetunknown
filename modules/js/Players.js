@@ -1,5 +1,5 @@
 define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (dojo, declare) => {
-  const PLAYER_COUNTERS = ['handCount', 'civPlayedCount'];
+  const PLAYER_COUNTERS = ['handCivCount', 'playedCivCount'];
 
   const SCORE_CATEGORIES = ['planet', 'tracks', 'lifepods', 'meteors', 'civ', 'objectives', 'total'];
   const SCORE_MULTIPLE_ENTRIES = ['civ', 'objectives'];
@@ -266,10 +266,11 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
     tplPlayerPanel(player) {
       return `<div class="planetunknown-first-player-holder" id="firstPlayer-${player.id}"></div>
       <div class='player-info'>
-        <div class='civ-hand'>
-          <span id='counter-${player.id}-civPlayedCount'>0</span>
+        <div class='civ-hand' id='civ-cards-indicator-${player.id}'>
+          <span id='counter-${player.id}-playedCivCount'>0</span>!
           +
-          <span id='counter-${player.id}-handCount'>0</span>
+          <span id='counter-${player.id}-handCivCount'>0</span>
+          •
           ${this.formatIcon('civ')}
         </div>
       </div>`;

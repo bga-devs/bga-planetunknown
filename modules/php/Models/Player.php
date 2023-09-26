@@ -194,11 +194,11 @@ class Player extends \PU\Helpers\DB_Model
       if (in_array($contraint, FORBIDDEN_TERRAINS)) {
         $neighbours = array_filter(
           $neighbours,
-          fn ($cell) => $this->planet->getVisible($cell['x'], $cell['y']) != FORBIDDEN_TERRAINS[$contraint]
+          fn($cell) => $this->planet->getVisible($cell['x'], $cell['y']) != FORBIDDEN_TERRAINS[$contraint]
         );
       }
 
-      $spaceIds[$roverId] = array_map(fn ($cell) => Planet::getCellId($cell), $neighbours);
+      $spaceIds[$roverId] = array_map(fn($cell) => Planet::getCellId($cell), $neighbours);
     }
 
     return $spaceIds;
@@ -213,11 +213,12 @@ class Player extends \PU\Helpers\DB_Model
   {
     $data = parent::getUiData();
     $current = $this->id == $currentPlayerId;
-    $data['hand_civ'] = $current ? $this->getHandCiv() : [];
-    $data['hand_obj'] = $current ? $this->getHandObj() : [];
-    $data['handCount'] = $this->getHand()->count();
-    $data['civPlayed'] = $this->getPlayedCivCards();
-    $data['civPlayedCount'] = $this->getPlayedCivCards()->count();
+    $hand = $this->getHandCiv();
+    $data['handCiv'] = $current ? $hand : Utils::filterPrivateDatas($hand);
+    $data['handCivCount'] = $this->getHandCiv()->count();
+    $data['playedCiv'] = $this->getPlayedCivCards();
+    $data['playedCivCount'] = $this->getPlayedCivCards()->count();
+    $data['handObj'] = $current ? $this->getHandObj() : [];
     return $data;
   }
 
@@ -229,6 +230,11 @@ class Player extends \PU\Helpers\DB_Model
   public function getHandObj()
   {
     return Cards::getInLocation('hand_obj')->where('pId', $this->id);
+  }
+
+  public function getHand()
+  {
+    return $this->getHandCiv()->merge($this->getHandObj());
   }
 
   public function getPlayedCivCards()
@@ -327,7 +333,7 @@ class Player extends \PU\Helpers\DB_Model
 
   public static function reduce_entries($array)
   {
-    return array_reduce($array['entries'], fn ($sum, $item) => $sum + $item, 0);
+    return array_reduce($array['entries'], fn($sum, $item) => $sum + $item, 0);
   }
 
   public function addEndOfTurnAction($flow)
