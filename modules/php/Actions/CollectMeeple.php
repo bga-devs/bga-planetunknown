@@ -53,10 +53,11 @@ class CollectMeeple extends \PU\Models\Action
 
   public function getCollectableMeeples($player)
   {
-    $meeples = $player->getMeeples($this->getType())
+    $meeples = $player
+      ->getMeeples($this->getType())
       ->where('location', $this->getLocation())
       ->toArray();
-    return array_map(fn ($meeple) => $meeple->getX() . '_' . $meeple->getY(), $meeples);
+    return array_map(fn($meeple) => $meeple->getX() . '_' . $meeple->getY(), $meeples);
   }
 
   public function argsCollectMeeple()
@@ -69,7 +70,7 @@ class CollectMeeple extends \PU\Models\Action
       'action' => $this->getAction() == 'destroy' ? clienttranslate('destroy') : clienttranslate('collect'),
       'type' => $this->getType() == LIFEPOD ? clienttranslate('lifepod(s)') : clienttranslate('rover(s)'),
       'n' => min($this->getN(), count($collectableMeeples)),
-      'i18n' => ['action', 'type']
+      'i18n' => ['action', 'type'],
     ];
   }
 
@@ -84,6 +85,7 @@ class CollectMeeple extends \PU\Models\Action
 
     // take meeples
     $meeples = [];
+    $type = $this->getType();
 
     foreach ($spaceIds as $spaceId) {
       if (!in_array($spaceId, $args['meeples'])) {
@@ -91,12 +93,11 @@ class CollectMeeple extends \PU\Models\Action
       }
 
       $cell = Planet::getCellFromId($spaceId);
-
-      $meeples[] = $player->getMeepleOnCell($cell, $args['type']);
+      $meeples[] = $player->getMeepleOnCell($cell, $type);
     }
 
     //move them
-    if ($args['action'] == "destroy") {
+    if ($args['action'] == 'destroy') {
       foreach ($meeples as $meeple) {
         $meeple->destroy();
       }

@@ -218,6 +218,7 @@ define([
       this.updatePlayersScores();
       this.rotateSusan();
       this.updatePlayersCounters();
+      this.updateHand();
       // this.updateLastRoundBanner();
 
       // this.forEachPlayer((player) => {
@@ -838,6 +839,9 @@ define([
       Object.keys(args.spaceIds).forEach((roverId) => {
         this.onClick(`meeple-${roverId}`, () => selectRover(roverId));
       });
+      let roverIds = Object.keys(args.spaceIds);
+      if (args.currentRoverId != '') selectRover(args.currentRoverId);
+      else if (roverIds.length == 1) selectRover(roverIds[0]);
 
       let selectedSpace = null;
       let selectedCell = null;
@@ -847,9 +851,11 @@ define([
         selectedSpace = spaceId;
         selectedCell = cell;
         cell.classList.add('selected');
-        this.addPrimaryActionButton('btnConfirm', _('Confirm'), () =>
-          this.takeAtomicAction('actMoveRover', [selectedRover, selectedSpace])
-        );
+        this.takeAtomicAction('actMoveRover', [selectedRover, selectedSpace]);
+
+        // this.addPrimaryActionButton('btnConfirm', _('Confirm'), () =>
+        //   this.takeAtomicAction('actMoveRover', [selectedRover, selectedSpace])
+        // );
       };
     },
 
@@ -860,7 +866,7 @@ define([
         title: this.fsr(_('CIV cards of level ${level}'), { level: args.level }),
         closeAction: 'hide',
         verticalAlign: 'flex-start',
-        contentsTpl: `<div id='planetunknown-choose-card'></div><div id="planetunknown-choose-card-footer"></div>`,
+        contentsTpl: `<div id='planetunknown-choose-card'></div><div id="planetunknown-choose-card-footer" class="active"></div>`,
         autoShow: true,
       });
 
@@ -882,6 +888,21 @@ define([
       });
 
       this.addPrimaryActionButton('showDeck', _('Show deck'), () => this._chooseCardModal.show());
+    },
+
+    onEnteringStateCollectMeeple(args) {
+      let spaces = {};
+      args.meeples.forEach((spaceId) => {
+        let t = spaceId.split('_');
+        let oCell = this.getPlanetCell(this.player_id, t[0], t[1]);
+        spaces[spaceId] = oCell;
+      });
+
+      this.onSelectN({
+        elements: spaces,
+        n: args.n,
+        callback: (selectedSpaces) => this.takeAtomicAction('actCollectMeeple', [selectedSpaces]),
+      });
     },
 
     ////////////////////////////////////////////////////////////

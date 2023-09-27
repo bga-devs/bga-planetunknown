@@ -1,13 +1,15 @@
 #popin_showSettings,
 #popin_showSusan,
 #popin_showScores,
-#popin_chooseCard {
+#popin_chooseCard,
+.planetunknown_popin_cards {
     background-color: #ebd5bd;
     border-radius: 8px;
     box-shadow: 0 3px 8px black;
     position: relative;
 
-    .planetunknown_popin_closeicon {
+    .planetunknown_popin_closeicon,
+    .planetunknown_popin_cards_closeicon {
         background-color: #a47a77;
         border-radius: 50%;
         width: 40px;
@@ -282,5 +284,21 @@
         border-bottom-right-radius: 8px;
         text-align: right;
         padding: 0px 10px;
+    }
+}
+
+.planetunknown_popin_cards {
+    width: 750px;
+    min-height: 300px;
+
+    .modal-cards-holder {
+        padding: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        .planetunknown-card {
+            margin: 7px;
+        }
     }
 }

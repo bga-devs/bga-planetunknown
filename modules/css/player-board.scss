@@ -6,6 +6,11 @@ $planetGridHeight: 12 * $cellHeight;
 #planetunknown-main-container {
     display: flex;
     flex-wrap: wrap;
+    position: relative;
+
+    & > .planetunknown-card {
+        position: absolute;
+    }
 }
 
 [data-player-boards-layout="0"] #planetunknown-main-container {
@@ -128,8 +133,8 @@ $planetGridHeight: 12 * $cellHeight;
                                 position: absolute;
 
                                 &.icon-rover-meeple {
-                                    top: 17px;
-                                    left: 5px;
+                                    top: 12px;
+                                    left: 4px;
                                 }
 
                                 &.icon-lifepod {

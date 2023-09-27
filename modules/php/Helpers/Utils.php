@@ -5,6 +5,23 @@ use PU\Managers\ActionCards;
 
 abstract class Utils extends \APP_DbObject
 {
+  public static function filterPrivateDatas($cards)
+  {
+    $t = [];
+    foreach ($cards as $card) {
+      $d = $card->jsonSerialize();
+      $t[] = [
+        'id' => -1,
+        'pId' => $d['pId'],
+        'location' => $d['location'],
+        'type' => $d['type'],
+        'level' => $d['level'] ?? 0,
+      ];
+    }
+
+    return $t;
+  }
+
   public static function filter(&$data, $filter)
   {
     $data = array_values(array_filter($data, $filter));

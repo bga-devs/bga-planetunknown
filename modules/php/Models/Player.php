@@ -74,12 +74,19 @@ class Player extends \PU\Helpers\DB_Model
   public function takeCivCard($card)
   {
     $card->setPId($this->id);
-    $flow = $card->effect();
     if ($card->getEffectType() == IMMEDIATE) {
       $card->setLocation('playedCivCards');
-      return $flow;
     } else {
       $card->setLocation('hand_civ');
+    }
+  }
+
+  public function activateCivCard($card)
+  {
+    $flow = $card->effect();
+    if ($card->getEffectType() == IMMEDIATE) {
+      return $flow;
+    } else {
       $this->addEndOfGameAction($flow);
     }
   }
@@ -213,11 +220,12 @@ class Player extends \PU\Helpers\DB_Model
   {
     $data = parent::getUiData();
     $current = $this->id == $currentPlayerId;
-    $data['hand_civ'] = $current ? $this->getHandCiv() : [];
-    $data['hand_obj'] = $current ? $this->getHandObj() : [];
-    $data['handCount'] = $this->getHand()->count();
-    $data['civPlayed'] = $this->getPlayedCivCards();
-    $data['civPlayedCount'] = $this->getPlayedCivCards()->count();
+    $hand = $this->getHandCiv();
+    $data['handCiv'] = $current ? $hand : Utils::filterPrivateDatas($hand);
+    $data['handCivCount'] = $this->getHandCiv()->count();
+    $data['playedCiv'] = $this->getPlayedCivCards();
+    $data['playedCivCount'] = $this->getPlayedCivCards()->count();
+    $data['handObj'] = $current ? $this->getHandObj() : [];
     return $data;
   }
 
@@ -233,9 +241,7 @@ class Player extends \PU\Helpers\DB_Model
 
   public function getHand()
   {
-    return Cards::getAll()
-      ->where('location', ['hand_obj', 'hand_civ'])
-      ->where('pId', $this->id);
+    return $this->getHandCiv()->merge($this->getHandObj());
   }
 
   public function getPlayedCivCards()

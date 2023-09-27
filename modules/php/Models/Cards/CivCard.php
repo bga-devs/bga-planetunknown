@@ -12,6 +12,7 @@ use PU\Managers\Players;
 
 class CivCard extends \PU\Models\Card
 {
+  protected $staticAttributes = ['title', 'desc', 'type', 'level'];
   protected $effectType = ''; //IMMEDIATE OR END_GAME
   protected $type = 'civCard';
   protected $level = ''; //1,2,3 or 4

@@ -19,7 +19,7 @@
     justify-content: space-between;
 
     .civ-hand {
-        width: 80px;
+        width: 100px;
         height: 35px;
         display: flex;
         justify-content: space-around;
@@ -32,6 +32,10 @@
         padding-left: 4px;
         box-shadow: 2px 2px 3px black;
         cursor: pointer;
+        position: relative;
+        .planetunknown-card {
+            position: absolute;
+        }
     }
 }
 
