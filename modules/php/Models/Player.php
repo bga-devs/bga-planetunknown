@@ -249,6 +249,11 @@ class Player extends \PU\Helpers\DB_Model
     return Cards::getInLocation('playedCivCards')->where('pId', $this->id);
   }
 
+  public function getPlayedObjCards()
+  {
+    return Cards::getInLocation('playedObjCards')->where('pId', $this->id);
+  }
+
   public function getPref($prefId)
   {
     return Preferences::get($this->id, $prefId);
@@ -287,25 +292,28 @@ class Player extends \PU\Helpers\DB_Model
     $result['objectives']['entries'] = [];
 
     if ($isCurrent) {
-      $privateCards = $this->getHand();
-      foreach ($privateCards as $cardId => $privateCard) {
-        if ($privateCard->getType() == 'civCard') {
-          if ($privateCard->commerceAgreement) {
-            continue;
-          }
-          $result['civ']['entries'][$privateCard->getType() . '_' . $cardId] = $privateCard->score();
-        } elseif ($privateCard->getType() == 'POCard') {
-          $result['objectives']['entries'][$privateCard->getType() . '_' . $cardId] = $privateCard->score();
-        } else {
-          die(var_dump($privateCard->getType()));
-        }
+      $cards = $this->getHandCiv();
+      foreach ($cards as $cardId => $card) {
+        $result['civ']['entries'][$card->getType() . '_' . $cardId] = $card->score();
+      }
+      $cards = $this->getHandObj();
+      foreach ($cards as $cardId => $card) {
+        $result['objectives']['entries'][$card->getType() . '_' . $cardId] = $card->score();
       }
       //special for commerceAgreement
       $scoreCommerceAgreement = [0, 1, 3, 6, 10];
       $result['civ']['entries']['commerceAgreement'] = $scoreCommerceAgreement[$this->countMatchingCard('commerceAgreement')];
     }
 
+    $civCards = $this->getPlayedCivCards();
+    foreach ($civCards as $cardId => $card) {
+      $result['civ']['entries'][$card->getType() . '_' . $cardId] = $card->score();
+    }
 
+    $objCards = $this->getPlayedObjCards();
+    foreach ($objCards as $cardId => $card) {
+      $result['objectives']['entries'][$card->getType() . '_' . $cardId] = $card->score();
+    }
 
     $NOCards = Cards::getInLocation('NOCards')
       ->where('pId', $this->id)

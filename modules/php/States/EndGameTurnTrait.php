@@ -30,6 +30,8 @@ trait EndGameTrait
     Notifications::revealCards();
 
     Notifications::scores();
+
+    $this->gamestate->nextState('');
   }
 
   public function stEndGameTurn()
@@ -75,8 +77,18 @@ trait EndGameTrait
     //Game end if no player has gain an extra end of turn action
     if ($newTurn) {
       $this->gamestate->nextState('newTurn');
-    }
+    } else {
+      $objCardIds = Cards::getAll()
+        ->where('location', 'hand_obj')
+        ->getIds();
 
-    $this->gamestate->nextState('endGame');
+      Cards::move($objCardIds, 'playedObjCards');
+
+      Notifications::revealCards();
+
+      Notifications::scores();
+
+      $this->gamestate->nextState('endGame');
+    }
   }
 }

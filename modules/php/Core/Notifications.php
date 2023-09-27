@@ -43,8 +43,8 @@ class Notifications
   {
     $message =
       $action == 'destroy'
-        ? clienttranslate('${player_name} detroys ${n} ${type} from his planet')
-        : clienttranslate('${player_name} collects ${n} ${type} from his planet');
+      ? clienttranslate('${player_name} detroys ${n} ${type} from his planet')
+      : clienttranslate('${player_name} collects ${n} ${type} from his planet');
     $data = [
       'player' => $player,
       'n' => count($meeples),
@@ -170,8 +170,8 @@ class Notifications
   {
     $message =
       $player == null
-        ? clienttranslate('S.U.S.A.N. rotates.')
-        : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
+      ? clienttranslate('S.U.S.A.N. rotates.')
+      : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
     $data = [
       'player' => $player,
       'newRotation' => $rotation,
@@ -404,11 +404,13 @@ class Notifications
       'meeples' => $datas['meeples'],
       'susan' => $datas['susan'],
       'scores' => $datas['scores'],
+      // 'cards' => $datas['cards']
     ];
 
-    foreach ($fDatas['cards'] as $i => $card) {
-      $fDatas['cards'][$i] = self::filterCardDatas($card);
-    }
+    //TODOTissac
+    // foreach ($fDatas['cards'] as $i => $card) {
+    //   $fDatas['cards'][$i] = self::filterCardDatas($card);
+    // }
     foreach ($fDatas['players'] as &$player) {
       $player['hand'] = []; // Hide hand !
     }

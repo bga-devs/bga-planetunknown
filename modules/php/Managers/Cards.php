@@ -65,7 +65,7 @@ class Cards extends \PU\Helpers\CachedPieces
     for ($i = 29; $i <= 36; $i++) {
       $data[] = [
         // 'id' => $i,
-        'location' => 'deck_civ_' . ((($i - 28) % 4) + 1),
+        'location' => 'deck_civ_' . ((($i - 29) % 4) + 1),
       ];
     }
     for ($i = 37; $i <= 64; $i++) {
