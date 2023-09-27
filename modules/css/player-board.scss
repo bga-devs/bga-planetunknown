@@ -109,11 +109,25 @@ $planetGridHeight: 12 * $cellHeight;
                         grid-template-columns: repeat(13, 71px);
                         grid-template-rows: repeat(13, 71px);
 
-                        .planet-grid-cell {
+                        .tile-container {
                             z-index: 2;
-                            position: relative;
+                            .tile-inner {
+                                clip-path: none !important;
+                            }
+                        }
 
-                            &.selectable {
+                        .planet-grid-cell-overlay {
+                            z-index: 1;
+                            position: relative;
+                            background: #ffffff60;
+                        }
+
+                        .planet-grid-cell {
+                            z-index: 3;
+                            position: relative;
+                            border: 2px solid transparent;
+
+                            &.selectable:not(.unselectable) {
                                 border: 2px dashed white;
                                 background: #f7b1b190;
                                 cursor: pointer;
@@ -123,8 +137,8 @@ $planetGridHeight: 12 * $cellHeight;
                                 }
                             }
 
-                            &.selected,
-                            &.selected:hover {
+                            &.selected:not(.unselectable),
+                            &.selected:not(.unselectable):hover {
                                 border: 2px solid #0f5308;
                                 background: #7dfc83a1;
                             }
@@ -133,18 +147,18 @@ $planetGridHeight: 12 * $cellHeight;
                                 position: absolute;
 
                                 &.icon-rover-meeple {
-                                    top: 12px;
-                                    left: 4px;
+                                    top: 10px;
+                                    left: 2px;
                                 }
 
                                 &.icon-lifepod {
-                                    top: 4px;
-                                    left: 14px;
+                                    top: 2px;
+                                    left: 12px;
                                 }
 
                                 &.icon-meteor {
-                                    top: 5px;
-                                    left: 3px;
+                                    top: 3px;
+                                    left: 1px;
                                 }
                             }
                         }

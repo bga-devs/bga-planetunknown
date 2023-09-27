@@ -200,9 +200,12 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         for (let x = -1; x < 12; x++) {
           let uid = x + '_' + y;
           let className = '';
-          let content = '';
           let style = `grid-row: ${y + 2}; grid-column: ${x + 2}`;
           planetGrid += `<div class='planet-grid-cell${className}' style='${style}' data-x='${x}' data-y='${y}'></div>`;
+
+          // White overlay
+          if (planet.terrains[y] && planet.terrains[y][x] && planet.terrains[y][x] != 'nothing')
+            planetGrid += `<div class='planet-grid-cell-overlay' style='${style}'></div>`;
         }
       }
       planetGrid += '</div>';

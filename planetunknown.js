@@ -578,6 +578,12 @@ define([
     // | |___|  _|  _|  __/ (__| |_\__ \
     // |_____|_| |_|  \___|\___|\__|___/
     ///////////////////////////////////////
+    onLeavingStatePlaceTile() {
+      [...$(`planet-${this.player_id}`).querySelectorAll('.planet-grid-cell')].forEach((elt) => {
+        delete elt.style.removeProperty('cursor');
+      });
+    },
+
     onEnteringStatePlaceTile(args) {
       let selection = null;
       let rotation = 0;
@@ -846,6 +852,7 @@ define([
       let selectedSpace = null;
       let selectedCell = null;
       let selectSpace = (spaceId, cell) => {
+        if (cell.classList.contains('unselectable')) return false;
         if (selectedSpace) selectedCell.classList.remove('selected');
 
         selectedSpace = spaceId;

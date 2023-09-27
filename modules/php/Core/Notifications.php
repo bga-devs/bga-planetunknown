@@ -469,5 +469,8 @@ class Notifications
     if (isset($data['card']) && is_object($data['card'])) {
       $data['card'] = $data['card']->jsonSerialize();
     }
+    if (isset($data['meteor']) && is_object($data['meteor'])) {
+      $data['meteor'] = $data['meteor']->jsonSerialize();
+    }
   }
 }
