@@ -43,8 +43,8 @@ class Notifications
   {
     $message =
       $action == 'destroy'
-        ? clienttranslate('${player_name} detroys ${n} ${type} from his planet')
-        : clienttranslate('${player_name} collects ${n} ${type} from his planet');
+      ? clienttranslate('${player_name} detroys ${n} ${type} from his planet')
+      : clienttranslate('${player_name} collects ${n} ${type} from his planet');
     $data = [
       'player' => $player,
       'n' => count($meeples),
@@ -108,7 +108,15 @@ class Notifications
     );
   }
 
-  public static function endOfTurn()
+  public static function endOfGame()
+  {
+    $data = [
+      'scores' => Players::scores(null, true)
+    ];
+    static::notifyAll('scores', '', $data);
+  }
+
+  public static function scores()
   {
     $players = Players::getAll();
 
@@ -118,6 +126,11 @@ class Notifications
       ];
       static::notify($player, 'scores', '', $privateData);
     }
+  }
+
+  public static function endOfTurn()
+  {
+    static::scores();
 
     $data = [
       'tiles' => Tiles::getSusan()->toArray(),
@@ -157,8 +170,8 @@ class Notifications
   {
     $message =
       $player == null
-        ? clienttranslate('S.U.S.A.N. rotates.')
-        : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
+      ? clienttranslate('S.U.S.A.N. rotates.')
+      : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
     $data = [
       'player' => $player,
       'newRotation' => $rotation,
@@ -231,6 +244,14 @@ class Notifications
         'meteor' => $meteor,
       ]
     );
+  }
+
+  public static function revealCards()
+  {
+    $data = [
+      'players' => Players::getUiData()
+    ];
+    static::notifyAll('revealCards', '', $data);
   }
 
   public static function secondSetup()
@@ -383,30 +404,32 @@ class Notifications
       'meeples' => $datas['meeples'],
       'susan' => $datas['susan'],
       'scores' => $datas['scores'],
+      // 'cards' => $datas['cards']
     ];
 
+    //TODOTissac
     // foreach ($fDatas['cards'] as $i => $card) {
     //   $fDatas['cards'][$i] = self::filterCardDatas($card);
     // }
-    // foreach ($fDatas['players'] as &$player) {
-    //   $player['hand'] = []; // Hide hand !
-    // }
+    foreach ($fDatas['players'] as &$player) {
+      $player['hand'] = []; // Hide hand !
+    }
 
     self::notify($pId, 'refreshUI', '', [
       'datas' => $fDatas,
     ]);
   }
 
-  // public static function refreshHand($player, $hand)
-  // {
-  //   foreach ($hand as &$card) {
-  //     $card = self::filterCardDatas($card);
-  //   }
-  //   self::notify($player, 'refreshHand', '', [
-  //     'player' => $player,
-  //     'hand' => $hand,
-  //   ]);
-  // }
+  public static function refreshHand($player, $hand)
+  {
+    foreach ($hand as &$card) {
+      $card = self::filterCardDatas($card);
+    }
+    self::notify($player, 'refreshHand', '', [
+      'player' => $player,
+      'hand' => $hand,
+    ]);
+  }
 
   public static function flush()
   {

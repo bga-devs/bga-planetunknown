@@ -1,5 +1,7 @@
 <?php
+
 namespace PU;
+
 use PU\Core\Globals;
 use PU\Core\PGlobals;
 use PU\Core\Engine;
@@ -39,6 +41,11 @@ trait DebugTrait
   {
     Engine::resolveAction([]);
     Engine::proceed();
+  }
+
+  function flagGameEnded()
+  {
+    Globals::setGameEnded(true);
   }
 
   function engDisplay()

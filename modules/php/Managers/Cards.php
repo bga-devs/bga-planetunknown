@@ -33,6 +33,7 @@ class Cards extends \PU\Helpers\CachedPieces
     return [
       'NOCards' => static::getInLocation('NOCards'),
       'playedCivCards' => static::getInLocation('playedCivCards'),
+      'playerObjCards' => static::getInLocation('playedObjCards'),
       'deck_civ_1' => static::countInLocation('deck_civ_1'),
       'deck_civ_2' => static::countInLocation('deck_civ_2'),
       'deck_civ_3' => static::countInLocation('deck_civ_3'),
@@ -64,7 +65,7 @@ class Cards extends \PU\Helpers\CachedPieces
     for ($i = 29; $i <= 36; $i++) {
       $data[] = [
         // 'id' => $i,
-        'location' => 'deck_civ_' . ((($i - 28) % 4) + 1),
+        'location' => 'deck_civ_' . ((($i - 29) % 4) + 1),
       ];
     }
     for ($i = 37; $i <= 64; $i++) {

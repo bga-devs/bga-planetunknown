@@ -135,7 +135,7 @@ $machinestates = [
     'type' => GAME,
     'action' => 'stPostChooseCivCard', //remove pendings endofturn actions
     'transitions' => [
-      'gameEnd' => ST_PRE_END_OF_GAME,
+      'gameEnd' => ST_END_GAME_TURN,
       'nextTurn' => ST_CHOOSE_ROTATION,
     ],
   ],
@@ -403,6 +403,17 @@ $machinestates = [
   // |_____|_| |_|\__,_|  \___/|_|    \____|\__,_|_| |_| |_|\___|
   //////////////////////////////////////////////////////////////////
 
+
+  ST_PRE_END_GAME_TURN => [
+    'name' => 'preEndGameTurn',
+    'description' => 'All players reveal their civ cards',
+    'type' => GAME,
+    'action' => 'stPreEndGameTurn', //reveal civ cards
+    'transitions' => [
+      '' => ST_END_GAME_TURN,
+    ],
+  ],
+
   ST_END_GAME_TURN => [
     'name' => 'endGameTurn',
     'description' => '',
@@ -417,7 +428,7 @@ $machinestates = [
     'name' => 'postEndGameTurn',
     'description' => '',
     'type' => GAME,
-    'action' => 'stPostChooseCivCard', //remove pendings endofturn actions
+    'action' => 'stPostEndGameTurn', //remove pendings endofturn actions
     'transitions' => [
       'endGame' => ST_PRE_END_OF_GAME,
       'newTrun' => ST_PRE_CHOOSE_CIV_CARD,
