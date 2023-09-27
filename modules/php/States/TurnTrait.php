@@ -117,4 +117,9 @@ trait TurnTrait
 
     $this->gamestate->jumpToState(ST_PRE_CHOOSE_CIV_CARD);
   }
+
+  function stPreEndOfGame()
+  {
+    Notifications::endOfGame();
+  }
 }

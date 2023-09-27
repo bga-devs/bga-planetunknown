@@ -19,6 +19,19 @@ use PU\Managers\ZooCards;
 
 trait EndGameTrait
 {
+  public function stPreEndOfTurn()
+  {
+    $civCardIds = Cards::getAll()
+      ->where('location', 'hand_civ')
+      ->getIds();
+
+    Cards::move($civCardIds, 'playedCivCards');
+
+    Notifications::revealCards();
+
+    Notifications::scores();
+  }
+
   public function stEndGameTurn()
   {
     $players = Players::getAll();

@@ -231,6 +231,13 @@ class Player extends \PU\Helpers\DB_Model
     return Cards::getInLocation('hand_obj')->where('pId', $this->id);
   }
 
+  public function getHand()
+  {
+    return Cards::getAll()
+      ->where('location', ['hand_obj', 'hand_civ'])
+      ->where('pId', $this->id);
+  }
+
   public function getPlayedCivCards()
   {
     return Cards::getInLocation('playedCivCards')->where('pId', $this->id);
@@ -291,6 +298,8 @@ class Player extends \PU\Helpers\DB_Model
       $scoreCommerceAgreement = [0, 1, 3, 6, 10];
       $result['civ']['entries']['commerceAgreement'] = $scoreCommerceAgreement[$this->countMatchingCard('commerceAgreement')];
     }
+
+
 
     $NOCards = Cards::getInLocation('NOCards')
       ->where('pId', $this->id)

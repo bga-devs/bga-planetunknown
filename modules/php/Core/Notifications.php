@@ -108,7 +108,15 @@ class Notifications
     );
   }
 
-  public static function endOfTurn()
+  public static function endOfGame()
+  {
+    $data = [
+      'scores' => Players::scores(null, true)
+    ];
+    static::notifyAll('scores', '', $data);
+  }
+
+  public static function scores()
   {
     $players = Players::getAll();
 
@@ -118,6 +126,11 @@ class Notifications
       ];
       static::notify($player, 'scores', '', $privateData);
     }
+  }
+
+  public static function endOfTurn()
+  {
+    static::scores();
 
     $data = [
       'tiles' => Tiles::getSusan()->toArray(),
@@ -231,6 +244,14 @@ class Notifications
         'meteor' => $meteor,
       ]
     );
+  }
+
+  public static function revealCards()
+  {
+    $data = [
+      'players' => Players::getUiData()
+    ];
+    static::notifyAll('revealCards', '', $data);
   }
 
   public static function secondSetup()
@@ -384,28 +405,28 @@ class Notifications
       'scores' => $datas['scores'],
     ];
 
-    // foreach ($fDatas['cards'] as $i => $card) {
-    //   $fDatas['cards'][$i] = self::filterCardDatas($card);
-    // }
-    // foreach ($fDatas['players'] as &$player) {
-    //   $player['hand'] = []; // Hide hand !
-    // }
+    foreach ($fDatas['cards'] as $i => $card) {
+      $fDatas['cards'][$i] = self::filterCardDatas($card);
+    }
+    foreach ($fDatas['players'] as &$player) {
+      $player['hand'] = []; // Hide hand !
+    }
 
     self::notify($pId, 'refreshUI', '', [
       'datas' => $fDatas,
     ]);
   }
 
-  // public static function refreshHand($player, $hand)
-  // {
-  //   foreach ($hand as &$card) {
-  //     $card = self::filterCardDatas($card);
-  //   }
-  //   self::notify($player, 'refreshHand', '', [
-  //     'player' => $player,
-  //     'hand' => $hand,
-  //   ]);
-  // }
+  public static function refreshHand($player, $hand)
+  {
+    foreach ($hand as &$card) {
+      $card = self::filterCardDatas($card);
+    }
+    self::notify($player, 'refreshHand', '', [
+      'player' => $player,
+      'hand' => $hand,
+    ]);
+  }
 
   public static function flush()
   {
