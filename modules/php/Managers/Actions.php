@@ -14,14 +14,24 @@ use PU\Managers\Players;
 class Actions
 {
   static $classes = [
-    PLACE_TILE, MOVE_TRACK, CHOOSE_TRACKS, PLACE_ROVER,
-    MOVE_TRACKER_BY_ONE, TAKE_CIV_CARD, MOVE_ROVER,
+    PLACE_TILE,
+    MOVE_TRACK,
+    CHOOSE_TRACKS,
+    PLACE_ROVER,
+    MOVE_TRACKER_BY_ONE,
+    TAKE_CIV_CARD,
+    MOVE_ROVER,
     //from civ card
-    COLLECT_MEEPLE, DESTROY_ALL_IN_ROW, MOVE_TRACKERS_TO_FIVE,
-    //from event card 
-    CHOOSE_ROTATION_ENGINE, DESTROY_P_O_CARD, PLACE_MEEPLE,
+    COLLECT_MEEPLE,
+    DESTROY_ALL_IN_ROW,
+    MOVE_TRACKERS_TO_FIVE,
+    //from event card
+    CHOOSE_ROTATION_ENGINE,
+    DESTROY_P_O_CARD,
+    PLACE_MEEPLE,
     //from corpo
-    POSITION_LIFEPOD_ON_TRACK, CHOOSE_FLUX_TRACK
+    POSITION_LIFEPOD_ON_TRACK,
+    CHOOSE_FLUX_TRACK,
   ];
 
   public static function getBiomassPatchFlow($patchId)
@@ -29,9 +39,9 @@ class Actions
     return [
       'action' => PLACE_TILE,
       'args' => [
-        'descriptionTile' => clienttranslate("a biomass patch"),
-        'forcedTiles' => [$patchId]
-      ]
+        'descriptionTile' => clienttranslate('a biomass patch'),
+        'forcedTiles' => [$patchId],
+      ],
     ];
   }
 
@@ -164,9 +174,9 @@ class Actions
     if (\method_exists($action, $methodName)) {
       $action->$methodName();
     } else {
-      Engine::resolve(PASS);
+      Engine::resolveAction(PASS, false, $ctx, false);
     }
-
-    Engine::proceed();
+    $player = self::getPlayer($ctx);
+    Engine::proceed($player->getId());
   }
 }

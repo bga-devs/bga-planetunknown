@@ -288,6 +288,10 @@ $planetGridHeight: 12 * $cellHeight;
                         background: white;
                         padding: 3px;
                         border-radius: 2px;
+
+                        &:empty {
+                            display: none;
+                        }
                     }
                 }
             }

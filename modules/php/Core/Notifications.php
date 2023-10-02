@@ -496,5 +496,12 @@ class Notifications
     if (isset($data['meteor']) && is_object($data['meteor'])) {
       $data['meteor'] = $data['meteor']->jsonSerialize();
     }
+    if (isset($data['meeples'])) {
+      foreach ($data['meeples'] as $i => $meeple) {
+        if (is_object($meeple)) {
+          $data['meeples'][$i] = $meeple->jsonSerialize();
+        }
+      }
+    }
   }
 }

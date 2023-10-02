@@ -311,9 +311,11 @@ class AbstractNode
   {
     if (isset($this->infos['action']) && $this->isActionResolved()) {
       $args = $this->infos['actionResolutionArgs'];
-      $action = Actions::get($this->infos['action'], $this);
-      $methodName = $args['actionName'];
-      $action->$methodName(...$args['args']);
+      if ($args !== PASS) {
+        $action = Actions::get($this->infos['action'], $this);
+        $methodName = $args['actionName'];
+        $action->$methodName(...$args['args']);
+      }
     }
 
     $choices = $this->infos['choices'] ?? [];

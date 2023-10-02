@@ -123,8 +123,10 @@ trait EngineTrait
       self::checkAction('actPassOptionalAction');
     }
 
-    $action = $this->getCurrentAtomicAction();
-    Actions::pass($action, Engine::getNextUnresolved());
+    $pId = Players::getCurrentId();
+    $action = $this->getCurrentAtomicAction($pId);
+    $ctx = Engine::getNextUnresolved($pId);
+    Actions::pass($action, $ctx);
   }
 
   /**

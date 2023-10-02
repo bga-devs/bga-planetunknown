@@ -958,9 +958,11 @@
               .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-grid .planet-grid-cell.ok::before, .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-grid .planet-grid-cell.nok::before {
                 display: inline-block;
                 font: normal normal normal 14px/1 FontAwesome;
-                font-size: 12px;
+                font-size: 13px;
                 text-rendering: auto;
-                position: absolute; }
+                position: absolute;
+                text-stroke: 1px white;
+                -webkit-text-stroke: 1px #040404; }
               .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-grid .planet-grid-cell.ok::before {
                 content: "\f00c";
                 color: #00d900; }
@@ -971,8 +973,8 @@
                 left: 42px;
                 top: 2px; }
               .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-grid .planet-grid-cell[data-x="-1"]::before {
-                left: 22px;
-                top: 22px; }
+                left: 29px;
+                top: 19px; }
               .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-grid .planet-grid-cell .planetunknown-meeple {
                 position: absolute; }
                 .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-grid .planet-grid-cell .planetunknown-meeple.icon-rover-meeple {
