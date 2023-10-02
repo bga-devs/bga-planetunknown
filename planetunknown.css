@@ -635,7 +635,9 @@
     width: 2.4em;
     height: 2.4em;
     transform: translateX(0);
-    transition: transform 0.5s; }
+    transition: transform 0.5s;
+    box-shadow: 0px 0px 10px 0px yellow;
+    background-color: #ffff0070; }
   .planetunknown-meeple.icon-first-player {
     width: 5em;
     height: 2.4em; }
@@ -953,6 +955,24 @@
               .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-grid .planet-grid-cell.selected:not(.unselectable), .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-grid .planet-grid-cell.selected:not(.unselectable):hover {
                 border: 2px solid #0f5308;
                 background: #7dfc83a1; }
+              .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-grid .planet-grid-cell.ok::before, .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-grid .planet-grid-cell.nok::before {
+                display: inline-block;
+                font: normal normal normal 14px/1 FontAwesome;
+                font-size: 12px;
+                text-rendering: auto;
+                position: absolute; }
+              .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-grid .planet-grid-cell.ok::before {
+                content: "\f00c";
+                color: #00d900; }
+              .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-grid .planet-grid-cell.nok::before {
+                content: "\f00d";
+                color: red; }
+              .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-grid .planet-grid-cell[data-y="-1"]::before {
+                left: 42px;
+                top: 2px; }
+              .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-grid .planet-grid-cell[data-x="-1"]::before {
+                left: 22px;
+                top: 22px; }
               .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-grid .planet-grid-cell .planetunknown-meeple {
                 position: absolute; }
                 .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-grid .planet-grid-cell .planetunknown-meeple.icon-rover-meeple {
@@ -1051,6 +1071,14 @@
             flex-wrap: wrap; }
             .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .lifepod-reserve .icon-lifepod {
               margin: 10px 17px; }
+          .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .biomass-patch-holder {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            --tileScale: 0.2;
+            background: white;
+            padding: 3px;
+            border-radius: 2px; }
 
 .player-name svg {
   width: 25px;
@@ -1334,7 +1362,7 @@
     top: 50%; }
 .tile-container[data-shape="2"] {
   width: calc(123px * var(--tileScale));
-  height: calc(360px * var(--tileScale));
+  height: calc(369px * var(--tileScale));
   margin-left: 0%;
   margin-top: -100%;
   clip-path: polygon(100% 33.3333333333%, 100% 66.6666666667%, 100% 100%, 0% 100%, 0% 66.6666666667%, 0% 33.3333333333%, 0% 0%, 100% 0%, 100% 33.3333333333%);

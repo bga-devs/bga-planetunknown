@@ -35,17 +35,13 @@ class MoveTrackersToFive extends \PU\Models\Action
   {
     return [
       'log' => \clienttranslate('Advance all your trackers to 5th position, if possible'),
-      'args' => [
-      ],
+      'args' => [],
     ];
   }
 
   public function argsMoveTrackersToFive()
   {
-
-    return [
-      
-    ];
+    return [];
   }
 
   public function stMoveTrackersToFive()
@@ -56,7 +52,7 @@ class MoveTrackersToFive extends \PU\Models\Action
   public function actMoveTrackersByOne()
   {
     $player = $this->getPlayer();
-    
+
     foreach (ALL_TYPES as $type) {
       $player->corporation()->setLevelOnTrack($type, 5);
     }

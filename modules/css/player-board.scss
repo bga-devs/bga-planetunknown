@@ -143,6 +143,34 @@ $planetGridHeight: 12 * $cellHeight;
                                 background: #7dfc83a1;
                             }
 
+                            &.ok::before,
+                            &.nok::before {
+                                display: inline-block;
+                                font: normal normal normal 14px/1 FontAwesome;
+                                font-size: 13px;
+                                text-rendering: auto;
+                                position: absolute;
+                                text-stroke: 1px white;
+                                -webkit-text-stroke: 1px #040404;
+                            }
+                            &.ok::before {
+                                content: "\f00c";
+                                color: #00d900;
+                            }
+                            &.nok::before {
+                                content: "\f00d";
+                                color: red;
+                            }
+                            &[data-y="-1"]::before {
+                                left: 42px;
+                                top: 2px;
+                            }
+
+                            &[data-x="-1"]::before {
+                                left: 29px;
+                                top: 19px;
+                            }
+
                             .planetunknown-meeple {
                                 position: absolute;
 
@@ -250,6 +278,16 @@ $planetGridHeight: 12 * $cellHeight;
                         .icon-lifepod {
                             margin: 10px 17px;
                         }
+                    }
+
+                    .biomass-patch-holder {
+                        position: absolute;
+                        top: 5px;
+                        left: 5px;
+                        --tileScale: 0.2;
+                        background: white;
+                        padding: 3px;
+                        border-radius: 2px;
                     }
                 }
             }

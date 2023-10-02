@@ -51,6 +51,9 @@
 
         transform: translateX(0);
         transition: transform 0.5s;
+
+        box-shadow: 0px 0px 10px 0px yellow;
+        background-color: #ffff0070;
     }
 
     &.icon-first-player {
