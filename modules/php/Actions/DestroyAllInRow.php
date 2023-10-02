@@ -33,8 +33,8 @@ class DestroyAllInRow extends \PU\Models\Action
       $row = $meteor->getY();
       $column = $meteor->getX();
 
-      $rows['ROW_' . $row][] = $meteor;
-      $rows['COLUMN_' . $column][] = $meteor;
+      $rows['ROW_' . $row][] = $meteor->getId();
+      $rows['COLUMN_' . $column][] = $meteor->getId();
     }
     return $rows;
   }
@@ -54,19 +54,16 @@ class DestroyAllInRow extends \PU\Models\Action
     $player = $this->getPlayer();
     $args = $this->argsDestroyAllInRow();
 
-    if (!in_array($rowId, $args['rows'])) {
+    $meepleIds = $args['rows'][$rowId] ?? null;
+    if (is_null($meepleIds)) {
       throw new \BgaVisibleSystemException('You cannot collect this row/column ' . $rowId . '. Should not happen.');
     }
 
     // take meeples
-    $meeples = $args[$rowId];
-
-    //move them
-
+    $meeples = Meeples::getMany($meepleIds);
+    Notifications::collectMeeple($player, $meeples->toArray(), 'destroy');
     foreach ($meeples as $meeple) {
       $meeple->destroy();
     }
-
-    Notifications::collectMeeple($player, $meeples, 'destroy');
   }
 }

@@ -613,6 +613,8 @@
   .planetunknown-meeple.icon-meteor {
     width: 4em;
     height: 4em; }
+    .planetunknown-meeple.icon-meteor.selected {
+      filter: hue-rotate(60deg); }
   .planetunknown-meeple.icon-rover-meeple {
     width: 4em;
     height: 2.3257em;

@@ -912,6 +912,33 @@ define([
       });
     },
 
+    onEnteringStateDestroyAllInRow(args) {
+      let selected = null,
+        selectedCell = null;
+      Object.keys(args.rows).forEach((id) => {
+        let t = id.split('_');
+        let cell = t[0] == 'COLUMN' ? this.getPlanetCell(this.player_id, t[1], -1) : this.getPlanetCell(this.player_id, -1, t[1]);
+        this.onClick(cell, () => {
+          if (selected) {
+            if (selected == id) return;
+
+            selectedCell.classList.remove('selected');
+            [...$(`planet-${this.player_id}`).querySelectorAll('.icon-meteor.selected')].forEach((elt) =>
+              elt.classList.remove('selected')
+            );
+          }
+
+          selected = id;
+          selectedCell = cell;
+          selectedCell.classList.add('selected');
+          args.rows[id].forEach((meepleId) => $(`meeple-${meepleId}`).classList.add('selected'));
+          this.addPrimaryActionButton('btnConfirmDestroy', _('Confirm'), () =>
+            this.takeAtomicAction('actDestroyAllInRow', [selected])
+          );
+        });
+      });
+    },
+
     ////////////////////////////////////////////////////////////
     // _____                          _   _   _
     // |  ___|__  _ __ _ __ ___   __ _| |_| |_(_)_ __   __ _

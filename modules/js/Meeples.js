@@ -182,7 +182,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     notif_destroyedMeeples(n) {
       debug('Notif: destroying meeples', n);
       let target = this.getVisibleTitleContainer();
-      console.log(target);
       this.slideResources(n.args.meeples, {
         destroy: true,
         target,

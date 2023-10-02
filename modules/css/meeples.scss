@@ -12,6 +12,10 @@
     &.icon-meteor {
         width: 4em;
         height: 4em;
+
+        &.selected {
+            filter: hue-rotate(60deg);
+        }
     }
 
     &.icon-rover-meeple {

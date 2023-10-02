@@ -41,17 +41,18 @@ class Notifications
 
   public static function collectMeeple($player, $meeples, $action = 'collect')
   {
-    $message =
-      $action == 'destroy'
-      ? clienttranslate('${player_name} detroys ${n} ${type} from his planet')
-      : clienttranslate('${player_name} collects ${n} ${type} from his planet');
     $data = [
       'player' => $player,
       'n' => count($meeples),
       'type' => $meeples[0]->getType(),
       'meeples' => $meeples,
     ];
-    static::pnotify($player, 'slideMeeples', $message, $data);
+
+    if ($action == 'destroy') {
+      static::pnotify($player, 'destroyedMeeples', clienttranslate('${player_name} detroys ${n} ${type} from his planet'), $data);
+    } else {
+      static::pnotify($player, 'slideMeeples', clienttranslate('${player_name} collects ${n} ${type} from his planet'), $data);
+    }
   }
 
   public static function destroyCard($player, $cardId)
@@ -111,7 +112,7 @@ class Notifications
   public static function endOfGame()
   {
     $data = [
-      'scores' => Players::scores(null, true)
+      'scores' => Players::scores(null, true),
     ];
     static::notifyAll('scores', '', $data);
   }
@@ -170,8 +171,8 @@ class Notifications
   {
     $message =
       $player == null
-      ? clienttranslate('S.U.S.A.N. rotates.')
-      : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
+        ? clienttranslate('S.U.S.A.N. rotates.')
+        : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
     $data = [
       'player' => $player,
       'newRotation' => $rotation,
@@ -249,7 +250,7 @@ class Notifications
   public static function revealCards()
   {
     $data = [
-      'players' => Players::getUiData()
+      'players' => Players::getUiData(),
     ];
     static::notifyAll('revealCards', '', $data);
   }
