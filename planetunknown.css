@@ -598,9 +598,20 @@
   .icon-container .icon-civ,
   .icon-container .icon-biomass,
   .icon-container .icon-energy {
-    width: 2em;
-    height: 2em;
+    width: 1.9em;
+    height: 1.9em;
     border-radius: 15%; }
+
+.action-button .icon-container-water,
+.action-button .icon-container-tech,
+.action-button .icon-container-rover,
+.action-button .icon-container-civ,
+.action-button .icon-container-biomass,
+.action-button .icon-container-energy {
+  margin: -5px 0px -5px; }
+.action-button#btnciv, .action-button#btntech, .action-button#btnwater, .action-button#btnrover, .action-button#btnbiomass {
+  padding: 9px 7px;
+  margin: -10px 0px -10px 15px !important; }
 
 .planetunknown-meeple {
   display: inline-block;
@@ -644,6 +655,9 @@
 
 .action-button .icon-container ~ .planetunknown-meeple {
   margin-left: 0.5em; }
+
+#page-title .icon-lifepod {
+  font-size: 1em; }
 
 #tile-selector {
   display: flex;
@@ -927,6 +941,18 @@
             background-image: url("img/Planets/11.jpg"); }
           .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet[data-id="12"] {
             background-image: url("img/Planets/12.jpg"); }
+          .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .pending-tiles {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            --tileScale: 0.25;
+            background: white;
+            padding: 2px;
+            border-radius: 2px; }
+            .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .pending-tiles:empty {
+              display: none; }
+            .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .pending-tiles .tile-container {
+              margin: 0; }
           .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-grid {
             width: 923px;
             height: 923px;
@@ -1081,6 +1107,8 @@
             background: white;
             padding: 3px;
             border-radius: 2px; }
+            .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .biomass-patch-holder:empty {
+              display: none; }
 
 .player-name svg {
   width: 25px;

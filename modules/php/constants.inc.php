@@ -57,18 +57,17 @@ const ST_SETUP_BRANCH = 2;
 //setup
 const ST_CHOOSE_SETUP = 3;
 const ST_CONFIRM_SETUP = 4;
-const ST_SECOND_SETUP = 5;
+const ST_FINISH_SETUP = 5;
 
-const ST_EVENT_CARD = 10;
+const ST_REVEAL_EVENT_CARD = 10;
 const ST_PLAY_AFTER_EVENT_CARD = 12;
 const ST_PRE_CHOOSE_CIV_CARD = 13;
 const ST_CHOOSE_CIV_CARD = 14;
-const ST_POST_CHOOSE_CIV_CARD = 15;
+const ST_END_TURN = 15;
 
-const ST_NEXT_PLAYER = 19;
-
+const ST_START_TURN = 20;
 const ST_CHOOSE_ROTATION = 21;
-const ST_START_PARALLEL = 22;
+const ST_START_TURN_ENGINE = 22;
 
 //atomic actions
 const ST_PLACE_TILE = 23;
@@ -86,10 +85,6 @@ const ST_CHOOSE_ROTATION_ENGINE = 34;
 const ST_DESTROY_P_O_CARD = 35;
 const ST_POSITION_LIFEPOD_ON_TRACK = 36;
 const ST_CHOOSE_FLUX_TRACK = 37;
-
-const ST_FOO_A = 54;
-const ST_FOO_B = 55;
-const ST_FOO_C = 56;
 
 const ST_PRE_END_GAME_TURN = 80;
 const ST_END_GAME_TURN = 81;
@@ -240,7 +235,6 @@ const TECH_GET_1_MOVE_CARRYING_METEOR = 'tech_3_2';
 const TECH_GET_BIOMASS_COLLECTING_METEOR = 'tech_3_3';
 const TECH_DESTROY_METEORITE_ON_WATER = 'tech_3_4';
 const TECH_ADVANCE_ROVER = 'tech_3_5';
-
 
 /*
  * Tiles and Space station

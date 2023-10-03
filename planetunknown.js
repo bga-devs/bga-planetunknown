@@ -35,18 +35,19 @@ define([
       this._notifications = [
         ['clearTurn', 200],
         ['refreshUI', 200],
-        ['refreshHand', 200],
-        ['setupPlayer', 1200],
+        ['setupPlayer', 1400],
         ['placeTile', null],
         ['moveTrack', null],
         ['slideMeeple', null],
         ['slideMeeples', null],
-        ['newRotation', 1200],
+        ['newRotation', 1400],
         ['endOfTurn', 100],
         ['destroyedMeeples', null],
         ['receiveBiomassPatch', null],
-        ['takeCivCard', 1200],
-        ['changeFirstPlayer', 1200],
+        ['takeCivCard', 1400],
+        ['changeFirstPlayer', 1400],
+        ['endOfGameTriggered', 1400],
+        ['revealCards', 1400],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -163,6 +164,7 @@ define([
       this.setupCards();
       this.setupTiles();
       this.setupMeeples();
+      this.updateLastRoundBanner();
       // this.setupTour();
       this.inherited(arguments);
     },
@@ -219,7 +221,6 @@ define([
       this.rotateSusan();
       this.updatePlayersCounters();
       this.updateHand();
-      // this.updateLastRoundBanner();
 
       // this.forEachPlayer((player) => {
       //   this._scoreCounters[player.id].toValue(player.newScore);
@@ -227,16 +228,9 @@ define([
       // });
     },
 
-    notif_refreshHand(n) {
-      debug('Notif: refreshing UI', n);
-      // this.gamedatas.players[n.args.player_id].hand = n.args.hand;
-      // this.updateHandCards();
-      // this.updateCardCosts();
-    },
-
-    notif_endOfGame() {
-      debug('Notif: end of game');
-      this.gamedatas.endOfGame = true;
+    notif_endOfGameTriggered() {
+      debug('Notif: end of game triggered');
+      this.gamedatas.endOfGameTriggered = true;
       this.updateLastRoundBanner();
     },
 
@@ -245,7 +239,7 @@ define([
     },
 
     updateLastRoundBanner() {
-      if (this.gamedatas.endOfGame) {
+      if (this.gamedatas.endOfGameTriggered) {
         if (!$('last-round')) {
           $('page-title').insertAdjacentHTML(
             'beforeend',
@@ -585,6 +579,33 @@ define([
     },
 
     onEnteringStatePlaceTile(args) {
+      // END OF GAME : keep a tile eventhough you cant place it
+      const impossible = args.descSuffix == 'impossible';
+      if (impossible) {
+        $('pagesubtitle').insertAdjacentHTML('beforeend', '<div id="tile-selector"></div>');
+        let selection = null;
+        const tiles = Object.keys(args.tiles);
+        tiles.forEach((tileId) => {
+          let o = $(`tile-${tileId}`).cloneNode(true);
+          o.id += '-selector';
+          $('tile-selector').insertAdjacentElement('beforeend', o);
+
+          this.onClick(o, () => {
+            // Existing placement => keep the same one
+            if (selection !== null) {
+              $(`tile-${selection}-selector`).classList.remove('selected');
+            }
+            selection = tileId;
+            $(`tile-${selection}-selector`).classList.add('selected');
+            this.addPrimaryActionButton('btnConfirm', _('Confirm'), () =>
+              this.takeAtomicAction('actPlaceTileNoPlacement', [tileId])
+            );
+          });
+        });
+        return;
+      }
+
+      // REGULAR FLOW
       let selection = null;
       let rotation = 0;
       let flipped = false;
@@ -700,15 +721,8 @@ define([
         o.id += '-selector';
         $('tile-selector').insertAdjacentElement('beforeend', o);
 
-        // if (buildableBuildingTypes.includes(buildingType)) {
         this.onClick(o, () => callback(tileId));
-        // } else {
-        //   $(`building-selection-${buildingType}`).classList.add('unplacable');
-        // }
       });
-      // buildableTiles.forEach((tileId) => {
-      //   this.onClick(`tile-${tileId}`, () => callback(tileId));
-      // });
       if (buildableTiles.length == 1) {
         callback(buildableTiles[0]);
       }

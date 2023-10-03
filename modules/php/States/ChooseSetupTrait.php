@@ -31,24 +31,15 @@ trait ChooseSetupTrait
         'choice' => $choices[$pId] ?? null,
         'planet' => $planetId ? [0, $planetId] : [0],
         'corporation' => $corporationId ? [0, $corporationId] : [0],
-        'POCards' => Cards::getInLocation('hand_obj')->where('pId', $pId)->getIds(),
+        'POCards' => Cards::getInLocation('hand_obj')
+          ->where('pId', $pId)
+          ->getIds(),
       ];
     }
 
     return [
       '_private' => $private,
     ];
-  }
-
-  public function stChooseSetup()
-  {
-    if (
-      Globals::getPlanetOption() == OPTION_PLANET_A &&
-      Globals::getCorporationOption() == OPTION_CORPORATION_UNIVERSAL &&
-      !Globals::isPrivateObjectiveCardsGame()
-    ) {
-      $this->gamestate->setAllPlayersNonMultiactive('notNeeded');
-    }
   }
 
   public function updateActivePlayersAndChangeState()

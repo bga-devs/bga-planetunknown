@@ -390,6 +390,15 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
         suffix = 'generic';
       }
 
+      let state = this.gamedatas.gamestate;
+      if (state.private_state && this.isCurrentPlayerActive()) {
+        state = state.private_state;
+        if (!state['descriptionmyturn' + suffix]) return;
+        state.descriptionmyturn = state['descriptionmyturn' + suffix];
+        this.updatePageTitle(state);
+        return;
+      }
+
       if (!this.gamedatas.gamestate['descriptionmyturn' + suffix] && this.isCurrentPlayerActive()) return;
 
       if (save) {

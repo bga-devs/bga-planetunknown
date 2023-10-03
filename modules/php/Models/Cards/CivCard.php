@@ -12,17 +12,12 @@ use PU\Managers\Players;
 
 class CivCard extends \PU\Models\Card
 {
-  protected $staticAttributes = ['title', 'desc', 'type', 'level'];
+  protected $staticAttributes = ['title', 'desc', 'type', 'level', 'effectType'];
   protected $effectType = ''; //IMMEDIATE OR END_GAME
   protected $type = 'civCard';
   protected $level = ''; //1,2,3 or 4
   public $meteorRepo = false;
   public $commerceAgreement = false;
-
-  public function getEffectType()
-  {
-    return $this->effectType;
-  }
 
   public function effect()
   {

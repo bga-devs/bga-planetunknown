@@ -19,76 +19,70 @@ use PU\Managers\ZooCards;
 
 trait EndGameTrait
 {
-  public function stPreEndOfTurn()
+  // Utility function that reveal CIV or objective cards
+  public function revealCardsInHand($type)
   {
-    $civCardIds = Cards::getAll()
-      ->where('location', 'hand_civ')
-      ->getIds();
+    // Reveal cards and update scores
+    $fromLocation = $type == CIV ? 'hand_civ' : 'hand_obj';
+    $cardIds = Cards::getInLocation($fromLocation)->getIds();
+    if (empty($cardIds)) {
+      return;
+    }
 
-    Cards::move($civCardIds, 'playedCivCards');
-
-    Notifications::revealCards();
-
+    $toLocation = $type == CIV ? 'playedCivCards' : 'playedObjCards';
+    Cards::move($cardIds, $toLocation);
+    Notifications::revealCards($type);
     Notifications::scores();
+  }
 
+  public function stPreEndGameTurn()
+  {
+    $this->revealCardsInHand(CIV);
     $this->gamestate->nextState('');
   }
 
   public function stEndGameTurn()
   {
     $players = Players::getAll();
-
     $flows = [];
-
     foreach ($players as $pId => $player) {
-      $actions = [];
-
       $actions = $player->getEndOfGameActions();
 
       if ($actions) {
         $flows[$pId] = [
           'type' => NODE_PARALLEL,
-          'childs' => $actions
+          'childs' => $actions,
         ];
       }
     }
 
-    Engine::multipleSetup(
-      $flows,
-      ['method' => 'stPostEndGameTurn']
-    );
+    Engine::multipleSetup($flows, ['method' => 'stPostEndGameTurn']);
   }
 
   public function stPostEndGameTurn()
   {
     Susan::refill();
-
     Notifications::endOfTurn();
 
     $players = Players::getAll();
-
     $newTurn = false;
-
     foreach ($players as $pId => $player) {
       $player->emptyEndOfGameActions();
-      $newTurn =  $newTurn || $player->getEndOfTurnActions();
+      $newTurn = $newTurn || $player->getEndOfTurnActions();
     }
 
-    //Game end if no player has gain an extra end of turn action
+    // Game end if no player has gain an extra end of turn action
     if ($newTurn) {
-      $this->gamestate->nextState('newTurn');
+      $this->gamestate->jumpToState(ST_PRE_CHOOSE_CIV_CARD);
     } else {
-      $objCardIds = Cards::getAll()
-        ->where('location', 'hand_obj')
-        ->getIds();
-
-      Cards::move($objCardIds, 'playedObjCards');
-
-      Notifications::revealCards();
-
-      Notifications::scores();
-
-      $this->gamestate->nextState('endGame');
+      $this->revealCardsInHand('Obj');
+      $this->gamestate->jumpToState(ST_PRE_END_OF_GAME);
     }
+  }
+
+  function stPreEndOfGame()
+  {
+    Notifications::endOfGame();
+    $this->gamestate->nextState('');
   }
 }

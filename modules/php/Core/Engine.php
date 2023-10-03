@@ -73,7 +73,8 @@ class Engine
     $allPIds = Players::getAll()->getIds();
     $pIds = array_keys($aTrees);
     if (empty($pIds)) {
-      die('Empty pIds on engine setup => should call callback TODO');
+      self::callback();
+      return;
     }
 
     // Clear existing engines
@@ -112,10 +113,6 @@ class Engine
   {
     $allPIds = Players::getAll()->getIds();
     $pIds = $pIds ?? $allPIds;
-    if (empty($pIds)) {
-      die('Empty pIds on engine setup => should call callback TODO');
-    }
-
     $aTrees = [];
     foreach ($pIds as $pId) {
       $aTrees[$pId] = $t;

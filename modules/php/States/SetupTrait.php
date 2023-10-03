@@ -37,11 +37,25 @@ trait SetupTrait
     // Globals::setFirstPlayer($this->getNextPlayerTable()[0]);
 
     Globals::setSetupChoices([]);
-
-    $this->gamestate->setAllPlayersMultiactive();
   }
 
-  public function stSecondSetup()
+  // SETUP BRANCH : finish setup for first game or go to advanced setup to choose corpo/planet/private objectives
+  public function stSetupBranch()
+  {
+    if (
+      Globals::getPlanetOption() == OPTION_PLANET_A &&
+      Globals::getCorporationOption() == OPTION_CORPORATION_UNIVERSAL &&
+      !Globals::isPrivateObjectiveCardsGame()
+    ) {
+      $this->gamestate->jumpToState(ST_FINISH_SETUP);
+    } else {
+      $this->gamestate->setAllPlayersMultiactive();
+      $this->gamestate->jumpToState(ST_CHOOSE_SETUP);
+    }
+  }
+
+  // FINISH SETUP : launch special corpo startup effects + create meeples
+  public function stFinishSetup()
   {
     $players = Players::getAll();
     foreach ($players as $pId => $player) {
@@ -49,7 +63,7 @@ trait SetupTrait
       Meeples::setupPlayer($pId);
     }
 
-    Notifications::secondSetup();
+    Notifications::finishSetup();
 
     $this->activeNextPlayer();
 
@@ -78,10 +92,4 @@ trait SetupTrait
   //     Notifications::setupPlayer($player, $mapId, $cards, $meeples, $buildings);
   //   }
   // }
-
-  public function stSetupBranch()
-  {
-    $this->gamestate->setAllPlayersMultiactive();
-    $this->gamestate->nextState('selection');
-  }
 }

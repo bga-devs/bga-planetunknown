@@ -15,7 +15,16 @@ use PU\Core\Stats;
  */
 
 const DIRECTIONS = [['x' => -1, 'y' => 0], ['x' => 0, 'y' => -1], ['x' => 1, 'y' => 0], ['x' => 0, 'y' => 1]];
-const DIRECTIONS_DIAG = [['x' => -1, 'y' => 0], ['x' => -1, 'y' => -1], ['x' => -1, 'y' => 1], ['x' => 0, 'y' => -1], ['x' => 1, 'y' => 0], ['x' => 1, 'y' => 1], ['x' => 1, 'y' => -1], ['x' => 0, 'y' => 1]];
+const DIRECTIONS_DIAG = [
+  ['x' => -1, 'y' => 0],
+  ['x' => -1, 'y' => -1],
+  ['x' => -1, 'y' => 1],
+  ['x' => 0, 'y' => -1],
+  ['x' => 1, 'y' => 0],
+  ['x' => 1, 'y' => 1],
+  ['x' => 1, 'y' => -1],
+  ['x' => 0, 'y' => 1],
+];
 class Planet
 {
   // STATIC DATA
@@ -164,7 +173,7 @@ class Planet
   public function countSymbolsOnEdge($symbol)
   {
     $cells = $this->getBorderCells();
-    return array_reduce($cells, fn ($result, $cell) => $result + ($this->getSymbol($cell['x'], $cell['y']) == $symbol ? 1 : 0), 0);
+    return array_reduce($cells, fn($result, $cell) => $result + ($this->getSymbol($cell['x'], $cell['y']) == $symbol ? 1 : 0), 0);
   }
 
   /**
@@ -212,12 +221,12 @@ class Planet
   public function countLargestAdjacent($type)
   {
     $zones = $this->detectZones($type);
-    return $zones ? max(array_map(fn ($zone) => count($zone), $zones)) : 0;
+    return $zones ? max(array_map(fn($zone) => count($zone), $zones)) : 0;
   }
 
   public function countSymbols($type)
   {
-    $cells = array_filter($this->getListOfCells(), fn ($cell) => $this->getSymbol($cell['x'], $cell['y']) == $type);
+    $cells = array_filter($this->getListOfCells(), fn($cell) => $this->getSymbol($cell['x'], $cell['y']) == $type);
     return count($cells);
   }
 
@@ -225,7 +234,7 @@ class Planet
   {
     return array_filter(
       $this->getListOfCells(),
-      fn ($cell) => $this->hasMeteorSymbol($cell['x'], $cell['y']) && $this->player->getMeteorOnCell($cell)
+      fn($cell) => $this->hasMeteorSymbol($cell['x'], $cell['y']) && $this->player->getMeteorOnCell($cell)
     );
   }
 
@@ -236,18 +245,15 @@ class Planet
   //   | | | | |  __/\__ \
   //   |_| |_|_|\___||___/
   ///////////////////////////////////////////////
-  public function addTile($tileId, $pos, $rotation, $flipped, $no_placement)
+  public function addTile($tileId, $pos, $rotation, $flipped)
   {
     $tile = Tiles::getSingle($tileId);
 
-    if (!$no_placement) {
-      $tile->setLocation('planet');
-      $tile->setX($pos['x']);
-      $tile->setY($pos['y']);
-      $tile->setRotation($rotation);
-      $tile->setFlipped($flipped ? 1 : 0);
-    }
-
+    $tile->setLocation('planet');
+    $tile->setX($pos['x']);
+    $tile->setY($pos['y']);
+    $tile->setRotation($rotation);
+    $tile->setFlipped($flipped ? 1 : 0);
     $tile->setPId($this->pId);
     $this->tiles[$tile->getId()] = $tile;
 
@@ -256,36 +262,44 @@ class Planet
     $meteor = null;
 
     $symbols = [];
-    if (!$no_placement) {
+    foreach ($this->getTileCoveredCells($tile, false) as $i => $cell) {
+      $this->grid[$cell['x']][$cell['y']]['tile'] = $tile;
+      $type = $datas[$i]['type'];
+      $this->grid[$cell['x']][$cell['y']]['type'] = $type;
+      $this->grid[$cell['x']][$cell['y']]['symbol'] = $datas[$i]['symbol'] ? $datas[$i]['type'] : null;
+      $this->grid[$cell['x']][$cell['y']]['meteorSymbol'] = $datas[$i]['meteor'];
 
-      foreach ($this->getTileCoveredCells($tile, false) as $i => $cell) {
-        $this->grid[$cell['x']][$cell['y']]['tile'] = $tile;
-        $type = $datas[$i]['type'];
-        $this->grid[$cell['x']][$cell['y']]['type'] = $type;
-        $this->grid[$cell['x']][$cell['y']]['symbol'] = $datas[$i]['symbol'] ? $datas[$i]['type'] : null;
-        $this->grid[$cell['x']][$cell['y']]['meteorSymbol'] = $datas[$i]['meteor'];
-
-        if ($datas[$i]['symbol']) {
-          $symbols[] = [
-            'cell' => $cell,
-            'type' => $type,
-          ];
-        }
-
-        if ($datas[$i]['meteor'] && !$this->player->hasTech(TECH_NO_METEOR)) {
-          $meteor = $cell;
-        }
-
-        if ($type == WATER && $this->getTerrain($cell['x'], $cell['y']) == ICE) {
-          $coveringWater = true;
-        }
+      if ($datas[$i]['symbol']) {
+        $symbols[] = [
+          'cell' => $cell,
+          'type' => $type,
+        ];
       }
-    } else {
-      $symbols = $tile->getSymbolsForDiscardedTile();
+
+      if ($datas[$i]['meteor'] && !$this->player->hasTech(TECH_NO_METEOR)) {
+        $meteor = $cell;
+      }
+
+      if ($type == WATER && $this->getTerrain($cell['x'], $cell['y']) == ICE) {
+        $coveringWater = true;
+      }
     }
 
     self::invalidateCachedDatas();
     return [$tile, $symbols, $coveringWater, $meteor];
+  }
+
+  // Only for end of game
+  public function addTileNoPlacement($tileId)
+  {
+    $tile = Tiles::getSingle($tileId);
+    $tile->setLocation('pending');
+    $tile->setPId($this->pId);
+    $this->tiles[$tile->getId()] = $tile;
+    $symbols = $tile->getSymbolsForDiscardedTile();
+
+    self::invalidateCachedDatas();
+    return [$tile, $symbols];
   }
 
   public function getTileAtPos($cell)
@@ -483,7 +497,7 @@ class Planet
 
   public function isCoveredCoord($x, $y)
   {
-    return ($this->isPlanet($x, $y) && !$this->hasTileAtCoord($x, $y));
+    return $this->isPlanet($x, $y) && !$this->hasTileAtCoord($x, $y);
   }
 
   /**

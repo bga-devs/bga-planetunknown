@@ -34,7 +34,7 @@ trait DebugTrait
 
   function dv()
   {
-    Globals::setEndTriggered(true);
+    Globals::setGameEndTriggered(true);
   }
 
   function resolveDebug()
@@ -45,7 +45,7 @@ trait DebugTrait
 
   function flagGameEnded()
   {
-    Globals::setGameEnded(true);
+    Globals::setGameEndTriggered(true);
   }
 
   function engDisplay()

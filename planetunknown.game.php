@@ -1,5 +1,9 @@
 <?php
 
+// SLOT 2 : right before the last turn
+// SLOT 1 : end of the last turn
+// SLOT 3 : before end of game
+
 /**
  *------
  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
@@ -52,8 +56,7 @@ class planetunknown extends Table
   use PU\States\EngineTrait;
   use PU\States\TurnTrait;
   use PU\States\ChooseSetupTrait;
-  use PU\States\ChooseRotationTrait;
-  use PU\States\CivTrait;
+  use PU\States\EndGameTrait;
 
   public static $instance = null;
   function __construct()
@@ -105,6 +108,7 @@ class planetunknown extends Table
       'susan' => Susan::getUiData(),
       'scores' => $scores,
       'firstPlayer' => Globals::getFirstPlayer(),
+      'endOfGameTriggered' => Globals::isGameEndTriggered(),
     ];
   }
 

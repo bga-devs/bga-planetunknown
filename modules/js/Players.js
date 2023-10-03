@@ -1,5 +1,5 @@
 define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (dojo, declare) => {
-  const PLAYER_COUNTERS = ['handCivCount', 'playedCivCount'];
+  const PLAYER_COUNTERS = ['immediateCiv', 'endgameCiv'];
 
   const SCORE_CATEGORIES = ['planet', 'tracks', 'lifepods', 'meteors', 'civ', 'objectives', 'total'];
   const SCORE_MULTIPLE_ENTRIES = ['civ', 'objectives'];
@@ -210,7 +210,10 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       }
       planetGrid += '</div>';
 
-      return `<div class='planet' data-id='${planet.id}' id='planet-${pId}'>${planetGrid}</div>`;
+      return `<div class='planet' data-id='${planet.id}' id='planet-${pId}'>
+        <div class='pending-tiles'></div>
+        ${planetGrid}
+      </div>`;
     },
 
     tplCorporation(corpo, player = null) {
@@ -270,9 +273,9 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       return `<div class="planetunknown-first-player-holder" id="firstPlayer-${player.id}"></div>
       <div class='player-info'>
         <div class='civ-hand' id='civ-cards-indicator-${player.id}'>
-          <span id='counter-${player.id}-playedCivCount'>0</span>!
+          <span id='counter-${player.id}-immediateCiv'>0</span>!
           +
-          <span id='counter-${player.id}-handCivCount'>0</span>
+          <span id='counter-${player.id}-endgameCiv'>0</span>
           •
           ${this.formatIcon('civ')}
         </div>
@@ -295,11 +298,10 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       this.forEachPlayer((player) => {
         this._playerCounters[player.id] = {};
         PLAYER_COUNTERS.forEach((res) => {
-          let v = player[res];
+          let v = player[res] || 0;
           this._playerCounters[player.id][res] = this.createCounter(`counter-${player.id}-${res}`, v);
         });
       });
-      this.updatePlayersCounters(false);
     },
 
     /**
@@ -307,116 +309,26 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
      */
     updatePlayersCounters(anim = true) {
       this.forEachPlayer((player) => {
-        PLAYER_COUNTERS.forEach((res) => {
-          let value = player[res];
-          this._playerCounters[player.id][res].goTo(value, anim);
+        // PLAYER_COUNTERS.forEach((res) => {
+        //   let value = player[res] || 0;
+        //   this._playerCounters[player.id][res].goTo(value, anim);
+        // });
+
+        // CIV counters
+        let immediateCiv = 0,
+          endgameCiv = 0;
+        Object.values(player.playedCiv).forEach((card) => {
+          if (card.effectType == 'immediate') immediateCiv++;
+          else endgameCiv++;
         });
-      });
-    },
 
-    /**
-     * Animate a player counter receiving/loosing stuff
-     */
-    animatePlayerCounter(pId, type, n) {
-      let oldVal = +this._playerCounters[pId][type].getValue();
-      let newVal = oldVal + n;
-      if (type == 'reputation' && newVal > 15) newVal = 15;
-      if (type == 'xtoken' && newVal > 5) newVal = 5;
-      if (oldVal == newVal) {
-        return Promise.resolve();
-      }
-
-      let meeple = null,
-        container = null;
-      if (COUNTER_MEEPLES.includes(type)) {
-        meeple = this._playerCountersMeeples[pId][type];
-        container = this.getMeepleContainer({
-          pId,
-          type,
-          location: `${type}_${newVal}`,
+        Object.values(player.handCiv).forEach((card) => {
+          if (card.effectType == 'immediate') immediateCiv++;
+          else endgameCiv++;
         });
-      }
 
-      if (this.isFastMode()) {
-        this._playerCounters[pId][type].incValue(n);
-        if (meeple !== null) {
-          $(container).insertAdjacentElement('beforeend', meeple);
-
-          if (type == 'conservation') {
-            meeple = this._playerCountersMeeples[pId]['conservation-duplicate'];
-            container = this.getMeepleContainer({
-              location: `conservation-duplicate_${newVal}`,
-              pId,
-            });
-            $(container).insertAdjacentElement('beforeend', meeple);
-            this.updateDuplicateConservationBoard();
-          }
-        }
-        return Promise.resolve();
-      }
-
-      let tmpElt = `<div style='position:absolute' id='animation-${type}'>${this.formatIcon(type, Math.abs(n))}</div>`;
-      this.getVisibleTitleContainer().insertAdjacentHTML('beforebegin', tmpElt);
-      let mobileId = `animation-${type}`;
-      let counterId = `counter-${pId}-${type}`;
-
-      if (meeple !== null) {
-        this.slide(meeple, container);
-
-        // DUPLICATE CONSERVATION
-        if (type == 'conservation') {
-          meeple = this._playerCountersMeeples[pId]['conservation-duplicate'];
-          container = this.getMeepleContainer({
-            location: `conservation-duplicate_${newVal}`,
-            pId,
-          });
-          this.slide(meeple, container);
-        }
-      }
-
-      if (n < 0) {
-        // Loosing stuff
-        this._playerCounters[pId][type].incValue(n);
-        return this.slide(mobileId, this.getVisibleTitleContainer(), {
-          from: counterId,
-          destroy: true,
-          phantom: false,
-          duration: 1200,
-        });
-      } else {
-        // Gaining stuff
-        return this.slide(mobileId, counterId, {
-          from: this.getVisibleTitleContainer(),
-          destroy: true,
-          phantom: false,
-          duration: 1200,
-        }).then(() => {
-          this._playerCounters[pId][type].incValue(n);
-          if (type == 'conservation') this.updateDuplicateConservationBoard();
-        });
-      }
-    },
-
-    notif_getBonuses(n) {
-      debug('Notif: getting bonus/gaining resources', n);
-      // Update counters promises
-      let counters = Object.keys(n.args.bonuses);
-      let promises = counters.map((type) => {
-        if (type == 'source') return;
-
-        let amount = n.args.bonuses[type];
-        return this.animatePlayerCounter(n.args.player_id, type, amount);
-      });
-
-      // Callback
-      Promise.all(promises).then(() => {
-        if (n.args.score) {
-          this._scoreCounters[n.args.player_id].toValue(n.args.score);
-        }
-        if (n.args.income) {
-          this._playerCounters[n.args.player_id]['income'].toValue(n.args.income);
-        }
-        this.notifqueue.setSynchronousDuration(this.isFastMode() ? 0 : 100);
+        this._playerCounters[player.id]['immediateCiv'].toValue(immediateCiv);
+        this._playerCounters[player.id]['endgameCiv'].toValue(endgameCiv);
       });
     },
 
@@ -467,6 +379,8 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
     getTileContainer(tile) {
       if (tile.location == 'planet') {
         return $(`planet-${tile.pId}`).querySelector('.planet-grid');
+      } else if (tile.location == 'pending') {
+        return $(`planet-${tile.pId}`).querySelector('.pending-tiles');
       } else if (tile.type == 'biomass_patch' && tile.location == 'corporation') {
         return $(`biomass-reserve-${tile.pId}`);
       } else if ($(tile.location)) {

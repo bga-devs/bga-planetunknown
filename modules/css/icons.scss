@@ -98,8 +98,28 @@
   .icon-civ,
   .icon-biomass,
   .icon-energy {
-    width: 2em;
-    height: 2em;
+    width: 1.9em;
+    height: 1.9em;
     border-radius: 15%;
+  }
+}
+
+.action-button {
+  .icon-container-water,
+  .icon-container-tech,
+  .icon-container-rover,
+  .icon-container-civ,
+  .icon-container-biomass,
+  .icon-container-energy {
+    margin: -5px 0px -5px;
+  }
+
+  &#btnciv,
+  &#btntech,
+  &#btnwater,
+  &#btnrover,
+  &#btnbiomass {
+    padding: 9px 7px;
+    margin: -10px 0px -10px 15px !important;
   }
 }

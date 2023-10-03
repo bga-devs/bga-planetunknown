@@ -91,11 +91,11 @@ class Player extends \PU\Helpers\DB_Model
     }
   }
 
-  public function countMatchingCard($criteria)
+  public function countMatchingCard($criteria, $current)
   {
     $cards = Cards::getAll()
       ->where('pId', $this->id)
-      ->where('location', ['hand_obj', 'hand_civ']);
+      ->where('location', $current ? ['hand_obj', 'hand_civ', 'playedCivCards', 'playedObjCards'] : ['hand_obj', 'hand_civ']);
 
     $result = 0;
     foreach ($cards as $cardId => $card) {
@@ -201,11 +201,11 @@ class Player extends \PU\Helpers\DB_Model
       if (in_array($contraint, FORBIDDEN_TERRAINS)) {
         $neighbours = array_filter(
           $neighbours,
-          fn ($cell) => $this->planet->getVisible($cell['x'], $cell['y']) != FORBIDDEN_TERRAINS[$contraint]
+          fn($cell) => $this->planet->getVisible($cell['x'], $cell['y']) != FORBIDDEN_TERRAINS[$contraint]
         );
       }
 
-      $spaceIds[$roverId] = array_map(fn ($cell) => Planet::getCellId($cell), $neighbours);
+      $spaceIds[$roverId] = array_map(fn($cell) => Planet::getCellId($cell), $neighbours);
     }
 
     return $spaceIds;
@@ -222,10 +222,9 @@ class Player extends \PU\Helpers\DB_Model
     $current = $this->id == $currentPlayerId;
     $hand = $this->getHandCiv();
     $data['handCiv'] = $current ? $hand : Utils::filterPrivateDatas($hand);
-    $data['handCivCount'] = $this->getHandCiv()->count();
     $data['playedCiv'] = $this->getPlayedCivCards();
-    $data['playedCivCount'] = $this->getPlayedCivCards()->count();
     $data['handObj'] = $current ? $this->getHandObj() : [];
+    $data['playedObj'] = $this->getPlayedObjCards();
     return $data;
   }
 
@@ -302,7 +301,13 @@ class Player extends \PU\Helpers\DB_Model
       }
       //special for commerceAgreement
       $scoreCommerceAgreement = [0, 1, 3, 6, 10];
-      $result['civ']['entries']['commerceAgreement'] = $scoreCommerceAgreement[$this->countMatchingCard('commerceAgreement')];
+      $result['civ']['entries']['commerceAgreement'] =
+        $scoreCommerceAgreement[$this->countMatchingCard('commerceAgreement', true)];
+    } else {
+      //special for commerceAgreement
+      $scoreCommerceAgreement = [0, 1, 3, 6, 10];
+      $result['civ']['entries']['commerceAgreement'] =
+        $scoreCommerceAgreement[$this->countMatchingCard('commerceAgreement', false)];
     }
 
     $civCards = $this->getPlayedCivCards();
@@ -334,7 +339,7 @@ class Player extends \PU\Helpers\DB_Model
     $result['lifepods']['total'] = $scoreLifepods;
     $total += $scoreLifepods;
 
-    $scoreMeteors = $this->corporation()->scoreByMeteors();
+    $scoreMeteors = $this->corporation()->scoreByMeteors($isCurrent);
     $result['meteors']['total'] = $scoreMeteors;
     $total += $scoreMeteors;
 
@@ -350,7 +355,7 @@ class Player extends \PU\Helpers\DB_Model
 
   public static function reduce_entries($array)
   {
-    return array_reduce($array['entries'], fn ($sum, $item) => $sum + $item, 0);
+    return array_reduce($array['entries'], fn($sum, $item) => $sum + $item, 0);
   }
 
   public function addEndOfTurnAction($flow)

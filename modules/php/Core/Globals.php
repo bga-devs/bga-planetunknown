@@ -61,13 +61,18 @@ class Globals extends \PU\Helpers\DB_Manager
     'eventCardsGame' => 'obj',
     'privateObjectiveCardsGame' => 'bool',
     'turnSpecialRule' => 'str',
-    'gameEnded' => 'bool',
+
+    'gameEndTriggered' => 'bool',
   ];
 
   protected static $table = 'global_variables';
   protected static $primary = 'name';
   protected static function cast($row)
   {
+    if (!isset(self::$variables[$row['name']])) {
+      return null;
+    }
+
     $val = json_decode(\stripslashes($row['value']), true);
     return self::$variables[$row['name']] == 'int' ? ((int) $val) : $val;
   }

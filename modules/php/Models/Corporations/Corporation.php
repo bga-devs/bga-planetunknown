@@ -153,9 +153,9 @@ class Corporation
     return $result;
   }
 
-  public function scoreByMeteors()
+  public function scoreByMeteors($current)
   {
-    return floor($this->getNCollected(METEOR) * (1 + $this->player->countMatchingCard('meteorRepo')) / 3);
+    return floor(($this->getNCollected(METEOR) * (1 + $this->player->countMatchingCard('meteorRepo', $current))) / 3);
   }
 
   public function scoreByLifepods()
@@ -278,8 +278,6 @@ class Corporation
   {
     return $trackValue == $neededValue || (is_array($trackValue) && in_array($neededValue, $trackValue));
   }
-
-
 
   /*
          █████████  ██████████ ███████████ ███████████ ██████████ ███████████          

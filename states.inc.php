@@ -22,73 +22,7 @@ $machinestates = [
     'description' => '',
     'type' => 'manager',
     'action' => 'stGameSetup',
-    'transitions' => ['' => ST_CHOOSE_SETUP],
-  ],
-
-  ST_CHOOSE_SETUP => [
-    'name' => 'chooseSetup',
-    'type' => MULTI,
-    'description' => clienttranslate('Waiting for everyone to choose their setup'),
-    'descriptionmyturn' => clienttranslate('${you} must choose your setup'),
-    'args' => 'argChooseSetup',
-    'action' => 'stChooseSetup',
-    'possibleactions' => ['actChooseSetup'],
-    'transitions' => [
-      'notNeeded' => ST_SECOND_SETUP,
-      'end' => ST_CONFIRM_SETUP,
-    ],
-  ],
-
-  ST_CONFIRM_SETUP => [
-    'name' => 'confirmSetup',
-    'type' => GAME,
-    'description' => '',
-    'action' => 'stConfirmSetup',
-    'transitions' => ['' => ST_SECOND_SETUP],
-  ],
-
-  ST_SECOND_SETUP => [
-    'name' => 'secondSetup',
-    'type' => GAME,
-    'description' => '',
-    'action' => 'stSecondSetup',
-    'transitions' => [
-      '' => ST_CHOOSE_ROTATION,
-    ],
-  ],
-
-  ST_CHOOSE_ROTATION => [
-    'name' => 'chooseRotation',
-    'type' => ACTIVE_PLAYER,
-    'description' => clienttranslate('${actplayer} must choose Space Station orientation'),
-    'descriptionmyturn' => clienttranslate('${you} must choose Space Station orientation'),
-    'action' => 'stChooseRotation',
-    'possibleactions' => ['actChooseRotation'],
-    'transitions' => [
-      NO_EVENT_CARD_GAME => ST_SETUP_BRANCH,
-      EVENT_CARD_GAME => ST_EVENT_CARD,
-    ],
-  ],
-
-  ST_EVENT_CARD => [
-    'name' => 'eventCard',
-    'type' => GAME,
-    'description' => '',
-    'action' => 'stEventCard', //reveal top event card and prepare engine
-    'transitions' => ['' => ST_PLAY_AFTER_EVENT_CARD],
-  ],
-
-  // ST_NEXT_PLAYER => [
-  //   'name' => 'nextPlayer',
-  //   'type' => GAME,
-  //   'description' => '',
-  //   'action' => 'stNextPlayer',
-  //   'transitions' => ['' => ST_SETUP_BRANCH],
-  // ],
-
-  ST_GENERIC_NEXT_PLAYER => [
-    'name' => 'genericNextPlayer',
-    'type' => 'game',
+    'transitions' => ['' => ST_SETUP_BRANCH],
   ],
 
   //////////////////////////////////
@@ -104,20 +38,94 @@ $machinestates = [
     'description' => '',
     'type' => 'game',
     'action' => 'stSetupBranch',
+    'transitions' => ['done' => ST_FINISH_SETUP],
+  ],
+
+  ST_CHOOSE_SETUP => [
+    'name' => 'chooseSetup',
+    'type' => MULTI,
+    'description' => clienttranslate('Waiting for everyone to choose their setup'),
+    'descriptionmyturn' => clienttranslate('${you} must choose your setup'),
+    'args' => 'argChooseSetup',
+    'possibleactions' => ['actChooseSetup'],
     'transitions' => [
-      'selection' => ST_START_PARALLEL,
+      'notNeeded' => ST_FINISH_SETUP,
+      'end' => ST_CONFIRM_SETUP,
     ],
   ],
 
-  ST_PRE_CHOOSE_CIV_CARD => [
-    'name' => 'preChooseCivCard',
-    'description' => '',
+  ST_FINISH_SETUP => [
+    'name' => 'finishSetup',
     'type' => GAME,
-    'action' => 'stPreChooseCivCard',
+    'description' => '',
+    'action' => 'stFinishSetup',
     'transitions' => [
-      '' => ST_TAKE_CIV_CARD,
+      'play' => ST_CHOOSE_ROTATION,
     ],
   ],
+
+  ////////////////////////////////////////////////////////////////////
+  //  ____  _             _            __   _____
+  // / ___|| |_ __ _ _ __| |_    ___  / _| |_   _|   _ _ __ _ __
+  // \___ \| __/ _` | '__| __|  / _ \| |_    | || | | | '__| '_ \
+  //  ___) | || (_| | |  | |_  | (_) |  _|   | || |_| | |  | | | |
+  // |____/ \__\__,_|_|   \__|  \___/|_|     |_| \__,_|_|  |_| |_|
+  ////////////////////////////////////////////////////////////////////
+
+  ST_START_TURN => [
+    'name' => 'startTurn',
+    'description' => '',
+    'type' => 'game',
+    'action' => 'stStartTurn',
+  ],
+
+  ST_CHOOSE_ROTATION => [
+    'name' => 'chooseRotation',
+    'type' => ACTIVE_PLAYER,
+    'description' => clienttranslate('${actplayer} must choose Space Station orientation'),
+    'descriptionmyturn' => clienttranslate('${you} must choose Space Station orientation'),
+    'action' => 'stChooseRotation',
+    'possibleactions' => ['actChooseRotation'],
+    'transitions' => [
+      NO_EVENT_CARD_GAME => ST_START_TURN_ENGINE,
+      EVENT_CARD_GAME => ST_REVEAL_EVENT_CARD,
+    ],
+  ],
+
+  //////////////////////////
+  ///////// EVENTS /////////
+  //////////////////////////
+
+  ST_REVEAL_EVENT_CARD => [
+    'name' => 'revealEventCard',
+    'type' => GAME,
+    'description' => '',
+    'action' => 'stRevealEventCard', //reveal top event card and prepare engine
+    'transitions' => ['' => ST_PLAY_AFTER_EVENT_CARD],
+  ],
+
+  ST_PLAY_AFTER_EVENT_CARD => [
+    'name' => 'playAfterEventCard',
+    'type' => GAME,
+    'action' => 'stPlayAfterEventCard',
+  ],
+
+  //////////////////////////
+  // LAUNCH ENGINE
+  /////////////////////////
+  ST_START_TURN_ENGINE => [
+    'name' => 'startTurnEngine',
+    'type' => 'game',
+    'action' => 'stStartTurnEngine',
+  ],
+
+  ////////////////////////////////////////////////////////////
+  //  _____           _          __   _____
+  // | ____|_ __   __| |   ___  / _| |_   _|   _ _ __ _ __
+  // |  _| | '_ \ / _` |  / _ \| |_    | || | | | '__| '_ \
+  // | |___| | | | (_| | | (_) |  _|   | || |_| | |  | | | |
+  // |_____|_| |_|\__,_|  \___/|_|     |_| \__,_|_|  |_| |_|
+  ////////////////////////////////////////////////////////////
 
   ST_CHOOSE_CIV_CARD => [
     'name' => 'chooseCivCard',
@@ -125,40 +133,16 @@ $machinestates = [
     'type' => GAME,
     'action' => 'chooseCivCard',
     'transitions' => [
-      '' => ST_POST_CHOOSE_CIV_CARD,
+      '' => ST_END_TURN,
     ],
   ],
 
-  ST_POST_CHOOSE_CIV_CARD => [
-    'name' => 'postChooseCivCard',
+  ST_END_TURN => [
+    'name' => 'endTurn',
     'description' => '',
     'type' => GAME,
-    'action' => 'stPostChooseCivCard', //remove pendings endofturn actions
-    'transitions' => [
-      'gameEnd' => ST_END_GAME_TURN,
-      'nextTurn' => ST_CHOOSE_ROTATION,
-    ],
+    'action' => 'stEndTurn',
   ],
-
-  //////////////////////////////
-  //  _____
-  // |_   _|   _ _ __ _ __
-  //   | || | | | '__| '_ \
-  //   | || |_| | |  | | | |
-  //   |_| \__,_|_|  |_| |_|
-  //////////////////////////////
-
-  ST_START_PARALLEL => [
-    'name' => 'startParallel',
-    'type' => 'game',
-    'action' => 'stStartParallel',
-  ],
-
-  ST_PLAY_AFTER_EVENT_CARD => [
-    'name' => 'playAfterEventCard',
-    'type' => GAME,
-    'action' => 'stPlayAfterEventCard',
-  ], // should end with -> ST_SETUP_BRANCH
 
   ////////////////////////////////////
   //  _____             _
@@ -168,6 +152,11 @@ $machinestates = [
   // |_____|_| |_|\__, |_|_| |_|\___|
   //              |___/
   ////////////////////////////////////
+  ST_GENERIC_NEXT_PLAYER => [
+    'name' => 'genericNextPlayer',
+    'type' => 'game',
+  ],
+
   ST_SETUP_PRIVATE_ENGINE => [
     'name' => 'setupEngine',
     'type' => 'multipleactiveplayer',
@@ -254,10 +243,11 @@ $machinestates = [
   ST_PLACE_TILE => [
     'name' => 'placeTile',
     'descriptionmyturn' => clienttranslate('${you} must place a tile'),
+    'descriptionmyturnimpossible' => clienttranslate('${you} can\'t place a tile. Choose one to keep for your last round'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
-    'possibleactions' => ['actPlaceTile', 'actRestart'],
+    'possibleactions' => ['actPlaceTile', 'actPlaceTileNoPlacement', 'actRestart'],
   ],
 
   ST_MOVE_TRACK => [
@@ -317,6 +307,7 @@ $machinestates = [
   ST_MOVE_ROVER => [
     'name' => 'moveRover',
     'descriptionmyturn' => clienttranslate('${you} must move your Rover(s) (${remaining} move(s) remaining)'),
+    'descriptionmyturnskippable' => clienttranslate('${you} may move your Rover(s) (${remaining} move(s) remaining)'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
@@ -368,33 +359,6 @@ $machinestates = [
     'possibleactions' => ['actChooseRotation', 'actRestart'],
   ],
 
-  ST_FOO_A => [
-    'name' => 'fooA',
-    'descriptionmyturn' => clienttranslate('${you} must fooA'),
-    'type' => 'private',
-    'args' => 'argsAtomicAction',
-    'action' => 'stAtomicAction',
-    'possibleactions' => ['actFooA', 'actRestart'],
-  ],
-
-  ST_FOO_B => [
-    'name' => 'fooB',
-    'descriptionmyturn' => clienttranslate('${you} must fooB'),
-    'type' => 'private',
-    'args' => 'argsAtomicAction',
-    'action' => 'stAtomicAction',
-    'possibleactions' => ['actFooB', 'actRestart'],
-  ],
-
-  ST_FOO_C => [
-    'name' => 'fooC',
-    'descriptionmyturn' => clienttranslate('${you} must fooC'),
-    'type' => 'private',
-    'args' => 'argsAtomicAction',
-    'action' => 'stAtomicAction',
-    'possibleactions' => ['actFooC', 'actRestart'],
-  ],
-
   //////////////////////////////////////////////////////////////////
   //  _____           _    ___   __    ____
   // | ____|_ __   __| |  / _ \ / _|  / ___| __ _ _ __ ___   ___
@@ -403,10 +367,9 @@ $machinestates = [
   // |_____|_| |_|\__,_|  \___/|_|    \____|\__,_|_| |_| |_|\___|
   //////////////////////////////////////////////////////////////////
 
-
   ST_PRE_END_GAME_TURN => [
     'name' => 'preEndGameTurn',
-    'description' => 'All players reveal their civ cards',
+    'description' => '',
     'type' => GAME,
     'action' => 'stPreEndGameTurn', //reveal civ cards
     'transitions' => [
@@ -419,25 +382,12 @@ $machinestates = [
     'description' => '',
     'type' => GAME,
     'action' => 'stEndGameTurn',
-    'transitions' => [
-      '' => ST_POST_END_GAME_TURN,
-    ],
-  ],
-
-  ST_POST_END_GAME_TURN => [
-    'name' => 'postEndGameTurn',
-    'description' => '',
-    'type' => GAME,
-    'action' => 'stPostEndGameTurn', //remove pendings endofturn actions
-    'transitions' => [
-      'endGame' => ST_PRE_END_OF_GAME,
-      'newTrun' => ST_PRE_CHOOSE_CIV_CARD,
-    ],
   ],
 
   ST_PRE_END_OF_GAME => [
     'name' => 'preEndOfGame',
-    'type' => 'game',
+    'description' => '',
+    'type' => GAME,
     'action' => 'stPreEndOfGame',
     'transitions' => ['' => ST_END_GAME],
   ],

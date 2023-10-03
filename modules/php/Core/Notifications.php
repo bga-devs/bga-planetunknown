@@ -181,22 +181,6 @@ class Notifications
     static::notifyAll('newRotation', $message, $data);
   }
 
-  public static function gameEnd($reason)
-  {
-    $data = [];
-
-    switch ($reason) {
-      case 'eventCard':
-        $msg = clienttranslate('This was the last event card. The game will finish at the end of this turn');
-        break;
-
-      default:
-        $msg = clienttranslate('The game is ended.');
-    }
-
-    static::notifyAll('lastTurn', $msg, $data);
-  }
-
   public static function placeMeeple($player, $type, $meeple)
   {
     $msg = clienttranslate('${player_name} places a new ${type} on his planet');
@@ -247,22 +231,40 @@ class Notifications
     );
   }
 
-  public static function revealCards()
+  public static function placeTileNoPlacement($player, $tile, $types)
   {
-    $data = [
-      'players' => Players::getUiData(),
-    ];
-    static::notifyAll('revealCards', '', $data);
+    self::pnotify(
+      $player,
+      'placeTile',
+      clienttranslate('${player_name} can\'t place a tile and choose ${types_desc} tile as its last tile'),
+      [
+        'tile' => $tile,
+        'types' => $types,
+        'meteor' => null,
+      ]
+    );
   }
 
-  public static function secondSetup()
+  public static function revealCards($type)
+  {
+    $data = [
+      'playersData' => Players::getUiData(),
+    ];
+    static::notifyAll(
+      'revealCards',
+      $type == CIV ? clienttranslate('Revealing CIV card(s) in hand') : clienttranslate('Revealing private objectives'),
+      $data
+    );
+  }
+
+  public static function finishSetup()
   {
     $data = [
       'UIplayers' => Players::getUiData(),
       'meeples' => Meeples::getUiData(),
     ];
     static::notifyAll(
-      'secondSetup',
+      'finishSetup',
       clienttranslate('All planets and corporations are ready to preserve the future of humanity'),
       $data
     );
@@ -321,6 +323,26 @@ class Notifications
       'player' => $player,
       'tile' => $tile,
     ]);
+  }
+
+  public static function endOfGameTriggered($player)
+  {
+    self::notifyAll(
+      'endOfGameTriggered',
+      clienttranslate('${player_name} can\'t place any tile, triggering the last round of the game.'),
+      [
+        'player' => $player,
+      ]
+    );
+  }
+
+  public static function endOfGameTriggeredEventCard()
+  {
+    self::notifyAll(
+      'endOfGameTriggered',
+      clienttranslate('This was the last event card. The game will finish at the end of this turn'),
+      []
+    );
   }
 
   /*************************

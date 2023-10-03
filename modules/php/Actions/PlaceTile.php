@@ -23,9 +23,12 @@ class PlaceTile extends \PU\Models\Action
 
   public function isDoable($player)
   {
-    // TODO : check rule for biomass patch
-    // Handle here
-    return true; //$this->getPlayableTiles($player, true);
+    if ($this->getCtxArg('type') == 'normal') {
+      return true;
+    }
+
+    list($tiles, $canPlace) = $this->getPlayableTiles($player, true);
+    return $canPlace;
   }
 
   public function getWithBonus()
@@ -64,14 +67,14 @@ class PlaceTile extends \PU\Models\Action
       $placementOptions = $player->planet()->getPlacementOptions($tile->getType(), $checkIsDoable, $specialRule);
       if (!empty($placementOptions)) {
         if ($checkIsDoable) {
-          return true;
+          return [$tiles, true];
         }
         $tiles[$tile->getId()] = $placementOptions;
       }
     }
 
     if (!empty($tiles)) {
-      return $tiles;
+      return [$tiles, true];
     }
 
     // Same without special rule
@@ -86,16 +89,14 @@ class PlaceTile extends \PU\Models\Action
     }
 
     if (!empty($tiles)) {
-      return $tiles;
-    } elseif ($checkIsDoable) {
-      return false;
+      return [$tiles, true];
     }
 
     // Otherwise, let them pick any tile without placing it
     foreach ($forcedTiles ?? $this->getPossibleTiles($player) as $tile) {
       $tiles[$tile->getId()] = NO_PLACEMENT;
     }
-    return $tiles;
+    return [$tiles, false];
   }
 
   public function getDescription()
@@ -114,9 +115,11 @@ class PlaceTile extends \PU\Models\Action
   public function argsPlaceTile()
   {
     $player = $this->getPlayer();
+    list($tiles, $canPlace) = $this->getPlayableTiles($player);
 
     return [
-      'tiles' => $this->getPlayableTiles($player, false),
+      'tiles' => $tiles,
+      'descSuffix' => $canPlace ? '' : 'impossible',
     ];
   }
 
@@ -126,7 +129,6 @@ class PlaceTile extends \PU\Models\Action
     $args = $this->argsPlaceTile();
     $tiles = $args['tiles'];
     $tileOptions = $tiles[$tileId] ?? null;
-    $no_placement = $tileOptions == NO_PLACEMENT;
 
     if (is_null($tileOptions)) {
       throw new \BgaVisibleSystemException('You cannot place that tile. Should not happen ' . $tileId);
@@ -142,26 +144,24 @@ class PlaceTile extends \PU\Models\Action
     }
 
     // Place it on the board
-    list($tile, $symbols, $coveringWater, $meteor) = $player->planet()->addTile($tileId, $pos, $rotation, $flipped, $no_placement);
+    list($tile, $symbols, $coveringWater, $meteor) = $player->planet()->addTile($tileId, $pos, $rotation, $flipped);
 
-    if (!$no_placement) {
-      //record it
-      $player->setLastTileId($tileId);
+    //record it
+    $player->setLastTileId($tileId);
 
-      // Add asteroid meeples
-      if (!is_null($meteor)) {
-        $meteor = Meeples::addMeteor($player, $meteor);
-      }
+    // Add asteroid meeples
+    if (!is_null($meteor)) {
+      $meteor = Meeples::addMeteor($player, $meteor);
+    }
 
-      // Destroy pod/rover if any are covered
-      [$destroyedRover, $destroyedLifepod] = Meeples::destroyCoveredMeeples($player, $tile);
+    // Destroy pod/rover if any are covered
+    [$destroyedRover, $destroyedLifepod] = Meeples::destroyCoveredMeeples($player, $tile);
 
-      // Place extra Rover if it's the turn special rules
-      if (Globals::getTurnSpecialRule() == ADD_ROVER) {
-        $this->pushParallelChild([
-          'action' => PLACE_ROVER,
-        ]);
-      }
+    // Place extra Rover if it's the turn special rules
+    if (Globals::getTurnSpecialRule() == ADD_ROVER) {
+      $this->pushParallelChild([
+        'action' => PLACE_ROVER,
+      ]);
     }
 
     // Move tracks
@@ -181,8 +181,8 @@ class PlaceTile extends \PU\Models\Action
         $actions[] = [
           'action' => COLLECT_MEEPLE,
           'args' => [
-            'type' => METEOR
-          ]
+            'type' => METEOR,
+          ],
         ];
       }
 
@@ -193,8 +193,8 @@ class PlaceTile extends \PU\Models\Action
           $actions[] = [
             'action' => POSITION_LIFEPOD_ON_TRACK,
             'args' => [
-              'remaining' => 1
-            ]
+              'remaining' => 1,
+            ],
           ];
         }
 
@@ -211,7 +211,7 @@ class PlaceTile extends \PU\Models\Action
         continue;
       }
       // Water => stop if the tile is not covering water
-      elseif ($type == WATER && !$coveringWater && !$no_placement) {
+      elseif ($type == WATER && !$coveringWater) {
         continue;
       }
 
@@ -244,5 +244,52 @@ class PlaceTile extends \PU\Models\Action
     if ($destroyedRover->count()) {
       Notifications::destroyedMeeples($player, $destroyedRover, ROVER);
     }
+  }
+
+  public function actPlaceTileNoPlacement($tileId)
+  {
+    $player = $this->getPlayer();
+    $args = $this->argsPlaceTile();
+    $tiles = $args['tiles'];
+    $tileOptions = $tiles[$tileId] ?? null;
+    $noPlacement = $tileOptions == NO_PLACEMENT;
+    if (is_null($tileOptions) || !$noPlacement) {
+      throw new \BgaVisibleSystemException('You cannot place that tile. Should not happen ' . $tileId);
+    }
+
+    // Place it on the board
+    list($tile, $symbols) = $player->planet()->addTileNoPlacement($tileId);
+
+    // Move tracks
+    $tileTypes = [];
+    $actions = [];
+    foreach ($symbols as $symbol) {
+      if (!$this->getWithBonus()) {
+        continue;
+      }
+
+      $type = $symbol['type'];
+      $tileTypes[] = $type;
+      $n = 1;
+      if ($type == WATER && $player->hasTech(TECH_WATER_ADVANCE_TWICE)) {
+        $n *= 2;
+      }
+
+      $actions[] = [
+        'action' => MOVE_TRACK,
+        'args' => ['type' => $type, 'n' => $n, 'withBonus' => true],
+      ];
+    }
+
+    if (Globals::getTurnSpecialRule() == ONLY_ONE_MOVE_TRACKER) {
+      $this->pushParallelChild([
+        'type' => NODE_XOR,
+        'actions' => $actions,
+      ]);
+    } else {
+      $this->pushParallelChilds($actions);
+    }
+
+    Notifications::placeTileNoPlacement($player, $tile, $tileTypes);
   }
 }

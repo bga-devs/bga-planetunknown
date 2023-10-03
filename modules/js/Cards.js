@@ -129,14 +129,26 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         if (!$(`card-${card.id}`)) this.addCard(card, 'planetunknown-main-container');
         oCard = $(`card-${card.id}`);
       }
-      console.log(oCard);
 
       this.slide(oCard, `civ-cards-indicator-${pId}`).then(() => {
         dojo.place(oCard, `cards-${pId}`);
-        let counter = card.location == 'playedCivCards' ? 'playedCivCount' : 'handCivCount';
+        let counter = card.location == 'playedCivCards' ? 'immediateCiv' : 'endgameCiv';
         this.gamedatas.players[pId][counter]++;
         this._playerCounters[pId][counter].incValue(1);
       });
+    },
+
+    notif_revealCards(n) {
+      debug('Notif: revealing cards', n);
+      this.gamedatas.players = n.args.playersData;
+      this.forEachPlayer((player) => {
+        this.empty(`cards-${player.id}`);
+        Object.values(player.playedCiv).forEach((card) => {
+          this.addCard(card, `cards-${player.id}`);
+        });
+      });
+
+      this.updatePlayersCounters();
     },
   });
 });
