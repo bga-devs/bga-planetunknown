@@ -589,6 +589,8 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
 
     updatePlayerScores(pId, anim = true) {
       SCORE_CATEGORIES.forEach((category) => {
+        if (this.gamedatas.scores[pId][category] === undefined) return;
+
         let value = category == 'total' ? this.gamedatas.scores[pId]['total'] : this.gamedatas.scores[pId][category]['total'];
         this._scoresCounters[pId][category][anim ? 'toValue' : 'setValue'](value);
 

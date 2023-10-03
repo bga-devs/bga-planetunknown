@@ -367,6 +367,74 @@ define([
     // |____/ \__\__,_|_|   \__|
     //////////////////////////////
 
+    onEnteringStateChooseSetup(args) {
+      if (!args._private) return;
+      let selectedPlanet = null;
+      let selectedCorpo = null;
+      // Display button only if all choices are made
+      let updateSelection = () => {
+        let planetOk = selectedPlanet != null;
+        let corpoOk = selectedCorpo != null;
+
+        if (args._private.choice != undefined) {
+          let choice = args._private.choice;
+          planetOk = selectedPlanet != choice.planetId;
+          corpoOk = selectedCorpo != choice.corporationId;
+        }
+
+        if (planetOk && corpoOk) {
+          // Add confirm button (only if choice is different from potential existing selection)
+          this.addPrimaryActionButton('btnConfirmChoice', _('Confirm'), () =>
+            this.takeAction('actChooseSetup', { planetId: selectedPlanet, corpoId: corpoId }, false)
+          );
+        } else if ($('btnConfirmChoice')) {
+          $('btnConfirmChoice').remove();
+        }
+      };
+
+      let selectPlanet = (planetId) => {
+        if (selectedPlanet !== null && selectedPlanet == planetId) {
+          $('pagesubtitle').innerHTML = this.formatString(_(PLANETS_DATA[planetId].desc));
+          return;
+        }
+
+        let container = $(`player-board-planet-${this.player_id}`);
+        let previousMap = container.querySelector('.planet');
+        if (previousMap) previousMap.remove();
+        container.insertAdjacentHTML('beforeend', this.tplPlanet(PLANETS_DATA[planetId]));
+        $('pagesubtitle').innerHTML = this.formatString(_(PLANETS_DATA[planetId].desc));
+        this.attachRegisteredTooltips();
+
+        // Highlight button
+        if (selectedPlanet !== null) {
+          $(`selectPlanet${selectedPlanet}`).classList.remove('selected');
+        }
+        selectedPlanet = planetId;
+        $(`selectPlanet${selectedPlanet}`).classList.add('selected');
+        updateSelection();
+      };
+
+      let possiblePlanets = args._private.planet;
+      possiblePlanets.forEach((planetId) => {
+        this.addPrimaryActionButton(`selectPlanet${planetId}`, _(PLANETS_DATA[planetId].name), () => selectPlanet(planetId));
+      });
+
+      // Already made a selection => allow to change its mind
+      if (args._private.choice != null) {
+        selectPlanet(args._private.choice.planetId);
+      }
+      // No selection yet => let the user click on any
+      else {
+        selectPlanet(args._private.planet[0]);
+      }
+    },
+
+    notif_updateInitialMapSelection(n) {
+      this.clearPossible();
+      this.updatePageTitle();
+      this.onEnteringStateInitialMapSelection(n.args.args);
+    },
+
     notif_setupPlayer(n) {
       debug('Notif: finish setup of player', n);
 
@@ -381,8 +449,8 @@ define([
       // let previousMap = container.querySelector('.zoo-map');
       // if (previousMap) previousMap.remove();
 
-      // player.mapId = n.args.mapId;
-      // $(`icons-summary-map-${player.id}`).insertAdjacentHTML('afterend', this.tplZooPlanet(MAPS_DATA[player.mapId], player));
+      // player.planetId = n.args.planetId;
+      // $(`icons-summary-map-${player.id}`).insertAdjacentHTML('afterend', this.tplZooPlanet(MAPS_DATA[player.planetId], player));
       // this.activateShowTileHelperButtons();
       // this.setupChangeBoardArrows(player.id);
 
