@@ -26,7 +26,31 @@ class Planet10 extends \PU\Models\Planet
   public function __construct($player)
   {
     $this->name = clienttranslate('Persephone');
-    $this->desc = clienttranslate('Each quadrant has one restricted resource. Do not place a restricted resource in the quadrant.');
+    $this->desc = clienttranslate(
+      'Each quadrant has one restricted resource. Do not place a restricted resource in the quadrant.'
+    );
     parent::__construct($player);
+  }
+
+  public function isValidPlacementOption($tile, $cells)
+  {
+    $datas = $tile->getData();
+    foreach ($cells as $i => $cell) {
+      $type = $datas[$i]['type'];
+      if ($cell['x'] <= 5 && $cell['y'] <= 5 && $type == CIV) {
+        return false;
+      }
+      if ($cell['x'] > 5 && $cell['y'] <= 5 && $type == ENERGY) {
+        return false;
+      }
+      if ($cell['x'] <= 5 && $cell['y'] > 5 && $type == TECH) {
+        return false;
+      }
+      if ($cell['x'] > 5 && $cell['y'] > 5 && $type == WATER) {
+        return false;
+      }
+    }
+
+    return true;
   }
 }
