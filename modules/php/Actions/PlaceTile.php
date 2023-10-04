@@ -64,7 +64,7 @@ class PlaceTile extends \PU\Models\Action
 
     $specialRule = Globals::getTurnSpecialRule();
     foreach ($forcedTiles ?? $this->getPossibleTiles($player) as $tile) {
-      $placementOptions = $player->planet()->getPlacementOptions($tile->getType(), $checkIsDoable, $specialRule);
+      $placementOptions = $player->planet()->getPlacementOptions($tile, $checkIsDoable, $specialRule);
       if (!empty($placementOptions)) {
         if ($checkIsDoable) {
           return [$tiles, true];
@@ -79,7 +79,7 @@ class PlaceTile extends \PU\Models\Action
 
     // Same without special rule
     foreach ($forcedTiles ?? $this->getPossibleTiles($player) as $tile) {
-      $placementOptions = $player->planet()->getPlacementOptions($tile->getType(), $checkIsDoable);
+      $placementOptions = $player->planet()->getPlacementOptions($tile, $checkIsDoable);
       if (!empty($placementOptions)) {
         if ($checkIsDoable) {
           return true;

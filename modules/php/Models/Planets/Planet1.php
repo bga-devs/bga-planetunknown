@@ -26,7 +26,22 @@ class Planet1 extends \PU\Models\Planet
   public function __construct($player)
   {
     $this->name = clienttranslate('Arashi');
-    $this->desc = clienttranslate('Every Tile placed onto the planet\'s ring must also be anchored outside the ring.'); // TODOTissac
+    $this->desc = clienttranslate('Every Tile placed onto the planet\'s ring must also be anchored outside the ring.');
     parent::__construct($player);
+  }
+
+  public function isValidPlacementOption($tile, $cells)
+  {
+    $touchingRing = false;
+    $touchingPlanet = false;
+    foreach ($cells as $cell) {
+      if (in_array($cell['y'], [5, 6])) {
+        $touchingRing = true;
+      } else {
+        $touchingPlanet = true;
+      }
+    }
+
+    return !$touchingRing || $touchingPlanet;
   }
 }

@@ -380,8 +380,9 @@ class Planet
     $this->freeCells = null;
   }
 
-  public function getPlacementOptions($tileType, $checkIsDoable = false, $specialRule = null)
+  public function getPlacementOptions($tile, $checkIsDoable = false, $specialRule = null)
   {
+    $tileType = $tile->getType();
     list($checkingCells, $freeCells) = $this->getPlacementOptionsCachedDatas();
     $border = $this->getBorderCells();
     $byPassCheck = false; // Coorpo techs
@@ -400,6 +401,9 @@ class Planet
           }
 
           // TODO: add check function that can be overwritten by some planets
+          if (!$this->isValidPlacementOption($tile, $cells)) {
+            continue;
+          }
 
           if ($this->isIntersectionNonEmpty($cells, $checkingCells) || $this->player->hasTech(TECH_BYPASS_ADJACENT_CONSTRAINT)) {
             // Check if tile is intersecting border or not
@@ -421,6 +425,12 @@ class Planet
       }
     }
     return $result;
+  }
+
+  // Will be overwritten by some planets
+  public function isValidPlacementOption($tile, $cells)
+  {
+    return true;
   }
 
   /**
