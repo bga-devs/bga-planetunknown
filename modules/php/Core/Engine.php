@@ -33,6 +33,7 @@ class Engine
       $flowTree = self::buildTree($t);
       self::$trees[$pId] = $flowTree;
 
+      // if ($cPId == $pId && !static::$replayed && Globals::getMode() == MODE_APPLY) {
       if ($cPId == $pId && !static::$replayed) {
         Globals::setReplayMode();
         $flowTree->replay();
@@ -48,6 +49,7 @@ class Engine
     Globals::setMode(MODE_APPLY);
     foreach (self::$trees as $pId => $t) {
       $t->replay();
+      PGlobals::setEngine($pId, []);
     }
     Log::clearUndoableStepNotifications();
   }
