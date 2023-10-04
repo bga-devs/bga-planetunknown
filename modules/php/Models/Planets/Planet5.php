@@ -26,7 +26,23 @@ class Planet5 extends \PU\Models\Planet
   public function __construct($player)
   {
     $this->name = clienttranslate('K-273');
-    $this->desc = clienttranslate('You may not place a tile that overlaps both planet terrain and planet ice.'); // TODOTissac
+    $this->desc = clienttranslate('You may not place a tile that overlaps both planet terrain and planet ice.');
     parent::__construct($player);
+  }
+
+  public function isValidPlacementOption($tile, $cells)
+  {
+    $touchingIce = false;
+    $touchingLand = false;
+    foreach ($cells as $cell) {
+      $terrain = $this->terrains[$cell['y']][$cell['x']];
+      if ($terrain === ICE) {
+        $touchingIce = true;
+      } elseif ($terrain !== NOTHING) {
+        $touchingLand = true;
+      }
+    }
+
+    return $touchingLand xor $touchingIce;
   }
 }
