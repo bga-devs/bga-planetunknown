@@ -49,7 +49,7 @@ class MoveTrackersToFive extends \PU\Models\Action
     return []; // Ensure the UI is not entering the state !!!
   }
 
-  public function actMoveTrackersByOne()
+  public function actMoveTrackersToFive()
   {
     $player = $this->getPlayer();
 
