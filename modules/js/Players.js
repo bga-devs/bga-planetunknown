@@ -191,6 +191,13 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       return $(`planet-${pId}`).querySelector(`.planet-grid-cell[data-x="${x}"][data-y="${y}"]`);
     },
 
+    getSideCell(planetId, x, y) {
+      let planet = PLANETS_DATA[planetId];
+      let side = 0;
+      if (planet.sides && planet.sides[y] && planet.sides[y][x] && planet.sides[y][x] == 1) side = 1;
+      return side;
+    },
+
     tplPlanet(planet, player = null) {
       let pId = player == null ? 0 : player.id;
 
@@ -199,13 +206,13 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       for (let y = -1; y < 12; y++) {
         for (let x = -1; x < 12; x++) {
           let uid = x + '_' + y;
-          let className = '';
+          let className = this.getSideCell(planet.id, x, y) == 1 ? ' chiasm-right' : '';
           let style = `grid-row: ${y + 2}; grid-column: ${x + 2}`;
           planetGrid += `<div class='planet-grid-cell${className}' style='${style}' data-x='${x}' data-y='${y}'></div>`;
 
           // White overlay
           if (planet.terrains[y] && planet.terrains[y][x] && planet.terrains[y][x] != 'nothing')
-            planetGrid += `<div class='planet-grid-cell-overlay' style='${style}'></div>`;
+            planetGrid += `<div class='planet-grid-cell-overlay ${className}' style='${style}'></div>`;
         }
       }
       planetGrid += '</div>';
@@ -372,7 +379,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
 
       let o = this.place('tplTile', tile, container);
       if (tile.location == 'planet') {
-        this.placeTile(`tile-${tile.id}`, tile.x, tile.y);
+        this.placeTile(`tile-${tile.id}`, tile.x, tile.y, tile.pId);
       }
     },
 
@@ -406,11 +413,13 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
     },
 
     // Place a tile at the correct grid position to make at pos (x,y)
-    placeTile(tileId, x, y) {
+    placeTile(tileId, x, y, pId) {
       let col = parseInt(x) + 2;
       let row = parseInt(y) + 2;
       $(tileId).style.gridColumnStart = col;
       $(tileId).style.gridRowStart = row;
+      let planetId = $(`planet-${pId}`).dataset.id;
+      $(tileId).classList.toggle('chiasm-right', this.getSideCell(planetId, x, y) == 1);
     },
 
     updateTileObj(o, tile) {
@@ -418,7 +427,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         o.dataset[key] = tile[key];
       });
       if (tile.location == 'planet') {
-        this.placeTile(o, tile.x, tile.y);
+        this.placeTile(o, tile.x, tile.y, tile.pId);
       }
     },
 

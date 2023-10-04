@@ -102,6 +102,10 @@ $planetGridHeight: 12 * $cellHeight;
                         }
                     }
 
+                    .chiasm-right {
+                        transform: translateX(7px);
+                    }
+
                     .pending-tiles {
                         position: absolute;
                         top: 5px;

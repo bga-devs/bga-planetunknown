@@ -734,6 +734,7 @@ define([
       let hoveredCell = null;
       let pos = null;
       let oPlanet = $(`planet-${this.player_id}`).querySelector('.planet-grid');
+      let planetId = $(`planet-${this.player_id}`).dataset.id;
 
       // Add a visual representation on hover
       oPlanet.insertAdjacentHTML(
@@ -758,14 +759,16 @@ define([
 
       // Move selection to a given position
       let moveSelection = (x, y, cell = null) => {
-        this.placeTile('tile-hover', x, y);
-        this.placeTile('tile-controls', x, y);
+        this.placeTile('tile-hover', x, y, this.player_id);
+        this.placeTile('tile-controls', x, y, this.player_id);
 
         let pos = args.tiles[selection].find((p) => p.pos.x == x && p.pos.y == y);
         let r = ((rotation % 4) + 4) % 4;
         let valid = pos && pos.r.find((d) => d[0] == r && d[1] == flipped);
         $('tile-hover').classList.toggle('invalid', !valid);
-        $('tile-hover').style.transform = `rotate(${rotation * 90}deg) scaleX(${flipped ? -1 : 1})`;
+        $('tile-hover').style.transform =
+          (this.getSideCell(planetId, x, y) == 1 ? 'translateX(7px)' : '') +
+          `rotate(${rotation * 90}deg) scaleX(${flipped ? -1 : 1})`;
         $('tile-hover').querySelector('.tile-crosshairs').style.transform = `rotate(${-rotation * 90}deg)`;
 
         let bottomCircle = $('tile-controls').offsetTop + $('tile-controls-circle').offsetHeight / 2;

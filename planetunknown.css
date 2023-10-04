@@ -942,6 +942,8 @@
             background-image: url("img/Planets/11.jpg"); }
           .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet[data-id="12"] {
             background-image: url("img/Planets/12.jpg"); }
+          .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .chiasm-right {
+            transform: translateX(7px); }
           .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .pending-tiles {
             position: absolute;
             top: 5px;
@@ -2315,7 +2317,7 @@
 
 #customActions .separator {
   display: inline-block;
-  margin-left: 10px; }
+  margin-left: 15px; }
 
 #restartAction {
   margin-left: 15px; }
