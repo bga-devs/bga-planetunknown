@@ -362,7 +362,7 @@ class Planet
   public function getPlacementOptionsCachedDatas()
   {
     if (is_null($this->checkingCells)) {
-      $this->checkingCells = $this->tiles->empty() ? $this->getBorderCells() : $this->getConnectedCells();
+      $this->checkingCells = $this->tiles->empty() ? $this->getInitialPlacementCells() : $this->getConnectedCells();
     }
     if (is_null($this->freeCells)) {
       $cells = self::getListOfCells();
@@ -431,6 +431,12 @@ class Planet
   public function isValidPlacementOption($tile, $cells)
   {
     return true;
+  }
+
+  // Will be overwritten by some planets
+  public function getInitialPlacementCells()
+  {
+    return $this->getBorderCells();
   }
 
   /**
