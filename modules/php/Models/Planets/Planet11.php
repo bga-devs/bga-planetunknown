@@ -4,7 +4,6 @@ namespace PU\Models\Planets;
 
 class Planet11 extends \PU\Models\Planet
 {
-
   protected $id = '11';
   protected $columnMedals = [1, 1, 1, 2, 2, 3, 3, 2, 2, 1, 1, 1];
   protected $rowMedals = [1, 1, 1, 2, 2, 3, 3, 2, 2, 1, 1, 1];
@@ -31,13 +30,18 @@ class Planet11 extends \PU\Models\Planet
     parent::__construct($player);
   }
 
+  public function isEnergy($x, $y)
+  {
+    return $this->getType($x, $y) == ENERGY || $this->getVisible($x, $y) == ELECTRIC;
+  }
+
   public function getStartingLifePodsCoord()
   {
     $result = parent::getStartingLifePodsCoord();
     //add an extra lifepod (on ELECTRIC cell)
     $result[] = [
       'x' => 8,
-      'y' => 9
+      'y' => 9,
     ];
     return $result;
   }
