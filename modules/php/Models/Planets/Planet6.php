@@ -1,6 +1,7 @@
 <?php
 
 namespace PU\Models\Planets;
+use PU\Helpers\Utils;
 
 class Planet6 extends \PU\Models\Planet
 {
@@ -26,20 +27,21 @@ class Planet6 extends \PU\Models\Planet
   public function __construct($player)
   {
     $this->name = clienttranslate('K\'Aax');
-    $this->desc = clienttranslate('Your rover may not move onto toxic terrain. You may place tiles over toxic terrain to neutralize it.');
+    $this->desc = clienttranslate(
+      'Your rover may not move onto toxic terrain. You may place tiles over toxic terrain to neutralize it.'
+    );
     parent::__construct($player);
   }
-
-
 
   //to be overriden
   public function getPossibleMovesFrom($cell)
   {
     $cells = parent::getPossibleMovesFrom($cell);
-
     //can't move on a toxic terrain
-    return array_filter($cells, function ($c) {
+    Utils::filter($cells, function ($c) {
       return $this->getVisible($c['x'], $c['y']) != TOXIC;
     });
+
+    return $cells;
   }
 }
