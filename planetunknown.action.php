@@ -42,7 +42,7 @@ class action_planetunknown extends APP_GameAction
     self::setAjaxMode();
     $planetId = (int) self::getArg('planetId', AT_int, true);
     $corporationId = (int) self::getArg('corporationId', AT_int, true);
-    $rejectedCardId = (int) self::getArg('rejectedCardId', AT_int, false);
+    $rejectedCardId = self::getArg('rejectedCardId', AT_int, false);
     $flux = self::getArg('flux', AT_alphanum, false);
 
     $this->game->actChooseSetup($planetId, $corporationId, $rejectedCardId, $flux);

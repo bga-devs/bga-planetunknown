@@ -54,19 +54,17 @@ trait SetupTrait
     }
   }
 
-  // FINISH SETUP : launch special corpo startup effects + create meeples
+  // FINISH SETUP : create meeples
   public function stFinishSetup()
   {
     $players = Players::getAll();
     foreach ($players as $pId => $player) {
-      $player->corporation();
-      Meeples::setupPlayer($pId);
+      $meeples = Meeples::setupPlayer($pId);
+      Notifications::setupPlayer($player, $meeples);
     }
 
     Notifications::finishSetup();
-
     $this->activeNextPlayer();
-
     $this->gamestate->nextState('');
   }
 

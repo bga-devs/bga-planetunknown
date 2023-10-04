@@ -33,9 +33,10 @@ define([
     constructor() {
       this._activeStates = ['chooseRotation'];
       this._notifications = [
+        ['chooseSetup', 200],
         ['clearTurn', 200],
         ['refreshUI', 200],
-        ['setupPlayer', 1400],
+        ['setupPlayer', 1200],
         ['placeTile', null],
         ['moveTrack', null],
         ['slideMeeple', null],
@@ -373,25 +374,26 @@ define([
       let selectedCorpo = null;
       // Display button only if all choices are made
       let updateSelection = () => {
-        let planetOk = selectedPlanet != null;
-        let corpoOk = selectedCorpo != null;
+        let canConfirm = false;
 
         if (args._private.choice != undefined) {
           let choice = args._private.choice;
-          planetOk = selectedPlanet != choice.planetId;
-          corpoOk = selectedCorpo != choice.corporationId;
+          canConfirm = selectedPlanet != choice.planetId || selectedCorpo != choice.corporationId;
+        } else {
+          canConfirm = selectedPlanet != null && selectedCorpo != null;
         }
 
-        if (planetOk && corpoOk) {
+        if (canConfirm) {
           // Add confirm button (only if choice is different from potential existing selection)
           this.addPrimaryActionButton('btnConfirmChoice', _('Confirm'), () =>
-            this.takeAction('actChooseSetup', { planetId: selectedPlanet, corpoId: corpoId }, false)
+            this.takeAction('actChooseSetup', { planetId: selectedPlanet, corporationId: selectedCorpo }, false)
           );
         } else if ($('btnConfirmChoice')) {
           $('btnConfirmChoice').remove();
         }
       };
 
+      // PLANET
       let selectPlanet = (planetId) => {
         if (selectedPlanet !== null && selectedPlanet == planetId) {
           $('pagesubtitle').innerHTML = this.formatString(_(PLANETS_DATA[planetId].desc));
@@ -399,9 +401,9 @@ define([
         }
 
         let container = $(`player-board-planet-${this.player_id}`);
-        let previousMap = container.querySelector('.planet');
-        if (previousMap) previousMap.remove();
-        container.insertAdjacentHTML('beforeend', this.tplPlanet(PLANETS_DATA[planetId]));
+        let previousPlanet = container.querySelector('.planet');
+        if (previousPlanet) previousPlanet.remove();
+        container.insertAdjacentHTML('beforeend', this.tplPlanet(PLANETS_DATA[planetId], { id: this.player_id }));
         $('pagesubtitle').innerHTML = this.formatString(_(PLANETS_DATA[planetId].desc));
         this.attachRegisteredTooltips();
 
@@ -414,7 +416,7 @@ define([
         updateSelection();
       };
 
-      let possiblePlanets = args._private.planet;
+      let possiblePlanets = args._private.planets;
       possiblePlanets.forEach((planetId) => {
         this.addPrimaryActionButton(`selectPlanet${planetId}`, _(PLANETS_DATA[planetId].name), () => selectPlanet(planetId));
       });
@@ -425,29 +427,81 @@ define([
       }
       // No selection yet => let the user click on any
       else {
-        selectPlanet(args._private.planet[0]);
+        selectPlanet(args._private.planets[0]);
+      }
+
+      $('customActions').insertAdjacentHTML('beforeend', '<div class="separator">|</div>');
+
+      // CORPO
+      let selectCorpo = (corpoId) => {
+        if (selectedCorpo !== null && selectedCorpo == corpoId) {
+          $('pagesubtitle').innerHTML = this.formatString(_(CORPOS_DATA[corpoId].desc));
+          return;
+        }
+        // data-id='${corpo.id}'
+        let container = $(`player-board-corporation-${this.player_id}`);
+        let corpo = container.querySelector('.corporation');
+        corpo.dataset.id = corpoId;
+        $('pagesubtitle').innerHTML = this.formatString(_(CORPOS_DATA[corpoId].desc));
+        this.attachRegisteredTooltips();
+
+        // Highlight button
+        if (selectedCorpo !== null) {
+          $(`selectCorpo${selectedCorpo}`).classList.remove('selected');
+        }
+        selectedCorpo = corpoId;
+        $(`selectCorpo${selectedCorpo}`).classList.add('selected');
+        updateSelection();
+      };
+
+      let possibleCorpos = args._private.corporations;
+      possibleCorpos.forEach((corpoId) => {
+        this.addPrimaryActionButton(`selectCorpo${corpoId}`, _(CORPOS_DATA[corpoId].name), () => selectCorpo(corpoId));
+      });
+
+      $('customActions').insertAdjacentHTML('beforeend', '<div class="separator">|</div>');
+
+      // Already made a selection => allow to change its mind
+      if (args._private.choice != null) {
+        selectCorpo(args._private.choice.corporationId);
+      }
+      // No selection yet => let the user click on any
+      else {
+        selectCorpo(args._private.corporations[0]);
       }
     },
 
-    notif_updateInitialMapSelection(n) {
+    notif_chooseSetup(n) {
       this.clearPossible();
       this.updatePageTitle();
-      this.onEnteringStateInitialMapSelection(n.args.args);
+      this.onEnteringStateChooseSetup(n.args.args);
     },
 
     notif_setupPlayer(n) {
       debug('Notif: finish setup of player', n);
 
-      // let player = this.gamedatas.players[n.args.player_id];
+      let player = this.gamedatas.players[n.args.player_id];
+      if (this._focusedPlayer != null && this._focusedPlayer != player.id) {
+        this.goToPlayerBoard(player.id);
+      }
+
+      // Planet
+      let container = $(`player-board-planet-${player.id}`);
+      let previousPlanet = container.querySelector('.planet');
+      if (previousPlanet) previousPlanet.remove();
+      container.insertAdjacentHTML('beforeend', this.tplPlanet(PLANETS_DATA[n.args.planetId], player));
+
+      // Corpo
+      container = $(`player-board-corporation-${player.id}`);
+      let corpo = container.querySelector('.corporation');
+      corpo.dataset.id = n.args.corpoId;
+
+      // Meeples
+      n.args.meeples.forEach((meeple) => this.addMeeple(meeple));
 
       // // Action Cards
       // player.actionCards = n.args.action_cards;
       // this.updateActionCards();
-
-      // // Map
-      // let container = $(`player-board-${player.id}`);
-      // let previousMap = container.querySelector('.zoo-map');
-      // if (previousMap) previousMap.remove();
 
       // player.planetId = n.args.planetId;
       // $(`icons-summary-map-${player.id}`).insertAdjacentHTML('afterend', this.tplZooPlanet(MAPS_DATA[player.planetId], player));

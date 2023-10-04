@@ -32,8 +32,8 @@ class Meeples extends \PU\Helpers\CachedPieces
   {
     return $type
       ? static::getAll()
-      ->where('pId', $player->getId())
-      ->where('type', $type)
+        ->where('pId', $player->getId())
+        ->where('type', $type)
       : static::getAll()->where('pId', $player->getId());
   }
 
@@ -144,6 +144,6 @@ class Meeples extends \PU\Helpers\CachedPieces
       ];
     }
 
-    static::create($data);
+    return static::create($data);
   }
 }

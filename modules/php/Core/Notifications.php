@@ -73,25 +73,12 @@ class Notifications
     ]);
   }
 
-  public static function chooseSetup($player, $planetId, $corporationId, $rejectedCardId)
+  public static function chooseSetup($player, $args)
   {
-    self::pnotify($player, 'chooseSetup', '', [
-      'planetId' => $planetId,
-      'corporationId' => $corporationId,
-      'rejectedCardId' => $rejectedCardId,
+    self::notify($player, 'chooseSetup', '', [
+      'args' => ['_private' => $args['_private'][$player->getId()]],
     ]);
   }
-
-  //deprecated -> collectMeeples
-  // public static function collectMeteor($player, $meteor)
-  // {
-  //   $msg = clienttranslate('${player_name} collects a new meteor');
-  //   $data = [
-  //     'player' => $player,
-  //     'meeple' => $meteor,
-  //   ];
-  //   static::pnotify($player, 'slideMeeple', $msg, $data);
-  // }
 
   public static function destroyedMeeples($player, $destroyedMeeples, $type)
   {
@@ -254,6 +241,23 @@ class Notifications
       'revealCards',
       $type == CIV ? clienttranslate('Revealing CIV card(s) in hand') : clienttranslate('Revealing private objectives'),
       $data
+    );
+  }
+
+  public static function setupPlayer($player, $meeples)
+  {
+    static::notifyAll(
+      'setupPlayer',
+      clienttranslate('${player_name} will play Planet ${planet_name} with Corporation ${corpo_name}'),
+      [
+        'player' => $player,
+        'i18n' => ['planet_name', 'corpo_name'],
+        'planet_name' => $player->planet()->getName(),
+        'corpo_name' => $player->corporation()->getName(),
+        'meeples' => $meeples->toArray(),
+        'planetId' => $player->getPlanetId(),
+        'corpoId' => $player->getCorporationId(),
+      ]
     );
   }
 

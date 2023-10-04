@@ -50,7 +50,7 @@ $machinestates = [
     'possibleactions' => ['actChooseSetup'],
     'transitions' => [
       'notNeeded' => ST_FINISH_SETUP,
-      'end' => ST_CONFIRM_SETUP,
+      'done' => ST_FINISH_SETUP,
     ],
   ],
 

@@ -40,6 +40,11 @@ class Corporation
     ];
   }
 
+  public function getName()
+  {
+    return $this->name;
+  }
+
   //to be overidden in case of special bonus increasing move
   public function moveTrackBy($type, $n)
   {

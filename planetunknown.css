@@ -2313,6 +2313,10 @@
 #pagemaintitletext {
   position: relative; }
 
+#customActions .separator {
+  display: inline-block;
+  margin-left: 10px; }
+
 #restartAction {
   margin-left: 15px; }
 

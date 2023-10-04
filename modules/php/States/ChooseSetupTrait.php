@@ -29,8 +29,8 @@ trait ChooseSetupTrait
 
       $private[$pId] = [
         'choice' => $choices[$pId] ?? null,
-        'planet' => $planetId ? [0, $planetId] : [0],
-        'corporation' => $corporationId ? [0, $corporationId] : [0],
+        'planets' => $planetId ? [0, $planetId] : [0],
+        'corporations' => $corporationId ? [0, $corporationId] : [0],
         'POCards' => Cards::getInLocation('hand_obj')
           ->where('pId', $pId)
           ->getIds(),
@@ -58,26 +58,25 @@ trait ChooseSetupTrait
     }
     // Everyone is done => proceed
     else {
-      $this->gamestate->nextState('end');
+      $this->stConfirmSetup();
     }
   }
 
   public function actChooseSetup($planetId, $corporationId, $rejectedCardId = null, $flux = null, $pId = null)
   {
-    $this->queryStandardTables();
     // Sanity checks
     $this->gamestate->checkPossibleAction('actChooseSetup');
     $pId = $pId ?? Players::getCurrentId();
 
     //check that these planet/corporation/card were available to be choosen
-    $args = $this->argChooseSetup();
-    if (!array_key_exists($planetId, $args['_private'][$pId]['planets'])) {
+    $args = $this->argChooseSetup()['_private'][$pId];
+    if (!in_array($planetId, $args['planets'])) {
       throw new \BgaVisibleSystemException('You can\'t choose this planet. Should not happen');
     }
-    if (!array_key_exists($corporationId, $args['_private'][$pId]['corporations'])) {
+    if (!in_array($corporationId, $args['corporations'])) {
       throw new \BgaVisibleSystemException('You can\'t choose this corporation. Should not happen');
     }
-    if (count($args['_private'][$pId]['POCards']) > 0 && !array_key_exists($rejectedCardId, $args['_private'][$pId]['POCards'])) {
+    if (count($args['POCards']) > 0 && !array_key_exists($rejectedCardId, $args['POCards'])) {
       throw new \BgaVisibleSystemException('You have to reject a card that you have in hand!! Should not happen');
     }
     if ($corporationId == FLUX && !in_array($flux, ALL_TYPES)) {
@@ -85,7 +84,7 @@ trait ChooseSetupTrait
     }
 
     $choices = Globals::getSetupChoices();
-    if (!is_array($choices[$pId])) {
+    if (!isset($choices[$pId]) || !is_array($choices[$pId])) {
       $choices[$pId] = [];
     }
     $choices[$pId]['planetId'] = $planetId;
@@ -94,26 +93,27 @@ trait ChooseSetupTrait
     $choices[$pId]['flux'] = $flux;
 
     Globals::setSetupChoices($choices);
-    Notifications::chooseSetup(Players::get($pId), $planetId, $corporationId, $rejectedCardId);
+    Notifications::chooseSetup(Players::get($pId), $this->argChooseSetup());
     $this->updateActivePlayersAndChangeState();
   }
 
   public function stConfirmSetup()
   {
     $choices = Globals::getSetupChoices();
-
     foreach (Players::getAll() as $pId => $player) {
       $choice = $choices[$pId] ?? null;
       if (is_null($choice)) {
         throw new \BgaVisibleSystemException('Someone hasnt made any choice yet. Should not happen');
       }
 
-      Cards::move($choice['rejectedCardId'], 'trash');
+      if (!is_null($choice['rejectedCardId'])) {
+        Cards::move($choice['rejectedCardId'], 'trash');
+      }
       $player->setCorporationId($choice['corporationId']);
       $player->setPlanetId($choice['planetId']);
       PGlobals::setFluxTrack($player->getId(), $choice['flux']);
     }
 
-    $this->gamestate->nextState('');
+    $this->gamestate->nextState('done');
   }
 }

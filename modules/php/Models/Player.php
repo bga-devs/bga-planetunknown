@@ -47,7 +47,7 @@ class Player extends \PU\Helpers\DB_Model
     if ($this->planet == null) {
       $planetId = $this->getPlanetId();
 
-      if (is_null($planetId) || $planetId == '') {
+      if (is_null($planetId) || $planetId === '') {
         return null;
       }
       $className = '\PU\Models\Planets\Planet' . $planetId;
@@ -62,7 +62,7 @@ class Player extends \PU\Helpers\DB_Model
     if ($this->corporation == null) {
       $corporationId = $this->getCorporationId();
 
-      if (is_null($corporationId) || $corporationId == '') {
+      if (is_null($corporationId) || $corporationId === '') {
         return null;
       }
       $className = '\PU\Models\Corporations\Corporation' . $corporationId;

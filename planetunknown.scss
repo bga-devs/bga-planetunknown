@@ -134,6 +134,11 @@ html {
   position: relative;
 }
 
+#customActions .separator {
+  display: inline-block;
+  margin-left: 15px;
+}
+
 #restartAction {
   margin-left: 15px;
 }
