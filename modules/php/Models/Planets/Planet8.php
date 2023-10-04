@@ -9,7 +9,6 @@ class Planet8 extends \PU\Models\Planet
   protected $rowMedals = [3, 3, 1, 1, 1, 0, 0, 1, 1, 1, 3, 3];
   protected $level = 3;
   protected $terrains = [
-    //TODO probably wrong to determine edge cells
     [ICE, ICE, ICE, LAND, LAND, LAND, LAND, LAND, LAND, ICE, ICE, ICE],
     [ICE, ICE, ICE, LAND, LAND, LAND, LIFEPOD, LAND, LAND, ICE, ICE, ICE],
     [ICE, ICE, ICE, LAND, NOTHING, NOTHING, NOTHING, NOTHING, LAND, ICE, ICE, ICE],
@@ -29,5 +28,45 @@ class Planet8 extends \PU\Models\Planet
     $this->name = clienttranslate('Oblivion');
     $this->desc = clienttranslate('Ice has amassed in the corners');
     parent::__construct($player);
+  }
+
+  public function getBorderCells()
+  {
+    if (!isset($this->_borderCells)) {
+      $grid = self::createGrid(0);
+      $cells = [];
+
+      foreach (self::getListOfCells() as $cell) {
+        if ($cell['x'] == 0 || $cell['y'] == 0 || $cell['x'] == 11 || $cell['y'] == 11) {
+          $cells[] = $cell;
+        }
+      }
+      $this->_borderCells = $cells;
+    }
+
+    return $this->_borderCells;
+  }
+
+  public function getEdgeCells()
+  {
+    if (!isset($this->_edgeCells)) {
+      $grid = self::createGrid(0);
+      $cells = [];
+      foreach (self::getListOfCells() as $cell) {
+        if ($cell['y'] == 0 || $cell['y'] == 11) {
+          continue;
+        }
+        if (($cell['x'] == 0 || $cell['x'] == 11) && !in_array($cell['y'], [5, 6])) {
+          continue;
+        }
+
+        if (count(self::getNeighbours($cell)) < 4) {
+          $cells[] = $cell;
+        }
+      }
+      $this->_edgeCells = $cells;
+    }
+
+    return $this->_edgeCells;
   }
 }

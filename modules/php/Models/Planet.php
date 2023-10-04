@@ -172,7 +172,7 @@ class Planet
 
   public function countSymbolsOnEdge($symbol)
   {
-    $cells = $this->getBorderCells();
+    $cells = $this->getEdgeCells();
     return array_reduce($cells, fn($result, $cell) => $result + ($this->getSymbol($cell['x'], $cell['y']) == $symbol ? 1 : 0), 0);
   }
 
@@ -745,26 +745,10 @@ class Planet
     return $this->_borderCells;
   }
 
-  /*
-  TODO : same as above except for Oblivion !
   public function getEdgeCells()
   {
-    if (!isset($this->_borderCells)) {
-      $grid = self::createGrid(0);
-      $cells = [];
-      foreach ($grid as $x => $col) {
-        foreach ($col as $y => $t) {
-          if ($y <= 1 || $x <= 0 || $y >= 11 || $x >= 8) {
-            $cells[] = ['x' => $x, 'y' => $y];
-          }
-        }
-      }
-      $this->_borderCells = $cells;
-    }
-
-    return $this->_borderCells;
+    return $this->getBorderCells();
   }
-  */
 
   protected function isCellValid($cell)
   {
