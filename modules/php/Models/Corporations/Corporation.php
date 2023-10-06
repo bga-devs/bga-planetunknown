@@ -142,11 +142,25 @@ class Corporation
   public function getBestMedal($type)
   {
     for ($i = $this->getLevelOnTrack($type); $i > 0; $i--) {
-      if (is_int($this->tracks[$type][$i])) {
-        return $this->tracks[$type][$i];
+      $medal = $this->extractMedal($this->tracks[$type][$i]);
+      if ($medal !== false) {
+        return $medal;
       }
     }
     return 0;
+  }
+  public function extractMedal($trackCell)
+  {
+    if (is_int($trackCell)) {
+      return $trackCell;
+    } elseif (is_array($trackCell)) {
+      foreach ($trackCell as $value) {
+        if (is_int($value)) {
+          return $value;
+        }
+      }
+    }
+    return false;
   }
 
   public function scoreByTracks()

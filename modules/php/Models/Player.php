@@ -272,7 +272,7 @@ class Player extends \PU\Helpers\DB_Model
   //calculate player score
   public function score($currentPlayerId = null, $save = true)
   {
-    if (is_null($this->planet)) {
+    if (is_null($this->planet())) {
       return ['total' => 0];
     }
 

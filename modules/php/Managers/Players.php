@@ -149,8 +149,7 @@ class Players extends \PU\Helpers\CachedDB_Manager
   {
     return self::getAll()
       ->map(function ($player) use ($pId, $save) {
-        $pId = $pId ?? $player->getId();
-        return $player->score($pId, $save);
+        return $player->score($pId ?? $player->getId(), $save);
       })
       ->toAssoc();
   }

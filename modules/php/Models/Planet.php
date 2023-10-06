@@ -196,6 +196,10 @@ class Planet
       $adjacentCells = [$cell];
 
       while ($candidateCell = array_shift($adjacentCells)) {
+        if (in_array($candidateCell, $usedCells)) {
+          continue;
+        }
+
         $usedCells[] = $candidateCell;
         if ($this->getType($candidateCell['x'], $candidateCell['y']) == $type) {
           $validatedCells[] = $candidateCell;
