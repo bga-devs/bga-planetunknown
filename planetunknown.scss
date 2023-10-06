@@ -59,6 +59,23 @@ html {
   margin-top: 5px;
   width: 350px;
 }
+
+.logs_on_additional_column {
+  #right-side {
+    margin-left: -600px;
+    width: 600px;
+  }
+
+  #right-side-first-part {
+    float: left;
+    width: 350px;
+  }
+
+  #left-side {
+    margin-right: 610px !important;
+  }
+}
+
 ////////////////////////////
 
 .notransition {
