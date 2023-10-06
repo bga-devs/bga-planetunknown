@@ -41,7 +41,7 @@ class MoveRover extends \PU\Models\Action
     return [
       'log' => clienttranslate('Move your rover (${remaining})'),
       'args' => [
-        'remaining' => $this->getCtxArg('remaining')
+        'remaining' => $this->getCtxArg('remaining'),
       ],
     ];
   }
@@ -59,7 +59,7 @@ class MoveRover extends \PU\Models\Action
       'player' => $player,
       'spaceIds' => $this->getPossibleSpaceIds($player),
       'remaining' => $this->getCtxArg('remaining'),
-      'currentRoverId' => $this->getCtxArg('currentRoverId') ?? ""
+      'currentRoverId' => $this->getCtxArg('currentRoverId') ?? '',
     ];
   }
 
@@ -78,9 +78,9 @@ class MoveRover extends \PU\Models\Action
 
     //horizon group move meteor with rover
     if ($player->corporation()->getId() == HORIZON_GROUP) {
-      $meteor = $player->planet()->getMeteorOnCell($rover->getCell());
+      $meteor = $player->getMeteorOnCell($rover->getCell());
       //can move meteor only if the destination has no meteor yet
-      if (!is_null($meteor) && !$player->planet()->getMeteorOnCell($cell)) {
+      if (!is_null($meteor) && !$player->getMeteorOnCell($cell)) {
         $meteor->placeOnPlanet($cell);
       } else {
         $meteor = null; //(meteor has not been moved)
@@ -117,8 +117,8 @@ class MoveRover extends \PU\Models\Action
         'action' => MOVE_ROVER,
         'args' => [
           'remaining' => $this->getCtxArg('remaining') - $cost,
-          'currentRoverId' => $roverId
-        ]
+          'currentRoverId' => $roverId,
+        ],
       ]);
     }
   }

@@ -99,7 +99,7 @@ class Player extends \PU\Helpers\DB_Model
 
     $result = 0;
     foreach ($cards as $cardId => $card) {
-      if ($card->$criteria) {
+      if (isset($card->$criteria)) {
         $result++;
       }
     }
@@ -301,7 +301,7 @@ class Player extends \PU\Helpers\DB_Model
       }
       $cards = $this->getHandObj();
       foreach ($cards as $cardId => $card) {
-        $result['objectives']['entries'][$card->getType() . '_' . $cardId] = $card->score();
+        $result['objectives']['entries'][$card->getType() . '_' . $cardId] = $card->score($this);
       }
       //special for commerceAgreement
       $scoreCommerceAgreement = [0, 1, 3, 6, 10];
@@ -321,7 +321,7 @@ class Player extends \PU\Helpers\DB_Model
 
     $objCards = $this->getPlayedObjCards();
     foreach ($objCards as $cardId => $card) {
-      $result['objectives']['entries'][$card->getType() . '_' . $cardId] = $card->score();
+      $result['objectives']['entries'][$card->getType() . '_' . $cardId] = $card->score($this);
     }
 
     $NOCards = Cards::getInLocation('NOCards')

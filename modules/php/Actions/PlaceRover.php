@@ -36,6 +36,9 @@ class PlaceRover extends \PU\Models\Action
     $lastTile = Tiles::getAll()
       ->where('id', $player->getLastTileId())
       ->first();
+    if (is_null($lastTile)) {
+      throw new \BgaVisibleSystemException('No last tile placed to place rover on it. Should not happen');
+    }
 
     //exclude spaceIds where there is already a Rover
     $possibleCells = $player->planet()->getTileCoveredCells($lastTile, false);

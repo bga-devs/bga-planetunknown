@@ -2,6 +2,8 @@
 
 namespace PU\Models\Planets;
 
+use PU\Helpers\Utils;
+
 class Planet12 extends \PU\Models\Planet
 {
   protected $id = '12';
