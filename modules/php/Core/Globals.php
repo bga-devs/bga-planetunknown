@@ -12,7 +12,6 @@ use PU\Helpers\Utils;
 class Globals extends \PU\Helpers\DB_Manager
 {
   protected static $isReplayMode = false;
-
   public function setReplayMode()
   {
     static::$isReplayMode = true;
@@ -20,6 +19,16 @@ class Globals extends \PU\Helpers\DB_Manager
   public function unsetReplayMode()
   {
     static::$isReplayMode = false;
+  }
+
+  protected static $isDebugMode = false;
+  public function setDebugMode()
+  {
+    static::$isDebugMode = true;
+  }
+  public function unsetDebugMode()
+  {
+    static::$isDebugMode = false;
   }
 
   public function setMode($v)
@@ -174,7 +183,7 @@ class Globals extends \PU\Helpers\DB_Manager
         }
 
         self::$data[$name] = $value;
-        if (Globals::getMode() == MODE_APPLY) {
+        if (Globals::getMode() == MODE_APPLY || self::$isDebugMode) {
           self::DB()->update(['value' => \addslashes(\json_encode($value))], $name);
         }
         return $value;

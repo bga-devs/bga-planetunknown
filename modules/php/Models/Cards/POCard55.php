@@ -10,11 +10,15 @@ use PU\Managers\Cards;
 
 class POCard55 extends \PU\Models\Cards\POCard
 {
-
   public function __construct($player)
   {
     $this->title = clienttranslate('Project: Crowd Source');
     $this->desc = clienttranslate('Advance the civ resource track to maximum.');
     parent::__construct($player);
+  }
+
+  public function evalCriteria($player)
+  {
+    return $player->corporation()->isTrackerOnTop(CIV);
   }
 }

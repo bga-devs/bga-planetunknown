@@ -31,9 +31,14 @@ class Engine
     $flows = PGlobals::getAll('engine');
     self::$trees = [];
     foreach ($flows as $pId => $t) {
+      if (empty($t)) {
+        continue;
+      }
+
       $flowTree = self::buildTree($t);
       self::$trees[$pId] = $flowTree;
 
+      // TODO : switch the two lines in a week
       // if ($cPId == $pId && !static::$replayed && Globals::getMode() == MODE_APPLY) {
       if ($cPId == $pId && !static::$replayed) {
         Globals::setReplayMode();
@@ -107,7 +112,7 @@ class Engine
     $gm->jumpToState(ST_GENERIC_NEXT_PLAYER);
     $gm->setPlayersMultiactive($pIds, '', true);
     $gm->jumpToState(ST_SETUP_PRIVATE_ENGINE);
-    $gm->initializePrivateStateForAllActivePlayers();
+    $gm->initializePrivateStateForPlayers($pIds);
     Globals::setMode(MODE_PRIVATE);
     self::multipleProceed($pIds);
     Log::startEngine();
@@ -149,7 +154,7 @@ class Engine
    */
   public function getNextUnresolved($pId)
   {
-    return self::$trees[$pId]->getNextUnresolved();
+    return isset(self::$trees[$pId]) ? self::$trees[$pId]->getNextUnresolved() : null;
   }
 
   /**
@@ -428,6 +433,7 @@ class Engine
     $node = self::getNextUnresolved($pId);
     // Are we done ?
     if ($node != null) {
+      var_dump($node);
       throw new \feException("You can't confirm an ongoing turn");
     }
 

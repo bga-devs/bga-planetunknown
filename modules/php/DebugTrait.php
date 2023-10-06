@@ -101,7 +101,6 @@ trait DebugTrait
     // Change for your game
     // We are setting the current state to match the start of a player's turn if it's already game over
     $sql = ['UPDATE global SET global_value=2 WHERE global_id=1 AND global_value=99'];
-    $sql[] = 'ALTER TABLE `gamelog` ADD `cancel` TINYINT(1) NOT NULL DEFAULT 0;';
     $map = [];
     foreach ($players as $pId) {
       $map[(int) $pId] = (int) $studioPlayer;
@@ -139,7 +138,7 @@ trait DebugTrait
      ******************/
 
     // Turn orders
-    Globals::fetch();
+    Globals::setDebugMode();
     $turnOrders = Globals::getCustomTurnOrders();
     foreach ($turnOrders as $key => &$order) {
       $t = [];
@@ -161,6 +160,8 @@ trait DebugTrait
     // First player
     $fp = Globals::getFirstPlayer();
     Globals::setFirstPlayer($map[$fp]);
+
+    Globals::unsetDebugMode();
 
     self::reloadPlayersBasicInfos();
   }

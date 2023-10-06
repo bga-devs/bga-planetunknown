@@ -10,11 +10,15 @@ use PU\Managers\Cards;
 
 class POCard42 extends \PU\Models\Cards\POCard
 {
-
   public function __construct($player)
   {
     $this->title = clienttranslate('Project: Voltaic');
     $this->desc = clienttranslate('Create a 3x3 area of energy terrains.');
     parent::__construct($player);
+  }
+
+  public function evalCriteria($player)
+  {
+    return $player->planet()->hasRectangle(ENERGY, 3, 3);
   }
 }

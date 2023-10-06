@@ -224,9 +224,9 @@ class Planet
     return $zones ? max(array_map(fn($zone) => count($zone), $zones)) : 0;
   }
 
-  public function countSymbols($type)
+  public function countSymbols($type, $zone = null)
   {
-    $cells = array_filter($this->getListOfCells(), fn($cell) => $this->getSymbol($cell['x'], $cell['y']) == $type);
+    $cells = array_filter($zone ?? $this->getListOfCells(), fn($cell) => $this->getSymbol($cell['x'], $cell['y']) == $type);
     return count($cells);
   }
 
@@ -236,6 +236,69 @@ class Planet
       $this->getListOfCells(),
       fn($cell) => $this->hasMeteorSymbol($cell['x'], $cell['y']) && $this->player->getMeteorOnCell($cell)
     );
+  }
+
+  public function hasRectangleAtPos($x, $y, $type, $w, $h)
+  {
+    for ($i = $x; $i < $x + $w; $i++) {
+      for ($j = $y; $j < $y + $h; $j++) {
+        if ($type == ENERGY) {
+          if (!$this->isEnergy($i, $j)) {
+            return false;
+          }
+        } elseif ($this->getVisible($i, $j) != $type) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  public function hasRectangle($type, $w, $h)
+  {
+    $cells = $this->getListOfCells();
+    foreach ($cells as $cell) {
+      if ($this->hasRectangleAtPos($cell['x'], $cell['y'], $type, $w, $h)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  public function hasZoneWithEnoughSymbols($type, $n)
+  {
+    $zones = $this->detectZones($type);
+    foreach ($zones as $zone) {
+      if ($this->countSymbols($type, $zone) >= $n) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  public function hasUncoveredIce()
+  {
+    foreach ($this->getListOfCells() as $cell) {
+      if ($this->getVisible($cell['x'], $cell['y']) == ICE) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  public function hasUncoveredLand()
+  {
+    foreach ($this->getListOfCells() as $cell) {
+      if (!$this->isCoveredCoord($x, $y)($cell['x'], $cell['y']) && $this->getVisible($cell['x'], $cell['y']) != ICE) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   ///////////////////////////////////////////////

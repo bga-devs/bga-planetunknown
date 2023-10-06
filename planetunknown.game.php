@@ -69,8 +69,8 @@ class planetunknown extends Table
       'option_corporation' => 106,
       'option_event_card' => 107,
     ]);
+    Engine::boot(); // TODO : move to initTable in a week
     // Stats::checkExistence();
-    Engine::boot();
   }
 
   protected function initTable()
