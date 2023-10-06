@@ -137,7 +137,7 @@ class Player extends \PU\Helpers\DB_Model
 
   public function hasLifepodOnTrack($x, $y)
   {
-    return $this->getLifepodOnTrack()->count() > 0;
+    return $this->getLifepodOnTrack($x, $y)->count() > 0;
   }
 
   public function getLifepodOnTrack($x, $y)

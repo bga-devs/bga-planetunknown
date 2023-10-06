@@ -38,15 +38,16 @@ class PlaceRover extends \PU\Models\Action
       ->first();
 
     //exclude spaceIds where there is already a Rover
-    $possibleCells = array_filter(
-      $player->planet()->getTileCoveredCells($lastTile, false),
-      fn ($cell) => !$player
+    $possibleCells = $player->planet()->getTileCoveredCells($lastTile, false);
+    Utils::filter(
+      $possibleCells,
+      fn($cell) => !$player
         ->planet()
-        ->getMeepleOnCell($cell, ROVER)
+        ->getMeepleOnCell($cell, ROVER_MEEPLE)
         ->count()
     );
 
-    return array_map(fn ($cell) => Planet::getCellId($cell), $possibleCells);
+    return array_map(fn($cell) => Planet::getCellId($cell), $possibleCells);
   }
 
   public function argsPlaceRover()

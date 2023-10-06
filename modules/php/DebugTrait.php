@@ -114,8 +114,10 @@ trait DebugTrait
       // Add game-specific SQL update the tables for your game
       $sql[] = "UPDATE meeples SET player_id=$studioPlayer WHERE player_id=$pId";
       $sql[] = "UPDATE cards SET player_id=$studioPlayer WHERE player_id=$pId";
-      $sql[] = "UPDATE buildings SET player_id=$studioPlayer WHERE player_id=$pId";
+      $sql[] = "UPDATE cards SET player_id2=$studioPlayer WHERE player_id2=$pId";
+      $sql[] = "UPDATE tiles SET player_id=$studioPlayer WHERE player_id=$pId";
       $sql[] = "UPDATE user_preferences SET player_id=$studioPlayer WHERE player_id=$pId";
+      $sql[] = "UPDATE pglobal_variables SET name = REPLACE(name, '$pId', '$studioPlayer')";
 
       // This could be improved, it assumes you had sequential studio accounts before loading
       // e.g., quietmint0, quietmint1, quietmint2, etc. are at the table
@@ -137,6 +139,7 @@ trait DebugTrait
      ******************/
 
     // Turn orders
+    Globals::fetch();
     $turnOrders = Globals::getCustomTurnOrders();
     foreach ($turnOrders as $key => &$order) {
       $t = [];
@@ -148,9 +151,12 @@ trait DebugTrait
     Globals::setCustomTurnOrders($turnOrders);
 
     // Engine
-    $engine = Globals::getEngine();
-    self::loadDebugUpdateEngine($engine, $map);
-    Globals::setEngine($engine);
+    PGlobals::fetch();
+    $flows = PGlobals::getAll('engine');
+    foreach ($flows as $pId => $engine) {
+      self::loadDebugUpdateEngine($engine, $map);
+      PGlobals::setEngine($pId, $engine);
+    }
 
     // First player
     $fp = Globals::getFirstPlayer();

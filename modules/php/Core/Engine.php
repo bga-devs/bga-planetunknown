@@ -2,6 +2,7 @@
 
 namespace PU\Core;
 
+use PU\Core\Engine;
 use PU\Managers\Players;
 use PU\Managers\Actions;
 use PU\Helpers\Log;
@@ -50,6 +51,7 @@ class Engine
     foreach (self::$trees as $pId => $t) {
       $t->replay();
       PGlobals::setEngine($pId, []);
+      Game::get()->sendNotifications();
     }
     Log::clearUndoableStepNotifications();
   }
