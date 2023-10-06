@@ -224,6 +224,7 @@ trait TurnTrait
     $nextId = Players::getNextId(Globals::getFirstPlayer());
     Globals::setFirstPlayer($nextId);
     Notifications::changeFirstPlayer($nextId);
+    $this->gamestate->changeActivePlayer($nextId);
 
     // Notify end of turn
     Notifications::endOfTurn();
