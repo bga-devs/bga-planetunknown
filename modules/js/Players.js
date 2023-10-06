@@ -623,6 +623,8 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         if (category == 'planet') {
           let entries = this.gamedatas.scores[pId][category].entries;
           Object.keys(entries).forEach((id) => {
+            if (['Cerberus1', 'Cerberus2', 'Cerberus3'].includes(id)) return;
+
             let t = id.split('_');
             let cell = t[0] == 'column' ? this.getPlanetCell(pId, t[1], -1) : this.getPlanetCell(pId, -1, t[1]);
             cell.classList.toggle('ok', entries[id] > 0);

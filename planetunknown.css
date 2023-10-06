@@ -1339,6 +1339,63 @@
   .tile-container:not([data-type]), .tile-container[data-type=""] {
     display: none; }
 
+.pu-player-board-wrapper
+.pu-player-board-resizable
+.pu-player-board-fixed-size
+.pu-player-board-planet
+.planet
+.tile-container.chiasm-right[data-rotation="0"][data-flipped="0"] {
+  transform: translateX(7px) rotate(0deg) scaleX(1); }
+.pu-player-board-wrapper
+.pu-player-board-resizable
+.pu-player-board-fixed-size
+.pu-player-board-planet
+.planet
+.tile-container.chiasm-right[data-rotation="0"][data-flipped="1"] {
+  transform: translateX(7px) rotate(0deg) scaleX(-1); }
+.pu-player-board-wrapper
+.pu-player-board-resizable
+.pu-player-board-fixed-size
+.pu-player-board-planet
+.planet
+.tile-container.chiasm-right[data-rotation="1"][data-flipped="0"] {
+  transform: translateX(7px) rotate(90deg) scaleX(1); }
+.pu-player-board-wrapper
+.pu-player-board-resizable
+.pu-player-board-fixed-size
+.pu-player-board-planet
+.planet
+.tile-container.chiasm-right[data-rotation="1"][data-flipped="1"] {
+  transform: translateX(7px) rotate(90deg) scaleX(-1); }
+.pu-player-board-wrapper
+.pu-player-board-resizable
+.pu-player-board-fixed-size
+.pu-player-board-planet
+.planet
+.tile-container.chiasm-right[data-rotation="2"][data-flipped="0"] {
+  transform: translateX(7px) rotate(180deg) scaleX(1); }
+.pu-player-board-wrapper
+.pu-player-board-resizable
+.pu-player-board-fixed-size
+.pu-player-board-planet
+.planet
+.tile-container.chiasm-right[data-rotation="2"][data-flipped="1"] {
+  transform: translateX(7px) rotate(180deg) scaleX(-1); }
+.pu-player-board-wrapper
+.pu-player-board-resizable
+.pu-player-board-fixed-size
+.pu-player-board-planet
+.planet
+.tile-container.chiasm-right[data-rotation="3"][data-flipped="0"] {
+  transform: translateX(7px) rotate(270deg) scaleX(1); }
+.pu-player-board-wrapper
+.pu-player-board-resizable
+.pu-player-board-fixed-size
+.pu-player-board-planet
+.planet
+.tile-container.chiasm-right[data-rotation="3"][data-flipped="1"] {
+  transform: translateX(7px) rotate(270deg) scaleX(-1); }
+
 .tile-container .tile-inner {
   background-image: url("img/tiles-0.png");
   background-repeat: no-repeat; }

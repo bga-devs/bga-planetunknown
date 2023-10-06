@@ -266,5 +266,21 @@
     }
 }
 
+// Tartarus
+.pu-player-board-wrapper
+    .pu-player-board-resizable
+    .pu-player-board-fixed-size
+    .pu-player-board-planet
+    .planet
+    .tile-container.chiasm-right {
+    @for $i from 0 to 4 {
+        @for $f from 0 to 2 {
+            &[data-rotation="#{$i}"][data-flipped="#{$f}"] {
+                transform: translateX(7px) rotate(#{$i * 90}deg) scaleX(#{($f - 0.5) * -2});
+            }
+        }
+    }
+}
+
 // Buildings data
 @import "tiles.data";
