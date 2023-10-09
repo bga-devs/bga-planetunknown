@@ -23,10 +23,13 @@
 
         #tile-rotate-clockwise,
         #tile-rotate-cclockwise,
+        #tile-move-up,
+        #tile-move-down,
+        #tile-move-right,
+        #tile-move-left,
         #tile-flip,
         #tile-confirm-btn {
             position: absolute;
-            top: calc(50% - 20px);
             width: 40px;
             height: 40px;
             border-radius: 50%;
@@ -37,24 +40,46 @@
             align-items: center;
             pointer-events: all;
             cursor: pointer;
-
-            svg {
-                height: 31px;
-                width: 40px;
-            }
+            font-size: 30px;
         }
         #tile-rotate-clockwise {
-            right: -21px;
+            top: calc(15% - 20px);
+            left: calc(87% - 20px);
+            svg {
+                width: 26px;
+                height: 25px;
+            }
         }
         #tile-rotate-cclockwise {
-            left: -21px;
+            top: calc(15% - 20px);
+            right: calc(87% - 20px);
+            svg {
+                width: 26px;
+                height: 25px;
+            }
         }
         #tile-flip {
-            top: -20px;
-            left: calc(50% - 20px);
+            top: calc(85% - 15px);
+            left: calc(15% - 15px);
             svg {
                 width: 36px;
             }
+        }
+        #tile-move-up {
+            top: -21px;
+            left: calc(50% - 20px);
+        }
+        #tile-move-down {
+            bottom: -21px;
+            left: calc(50% - 20px);
+        }
+        #tile-move-right {
+            top: calc(50% - 20px);
+            right: -21px;
+        }
+        #tile-move-left {
+            top: calc(50% - 20px);
+            left: -21px;
         }
 
         #tile-confirm-btn {
@@ -64,7 +89,7 @@
             background: #4871b6;
             padding: 0px;
             margin: 0px;
-            font-size: 20px;
+            font-size: 25px;
 
             &.disabled {
                 opacity: 1;
@@ -181,10 +206,15 @@
         visibility: hidden;
         pointer-events: none;
         position: absolute;
-        width: calc(30px * var(--tileScale));
-        height: calc(30px * var(--tileScale));
-        margin-left: calc(-15px * var(--tileScale));
-        margin-top: calc(-15px * var(--tileScale));
+        width: calc(50px * var(--tileScale));
+        height: calc(50px * var(--tileScale));
+        margin-left: calc(-25px * var(--tileScale));
+        margin-top: calc(-25px * var(--tileScale));
+        fill: white;
+        stroke: black;
+        background: #000000c2;
+        box-shadow: 0px 0px 7px 3px black;
+        border-radius: 50%;
 
         svg {
             width: 100%;
@@ -200,7 +230,11 @@
             background: #085f08;
         }
         .tile-crosshairs {
+            visibility: visible;
             fill: #085f08;
+            box-shadow: 0px 0px 9px 4px white;
+            background: #ffffffdd;
+
             &::before {
                 display: none;
             }

@@ -744,18 +744,15 @@ define([
           <div id="tile-rotate-clockwise"><svg><use href="#rotate-clockwise-svg" /></svg></div>
           <div id="tile-rotate-cclockwise"><svg><use href="#rotate-cclockwise-svg" /></svg></div>
           <div id="tile-flip"><svg><use href="#flip-svg" /></svg></div>
+          <div id="tile-move-up"><i class="fa fa-long-arrow-up"></i></div>
+          <div id="tile-move-right"><i class="fa fa-long-arrow-right"></i></div>
+          <div id="tile-move-down"><i class="fa fa-long-arrow-down"></i></div>
+          <div id="tile-move-left"><i class="fa fa-long-arrow-left"></i></div>
           <div id="tile-confirm-btn" class="action-button bgabutton bgabutton_blue">✓</div>
         </div>
       </div>`
       );
       oPlanet.insertAdjacentHTML('beforeend', this.tplTile({ type: '', state: 0 }, 'tile-hover'));
-      $('tile-hover')
-        .querySelector('.tile-crosshairs')
-        .insertAdjacentHTML(
-          'beforeend',
-          `<div id="tile-rotate-clockwise-on-tile"><svg><use href="#rotate-clockwise-svg" /></svg></div>
-          <div id="tile-rotate-cclockwise-on-tile"><svg><use href="#rotate-cclockwise-svg" /></svg></div>`
-        );
 
       // Move selection to a given position
       let moveSelection = (x, y, cell = null) => {
@@ -892,8 +889,20 @@ define([
       };
       this.onClick('tile-rotate-clockwise', () => incRotation(1));
       this.onClick('tile-rotate-cclockwise', () => incRotation(-1));
-      this.onClick('tile-rotate-clockwise-on-tile', () => incRotation(1));
-      this.onClick('tile-rotate-cclockwise-on-tile', () => incRotation(-1));
+
+      // Click on arrow to move
+      let shiftTile = (dx, dy) => {
+        let x = pos.x + dx, y = pos.y + dy;
+        hoveredCell = oPlanet.querySelector(`[data-x='${x}'][data-y='${y}']`);
+        pos = {x, y};
+        moveSelection(x, y);
+      };
+      this.onClick('tile-move-up', () => shiftTile(0, -1));
+      this.onClick('tile-move-down', () => shiftTile(0, 1));
+      this.onClick('tile-move-left', () => shiftTile(-1, 0));
+      this.onClick('tile-move-right', () => shiftTile(1, 0));
+
+
       // Click on flip to mirror
       let flipTile = () => {
         flipped = !flipped;
