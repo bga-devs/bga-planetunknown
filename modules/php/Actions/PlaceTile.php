@@ -215,15 +215,10 @@ class PlaceTile extends \PU\Models\Action
         continue;
       }
 
-      $n = 1;
-      if ($type == WATER && $player->hasTech(TECH_WATER_ADVANCE_TWICE)) {
-        $n *= 2;
-      }
-
       // Normal case: add parallel child
       $actions[] = [
         'action' => MOVE_TRACK,
-        'args' => ['type' => $type, 'n' => $n, 'withBonus' => true],
+        'args' => ['type' => $type, 'n' => 'placingTile', 'withBonus' => true],
       ];
     }
     if (Globals::getTurnSpecialRule() == ONLY_ONE_MOVE_TRACKER) {

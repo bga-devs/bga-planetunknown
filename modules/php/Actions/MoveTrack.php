@@ -23,7 +23,16 @@ class MoveTrack extends \PU\Models\Action
 
   public function getN()
   {
-    return $this->getCtxArg('n');
+    $n = $this->getCtxArg('n');
+
+    if ($n == 'placingTile') {
+      $n = 1;
+      if ($this->getType() == WATER && $this->getPlayer()->hasTech(TECH_WATER_ADVANCE_TWICE)) {
+        $n *= 2;
+      }
+    }
+
+    return $n;
   }
 
   public function getType()
@@ -71,7 +80,7 @@ class MoveTrack extends \PU\Models\Action
       'type_name' => $type,
       'type' => $type,
       'n' => $n,
-      'withBonus' => $withBonus
+      'withBonus' => $withBonus,
     ];
   }
 
@@ -91,10 +100,10 @@ class MoveTrack extends \PU\Models\Action
         'action' => MOVE_TRACKER_BY_ONE,
         'args' => [
           'type' => $type,
-          'moveId' => $i, //TO be used in a string like : "moveID on N moves" 
+          'moveId' => $i, //TO be used in a string like : "moveID on N moves"
           'n' => $nMove, //it still can be positive or negative
-          'withBonus' => $this->getWithBonus()
-        ]
+          'withBonus' => $this->getWithBonus(),
+        ],
       ]);
     }
   }
