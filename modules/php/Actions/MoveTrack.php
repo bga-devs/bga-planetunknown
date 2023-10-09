@@ -50,6 +50,11 @@ class MoveTrack extends \PU\Models\Action
     return $player->corporation()->canMoveTrack($this->getType(), $this->getN());
   }
 
+  public function isOptional()
+  {
+    return !$this->isDoable($this->getPlayer());
+  }
+
   public function getDescription()
   {
     //adapt to backward

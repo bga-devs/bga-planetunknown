@@ -7,16 +7,16 @@ class Corporation5 extends Corporation
   public function __construct($player)
   {
     $this->name = clienttranslate('Make Shift');
-    $this->desc = clienttranslate('You may advance any tracker diagonally onto an adjacent track. Any tracker may claim any benefit. Tech Levels are locked if no tracker is currently unlocking the tech.'); //TODO
+    $this->desc = clienttranslate('You may advance any tracker diagonally onto an adjacent track. Any tracker may claim any benefit. Tech Levels are locked if no tracker is currently unlocking the tech.');
 
     $this->techBonuses = [
-      1 => [ //TODO
+      1 => [
         'text' => clienttranslate('Treat civ and tech tracks as adjacent.')
       ],
       2 => [ //TODO
         'text' => clienttranslate('+1 rover movement if more than one tracker occupies the rover track.')
       ],
-      3 => [ //TODO
+      3 => [
         'text' => clienttranslate('Shift a tracker laterally to an ajacent track instead of advancing.')
       ],
       4 => [ //TODO
@@ -38,4 +38,50 @@ class Corporation5 extends Corporation
     TECH => [null, null, SYNERGY, TECH, null, TECH, 1, TECH, null, null, TECH, null, SYNERGY, 2, TECH, 5]
   ];
   protected $level = 4;
+
+
+  public function getNextSpaceIds($type, $n = 1)
+  {
+    $trackPawn = $this->player->getTracker($type);
+    $directions = [[0, $n]];
+    if ($n > 0) {
+      $directions[] = [-1, $n];
+      $directions[] =  [1, $n];
+      if ($this->player->hasTech(TECH_SHIFT_TRACKER)) {
+        $directions[] = [-1, 0];
+        $directions[] = [1, 0];
+      }
+    }
+
+    $spaces = [];
+    $baseX = array_search($trackPawn->getX(), array_keys($this->tracks));
+    foreach ($directions as $dir) {
+      $x = $baseX + $dir[0];
+      $y = $trackPawn->getY() + $dir[1];
+
+      // Must stay inside the range (unless tech is enabled)
+      if ($x < 0 || $x > 4) {
+        if ($this->player->hasTech(TECH_CIV_TECH_ADJACENT)) {
+          $x = ($x + 5) % 5;
+        } else {
+          continue;
+        }
+      }
+      $x = array_keys($this->tracks)[$x];
+
+      // Must stay within the column
+      if ($y < 0 || $y > count($this->tracks[$x]) - 1) {
+        continue;
+      }
+      // Must be free
+      $meeple = $this->player->getMeepleOnCell(['x' => $x, 'y' => $y], null, false);
+      if (!is_null($meeple)) {
+        continue;
+      }
+
+      $spaces[] = $x . '_' . $y;
+    }
+
+    return $spaces;
+  }
 }

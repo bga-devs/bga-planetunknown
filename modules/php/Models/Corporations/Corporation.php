@@ -113,6 +113,7 @@ class Corporation
    */
   public function getLevelOnTrack($type)
   {
+    // TODO : not working for corporation where trackers can move around
     return $this->player->getTracker($type)->getY();
   }
 

@@ -36,7 +36,7 @@ $game_options = [
     ],
   ],
   OPTION_CORPORATION => [
-    'name' => totranslate('Planets'),
+    'name' => totranslate('Corporations'),
     'values' => [
       OPTION_CORPORATION_UNIVERSAL => [
         'name' => totranslate('Symmetric side only'),

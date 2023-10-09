@@ -557,21 +557,21 @@ define([
         this.rotateSusan();
       });
 
-      [0,1,2,3,4,5].forEach(i => {
+      [0, 1, 2, 3, 4, 5].forEach((i) => {
         let extTile = $(`top-exterior-${i}`).querySelector('.tile-container');
-        if(extTile)
-        this.onClick(extTile, () => {
-          this.gamedatas.susan.rotation = i;
-          this.rotateSusan();  
-        })
+        if (extTile)
+          this.onClick(extTile, () => {
+            this.gamedatas.susan.rotation = i;
+            this.rotateSusan();
+          });
 
         let intTile = $(`top-interior-${i}`).querySelector('.tile-container');
-        if(intTile)
-        this.onClick(intTile, () => {
-          this.gamedatas.susan.rotation = this.gamedatas.susan.shift + i;
-          this.rotateSusan();  
-        })
-      })
+        if (intTile)
+          this.onClick(intTile, () => {
+            this.gamedatas.susan.rotation = this.gamedatas.susan.shift + i;
+            this.rotateSusan();
+          });
+      });
     },
 
     ////////////////////////////////////////
@@ -909,16 +909,16 @@ define([
 
       // Click on arrow to move
       let shiftTile = (dx, dy) => {
-        let x = pos.x + dx, y = pos.y + dy;
+        let x = pos.x + dx,
+          y = pos.y + dy;
         hoveredCell = oPlanet.querySelector(`[data-x='${x}'][data-y='${y}']`);
-        pos = {x, y};
+        pos = { x, y };
         moveSelection(x, y);
       };
       this.onClick('tile-move-up', () => shiftTile(0, -1));
       this.onClick('tile-move-down', () => shiftTile(0, 1));
       this.onClick('tile-move-left', () => shiftTile(-1, 0));
       this.onClick('tile-move-right', () => shiftTile(1, 0));
-
 
       // Click on flip to mirror
       let flipTile = () => {
@@ -1099,6 +1099,27 @@ define([
           args.rows[id].forEach((meepleId) => $(`meeple-${meepleId}`).classList.add('selected'));
           this.addPrimaryActionButton('btnConfirmDestroy', _('Confirm'), () =>
             this.takeAtomicAction('actDestroyAllInRow', [selected])
+          );
+        });
+      });
+    },
+
+    onEnteringStateMoveTrackerByOne(args) {
+      let selected = null,
+        selectedElem = null;
+      args.spaceIds.forEach((spaceId) => {
+        let t = spaceId.split('_');
+        let elem = $(`corporation-${this.player_id}-${t[0]}-${t[1]}`);
+        this.onClick(elem, () => {
+          if (selected) {
+            selectedElem.classList.remove('selected');
+          }
+
+          selected = spaceId;
+          selectedElem = elem;
+          selectedElem.classList.add('selected');
+          this.addPrimaryActionButton('btnConfirm', _('Confirm'), () =>
+            this.takeAtomicAction('actMoveTrackerByOne', [args.type, selected])
           );
         });
       });
