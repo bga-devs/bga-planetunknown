@@ -99,7 +99,7 @@ class Player extends \PU\Helpers\DB_Model
 
     $result = 0;
     foreach ($cards as $cardId => $card) {
-      if (isset($card->$criteria)) {
+      if (isset($card->$criteria) && $card->$criteria) {
         $result++;
       }
     }
