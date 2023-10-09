@@ -850,9 +850,11 @@ class Planet
   {
     $cells = $this->getNeighbours($cell, $this->player->hasTech(TECH_ROVER_MOVE_DIAG));
     //can't move on a rover
-    return array_filter($cells, function ($c) {
+    Utils::filter($cells, function ($c) {
       return !$this->player->getRoverOnCell($c);
     });
+
+    return $cells;
   }
 
   protected function isIntersectionNonEmpty($cells1, $cells2)

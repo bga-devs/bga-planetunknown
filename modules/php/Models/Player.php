@@ -199,7 +199,7 @@ class Player extends \PU\Helpers\DB_Model
       //filter cells depending on turn special rule :
       $contraint = Globals::getTurnSpecialRule();
       if (in_array($contraint, FORBIDDEN_TERRAINS)) {
-        $neighbours = array_filter(
+        Utils::filter(
           $neighbours,
           fn($cell) => $this->planet->getVisible($cell['x'], $cell['y']) != FORBIDDEN_TERRAINS[$contraint]
         );
