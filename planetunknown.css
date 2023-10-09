@@ -1237,6 +1237,11 @@
   #tile-controls[data-type="biomass_patch"] #tile-controls-circle #tile-rotate-cclockwise {
     display: none; }
 
+#susan-container .tile-container.selectable .tile-border {
+  background: none; }
+#susan-container .tile-container.selectable .tile-crosshairs {
+  visibility: hidden; }
+
 .tile-container {
   position: relative;
   flex-shrink: 0; }

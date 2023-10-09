@@ -555,6 +555,22 @@ define([
         this.gamedatas.susan.rotation--;
         this.rotateSusan();
       });
+
+      [0,1,2,3,4,5].forEach(i => {
+        let extTile = $(`top-exterior-${i}`).querySelector('.tile-container');
+        if(extTile)
+        this.onClick(extTile, () => {
+          this.gamedatas.susan.rotation = i;
+          this.rotateSusan();  
+        })
+
+        let intTile = $(`top-interior-${i}`).querySelector('.tile-container');
+        if(intTile)
+        this.onClick(intTile, () => {
+          this.gamedatas.susan.rotation = this.gamedatas.susan.shift + i;
+          this.rotateSusan();  
+        })
+      })
     },
 
     ////////////////////////////////////////

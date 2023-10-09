@@ -118,6 +118,16 @@
     }
 }
 
+#susan-container .tile-container.selectable {
+    .tile-border {
+        background: none;
+    }
+
+    .tile-crosshairs {
+        visibility: hidden;
+    }
+}
+
 .tile-container {
     &.phantom {
         visibility: hidden;
