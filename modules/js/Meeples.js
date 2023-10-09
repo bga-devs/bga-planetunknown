@@ -134,6 +134,14 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           config.to = $(`overall_player_board_${resource.pId}`);
         }
 
+        // Rename if meeple is existing => due to private flow, some meeples might receive the same id
+        let oMeeple = $(`meeple-${resource.id}`);
+        if(config.renameIfExisting && oMeeple){
+          let newId = +oMeeple.dataset.id + 1;
+          oMeeple.dataset.id = newId;
+          oMeeple.id = `meeple-${newId}`;
+        }
+
         // Slide it
         let slideIt = () => {
           // Create meeple if needed
@@ -192,6 +200,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       debug('Notif: adding & sliding meeples', n);
       this.slideResources(n.args.meeples, {
         from: this.getVisibleTitleContainer(),
+        renameIfExisting: true,
       });
     },
 
