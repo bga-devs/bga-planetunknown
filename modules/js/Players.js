@@ -54,6 +54,15 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       return Object.values(this.gamedatas.players);
     },
 
+    getColoredName(pId){
+      let name = this.gamedatas.players[pId].name;
+      return this.coloredPlayerName(name);
+    },
+
+    getPlayerColor(pId){
+      return this.gamedatas.players[pId].color;
+    },
+
     isSolo() {
       return this.getPlayers().length == 1;
     },
@@ -102,7 +111,6 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       });
 
       this.rotateSusan();
-      this.setupPlayersScores();
       this.setupPlayersCounters();
     },
 
@@ -612,6 +620,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         let value = category == 'total' ? this.gamedatas.scores[pId]['total'] : this.gamedatas.scores[pId][category]['total'];
         this._scoresCounters[pId][category][anim ? 'toValue' : 'setValue'](value);
 
+        let entries = this.gamedatas.scores[pId][category].entries;
         // if (SCORE_MULTIPLE_ENTRIES.includes(category)) {
         //   let container = $(`score-subentries-${player.id}-${category}`);
         //   dojo.empty(container);
@@ -629,8 +638,8 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         //   });
         // }
 
+        // Planet => show each row/column status
         if (category == 'planet') {
-          let entries = this.gamedatas.scores[pId][category].entries;
           Object.keys(entries).forEach((id) => {
             if (['Cerberus1', 'Cerberus2', 'Cerberus3'].includes(id)) return;
 
@@ -638,6 +647,20 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
             let cell = t[0] == 'column' ? this.getPlanetCell(pId, t[1], -1) : this.getPlanetCell(pId, -1, t[1]);
             cell.classList.toggle('ok', entries[id] > 0);
             cell.classList.toggle('nok', entries[id] == 0);
+          });
+        }
+        // Objectives
+        else if(category == 'objectives'){
+          Object.keys(entries).forEach((cardId) => {
+            let t = cardId.split('_');
+
+            if(t[0] == 'NOCard'){
+              console.log(`card-${t[1]}-${pId}-value`);
+              $(`card-${t[1]}-${pId}-value`).innerHTML = Math.abs(entries[cardId][1]);
+              $(`card-${t[1]}-${pId}-medal`).innerHTML = entries[cardId][0];
+              $(`card-${t[1]}d-${pId}-value`).innerHTML = Math.abs(entries[cardId][1]);
+              $(`card-${t[1]}d-${pId}-medal`).innerHTML = entries[cardId][0];
+            }
           });
         }
       });

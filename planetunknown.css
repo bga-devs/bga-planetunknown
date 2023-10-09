@@ -440,6 +440,28 @@
   .planetunknown-card[data-type="civCard"] .card-inner[data-id="-1"][data-level="4"] {
     background-position: 100% 100%; }
 
+.nocard-wraper {
+  display: flex;
+  border-left: 1px solid black;
+  padding: 0px 5px;
+  font-family: "HemiHead"; }
+  .nocard-wraper .nocard-indicator {
+    padding: 0px 3px;
+    margin-top: -3px; }
+  .nocard-wraper .nocard-indicator-value {
+    font-weight: bold;
+    font-size: 20px; }
+  .nocard-wraper .icon-medal {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    color: white;
+    margin-top: 7px;
+    transform: translateY(11px);
+    font-size: 15px;
+    line-height: 19px;
+    text-indent: 5px; }
+
 .planetunknown-card[data-type="NOCard"] {
   width: calc(var(--cardScale) * 396px);
   height: calc(var(--cardScale) * 260px); }
@@ -537,6 +559,15 @@
     background-position-x: 100%;
     background-position-y: 100%; }
 
+.planetunknown-card.icon-only[data-type="NOCard"] {
+  width: calc(var(--cardScale) * 275px);
+  height: calc(var(--cardScale) * 100px);
+  overflow: hidden; }
+
+.planetunknown-card.icon-only[data-type="NOCard"] .card-inner {
+  margin-top: -53px;
+  margin-left: -46px; }
+
 .planetunknown-icon {
   background: url("img/icons.png");
   background-repeat: no-repeat; }
@@ -558,6 +589,12 @@
   .planetunknown-icon.icon-lifepod {
     background-position: 72.0844327176781% 2.484472049689441%;
     background-size: 1338.562091503268%; }
+  .planetunknown-icon.icon-medal {
+    background-position: 1.0230179028132993% 60.537634408602145%;
+    background-size: 2202.150537634409%; }
+  .planetunknown-icon.icon-medal-nb {
+    background-position: 6.803069053708439% 60.537634408602145%;
+    background-size: 2202.150537634409%; }
   .planetunknown-icon.icon-meteor {
     background-position: 94.50777202072538% 32.25806451612903%;
     background-size: 1735.593220338983%; }
@@ -577,13 +614,13 @@
     background-position: 98.1% 36.68032786885246%;
     background-size: 4266.666666666666%; }
   .planetunknown-icon.icon-tracker-rover {
-    background-position: 1% 57.684426229508205%;
+    background-position: 12.3% 57.684426229508205%;
     background-size: 4266.666666666666%; }
   .planetunknown-icon.icon-tracker-tech {
-    background-position: 4.3999999999999995% 57.684426229508205%;
+    background-position: 15.7% 57.684426229508205%;
     background-size: 4266.666666666666%; }
   .planetunknown-icon.icon-tracker-water {
-    background-position: 7.8% 57.684426229508205%;
+    background-position: 19.1% 57.684426229508205%;
     background-size: 4266.666666666666%; }
   .planetunknown-icon.icon-water {
     background-position: 84.14434117003827% 2.484472049689441%;
@@ -859,7 +896,7 @@
   display: none; }
 
 .pu-player-board-wrapper {
-  background-color: #ebd5bd;
+  background-color: #f9e5cf;
   border-radius: 8px;
   box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.7);
   border-width: 3px;
@@ -869,11 +906,10 @@
     display: flex;
     justify-content: center;
     height: 40px;
-    overflow: hidden; }
-    .pu-player-board-wrapper .pu-player-board-top:hover {
-      z-index: 10;
-      position: relative;
-      overflow: visible; }
+    overflow: hidden;
+    z-index: 10;
+    position: relative;
+    overflow: visible; }
     .pu-player-board-wrapper .pu-player-board-top .player-board-name {
       display: flex;
       align-items: center;
@@ -889,9 +925,7 @@
     .pu-player-board-wrapper .pu-player-board-top .prev-objectives,
     .pu-player-board-wrapper .pu-player-board-top .next-objectives {
       --cardScale: 0.4;
-      display: flex;
-      align-items: flex-end;
-      margin-bottom: -10px; }
+      display: flex; }
       .pu-player-board-wrapper .pu-player-board-top .prev-objectives .planetunknown-card,
       .pu-player-board-wrapper .pu-player-board-top .next-objectives .planetunknown-card {
         margin-left: 5px; }

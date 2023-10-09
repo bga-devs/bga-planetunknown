@@ -32,8 +32,6 @@ class Cards extends \PU\Helpers\CachedPieces
   {
     return [
       'NOCards' => static::getInLocation('NOCards'),
-      'playedCivCards' => static::getInLocation('playedCivCards'),
-      'playerObjCards' => static::getInLocation('playedObjCards'),
       'deck_civ_1' => static::countInLocation('deck_civ_1'),
       'deck_civ_2' => static::countInLocation('deck_civ_2'),
       'deck_civ_3' => static::countInLocation('deck_civ_3'),

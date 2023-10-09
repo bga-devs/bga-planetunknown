@@ -82,12 +82,30 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
     tplCard(card) {
       let uid = card.uid || card.id;
-      let level = '';
-      if (card.level) level = `data-level="${card.level}"`;
 
-      return `<div id="card-${uid}" data-type="${card.type}" class="planetunknown-card ${card.id < 0 ? 'fake' : ''}">
-        <div class='card-inner' data-id="${card.id}" ${level}></div>
-      </div>`;
+      // CIV CARD
+      if(card.type == 'civCard'){
+        return `<div id="card-${uid}" data-type="${card.type}" class="planetunknown-card ${card.id < 0 ? 'fake' : ''}">
+          <div class='card-inner' data-id="${card.id}" data-level="${card.level}"></div>
+        </div>`;
+      }
+      // Neighbour objectives
+      else if(card.type == 'NOCard'){
+        let pId1 = card.pId, pId2 = card.pId2;
+        return `<div id="card-${uid}" class="nocard-wraper">
+          <div class='nocard-indicator'>
+            <span class='nocard-indicator-value' id='card-${uid}-${pId1}-value' style="color:#${this.getPlayerColor(pId1)}"></span>
+            <span class='planetunknown-icon icon-medal' id='card-${uid}-${pId1}-medal'></span>
+          </div>
+          <div data-type="${card.type}" class="planetunknown-card icon-only">
+            <div class='card-inner' data-id="${card.id}"></div>
+          </div>
+          <div class='nocard-indicator'>
+            <span class='nocard-indicator-value' id='card-${uid}-${pId2}-value' style="color:#${this.getPlayerColor(pId2)}"></span>
+            <span class='planetunknown-icon icon-medal' id='card-${uid}-${pId2}-medal'></span>
+          </div>
+        </div>`;
+      }
     },
 
     getCardContainer(card) {

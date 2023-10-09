@@ -20,7 +20,7 @@ $planetGridHeight: 12 * $cellHeight;
 }
 
 .pu-player-board-wrapper {
-    background-color: #ebd5bd;
+    background-color: #f9e5cf;
     border-radius: 8px;
     box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.7);
     border-width: 3px;
@@ -32,11 +32,11 @@ $planetGridHeight: 12 * $cellHeight;
         justify-content: center;
         height: 40px;
         overflow: hidden;
-        &:hover {
-            z-index: 10;
-            position: relative;
-            overflow: visible;
-        }
+        // &:hover {
+        z-index: 10;
+        position: relative;
+        overflow: visible;
+        // }
 
         .player-board-name {
             display: flex;
@@ -58,8 +58,6 @@ $planetGridHeight: 12 * $cellHeight;
         .next-objectives {
             --cardScale: 0.4;
             display: flex;
-            align-items: flex-end;
-            margin-bottom: -10px;
 
             .planetunknown-card {
                 margin-left: 5px;

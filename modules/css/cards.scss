@@ -57,6 +57,35 @@
     }
 }
 
+.nocard-wraper {
+    display: flex;
+    border-left: 1px solid black;
+    padding: 0px 5px;
+    font-family: "HemiHead";
+
+    .nocard-indicator {
+        padding: 0px 3px;
+        margin-top: -3px;
+    }
+
+    .nocard-indicator-value {
+        font-weight: bold;
+        font-size: 20px;
+    }
+
+    .icon-medal {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        color: white;
+        margin-top: 7px;
+        transform: translateY(11px);
+        font-size: 15px;
+        line-height: 19px;
+        text-indent: 5px;
+    }
+}
+
 .planetunknown-card[data-type="NOCard"] {
     width: calc(var(--cardScale) * 396px);
     height: calc(var(--cardScale) * 260px);
@@ -76,4 +105,14 @@
             background-position-y: (($i - ($i % 4)) / 4) * 100% / 6;
         }
     }
+}
+
+.planetunknown-card.icon-only[data-type="NOCard"] {
+    width: calc(var(--cardScale) * 275px);
+    height: calc(var(--cardScale) * 100px);
+    overflow: hidden;
+}
+.planetunknown-card.icon-only[data-type="NOCard"] .card-inner {
+    margin-top: -53px;
+    margin-left: -46px;
 }

@@ -15,7 +15,6 @@ class NOCard extends \PU\Models\Card
   protected $win = 5;
   protected $tie = 2;
 
-
   public function evalCriteria($player)
   {
     return 0;
@@ -26,7 +25,7 @@ class NOCard extends \PU\Models\Card
   {
     if ($this->getPId() == $player->getId()) {
       $otherPlayer = Players::get($this->getPId2());
-    } else if ($this->getPId2() == $player->getId()) {
+    } elseif ($this->getPId2() == $player->getId()) {
       $otherPlayer = Players::get($this->getPId());
     } else {
       return -2; //HACK check
@@ -35,12 +34,8 @@ class NOCard extends \PU\Models\Card
     $playerValue = $this->evalCriteria($player);
     $otherValue = $this->evalCriteria($otherPlayer);
 
-    $score = $playerValue > $otherValue
-      ? $this->win
-      : ($playerValue == $otherValue
-        ? $this->tie
-        : 0);
+    $score = $playerValue > $otherValue ? $this->win : ($playerValue == $otherValue ? $this->tie : 0);
 
-    return $score;
+    return [$score, $playerValue, $otherValue];
   }
 }

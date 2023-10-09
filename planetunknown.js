@@ -163,6 +163,7 @@ define([
       this.setupScoresModal();
       this.setupPlayers();
       this.setupCards();
+      this.setupPlayersScores();
       this.setupTiles();
       this.setupMeeples();
       this.updateLastRoundBanner();
