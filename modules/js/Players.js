@@ -458,6 +458,15 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       debug('Notif: gaining a biomass patch', n);
       let tile = n.args.tile;
       let tileId = `tile-${tile.id}`;
+
+      // Might happen if several players place biomass on the same turn
+      let oTile = $(tileId);
+      if(oTile){
+        let newId = +oTile.dataset.id + 1;
+        oTile.dataset.id = newId;
+        oTile.id = `tile-${newId}`;
+      }
+
       this.addTile(tile);
       this.slide($(tileId), this.getTileContainer(tile), { from: this.getVisibleTitleContainer() }).then(() => {
         this.notifqueue.setSynchronousDuration(this.isFastMode() ? 0 : 10);
