@@ -24,7 +24,7 @@ class TakeCivCard extends \PU\Models\Action
 
   public function isDoable($player)
   {
-    return $this->getPossibleCards()->count() > 1;
+    return $this->getPossibleCards()->count() > 0;
   }
 
   public function getDescription()
