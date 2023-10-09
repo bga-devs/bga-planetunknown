@@ -133,7 +133,7 @@ class Actions
       } else {
         // Auto pass if optional and not doable
         Game::get()->actPassOptionalAction(true);
-        return;
+        return true;
       }
     }
 

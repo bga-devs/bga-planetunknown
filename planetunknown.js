@@ -1036,7 +1036,7 @@ define([
           this.addPrimaryActionButton(
             'btnConfirm',
             _('Confirm'),
-            () => this.takeAtomicAction('actTakeCivCard', [card.id]),
+            () => this.takeAtomicAction('actTakeCivCard', [selectedCard]),
             'planetunknown-choose-card-footer'
           );
         });
