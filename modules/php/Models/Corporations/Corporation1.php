@@ -140,7 +140,7 @@ class Corporation1 extends Corporation
   public function getBestMedal($type)
   {
     for ($i = $this->getLevelOnTrack($type); $i > 0; $i--) {
-      if (is_int($this->tracks[$type][$i]) && !$this->player->hasLifepodOnTrack($type, $i)) {
+      if ($this->extractMedal($this->tracks[$type][$i]) && !$this->player->hasLifepodOnTrack($type, $i)) {
         return $this->tracks[$type][$i];
       }
     }

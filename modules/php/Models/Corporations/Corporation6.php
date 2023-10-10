@@ -7,7 +7,7 @@ class Corporation6 extends Corporation
   public function __construct($player)
   {
     $this->name = clienttranslate('Oasis Ultd.');
-    $this->desc = clienttranslate('Advance your water tracker once for each water terrain square that covers planet ice. Gain the benefits from advancing your water tracker even when it advances onto another track.'); //TODO
+    $this->desc = clienttranslate('Advance your water tracker once for each water terrain square that covers planet ice. Gain the benefits from advancing your water tracker even when it advances onto another track.');
 
     $this->techBonuses = [
       1 => [ //TODO
@@ -39,30 +39,68 @@ class Corporation6 extends Corporation
   ];
 
   protected $waterTrack = [
-    [WATER, 0],
-    [WATER, 1],
-    [BIOMASS, 2],
-    [ROVER, 3],
-    [TECH, 4],
-    [ROVER, 5],
-    [BIOMASS, 4],
-    [WATER, 3],
-    [CIV, 4],
-    [WATER, 5],
-    [WATER, 6],
-    [CIV, 7],
-    [CIV, 8],
-    [WATER, 9],
-    [BIOMASS, 8],
-    [ROVER, 7],
-    [TECH, 8],
-    [ROVER, 9],
-    [BIOMASS, 10],
-    [WATER, 11],
-    [CIV, 12],
-    [WATER, 13],
-    [WATER, 14],
-    [WATER, 15]
+    ['x' => WATER, 'y' => 0],
+    ['x' => WATER, 'y' => 1],
+    ['x' => BIOMASS, 'y' => 2],
+    ['x' => ROVER, 'y' => 3],
+    ['x' => TECH, 'y' => 4],
+    ['x' => ROVER, 'y' => 5],
+    ['x' => BIOMASS, 'y' => 4],
+    ['x' => WATER, 'y' => 3],
+    ['x' => CIV, 'y' => 4],
+    ['x' => WATER, 'y' => 5],
+    ['x' => WATER, 'y' => 6],
+    ['x' => CIV, 'y' => 7],
+    ['x' => CIV, 'y' => 8],
+    ['x' => WATER, 'y' => 9],
+    ['x' => BIOMASS, 'y' => 8],
+    ['x' => ROVER, 'y' => 7],
+    ['x' => TECH, 'y' => 8],
+    ['x' => ROVER, 'y' => 9],
+    ['x' => BIOMASS, 'y' => 10],
+    ['x' => WATER, 'y' => 11],
+    ['x' => CIV, 'y' => 12],
+    ['x' => WATER, 'y' => 13],
+    ['x' => WATER, 'y' => 14],
+    ['x' => WATER, 'y' => 15]
   ];
   protected $level = 3;
+
+  /*
+   * return the tracker level (how many step it's from start)
+   * could be different than Y on corporations where progression is not linear
+   */
+  public function getLevelOnTrack($type)
+  {
+    return $type != WATER ?
+      $this->player->getTracker($type)->getY() :
+      $this->getWaterCoords()['y'];
+  }
+
+  public function getWaterCoords($y = null)
+  {
+    $y = $y ?? $this->player->getTracker(WATER)->getY();
+    return $this->waterTrack[$y];
+  }
+
+  /**
+   * Return an array of all cells this TYPE tracker can reach with a N move.
+   * @return Array of CellIDs ('x_y')
+   */
+  public function getNextSpaceIds($type, $n = 1)
+  {
+    $trackPawn = $this->player->getTracker($type);
+    //Y can't be lower than 0
+    $nextSpaceY = max(0, $trackPawn->getY() + $n);
+
+    //Y can't be higher than top of the track type
+    $nextSpaceY = min(count($this->tracks[$type]) - 1, $nextSpaceY);
+
+    if ($type == WATER) {
+      $nextCell = $this->getWaterCoords($nextSpaceY);
+      return [$this->getSpaceId($nextCell)];
+    } else {
+      return [$trackPawn->getX() . '_' . $nextSpaceY];
+    }
+  }
 }

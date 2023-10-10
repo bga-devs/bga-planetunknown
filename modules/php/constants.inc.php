@@ -175,7 +175,7 @@ const FORBIDDEN_TERRAINS = [
 ];
 const ADD_ROVER = 'addRover';
 const ONLY_ONE_MOVE_TRACKER = 'onlyOneMoveTracker';
-const CANNOT_PLACE_ON_EDGE = 'cannotPlaceOnEdge'; //TODO
+const CANNOT_PLACE_ON_EDGE = 'cannotPlaceOnEdge';
 const NO_MILESTONE = 'noMilestone'; //TODO
 
 /*
@@ -243,6 +243,14 @@ const TECH_PLUS_1_ROVER_IF_MULTIPLE_TRACKERS = 'tech_5_2';
 const TECH_SHIFT_TRACKER = 'tech_5_3';
 const TECH_REGRESS_TRACJER = 'tech_5_4';
 const TECH_SCRE_HIGHEST_TRACKER = 'tech_5_5';
+
+const OASIS = 6;
+const TECH_SKIP_OVER_TRACKER = 'tech_6_1';
+const TECH_GET_1_MOVE_STARTING_ON_WATER = 'tech_6_2';
+const TECH_MOVE_WATER_IF_NO_ICE = 'tech_6_3';
+const TECH_GET_BIOMASS_WITH_WATER = 'tech_6_4';
+const TECH_GET_SYNERGY_WITH_WATER = 'tech_6_5';
+
 
 
 /*
