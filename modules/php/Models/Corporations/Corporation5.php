@@ -6,7 +6,7 @@ class Corporation5 extends Corporation
 {
   public function __construct($player)
   {
-    $this->name = clienttranslate('Make Shift');
+    $this->name = clienttranslate('Makeshift');
     $this->desc = clienttranslate('You may advance any tracker diagonally onto an adjacent track. Any tracker may claim any benefit. Tech Levels are locked if no tracker is currently unlocking the tech.');
 
     $this->techBonuses = [

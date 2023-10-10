@@ -133,12 +133,17 @@ class Action
       switch ($bonus) {
         case CIV:
           $levelCiv = $player->corporation()->getCivLevel();
-          $player->addEndOfTurnAction([
+          $action = [
             'action' => TAKE_CIV_CARD,
             'args' => [
               'level' => $levelCiv
             ]
-          ]);
+          ];
+          if ($this->gamestate->state_id() == ST_CHOOSE_CIV_CARD) {
+            $actions[] = $action;
+          } else {
+            $player->addEndOfTurnAction($action);
+          }
           Notifications::milestone($player, CIV, $levelCiv);
           break;
         case BIOMASS:
@@ -152,15 +157,11 @@ class Action
           Notifications::milestone($player, TECH, $levelTech);
           break;
         case SYNERGY:
-          $actions[] = [
-            'action' => CHOOSE_TRACKS,
-            'args' => [
-              'types' => ALL_TYPES,
-              'n' => 1,
-              'from' => SYNERGY
-            ]
-          ];
-          Notifications::milestone($player, $bonus);
+          $action = $player->getSynergy();
+          if ($action) {
+            $actions[] = $action;
+            Notifications::milestone($player, $bonus);
+          }
           break;
         case ROVER:
           $actions[] = [
@@ -185,10 +186,6 @@ class Action
       }
     }
 
-    // if (count($actions) > 1) {
     $this->pushParallelChilds($actions);
-    // } elseif (count($actions) == 1) {
-    //   $this->insertAsChild($actions[0]);
-    // }
   }
 }

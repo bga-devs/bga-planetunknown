@@ -21,14 +21,21 @@ class MoveTrackersToFive extends \PU\Models\Action
     return ST_MOVE_TRACKERS_TO_FIVE;
   }
 
-  public function isDoable($player)
+  public function getPlayableTrackers()
   {
-    return true;
+    $player = $this->getPlayer();
+    $playableTypes = [];
+    foreach (ALL_TYPES as $type) {
+      if ($player->corporation()->getLevelOnTrack($type) < 4) {
+        $playableTypes[] = $type;
+      }
+    }
+    return $playableTypes;
   }
 
-  public function isAutomatic($player = null)
+  public function isDoable($player)
   {
-    return true;
+    return count($this->getPlayableTrackers());
   }
 
   public function getDescription()
@@ -41,20 +48,35 @@ class MoveTrackersToFive extends \PU\Models\Action
 
   public function argsMoveTrackersToFive()
   {
-    return [];
+    return [
+      'playableTracks' => $this->getPlayableTrackers()
+    ];
   }
 
-  public function stMoveTrackersToFive()
+  public function actMoveTrackersToFive($type)
   {
-    return []; // Ensure the UI is not entering the state !!!
-  }
+    $playableTypes = $this->getPlayableTrackers();
 
-  public function actMoveTrackersToFive()
-  {
-    $player = $this->getPlayer();
-
-    foreach (ALL_TYPES as $type) {
-      $player->corporation()->setLevelOnTrack($type, 5);
+    if (!in_array($type, $playableTypes)) {
+      throw new BgaVisibleSystemException("You can\'t choose the $type tracker. Should not happen");
     }
+
+    $this->insertAsChild([
+      'type' => NODE_SEQ,
+      'childs' => [
+        [
+          'action' => MOVE_TRACKER_BY_ONE,
+          'args' => [
+            'type' => $type,
+            'moveId' => 1,
+            'n' => 1,
+            'withBonus' => NO_SYNERGY,
+          ],
+        ],
+        [
+          'action' => MOVE_TRACKERS_TO_FIVE
+        ]
+      ]
+    ]);
   }
 }

@@ -210,9 +210,17 @@ class PlaceTile extends \PU\Models\Action
         ];
         continue;
       }
-      // Water => stop if the tile is not covering water
-      elseif ($type == WATER && !$coveringWater) {
-        continue;
+      // Water => stop if the tile is not covering water or make checks if player->corpo is OASIS
+      elseif ($type == WATER) {
+        if (!$coveringWater) {
+          continue;
+        } elseif ($player->corporation()->getId() == OASIS) {
+          $actions[] = [
+            'action' => MOVE_TRACK,
+            'args' => ['type' => $type, 'n' => $coveringWater, 'withBonus' => true],
+          ];
+          continue;
+        }
       }
 
       // Normal case: add parallel child
@@ -221,6 +229,8 @@ class PlaceTile extends \PU\Models\Action
         'args' => ['type' => $type, 'n' => 'placingTile', 'withBonus' => true],
       ];
     }
+
+
     if (Globals::getTurnSpecialRule() == ONLY_ONE_MOVE_TRACKER) {
       $this->pushParallelChild([
         'type' => NODE_XOR,

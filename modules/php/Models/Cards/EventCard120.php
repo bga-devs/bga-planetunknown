@@ -2,6 +2,7 @@
 
 namespace PU\Models\Cards;
 
+use PU\Core\Globals;
 use PU\Managers\Cards;
 
 /*
@@ -24,5 +25,7 @@ class EventCard120 extends \PU\Models\Cards\EventCard
   //CONTRAINT : NotOnIce
   public function effect()
   {
+    Globals::setTurnSpecialRule(CANNOT_PLACE_ON_ICE);
+    //TODOTissac
   }
 }

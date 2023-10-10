@@ -2,6 +2,7 @@
 
 namespace PU\Models\Cards;
 
+use PU\Core\Globals;
 use PU\Managers\Cards;
 
 /*
@@ -24,5 +25,6 @@ class EventCard122 extends \PU\Models\Cards\EventCard
   //CONTRAINT : NoBoost
   public function effect()
   {
+    Globals::setTurnSpecialRule(NO_SYNERGY);
   }
 }

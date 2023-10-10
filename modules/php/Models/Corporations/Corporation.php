@@ -72,20 +72,27 @@ class Corporation
     Notifications::moveTrack($this->player, $oldCoord, $pawn);
 
     if ($withBonus) {
-      return $this->getBonuses($coord);
+      return $this->getBonuses($coord, $withBonus);
     } else {
       return [];
     }
   }
 
-  public function getBonuses($cell)
+  public function getBonuses($cell, $withBonus = true)
   {
     $bonuses = [];
 
     if (is_array($this->tracks[$cell['x']][$cell['y']])) {
-      $bonuses = $this->tracks[$cell['x']][$cell['y']];
+      foreach ($this->tracks[$cell['x']][$cell['y']] as $bonus) {
+        if ($withBonus != NO_SYNERGY || $bonus != SYNERGY) {
+          $bonuses[] = $bonus;
+        }
+      }
     } elseif ($this->tracks[$cell['x']][$cell['y']]) {
-      $bonuses[] = $this->tracks[$cell['x']][$cell['y']];
+      $bonus = $this->tracks[$cell['x']][$cell['y']];
+      if ($withBonus != NO_SYNERGY || $bonus != SYNERGY) {
+        $bonuses[] = $bonus;
+      }
     }
 
     return $bonuses;
@@ -117,17 +124,17 @@ class Corporation
     return $this->player->getTracker($type)->getY();
   }
 
-  // TODO to override for some corporations
-  public function setLevelOnTrack($type, $n, $onlyForward = true)
-  {
-    if ($this->getLevelOnTrack($type) < $n && $onlyForward) {
-      $pawn = $this->player->getTracker($type);
-      $from = ['x' => $pawn->getX(), 'y' => $pawn->getY()];
-      $pawn->setY($n);
+  // TODO to override for some corporations USELESS
+  // public function setLevelOnTrack($type, $n, $onlyForward = true)
+  // {
+  //   if ($this->getLevelOnTrack($type) < $n && $onlyForward) {
+  //     $pawn = $this->player->getTracker($type);
+  //     $from = ['x' => $pawn->getX(), 'y' => $pawn->getY()];
+  //     $pawn->setY($n);
 
-      Notifications::moveTrack($this->player, $from, $pawn);
-    }
-  }
+  //     Notifications::moveTrack($this->player, $from, $pawn);
+  //   }
+  // }
 
   public function isTrackerOnTop($type)
   {

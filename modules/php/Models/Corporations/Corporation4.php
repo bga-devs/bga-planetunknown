@@ -10,7 +10,7 @@ class Corporation4 extends Corporation
     $this->desc = clienttranslate('Choose to place a collected lifepod onto your tech or your scoring area. A lifepod placed onto tech unlocks the tech in any order.'); //TODO
 
     $this->techBonuses = [
-      1 => [ //TODO
+      1 => [ //TODOCautionNOSynergy
         'text' => clienttranslate('Gain synergy boost instead of a biomass patch. Once per round.')
       ],
       2 => [ //TODO

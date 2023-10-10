@@ -24,5 +24,6 @@ class EventCard117 extends \PU\Models\Cards\EventCard
   //CONTRAINT : 
   public function effect()
   {
+    return $this->synergyOrPeek();
   }
 }

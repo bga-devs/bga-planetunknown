@@ -22,7 +22,7 @@ class POCard extends \PU\Models\Card
   public function score($player)
   {
     $objDone = $this->evalCriteria($player);
-    $score = $objDone ? $this->$win : 0;
+    $score = $objDone ? $this->win : 0;
     return $score;
   }
 }

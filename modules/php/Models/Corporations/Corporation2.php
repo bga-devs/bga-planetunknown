@@ -60,9 +60,7 @@ class Corporation2 extends Corporation
     return $level;
   }
 
-
-
-  public function getBonuses($cell)
+  public function getBonuses($cell, $withBonus = true)
   {
     $bonuses = [];
 

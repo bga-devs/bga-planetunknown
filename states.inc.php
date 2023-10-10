@@ -359,6 +359,15 @@ $machinestates = [
     'possibleactions' => ['actChooseRotation', 'actRestart'],
   ],
 
+  ST_PEEK_NEXT_EVENT => [
+    'name' => PEEK_NEXT_EVENT,
+    'descriptionmyturn' => clienttranslate('${you} can peek at next event card'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actPeekNextEvent', 'actRestart'],
+  ],
+
   //////////////////////////////////////////////////////////////////
   //  _____           _    ___   __    ____
   // | ____|_ __   __| |  / _ \ / _|  / ___| __ _ _ __ ___   ___
