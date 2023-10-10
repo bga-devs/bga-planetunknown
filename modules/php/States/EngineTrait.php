@@ -66,39 +66,43 @@ trait EngineTrait
     if ($args['automaticAction'] ?? false) {
       return;
     }
-    $player = Players::getActive();
-    // $actions = $player->corporation()->getAnytimeActions();
+    $player = Players::get($pId);
+    $actions = $player->corporation()->getAnytimeActions();
 
-    // // Keep only doable actions
-    // $anytimeActions = [];
-    // foreach ($actions as $flow) {
-    //   $tree = Engine::buildTree($flow);
-    //   if ($tree->isDoable($player)) {
-    //     $anytimeActions[] = [
-    //       'flow' => $flow,
-    //       'desc' => $flow['desc'] ?? $tree->getDescription(true),
-    //       'optionalAction' => $tree->isOptional(),
-    //       'independentAction' => $tree->isIndependent($player),
-    //     ];
-    //   }
-    // }
+    // Keep only doable actions
+    $anytimeActions = [];
+    foreach ($actions as $flow) {
+      $tree = Engine::buildTree($flow);
+      if ($tree->isDoable($player)) {
+        $anytimeActions[] = [
+          'flow' => $flow,
+          'desc' => $flow['desc'] ?? $tree->getDescription(true),
+          'optionalAction' => $tree->isOptional(),
+          'independentAction' => $tree->isIndependent($player),
+          'source' => $tree->getSource(),
+        ];
+      }
+    }
 
-    // $args['anytimeActions'] = $anytimeActions;
-
-    // function actAnytimeAction($choiceId, $auto = false)
-    // {
-    //   $args = $this->gamestate->state()['args'];
-    //   if (!isset($args['anytimeActions'][$choiceId])) {
-    //     throw new \BgaVisibleSystemException('You can\'t take this anytime action');
-    //   }
-
-    //   $flow = $args['anytimeActions'][$choiceId]['flow'];
-    //   if (!$auto) {
-    //     Globals::incEngineChoices();
-    //   }
-    //   Engine::insertAtRoot($flow, false);
-    //   Engine::proceed();
+    $args['anytimeActions'] = $anytimeActions;
   }
+
+  function actAnytimeAction($choiceId, $auto = false)
+  {
+    $pId = self::getCurrentPId();
+    $args = $this->gamestate->getPrivateState($pId)['args'];
+    if (!isset($args['anytimeActions'][$choiceId])) {
+      throw new \BgaVisibleSystemException('You can\'t take this anytime action');
+    }
+
+    $flow = $args['anytimeActions'][$choiceId]['flow'];
+    if (!$auto) {
+      PGlobals::incEngineChoices($pId);
+    }
+    Engine::insertBeforeCurrent($pId, $flow);
+    Engine::proceed($pId);
+  }
+
 
   /**
    * Pass the argument of the action to the atomic action

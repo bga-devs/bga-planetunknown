@@ -3,6 +3,7 @@
 namespace PU\Models\Corporations;
 
 use PU\Core\Notifications;
+use PU\Core\PGlobals;
 use PU\Managers\Meeples;
 use PU\Managers\Tiles;
 
@@ -272,6 +273,11 @@ class Corporation
   public function getAnytimeActions()
   {
     return [];
+  }
+
+  public function isFlagged($flag)
+  {
+    return PGlobals::getFlags($this->pId)[$flag] ?? false;
   }
 
   /*

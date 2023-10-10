@@ -280,6 +280,7 @@ $machinestates = [
   ST_CHOOSE_TRACKS => [
     'name' => 'chooseTracks',
     'descriptionmyturn' => clienttranslate('${you} must choose ${n} track(s) to move thanks to ${from}'),
+    'descriptionmyturnregress' => clienttranslate('${you} must choose ${n} track(s) to regress (${source})'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',

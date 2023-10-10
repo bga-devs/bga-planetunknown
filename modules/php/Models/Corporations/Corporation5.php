@@ -19,7 +19,7 @@ class Corporation5 extends Corporation
       3 => [
         'text' => clienttranslate('Shift a tracker laterally to an ajacent track instead of advancing.')
       ],
-      4 => [ //TODO
+      4 => [
         'text' => clienttranslate('Regress any one tracker. Once per round.')
       ],
       5 => [ //TODO
@@ -43,14 +43,16 @@ class Corporation5 extends Corporation
   public function getAnytimeActions()
   {
     $actions = [];
-    if ($this->player->hasTech(TECH_REGRESS_TRACKER)) {
+    if ($this->player->hasTech(TECH_REGRESS_TRACKER) && !$this->isFlagged(TECH_REGRESS_TRACKER)) {
       $actions[] = [
         'action' => CHOOSE_TRACKS,
         'args' => [
           'types' => ALL_TYPES,
           'n' => 1,
-          'm' => -1,
-        ]
+          'move' => -1,
+        ],
+        'source' => $this->name,
+        'flag' => TECH_REGRESS_TRACKER,
       ];
     }
 

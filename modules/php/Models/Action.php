@@ -139,10 +139,12 @@ class Action
               'level' => $levelCiv
             ]
           ];
-          if ($this->gamestate->state_id() == ST_CHOOSE_CIV_CARD) {
-            $actions[] = $action;
-          } else {
+
+
+          if (Globals::getPhase() == PHASE_TURN) {
             $player->addEndOfTurnAction($action);
+          } else {
+            $actions[] = $action;
           }
           Notifications::milestone($player, CIV, $levelCiv);
           break;

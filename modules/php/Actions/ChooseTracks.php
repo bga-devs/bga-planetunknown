@@ -55,7 +55,7 @@ class ChooseTracks extends \PU\Models\Action
 
   public function getFrom()
   {
-    return $this->getCtxArg('from');
+    return $this->getCtxArg('from') ?? '';
   }
 
   public function getDescription()
@@ -72,8 +72,9 @@ class ChooseTracks extends \PU\Models\Action
         ],
       ];
     } else if (count($types) == 5) {
+      $m = $this->getMove();
       return [
-        'log' => clienttranslate('Advance ${n} track(s)'),
+        'log' => $m > 0 ? clienttranslate('Advance ${n} track(s)') : clienttranslate('Regress ${n} track(s)'),
         'args' => [
           'n' => $this->getN(),
         ],
@@ -81,7 +82,7 @@ class ChooseTracks extends \PU\Models\Action
     } else {
       $m = $this->getMove();
       return [
-        'log' => $m > 0 ? clienttranslate('Advance ${n} track(s) among ${types_desc}') : clienttranslate('Regress ${n} track(s)'),
+        'log' => $m > 0 ? clienttranslate('Advance ${n} track(s) among ${types_desc}') : clienttranslate('Regress ${n} track(s) among ${type_desc}'),
         'args' => [
           'n' => $this->getN(),
           'types_desc' => Utils::getTypesDesc($types),
@@ -94,12 +95,16 @@ class ChooseTracks extends \PU\Models\Action
   {
     $player = $this->getPlayer();
     $choosableTypes = $this->getChoosableTypes();
+    $m = $this->getMove();
 
     return [
       'types' => $this->getTypes(),
       'choosableTypes' => $choosableTypes,
       'n' => min($this->getN(), count($choosableTypes)), //if you can't move N types, you don't HAVE TO, just do your best
-      'from' => $this->getFrom()
+      'descSuffix' => $m < 0 ? 'regress' : '',
+      'from' => $this->getFrom(),
+      'source' => $this->ctx->getSource(),
+      'i18n' => ['from', 'source'],
     ];
   }
 

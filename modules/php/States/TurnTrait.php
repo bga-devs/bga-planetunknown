@@ -142,6 +142,7 @@ trait TurnTrait
     $flows = [];
     $endOfGameTriggered = false;
 
+    Globals::setPhase(PHASE_TURN);
     foreach ($players as $pId => $player) {
       // Check if end of game is triggered or not
       if (!$endOfGameTriggered && !$player->canTakeAction(PLACE_TILE, [])) {
@@ -188,6 +189,7 @@ trait TurnTrait
       $pId = Players::getNextId($pId);
     } while ($pId != $firstPlayer);
 
+    Globals::setPhase(PHASE_END_TURN_CIV);
     $this->initCustomTurnOrder('civCardTurn', $order, 'stChooseCivCard', ST_END_TURN);
   }
 

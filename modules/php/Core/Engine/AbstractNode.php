@@ -1,12 +1,16 @@
 <?php
+
 namespace PU\Core\Engine;
+
 use PU\Core\Globals;
+use PU\Core\PGlobals;
 use PU\Managers\Players;
 use PU\Managers\Actions;
 
 /*
  * AbstractNode: a class that represent an abstract Node
  */
+
 class AbstractNode
 {
   protected $childs = [];
@@ -309,6 +313,13 @@ class AbstractNode
    */
   public function replay()
   {
+    $flag = $this->getFlag();
+    if (!is_null($flag)) {
+      $pId = $this->getRoot()->getPId();
+      $flags = PGlobals::getFlags($pId);
+      $flags[$flag] = true;
+      PGlobals::setFlags($pId, $flags);
+    }
     if (isset($this->infos['action']) && $this->isActionResolved()) {
       $args = $this->infos['actionResolutionArgs'];
       if ($args !== PASS) {

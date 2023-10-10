@@ -302,6 +302,10 @@ const MODE_REPLAY = 2;
 
 const NO_PLACEMENT = -1;
 
+const PHASE_TURN = 0;
+const PHASE_END_TURN_CIV = 1;
+const PHASE_END_GAME = 2;
+
 /************************
  ********** TILES *******
  ************************/

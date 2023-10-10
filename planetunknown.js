@@ -346,6 +346,10 @@ define([
             msg = msg.log ? this.fsr(msg.log, msg.args) : _(msg);
             msg = this.formatString(msg);
 
+            if (action.source && action.source != '') {
+              msg += ' (' + _(action.source) + ')';
+            }
+
             this.addPrimaryActionButton(
               'btnAnytimeAction' + i,
               msg,

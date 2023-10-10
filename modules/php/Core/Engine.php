@@ -158,15 +158,6 @@ class Engine
   }
 
   /**
-   * Recursively compute the next undoable mandatory node, if any
-   *
-  public function getUndoableMandatoryNode($player)
-  {
-    return self::$tree->getUndoableMandatoryNode($player);
-  }
-   */
-
-  /**
    * Change state
    */
   protected function setState($pId, $newState, $globalOnly = false)
@@ -338,19 +329,25 @@ class Engine
   }
 
   /**
-   * Insert a new node at root level at the end of seq node
+   * Insert a new node right before current pending node
    */
-  public function insertAtRoot($t, $last = true)
+  public function insertBeforeCurrent($pId, $t)
   {
-    self::ensureSeqRootNode();
-    $node = self::buildTree($t);
-    if ($last) {
-      self::$tree->pushChild($node);
+    $node = self::getNextUnresolved($pId);
+    $parent = $node->getParent();
+    if (!$parent instanceof \PU\Core\Engine\SeqNode) {
+      $node2 = self::buildTree([
+        'type' => NODE_SEQ,
+        'childs' => [$t->toArray()]
+      ]);
+      $parent = $node->replace($node2);
+      $index = -1;
     } else {
-      self::$tree->unshiftChild($node);
+      $index = $node->getIndex() - 1;
     }
-    self::save();
-    return $node;
+
+    $parent->insertChildAtPos(self::buildTree($t), $index);
+    self::save($pId);
   }
 
   /**
@@ -440,29 +437,6 @@ class Engine
     // Make him inactive
     Game::get()->gamestate->setPlayerNonMultiactive($pId, 'done');
   }
-
-  /*
-  public function confirmPartialTurn()
-  {
-    $node = self::$tree->getNextUnresolved();
-
-    // Are we done ?
-    if ($node == null) {
-      throw new \feException("You can't partial confirm an ended turn");
-    }
-
-    $oldPId = Game::get()->getActivePlayerId();
-    $pId = $node->getPId();
-
-    if ($oldPId == $pId) {
-      throw new \feException("You can't partial confirm for the same player");
-    }
-
-    // Clear log
-    self::checkpoint();
-    Engine::proceed(true);
-  }
-  */
 
   public function callback()
   {

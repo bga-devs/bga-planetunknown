@@ -414,8 +414,8 @@ class Player extends \PU\Helpers\DB_Model
       //with FLUX corpo you can only use your last tech level
       return $this->corporation()->getId() == $corporation && $this->corporation()->getTechLevel() == $tech;
     } else {
-      // TODO : remove
-      return $this->corporation()->getId() == $corporation; // && $this->corporation()->getTechLevel() >= $tech;
+      // return $this->corporation()->getId() == $corporation;
+      return $this->corporation()->getId() == $corporation && $this->corporation()->getTechLevel() >= $tech;
     }
   }
 

@@ -26,6 +26,12 @@ class PlaceRover extends \PU\Models\Action
     return $player->getAvailableRover() != null && $this->getPossibleSpaceIds($player);
   }
 
+  public function isOptional()
+  {
+    $player = $this->getPlayer();
+    return !$this->isDoable($player);
+  }
+
   public function getDescription()
   {
     return clienttranslate('Place a new Rover');
@@ -44,13 +50,13 @@ class PlaceRover extends \PU\Models\Action
     $possibleCells = $player->planet()->getTileCoveredCells($lastTile, false);
     Utils::filter(
       $possibleCells,
-      fn($cell) => !$player
+      fn ($cell) => !$player
         ->planet()
         ->getMeepleOnCell($cell, ROVER_MEEPLE)
         ->count()
     );
 
-    return array_map(fn($cell) => Planet::getCellId($cell), $possibleCells);
+    return array_map(fn ($cell) => Planet::getCellId($cell), $possibleCells);
   }
 
   public function argsPlaceRover()

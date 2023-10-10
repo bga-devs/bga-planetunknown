@@ -56,6 +56,7 @@ trait EndGameTrait
       }
     }
 
+    Globals::setPhase(PHASE_END_GAME);
     Engine::multipleSetup($flows, ['method' => 'stPostEndGameTurn']);
   }
 
