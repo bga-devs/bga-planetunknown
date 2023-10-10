@@ -1,5 +1,7 @@
 <?php
+
 namespace PU\States;
+
 use PU\Core\Globals;
 use PU\Core\PGlobals;
 use PU\Core\Engine;
@@ -60,30 +62,29 @@ trait EngineTrait
    */
   function addArgsAnytimeAction($pId, &$args, $action)
   {
-    //   $this->addCommonArgs($args);
+      // If the action is auto => don't display anytime buttons
+      if ($args['automaticAction'] ?? false) {
+        return;
+      }
+      $player = Players::getActive();
+      $actions = $player->corporation()->getAnytimeActions($actions);
 
-    //   // If the action is auto => don't display anytime buttons
-    //   if ($args['automaticAction'] ?? false) {
-    //     return;
-    //   }
-    //   $player = Players::getActive();
-    //   $actions = [];
-
-    //   // Keep only doable actions
-    //   $anytimeActions = [];
-    //   foreach ($actions as $flow) {
-    //     $tree = Engine::buildTree($flow);
-    //     if ($tree->isDoable($player)) {
-    //       $anytimeActions[] = [
-    //         'flow' => $flow,
-    //         'desc' => $flow['desc'] ?? $tree->getDescription(true),
-    //         'optionalAction' => $tree->isOptional(),
-    //         'independentAction' => $tree->isIndependent($player),
-    //       ];
-    //     }
-    //   }
-    //   $args['anytimeActions'] = $anytimeActions;
-    // }
+      // Keep only doable actions
+      $anytimeActions = [];
+      foreach ($actions as $flow) {
+        $tree = Engine::buildTree($flow);
+        if ($tree->isDoable($player)) {
+          $anytimeActions[] = [
+            'flow' => $flow,
+            'desc' => $flow['desc'] ?? $tree->getDescription(true),
+            'optionalAction' => $tree->isOptional(),
+            'independentAction' => $tree->isIndependent($player),
+          ];
+        }
+      }
+      
+      $args['anytimeActions'] = $anytimeActions;
+    }
 
     // function actAnytimeAction($choiceId, $auto = false)
     // {
@@ -184,6 +185,7 @@ trait EngineTrait
     $args = [
       'desc' => $node->getDescription(),
     ];
+    $this->addCommonArgs($pId, $args);
     $this->addArgsAnytimeAction($pId, $args, 'impossibleAction');
     return $args;
   }
@@ -198,6 +200,7 @@ trait EngineTrait
       'previousSteps' => Log::getUndoableSteps($pId),
       'automaticAction' => false,
     ];
+    $this->addCommonArgs($pId, $data);
     $this->addArgsAnytimeAction($pId, $data, 'confirmTurn');
     return $data;
   }

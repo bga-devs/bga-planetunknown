@@ -104,8 +104,9 @@ class Corporation2 extends Corporation
     }
   }
 
-  public function addAutomaticActions(&$actions)
+  public function getAnytimeActions(&$actions)
   {
+    $actions = [];
     if ($this->player->hasTech(TECH_ADVANCE_FLUX)) {
       $actions[] = [
         'action' => MOVE_TRACK,
@@ -123,5 +124,7 @@ class Corporation2 extends Corporation
         $actions[] = $action;
       }
     }
+
+    return $actions;
   }
 }

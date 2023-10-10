@@ -39,8 +39,9 @@ class Corporation3 extends Corporation
   ];
   protected $level = 2;
 
-  public function addAutomaticActions(&$actions)
+  public function getAnytimeActions(&$actions)
   {
+    $actions = [];
     if ($this->player->hasTech(TECH_ADVANCE_ROVER)) {
       $actions[] = [
         'action' => MOVE_TRACK,
@@ -55,6 +56,8 @@ class Corporation3 extends Corporation
     if ($this->player->hasTech(TECH_GET_1_MOVE_CARRYING_METEOR)) {
       $actions[] = $this->get1MoveCarryingMeteor();
     }
+
+    return $action;
   }
 
   public function get1MoveCarryingMeteor()

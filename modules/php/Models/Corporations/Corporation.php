@@ -262,8 +262,9 @@ class Corporation
       ->count();
   }
 
-  public function addAutomaticActions(&$actions)
+  public function getAnytimeActions(&$actions)
   {
+    return [];
   }
 
   /*

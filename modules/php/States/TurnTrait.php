@@ -143,13 +143,6 @@ trait TurnTrait
     $endOfGameTriggered = false;
 
     foreach ($players as $pId => $player) {
-      $actions = [];
-
-      $actions[] = [
-        'action' => \PLACE_TILE,
-        'args' => ['type' => 'normal'],
-      ];
-
       // Check if end of game is triggered or not
       if (!$endOfGameTriggered && !$player->canTakeAction(PLACE_TILE, [])) {
         $endOfGameTriggered = true;
@@ -157,12 +150,10 @@ trait TurnTrait
         Globals::setGameEndTriggered(true);
       }
 
-      //ADD EXTRA ACTION EACH TURN
-      $player->corporation()->addAutomaticActions($actions);
 
       $flows[$pId] = [
-        'type' => NODE_PARALLEL,
-        'childs' => $actions,
+        'action' => \PLACE_TILE,
+        'args' => ['type' => 'normal'],
       ];
     }
 

@@ -147,15 +147,17 @@ class Corporation1 extends Corporation
     return 0;
   }
 
-  public function addAutomaticActions(&$actions)
+  public function getAnytimeActions(&$actions)
   {
     if ($this->player->hasTech(TECH_REPOSITION_ONE_LIFEPOD_EACH_TURN)) {
-      $actions[] = [
+      return [
         'action' => POSITION_LIFEPOD_ON_TRACK,
         'args' => [
           'remaining' => 1
         ]
       ];
+    } else {
+      return [];
     }
   }
 }
