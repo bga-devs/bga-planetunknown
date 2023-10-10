@@ -39,7 +39,7 @@ class Corporation3 extends Corporation
   ];
   protected $level = 2;
 
-  public function getAnytimeActions(&$actions)
+  public function getAnytimeActions()
   {
     $actions = [];
     if ($this->player->hasTech(TECH_ADVANCE_ROVER)) {
@@ -57,7 +57,7 @@ class Corporation3 extends Corporation
       $actions[] = $this->get1MoveCarryingMeteor();
     }
 
-    return $action;
+    return $actions;
   }
 
   public function get1MoveCarryingMeteor()

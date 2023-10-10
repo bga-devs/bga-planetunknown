@@ -40,6 +40,24 @@ class Corporation5 extends Corporation
   protected $level = 4;
 
 
+  public function getAnytimeActions()
+  {
+    $actions = [];
+    if ($this->player->hasTech(TECH_REGRESS_TRACKER)) {
+      $actions[] = [
+        'action' => CHOOSE_TRACKS,
+        'args' => [
+          'types' => ALL_TYPES,
+          'n' => 1,
+          'm' => -1,
+        ]
+      ];
+    }
+
+    return $actions;
+  }
+
+
   public function getNextSpaceIds($type, $n = 1)
   {
     $trackPawn = $this->player->getTracker($type);

@@ -269,7 +269,7 @@ class Corporation
       ->count();
   }
 
-  public function getAnytimeActions(&$actions)
+  public function getAnytimeActions()
   {
     return [];
   }

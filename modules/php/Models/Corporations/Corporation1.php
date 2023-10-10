@@ -147,7 +147,7 @@ class Corporation1 extends Corporation
     return 0;
   }
 
-  public function getAnytimeActions(&$actions)
+  public function getAnytimeActions()
   {
     if ($this->player->hasTech(TECH_REPOSITION_ONE_LIFEPOD_EACH_TURN)) {
       return [

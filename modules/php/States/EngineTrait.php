@@ -62,29 +62,28 @@ trait EngineTrait
    */
   function addArgsAnytimeAction($pId, &$args, $action)
   {
-      // If the action is auto => don't display anytime buttons
-      if ($args['automaticAction'] ?? false) {
-        return;
-      }
-      $player = Players::getActive();
-      $actions = $player->corporation()->getAnytimeActions($actions);
-
-      // Keep only doable actions
-      $anytimeActions = [];
-      foreach ($actions as $flow) {
-        $tree = Engine::buildTree($flow);
-        if ($tree->isDoable($player)) {
-          $anytimeActions[] = [
-            'flow' => $flow,
-            'desc' => $flow['desc'] ?? $tree->getDescription(true),
-            'optionalAction' => $tree->isOptional(),
-            'independentAction' => $tree->isIndependent($player),
-          ];
-        }
-      }
-      
-      $args['anytimeActions'] = $anytimeActions;
+    // If the action is auto => don't display anytime buttons
+    if ($args['automaticAction'] ?? false) {
+      return;
     }
+    $player = Players::getActive();
+    // $actions = $player->corporation()->getAnytimeActions();
+
+    // // Keep only doable actions
+    // $anytimeActions = [];
+    // foreach ($actions as $flow) {
+    //   $tree = Engine::buildTree($flow);
+    //   if ($tree->isDoable($player)) {
+    //     $anytimeActions[] = [
+    //       'flow' => $flow,
+    //       'desc' => $flow['desc'] ?? $tree->getDescription(true),
+    //       'optionalAction' => $tree->isOptional(),
+    //       'independentAction' => $tree->isIndependent($player),
+    //     ];
+    //   }
+    // }
+
+    // $args['anytimeActions'] = $anytimeActions;
 
     // function actAnytimeAction($choiceId, $auto = false)
     // {

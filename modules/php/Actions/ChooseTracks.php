@@ -79,8 +79,9 @@ class ChooseTracks extends \PU\Models\Action
         ],
       ];
     } else {
+      $m = $this->getMove();
       return [
-        'log' => clienttranslate('Advance ${n} track(s) among ${types_desc}'),
+        'log' => $m > 0 ? clienttranslate('Advance ${n} track(s) among ${types_desc}') : clienttranslate('Regress ${n} track(s)'),
         'args' => [
           'n' => $this->getN(),
           'types_desc' => Utils::getTypesDesc($types),

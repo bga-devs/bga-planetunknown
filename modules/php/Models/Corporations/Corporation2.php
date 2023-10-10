@@ -102,7 +102,7 @@ class Corporation2 extends Corporation
     }
   }
 
-  public function getAnytimeActions(&$actions)
+  public function getAnytimeActions()
   {
     $actions = [];
     if ($this->player->hasTech(TECH_ADVANCE_FLUX)) {

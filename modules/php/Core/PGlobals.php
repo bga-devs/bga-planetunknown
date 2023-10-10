@@ -21,7 +21,8 @@ class PGlobals extends \PU\Helpers\DB_Manager
     'pendingActionsEndOfTurn' => 'obj',
     'pendingActionsEndOfGame' => 'obj',
     'tech2used' => 'bool',
-    'fluxTrack' => 'str'
+    'fluxTrack' => 'str',
+    'flags' => 'obj', // Useful for flagging a "once per turn action" as flagged,
   ];
 
   protected static $table = 'pglobal_variables';
