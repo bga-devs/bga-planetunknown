@@ -247,7 +247,7 @@ const TECH_CIV_TECH_ADJACENT = 'tech_5_1';
 const TECH_PLUS_1_ROVER_IF_MULTIPLE_TRACKERS = 'tech_5_2';
 const TECH_SHIFT_TRACKER = 'tech_5_3';
 const TECH_REGRESS_TRACKER = 'tech_5_4';
-const TECH_SCRE_HIGHEST_TRACKER = 'tech_5_5';
+const TECH_SCORE_HIGHEST_TRACKER = 'tech_5_5';
 
 const OASIS = 6;
 const TECH_SKIP_OVER_TRACKER = 'tech_6_1';

@@ -13,7 +13,7 @@ class Corporation5 extends Corporation
       1 => [
         'text' => clienttranslate('Treat civ and tech tracks as adjacent.')
       ],
-      2 => [ //TODO
+      2 => [
         'text' => clienttranslate('+1 rover movement if more than one tracker occupies the rover track.')
       ],
       3 => [
@@ -22,7 +22,7 @@ class Corporation5 extends Corporation
       4 => [
         'text' => clienttranslate('Regress any one tracker. Once per round.')
       ],
-      5 => [ //TODO
+      5 => [
         'text' => clienttranslate('Scoring each tracker as the highest scoring tracker on the track it occupies.')
       ],
     ];
@@ -38,6 +38,23 @@ class Corporation5 extends Corporation
     TECH => [null, null, SYNERGY, TECH, null, TECH, 1, TECH, null, null, TECH, null, SYNERGY, 2, TECH, 5]
   ];
   protected $level = 4;
+
+
+  public function moveRoverBy($n)
+  {
+    $nTrackersOnRover = 0;
+    foreach (ALL_TYPES as $type) {
+      $trackPawn = $this->player->getTracker($type);
+      if ($trackPawn->getX() == ROVER) {
+        $nTrackersOnRover++;
+      }
+    }
+    if ($nTrackersOnRover > 1) {
+      $n++;
+    }
+
+    return $n;
+  }
 
 
   public function getAnytimeActions()
@@ -103,5 +120,33 @@ class Corporation5 extends Corporation
     }
 
     return $spaces;
+  }
+
+
+  public function getLevelOnTrack($type)
+  {
+    $y = 0;
+    foreach (ALL_TYPES as $type2) {
+      $trackPawn = $this->player->getTracker($type2);
+      if ($trackPawn->getX() == $type) {
+        $y = max($y, $trackPawn->getY());
+      }
+    }
+    return $y;
+  }
+
+
+  public function getBestMedal($trackerType)
+  {
+    $trackPawn = $this->player->getTracker($trackerType);
+    $type = $trackPawn->getX();
+    $lvl = $this->player->hasTech(TECH_SCORE_HIGHEST_TRACKER) ? $this->getLevelOnTrack($type) : $trackPawn->getY();
+    for ($i = $lvl; $i > 0; $i--) {
+      $medal = $this->extractMedal($this->tracks[$type][$i]);
+      if ($medal !== false) {
+        return $medal;
+      }
+    }
+    return 0;
   }
 }
