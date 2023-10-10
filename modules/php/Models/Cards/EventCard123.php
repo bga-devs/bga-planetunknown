@@ -2,6 +2,7 @@
 
 namespace PU\Models\Cards;
 
+use PU\Core\Globals;
 use PU\Managers\Cards;
 
 /*
@@ -24,5 +25,6 @@ class EventCard123 extends \PU\Models\Cards\EventCard
   //CONTRAINT : NoMilestone
   public function effect()
   {
+    Globals::setTurnSpecialRule(NO_MILESTONE);
   }
 }

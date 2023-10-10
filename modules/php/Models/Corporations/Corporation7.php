@@ -19,7 +19,7 @@ class Corporation7 extends Corporation
       3 => [ //TODO
         'text' => clienttranslate('Teleport your rover between any two civ resources. One movement cost.')
       ],
-      4 => [ //TODO
+      4 => [ //TODOCautionNOSynergy
         'text' => clienttranslate('Gain a synergy boost when you claim a civ milestone.')
       ],
       5 => [ //TODO

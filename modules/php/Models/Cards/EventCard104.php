@@ -2,6 +2,7 @@
 
 namespace PU\Models\Cards;
 
+use PU\Core\Globals;
 use PU\Managers\Cards;
 
 /*

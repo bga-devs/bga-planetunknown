@@ -85,6 +85,7 @@ const ST_CHOOSE_ROTATION_ENGINE = 34;
 const ST_DESTROY_P_O_CARD = 35;
 const ST_POSITION_LIFEPOD_ON_TRACK = 36;
 const ST_CHOOSE_FLUX_TRACK = 37;
+const ST_PEEK_NEXT_EVENT = 38;
 
 const ST_PRE_END_GAME_TURN = 80;
 const ST_END_GAME_TURN = 81;
@@ -134,6 +135,7 @@ const CHOOSE_ROTATION_ENGINE = 'ChooseRotationEngine';
 const DESTROY_P_O_CARD = 'DestroyPOCard';
 const POSITION_LIFEPOD_ON_TRACK = 'PositionLifepodOnTrack';
 const CHOOSE_FLUX_TRACK = 'ChooseFluxTrack';
+const PEEK_NEXT_EVENT = 'PeekNextEvent';
 
 /*
  * Resources
@@ -177,6 +179,9 @@ const ADD_ROVER = 'addRover';
 const ONLY_ONE_MOVE_TRACKER = 'onlyOneMoveTracker';
 const CANNOT_PLACE_ON_EDGE = 'cannotPlaceOnEdge';
 const NO_MILESTONE = 'noMilestone'; //TODO
+const NO_MATCHING_TERRAINS = 'noMatchingTerrains';
+const CANNOT_PLACE_ON_ICE = 'cannotPlaceOnIce'; //TODOTissac
+const NO_SYNERGY = 'noSynergy';
 
 /*
  *	Cards

@@ -37,4 +37,17 @@ class EventCard extends \PU\Models\Card
       ]
     ];
   }
+
+  public function synergyOrPeek()
+  {
+    return [
+      'type' => NODE_XOR,
+      'childs' => [
+        $this->synergy(1, 1),
+        [
+          'action' => PEEK_NEXT_EVENT
+        ]
+      ]
+    ];
+  }
 }

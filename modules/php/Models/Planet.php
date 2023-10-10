@@ -452,6 +452,7 @@ class Planet
     $tileType = $tile->getType();
     list($checkingCells, $freeCells) = $this->getPlacementOptionsCachedDatas();
     $border = $this->getBorderCells();
+    $ice = $this->getIceCells();
     $byPassCheck = false; // Coorpo techs
 
     $result = [];
@@ -477,6 +478,10 @@ class Planet
             if ($specialRule == CANNOT_PLACE_ON_EDGE && $this->isIntersectionNonEmpty($cells, $border)) {
               continue;
             }
+            if ($specialRule == CANNOT_PLACE_ON_ICE && $this->isIntersectionNonEmpty($cells, $ice)) {
+              continue;
+            }
+
             $rotations[] = [$rotation, $flipped];
           }
         }
@@ -810,6 +815,21 @@ class Planet
     }
 
     return $this->_borderCells;
+  }
+
+  public function getIceCells()
+  {
+    if (!isset($this->_iceCells)) {
+      $iceCells = [];
+      foreach ($this->getListOfCells() as $cell) {
+        if ($this->getVisible($cell['x'], $cell['y']) == ICE) {
+          $iceCells[] = $cell;
+        }
+      }
+      $this->_iceCells = $iceCells;
+    }
+
+    return $this->_iceCells;
   }
 
   public function getEdgeCells()

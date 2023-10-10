@@ -157,15 +157,11 @@ class Action
           Notifications::milestone($player, TECH, $levelTech);
           break;
         case SYNERGY:
-          $actions[] = [
-            'action' => CHOOSE_TRACKS,
-            'args' => [
-              'types' => ALL_TYPES,
-              'n' => 1,
-              'from' => SYNERGY
-            ]
-          ];
-          Notifications::milestone($player, $bonus);
+          $action = $player->getSynergy();
+          if ($action) {
+            $actions[] = $action;
+            Notifications::milestone($player, $bonus);
+          }
           break;
         case ROVER:
           $actions[] = [

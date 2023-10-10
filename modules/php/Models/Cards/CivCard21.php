@@ -16,7 +16,7 @@ class CivCard21 extends \PU\Models\Cards\CivCard
   public function __construct($player)
   {
     $this->title = clienttranslate('Unionization');
-    $this->desc = clienttranslate('Advance all trackers to the 5th position if possible. Do not activate synergy boost.');
+    $this->desc = clienttranslate('Advance all trackers to the 5th position if possible. Do not activate synergy boost.'); //TODOFirgon
     parent::__construct($player);
   }
 

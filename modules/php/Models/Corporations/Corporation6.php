@@ -22,7 +22,7 @@ class Corporation6 extends Corporation
       4 => [ //TODO
         'text' => clienttranslate('Gain Biomass patch when you place a water resource tile.')
       ],
-      5 => [ //TODO
+      5 => [ //TODOCautionNOSynergy
         'text' => clienttranslate('Gain a synergy boost when you place a water resource tile.')
       ],
     ];

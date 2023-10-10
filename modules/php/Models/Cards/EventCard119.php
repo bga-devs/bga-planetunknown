@@ -2,6 +2,7 @@
 
 namespace PU\Models\Cards;
 
+use PU\Core\Globals;
 use PU\Managers\Cards;
 
 /*
@@ -24,5 +25,7 @@ class EventCard119 extends \PU\Models\Cards\EventCard
   //CONTRAINT : NoMatching
   public function effect()
   {
+    Globals::setTurnSpecialRule(NO_MATCHING_TERRAINS);
+    //TODOTissac "Tiles cannot be placed next to a matching resource terrains."
   }
 }
