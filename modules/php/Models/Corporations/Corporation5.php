@@ -7,23 +7,25 @@ class Corporation5 extends Corporation
   public function __construct($player)
   {
     $this->name = clienttranslate('Makeshift');
-    $this->desc = clienttranslate('You may advance any tracker diagonally onto an adjacent track. Any tracker may claim any benefit. Tech Levels are locked if no tracker is currently unlocking the tech.');
+    $this->desc = clienttranslate(
+      'You may advance any tracker diagonally onto an adjacent track. Any tracker may claim any benefit. Tech Levels are locked if no tracker is currently unlocking the tech.'
+    );
 
     $this->techBonuses = [
       1 => [
-        'text' => clienttranslate('Treat civ and tech tracks as adjacent.')
+        'text' => clienttranslate('Treat civ and tech tracks as adjacent.'),
       ],
       2 => [
-        'text' => clienttranslate('+1 rover movement if more than one tracker occupies the rover track.')
+        'text' => clienttranslate('+1 rover movement if more than one tracker occupies the rover track.'),
       ],
       3 => [
-        'text' => clienttranslate('Shift a tracker laterally to an ajacent track instead of advancing.')
+        'text' => clienttranslate('Shift a tracker laterally to an ajacent track instead of advancing.'),
       ],
       4 => [
-        'text' => clienttranslate('Regress any one tracker. Once per round.')
+        'text' => clienttranslate('Regress any one tracker. Once per round.'),
       ],
       5 => [
-        'text' => clienttranslate('Scoring each tracker as the highest scoring tracker on the track it occupies.')
+        'text' => clienttranslate('Scoring each tracker as the highest scoring tracker on the track it occupies.'),
       ],
     ];
     parent::__construct($player);
@@ -34,11 +36,27 @@ class Corporation5 extends Corporation
     CIV => [null, null, 1, CIV, null, 2, CIV, null, SYNERGY, 3, CIV, SYNERGY, null, null, CIV, 5],
     WATER => [null, null, 1, SYNERGY, 2, null, SYNERGY, 3, SYNERGY, null, null, 4, SYNERGY, null, null, 5],
     BIOMASS => [null, null, SYNERGY, BIOMASS, null, 1, BIOMASS, null, 2, BIOMASS, SYNERGY, BIOMASS, 3, BIOMASS, null, 5],
-    ROVER => [null, ROVER, 'move_1', 'move_1', 'move_2', 'move_2', ['move_2', ROVER], 'move_2', ['move_2', SYNERGY], 'move_2', ['move_2', 1], 'move_2', ['move_2', 2], 'move_3', 'move_3', ['move_3', 5]],
-    TECH => [null, null, SYNERGY, TECH, null, TECH, 1, TECH, null, null, TECH, null, SYNERGY, 2, TECH, 5]
+    ROVER => [
+      null,
+      ROVER,
+      'move_1',
+      'move_1',
+      'move_2',
+      'move_2',
+      ['move_2', ROVER],
+      'move_2',
+      ['move_2', SYNERGY],
+      'move_2',
+      ['move_2', 1],
+      'move_2',
+      ['move_2', 2],
+      'move_3',
+      'move_3',
+      ['move_3', 5],
+    ],
+    TECH => [null, null, SYNERGY, TECH, null, TECH, 1, TECH, null, null, TECH, null, SYNERGY, 2, TECH, 5],
   ];
   protected $level = 4;
-
 
   public function moveRoverBy($n)
   {
@@ -56,11 +74,10 @@ class Corporation5 extends Corporation
     return $n;
   }
 
-
   public function getAnytimeActions()
   {
     $actions = [];
-    if ($this->player->hasTech(TECH_REGRESS_TRACKER) && !$this->isFlagged(TECH_REGRESS_TRACKER)) {
+    if ($this->canUse(TECH_REGRESS_TRACKER)) {
       $actions[] = [
         'action' => CHOOSE_TRACKS,
         'args' => [
@@ -76,14 +93,13 @@ class Corporation5 extends Corporation
     return $actions;
   }
 
-
   public function getNextSpaceIds($type, $n = 1)
   {
     $trackPawn = $this->player->getTracker($type);
     $directions = [[0, $n]];
     if ($n > 0) {
       $directions[] = [-1, $n];
-      $directions[] =  [1, $n];
+      $directions[] = [1, $n];
       if ($this->player->hasTech(TECH_SHIFT_TRACKER)) {
         $directions[] = [-1, 0];
         $directions[] = [1, 0];
@@ -122,7 +138,6 @@ class Corporation5 extends Corporation
     return $spaces;
   }
 
-
   public function getLevelOnTrack($type)
   {
     $y = 0;
@@ -134,7 +149,6 @@ class Corporation5 extends Corporation
     }
     return $y;
   }
-
 
   public function getBestMedal($trackerType)
   {

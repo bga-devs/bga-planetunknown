@@ -20,12 +20,6 @@ class PGlobals extends \PU\Helpers\DB_Manager
 
     'pendingActionsEndOfTurn' => 'obj',
     'pendingActionsEndOfGame' => 'obj',
-    'tech1used' => 'bool',
-    'tech2used' => 'bool',
-    'tech3used' => 'bool',
-    'tech4used' => 'bool',
-    'tech5used' => 'bool',
-    'tech6used' => 'bool',
     'fluxTrack' => 'str',
     'flags' => 'obj', // Useful for flagging a "once per turn action" as flagged,
   ];
@@ -49,10 +43,12 @@ class PGlobals extends \PU\Helpers\DB_Manager
     $tmp = self::$log;
     self::$log = false;
 
-    foreach (self::DB()
-      ->select(['value', 'name'])
-      ->get(false)
-      as $uid => $variable) {
+    foreach (
+      self::DB()
+        ->select(['value', 'name'])
+        ->get(false)
+      as $uid => $variable
+    ) {
       list($name, $pId) = explode('-', $uid);
 
       if (\array_key_exists($name, self::$variables)) {

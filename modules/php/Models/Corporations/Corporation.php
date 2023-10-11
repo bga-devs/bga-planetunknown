@@ -85,13 +85,13 @@ class Corporation
 
     if (is_array($this->tracks[$cell['x']][$cell['y']])) {
       foreach ($this->tracks[$cell['x']][$cell['y']] as $bonus) {
-        if ($withBonus != NO_SYNERGY || $bonus != SYNERGY) {
+        if ($withBonus !== NO_SYNERGY || $bonus != SYNERGY) {
           $bonuses[] = $bonus;
         }
       }
     } elseif ($this->tracks[$cell['x']][$cell['y']]) {
       $bonus = $this->tracks[$cell['x']][$cell['y']];
-      if ($withBonus != NO_SYNERGY || $bonus != SYNERGY) {
+      if ($withBonus !== NO_SYNERGY || $bonus != SYNERGY) {
         $bonuses[] = $bonus;
       }
     }
@@ -280,9 +280,19 @@ class Corporation
     return [];
   }
 
+  public function resetFlags()
+  {
+    PGlobals::setFlags($this->pId, []);
+  }
+
   public function isFlagged($flag)
   {
     return PGlobals::getFlags($this->pId)[$flag] ?? false;
+  }
+
+  public function canUse($tech)
+  {
+    return $this->player->hasTech($tech) && !$this->isFlagged($tech);
   }
 
   /*

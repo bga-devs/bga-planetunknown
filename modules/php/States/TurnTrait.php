@@ -150,7 +150,7 @@ trait TurnTrait
         Globals::setGameEndTriggered(true);
       }
 
-      PGlobals::setFlags($pId, []);
+      $player->corporation()->resetFlags();
       $flows[$pId] = [
         'action' => \PLACE_TILE,
         'args' => ['type' => 'normal'],

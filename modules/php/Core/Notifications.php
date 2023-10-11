@@ -158,8 +158,8 @@ class Notifications
   {
     $message =
       $player == null
-      ? clienttranslate('S.U.S.A.N. rotates.')
-      : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
+        ? clienttranslate('S.U.S.A.N. rotates.')
+        : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
     $data = [
       'player' => $player,
       'newRotation' => $rotation,
@@ -173,7 +173,7 @@ class Notifications
     $msg = clienttranslate('${player_name} peeks at the next event card');
     $data = [
       'player' => $player,
-      'eventCard' => Globals::getMode() == MODE_APPLY ? null : $card
+      'eventCard' => Globals::getMode() == MODE_APPLY ? null : $card,
     ];
     static::pnotify($player, 'peekNextEvent', $msg, $data);
   }
@@ -186,6 +186,16 @@ class Notifications
       'meeple' => $meeple,
       'type' => $type,
       'i18n' => ['type'],
+    ];
+    static::pnotify($player, 'slideMeeple', $msg, $data);
+  }
+
+  public static function repositionLifepod($player, $lifepod)
+  {
+    $msg = clienttranslate('${player_name} reposition a collected lifepod');
+    $data = [
+      'player' => $player,
+      'meeple' => $lifepod,
     ];
     static::pnotify($player, 'slideMeeple', $msg, $data);
   }

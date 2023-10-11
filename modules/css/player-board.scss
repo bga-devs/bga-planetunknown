@@ -315,7 +315,7 @@ $planetGridHeight: 12 * $cellHeight;
                         position: absolute;
                         left: 25px;
                         top: 23px;
-                        width: 221px;
+                        width: 205px;
                         height: 138px;
                         font-size: 12px;
                         display: flex;
@@ -323,6 +323,20 @@ $planetGridHeight: 12 * $cellHeight;
 
                         .icon-lifepod {
                             margin: 10px 17px;
+                        }
+
+                        &.selectable {
+                            box-shadow: 0px 0px 8px 4px white;
+                            cursor: pointer;
+                            &:hover {
+                                background: rgba(255, 255, 255, 0.473);
+                            }
+                        }
+
+                        &.selected,
+                        &.selectable.selected {
+                            box-shadow: 0px 0px 8px 4px green;
+                            background: rgba(0, 128, 0, 0.548);
                         }
                     }
 

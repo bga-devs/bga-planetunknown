@@ -21,9 +21,17 @@ class PositionLifepodOnTrack extends \PU\Models\Action
     return \ST_POSITION_LIFEPOD_ON_TRACK;
   }
 
+  public function getDescription()
+  {
+    return [
+      'log' => clienttranslate('Reposition ${n} lifepod(s)'),
+      'args' => ['n' => $this->getRemaining()],
+    ];
+  }
+
   public function isDoable($player)
   {
-    return $player->getCollectedLifepods()->count() && $this->getPossibleSpaceIds($player);
+    return $player->getCollectedLifepods()->count() > 0;
   }
 
   public function getRemaining()
@@ -34,7 +42,11 @@ class PositionLifepodOnTrack extends \PU\Models\Action
   public function getPossibleLifepodIds()
   {
     $lifepodId = $this->getCtxArg('lifepodId') ?? null;
-    return is_null($lifepodId)? $this->getPlayer()->getCollectedLifepods()->getIds() : [$lifepodId];
+    return is_null($lifepodId)
+      ? $this->getPlayer()
+        ->getCollectedLifepods()
+        ->getIds()
+      : [$lifepodId];
   }
 
   public function getPossibleSpaceIds($player)
@@ -51,19 +63,23 @@ class PositionLifepodOnTrack extends \PU\Models\Action
       }
     }
 
+    if (is_null($this->getCtxArg('lifepodId'))) {
+      $spaceIds[] = 'reserve';
+    }
+
     return $spaceIds;
   }
 
   public function argsPositionLifepodOnTrack()
   {
     $player = $this->getPlayer();
-    $lifepodId = $this->getCtxArg('lifepodId') ?? null;
+    $lifepodId = $this->getCtxArg('lifepodId');
 
     return [
       'spaceIds' => $this->getPossibleSpaceIds($player),
       'lifepodIds' => $this->getPossibleLifepodIds(),
       'remaining' => min($this->getRemaining(), $player->getCollectedLifepods()->count()),
-      'descSuffix' => is_null($lifepodId)? '' : 'aftercollect'
+      'descSuffix' => is_null($lifepodId) ? '' : 'aftercollect',
     ];
   }
 
@@ -78,18 +94,23 @@ class PositionLifepodOnTrack extends \PU\Models\Action
       throw new \BgaVisibleSystemException('You cannot place your lifepod here. Should not happen');
     }
 
-    $cell = Planet::getCellFromId($spaceId);
     $lifepod = Meeples::get($lifepodId);
-    $lifepod->setX($cell['x']);
-    $lifepod->setY($cell['y']);
-    Notifications::placeMeeple($player, LIFEPOD, $lifepod);
+    if ($spaceId == 'reserve') {
+      $lifepod->setX('');
+      $lifepod->setY('');
+    } else {
+      $cell = Planet::getCellFromId($spaceId);
+      $lifepod->setX($cell['x']);
+      $lifepod->setY($cell['y']);
+    }
+    Notifications::repositionLifepod($player, $lifepod);
 
-    if($this->getRemaining() > 1){
+    if ($this->getRemaining() > 1) {
       $this->pushParallelChild([
         'action' => POSITION_LIFEPOD_ON_TRACK,
         'args' => [
-          'remaining' => $this->getRemaining() - 1
-        ]
+          'remaining' => $this->getRemaining() - 1,
+        ],
       ]);
     }
   }

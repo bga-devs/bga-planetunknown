@@ -345,9 +345,9 @@ define([
             msg = msg.log ? this.fsr(msg.log, msg.args) : _(msg);
             msg = this.formatString(msg);
 
-            if (action.source && action.source != '') {
-              msg += ' (' + _(action.source) + ')';
-            }
+            // if (action.source && action.source != '') {
+            //   msg += ' (' + _(action.source) + ')';
+            // }
 
             this.addPrimaryActionButton(
               'btnAnytimeAction' + i,
@@ -1152,8 +1152,14 @@ define([
 
       // Select space
       args.spaceIds.forEach((spaceId) => {
-        let t = spaceId.split('_');
-        let elem = $(`corporation-${this.player_id}-${t[0]}-${t[1]}`);
+        let elem = null;
+        if (spaceId == 'reserve') {
+          elem = $(`lifepod-reserve-${this.player_id}`);
+        } else {
+          let t = spaceId.split('_');
+          elem = $(`corporation-${this.player_id}-${t[0]}-${t[1]}`);
+        }
+
         this.onClick(elem, () => {
           if (selectedSpace) selectedElem.classList.remove('selected');
 

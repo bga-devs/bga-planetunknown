@@ -72,6 +72,7 @@ trait EngineTrait
     // Keep only doable actions
     $anytimeActions = [];
     foreach ($actions as $flow) {
+      $flow['pId'] = $pId;
       $tree = Engine::buildTree($flow);
       if ($tree->isDoable($player)) {
         $anytimeActions[] = [
@@ -102,7 +103,6 @@ trait EngineTrait
     Engine::insertBeforeCurrent($pId, $flow);
     Engine::proceed($pId);
   }
-
 
   /**
    * Pass the argument of the action to the atomic action

@@ -70,9 +70,10 @@ class Corporation1 extends Corporation
     $trackPawn = $this->player->getTracker($type);
 
     // skip spaceId with lifepod
-    $dy = $n > 1 ? 1 : -1;
+    $dy = $n > 0 ? 1 : -1;
+    $x = $trackPawn->getX();
     $y = $trackPawn->getY() + $n;
-    while ($this->player->hasLifepodOnTrack($trackPawn->getX(), $y)) {
+    while ($this->player->hasLifepodOnTrack($x, $y)) {
       $y += $dy;
     }
 
@@ -81,7 +82,7 @@ class Corporation1 extends Corporation
       return [];
     }
 
-    return [$trackPawn->getX() . '_' . $y];
+    return [$x . '_' . $y];
   }
 
   /**
@@ -119,7 +120,7 @@ class Corporation1 extends Corporation
   {
     //lifepod can block tech 2 and not tech 3 !
     $indexTech = 1;
-    for ($i = 0; $i <= $this->getLevelOnTrack(TECH); $i--) {
+    for ($i = 0; $i <= $this->getLevelOnTrack(TECH); $i++) {
       if ($this->isOrIn(TECH, $this->tracks[TECH][$i])) {
         if ($techLvl == $indexTech) {
           return !$this->player->hasLifepodOnTrack(TECH, $i);
@@ -130,36 +131,39 @@ class Corporation1 extends Corporation
     return false; //should not happen
   }
 
+  public function getAnytimeActions()
+  {
+    $actions = [];
 
+    if ($this->canUse(TECH_REPOSITION_ONE_LIFEPOD_EACH_TURN)) {
+      $actions[] = [
+        'action' => POSITION_LIFEPOD_ON_TRACK,
+        'args' => [
+          'remaining' => 1,
+        ],
+        'source' => $this->name,
+        'flag' => TECH_REPOSITION_ONE_LIFEPOD_EACH_TURN,
+      ];
+    }
 
-  // public function getTechLevel($action = null)
-  // {
-  //   $result = $this->countLevel(TECH);
+    if ($this->canUse(TECH_REPOSITION_THREE_LIFEPODS_ONCE)) {
+      $actions[] = [
+        'action' => POSITION_LIFEPOD_ON_TRACK,
+        'args' => [
+          'remaining' => 3,
+        ],
+        'source' => $this->name,
+        'flag' => TECH_REPOSITION_THREE_LIFEPODS_ONCE,
+      ];
+    }
 
-  //   if ($action && $result == 2 && !PGlobals::isTech2Used($this->player->getId())) {
-  //     $action->pushParallelChild([
-  //       'action' => POSITION_LIFEPOD_ON_TRACK,
-  //       'args' => [
-  //         'remaining' => 3
-  //       ]
-  //     ]);
-  //     PGlobals::setTech2used($this->player->getId(), true);
-  //   }
+    return $actions;
+  }
 
-  //   return $result;
-  // }
-
-  // public function getAnytimeActions()
-  // {
-  //   if ($this->player->hasTech(TECH_REPOSITION_ONE_LIFEPOD_EACH_TURN)) {
-  //     return [
-  //       'action' => POSITION_LIFEPOD_ON_TRACK,
-  //       'args' => [
-  //         'remaining' => 1
-  //       ]
-  //     ];
-  //   } else {
-  //     return [];
-  //   }
-  // }
+  public function resetFlags()
+  {
+    $flags = PGlobals::getFlags($this->pId);
+    unset($flags[TECH_REPOSITION_ONE_LIFEPOD_EACH_TURN]);
+    PGlobals::setFlags($this->pId, $flags);
+  }
 }

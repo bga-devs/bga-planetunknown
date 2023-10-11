@@ -334,19 +334,39 @@ class Engine
   public function insertBeforeCurrent($pId, $t)
   {
     $node = self::getNextUnresolved($pId);
-    $parent = $node->getParent();
-    if (!$parent instanceof \PU\Core\Engine\SeqNode) {
-      $node2 = self::buildTree([
-        'type' => NODE_SEQ,
-        'childs' => [$t->toArray()]
-      ]);
-      $parent = $node->replace($node2);
-      $index = -1;
-    } else {
-      $index = $node->getIndex() - 1;
+
+    // NULL => insert at root
+    if (is_null($node)) {
+      $node = self::$trees[$pId];
+      $node->pushChild(self::buildTree($t));
+    }
+    // Parallel/Or node => just append and call chooseNode
+    elseif ($node instanceof \PU\Core\Engine\ParallelNode || $node instanceof \PU\Core\Engine\OrNode) {
+      $node->pushChild(self::buildTree($t));
+      $node->choose(count($node->getChilds()) - 1, true);
+    }
+    // Otherwise => check parent
+    else {
+      $parent = $node->getParent();
+
+      // Seq node => just insert before current node
+      if ($parent instanceof \PU\Core\Engine\SeqNode) {
+        $index = $node->getIndex() - 1;
+        $parent->insertChildAtPos(self::buildTree($t), $index);
+      }
+      // Other case : try to insert a SEQ node on top of it
+      else {
+        $node2 = self::buildTree([
+          'type' => NODE_SEQ,
+          'childs' => [$t->toArray()],
+        ]);
+        $parent = $node->replace($node2);
+        $index = -1;
+        $parent->insertChildAtPos(self::buildTree($t), $index);
+        die('NOT TESTED : INSERT BEFORE CURRENT');
+      }
     }
 
-    $parent->insertChildAtPos(self::buildTree($t), $index);
     self::save($pId);
   }
 
