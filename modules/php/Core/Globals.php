@@ -57,7 +57,6 @@ class Globals extends \PU\Helpers\DB_Manager
     'engineWaitingDescriptionSuffix' => 'str', // DO NOT MODIFY, USED IN ENGINE MODULE
 
     'firstPlayer' => 'int',
-    'phase' => 'int',
 
     // Setup
     'susanShift' => 'int', //from 0 to 5 to know how small ring and large ring are set
@@ -97,10 +96,12 @@ class Globals extends \PU\Helpers\DB_Manager
     $tmp = self::$log;
     self::$log = false;
 
-    foreach (self::DB()
+    foreach (
+      self::DB()
         ->select(['value', 'name'])
         ->get(false)
-      as $name => $variable) {
+      as $name => $variable
+    ) {
       if (\array_key_exists($name, self::$variables)) {
         self::$data[$name] = $variable;
       }

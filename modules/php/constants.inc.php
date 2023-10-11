@@ -242,7 +242,6 @@ const TECH_GET_BIOMASS_COLLECTING_METEOR = 'tech_3_3';
 const TECH_DESTROY_METEORITE_ON_WATER = 'tech_3_4';
 const TECH_ADVANCE_ROVER = 'tech_3_5';
 
-
 const MAKE_SHIFT = 5;
 const TECH_CIV_TECH_ADJACENT = 'tech_5_1';
 const TECH_PLUS_1_ROVER_IF_MULTIPLE_TRACKERS = 'tech_5_2';
@@ -256,8 +255,6 @@ const TECH_GET_1_MOVE_STARTING_ON_WATER = 'tech_6_2';
 const TECH_MOVE_WATER_IF_NO_ICE = 'tech_6_3';
 const TECH_GET_BIOMASS_WITH_WATER = 'tech_6_4';
 const TECH_GET_SYNERGY_WITH_WATER = 'tech_6_5';
-
-
 
 /*
  * Tiles and Space station
@@ -302,10 +299,6 @@ const MODE_PRIVATE = 1;
 const MODE_REPLAY = 2;
 
 const NO_PLACEMENT = -1;
-
-const PHASE_TURN = 0;
-const PHASE_END_TURN_CIV = 1;
-const PHASE_END_GAME = 2;
 
 /************************
  ********** TILES *******

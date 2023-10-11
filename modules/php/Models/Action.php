@@ -125,7 +125,9 @@ class Action
 
   public function createActionFromBonus($bonuses, $player)
   {
-    if (!$bonuses) return;
+    if (!$bonuses) {
+      return;
+    }
 
     $actions = [];
 
@@ -136,15 +138,14 @@ class Action
           $action = [
             'action' => TAKE_CIV_CARD,
             'args' => [
-              'level' => $levelCiv
-            ]
+              'level' => $levelCiv,
+            ],
           ];
 
-
-          if (Globals::getPhase() == PHASE_TURN) {
-            $player->addEndOfTurnAction($action);
-          } else {
+          if (Game::get()->gamestate->state_id() == ST_CHOOSE_CIV_CARD) {
             $actions[] = $action;
+          } else {
+            $player->addEndOfTurnAction($action);
           }
           Notifications::milestone($player, CIV, $levelCiv);
           break;
@@ -174,14 +175,13 @@ class Action
         default:
           //handle 'move_x' bonuses
           if (is_string($bonus) && str_starts_with($bonus, 'move')) {
-
             $levelMove = $player->corporation()->moveRoverBy(explode('_', $bonus)[1]);
 
             $actions[] = [
               'action' => MOVE_ROVER,
               'args' => [
-                'remaining' => $levelMove
-              ]
+                'remaining' => $levelMove,
+              ],
             ];
           }
           break;
