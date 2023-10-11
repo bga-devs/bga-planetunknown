@@ -190,7 +190,6 @@ define([
         let state = this.gamedatas.gamestate;
         if (state.private_state) state = state.private_state;
 
-        console.log(state);
         if (state.args && state.args.previousSteps && state.args.previousSteps.includes(parseInt(stepId))) {
           this.onClick($(`log_${notif.logId}`), () => this.undoToStep(stepId));
 
@@ -1125,6 +1124,46 @@ define([
           this.addPrimaryActionButton('btnConfirm', _('Confirm'), () =>
             this.takeAtomicAction('actMoveTrackerByOne', [args.type, selected])
           );
+        });
+      });
+    },
+
+    onEnteringStatePositionLifepodOnTrack(args) {
+      let selectedLifepod = null,
+        selectedSpace = null,
+        selectedElem = null;
+
+      // Select lifepod
+      let selectLifepod = (lifepodId) => {
+        if (selectedLifepod) $(`meeple-${selectedLifepod}`).classList.remove('selected');
+        selectedLifepod = lifepodId;
+        $(`meeple-${selectedLifepod}`).classList.add('selected');
+
+        if (selectedSpace)
+          this.addPrimaryActionButton('btnConfirm', _('Confirm'), () =>
+            this.takeAtomicAction('actPositionLifepodOnTrack', [selectedLifepod, selectedSpace])
+          );
+      };
+      if (args.lifepodIds.length == 1) {
+        selectLifepod(args.lifepodIds[0]);
+      } else {
+        args.lifepodIds.forEach((lifepodId) => this.onClick(`meeple-${lifepodId}`, () => selectLifepod(lifepodId)));
+      }
+
+      // Select space
+      args.spaceIds.forEach((spaceId) => {
+        let t = spaceId.split('_');
+        let elem = $(`corporation-${this.player_id}-${t[0]}-${t[1]}`);
+        this.onClick(elem, () => {
+          if (selectedSpace) selectedElem.classList.remove('selected');
+
+          selectedSpace = spaceId;
+          selectedElem = elem;
+          selectedElem.classList.add('selected');
+          if (selectedLifepod)
+            this.addPrimaryActionButton('btnConfirm', _('Confirm'), () =>
+              this.takeAtomicAction('actPositionLifepodOnTrack', [selectedLifepod, selectedSpace])
+            );
         });
       });
     },

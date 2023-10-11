@@ -135,6 +135,11 @@ class Player extends \PU\Helpers\DB_Model
       ->first();
   }
 
+  public function getCollectedLifepods()
+  {
+    return $this->getMeeples(LIFEPOD)->where('location', 'corporation');
+  }
+
   public function hasLifepodOnTrack($x, $y)
   {
     return $this->getLifepodOnTrack($x, $y)->count() > 0;
@@ -170,14 +175,6 @@ class Player extends \PU\Helpers\DB_Model
     return count($this->getMeteorsOnPlanet()) > 0;
   }
 
-  public function getCollectedLifepod()
-  {
-    return $this->getMeeples(LIFEPOD)
-      ->where('location', 'corporation')
-      ->where('x', '')
-      ->where('y', '');
-  }
-
   public function getMeteorsOnPlanet()
   {
     return $this->getMeeples(METEOR)->where('location', 'planet');
@@ -201,11 +198,11 @@ class Player extends \PU\Helpers\DB_Model
       if (in_array($contraint, FORBIDDEN_TERRAINS)) {
         Utils::filter(
           $neighbours,
-          fn ($cell) => $this->planet->getVisible($cell['x'], $cell['y']) != FORBIDDEN_TERRAINS[$contraint]
+          fn($cell) => $this->planet->getVisible($cell['x'], $cell['y']) != FORBIDDEN_TERRAINS[$contraint]
         );
       }
 
-      $spaceIds[$roverId] = array_map(fn ($cell) => Planet::getCellId($cell), $neighbours);
+      $spaceIds[$roverId] = array_map(fn($cell) => Planet::getCellId($cell), $neighbours);
     }
 
     return $spaceIds;
@@ -359,7 +356,7 @@ class Player extends \PU\Helpers\DB_Model
 
   public static function reduce_entries($array)
   {
-    return array_reduce($array['entries'], fn ($sum, $item) => $sum + (is_array($item) ? $item[0] : $item), 0);
+    return array_reduce($array['entries'], fn($sum, $item) => $sum + (is_array($item) ? $item[0] : $item), 0);
   }
 
   public function addEndOfTurnAction($flow)
@@ -410,13 +407,11 @@ class Player extends \PU\Helpers\DB_Model
   {
     [$_, $corporation, $tech] = explode('_', $techId);
 
-    if ($this->corporation()->getId() == FLUX) {
-      //with FLUX corpo you can only use your last tech level
-      return $this->corporation()->getId() == $corporation && $this->corporation()->getTechLevel() == $tech;
-    } else {
-      // return $this->corporation()->getId() == $corporation;
-      return $this->corporation()->getId() == $corporation && $this->corporation()->getTechLevel() >= $tech;
+    if ($this->corporation()->getId() != $corporation) {
+      return false;
     }
+
+    return $this->corporation()->hasTechLevel($tech);
   }
 
   public function collectOnCell($cell)
@@ -447,14 +442,22 @@ class Player extends \PU\Helpers\DB_Model
     if (!is_null($lifepod)) {
       $this->corporation()->collect($lifepod);
       Notifications::collectMeeple($this, [$lifepod], 'collect');
+
+      if ($this->corporation()->getId() == COSMOS_INC) {
+        $flow = [
+          'action' => POSITION_LIFEPOD_ON_TRACK,
+          'args' => ['lifepodId' => $lifepod->getId()],
+          'optional' => true,
+        ];
+      }
     }
 
     return $flow;
   }
 
   /*
-  * return synergy boost if allowed in this turn
-  */
+   * return synergy boost if allowed in this turn
+   */
   public function getSynergy()
   {
     if (Globals::getTurnSpecialRule() == NO_SYNERGY) {
@@ -465,8 +468,8 @@ class Player extends \PU\Helpers\DB_Model
       'args' => [
         'types' => ALL_TYPES,
         'n' => 1,
-        'from' => SYNERGY
-      ]
+        'from' => SYNERGY,
+      ],
     ];
   }
 }

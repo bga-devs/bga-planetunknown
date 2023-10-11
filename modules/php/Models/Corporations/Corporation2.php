@@ -9,23 +9,26 @@ class Corporation2 extends Corporation
   public function __construct($player)
   {
     $this->name = clienttranslate('Flux Industries');
-    $this->desc = clienttranslate('Your flux token designates one of your resource tracks as the flux track. Whenever you unlock a tech, you may reposition your flux token. Only your most recently unlocked tech is available.');
+    $this->desc = clienttranslate(
+      'Your flux token designates one of your resource tracks as the flux track. Whenever you unlock a tech, you may reposition your flux token. Only your most recently unlocked tech is available.'
+    );
 
     $this->techBonuses = [
       1 => [
-        'text' => clienttranslate('Gain two movements for each rover starting on terrain of the flux track.')
+        'text' => clienttranslate('Gain two movements for each rover starting on terrain of the flux track.'),
       ],
-      2 => [ //TODO
-        'text' => clienttranslate('Advance one tracker to the next milestone of the flux track. Once per Game.')
+      2 => [
+        //TODO
+        'text' => clienttranslate('Advance one tracker to the next milestone of the flux track. Once per Game.'),
       ],
       3 => [
-        'text' => clienttranslate('Improve the flux track')
+        'text' => clienttranslate('Improve the flux track'),
       ],
       4 => [
-        'text' => clienttranslate('Collect a meteorite when you place a tile matching the flux track.')
+        'text' => clienttranslate('Collect a meteorite when you place a tile matching the flux track.'),
       ],
       5 => [
-        'text' => clienttranslate('Advance the flux track. Once per turn.')
+        'text' => clienttranslate('Advance the flux track. Once per turn.'),
       ],
     ];
     parent::__construct($player);
@@ -36,15 +39,83 @@ class Corporation2 extends Corporation
     CIV => [null, null, 1, CIV, null, 2, CIV, null, SYNERGY, 3, CIV, SYNERGY, null, null, CIV, 5],
     WATER => [null, null, 1, SYNERGY, 2, null, 3, SYNERGY, 4, null, 5, null, SYNERGY, 7, null, 10],
     BIOMASS => [null, null, SYNERGY, BIOMASS, null, 1, BIOMASS, null, 2, BIOMASS, SYNERGY, BIOMASS, 3, BIOMASS, null, 5],
-    ROVER => [null, ROVER, 'move_1', 'move_1', 'move_2', 'move_2', ['move_2', ROVER], 'move_2', ['move_2', 1], 'move_2', ['move_2', SYNERGY], 'move_2', ['move_2', 2], 'move_3', 'move_3', ['move_3', 5]],
-    TECH => [null, null, SYNERGY, TECH, null, TECH, 1, TECH, null, null, TECH, null, SYNERGY, 2, TECH, 5]
+    ROVER => [
+      null,
+      ROVER,
+      'move_1',
+      'move_1',
+      'move_2',
+      'move_2',
+      ['move_2', ROVER],
+      'move_2',
+      ['move_2', 1],
+      'move_2',
+      ['move_2', SYNERGY],
+      'move_2',
+      ['move_2', 2],
+      'move_3',
+      'move_3',
+      ['move_3', 5],
+    ],
+    TECH => [null, null, SYNERGY, TECH, null, TECH, 1, TECH, null, null, TECH, null, SYNERGY, 2, TECH, 5],
   ];
   protected $upgradedTracks = [
     CIV => [CIV, null, 1, CIV, null, 2, CIV, null, SYNERGY, 3, CIV, SYNERGY, null, null, CIV, 5],
-    WATER => [null, null, 1, [SYNERGY, SYNERGY], 2, null, 3, [SYNERGY, SYNERGY], 4, null, 5, null, [SYNERGY, SYNERGY], 7, null, 10],
-    BIOMASS => [null, null, SYNERGY, [BIOMASS, BIOMASS], null, 1, [BIOMASS, BIOMASS], null, 2, [BIOMASS, BIOMASS], SYNERGY, [BIOMASS, BIOMASS], 3, [BIOMASS, BIOMASS], null, 5],
-    ROVER => [null, ROVER, 'move_2', 'move_2', 'move_3', 'move_3', ['move_3', ROVER], 'move_3', ['move_3', 1], 'move_3', ['move_3', SYNERGY], 'move_3', ['move_3', 2], 'move_4', 'move_4', ['move_4', 5]],
-    TECH => [null, null, SYNERGY, TECH, null, TECH, 1, TECH, null, null, TECH, null, SYNERGY, 2, TECH, 5]
+    WATER => [
+      null,
+      null,
+      1,
+      [SYNERGY, SYNERGY],
+      2,
+      null,
+      3,
+      [SYNERGY, SYNERGY],
+      4,
+      null,
+      5,
+      null,
+      [SYNERGY, SYNERGY],
+      7,
+      null,
+      10,
+    ],
+    BIOMASS => [
+      null,
+      null,
+      SYNERGY,
+      [BIOMASS, BIOMASS],
+      null,
+      1,
+      [BIOMASS, BIOMASS],
+      null,
+      2,
+      [BIOMASS, BIOMASS],
+      SYNERGY,
+      [BIOMASS, BIOMASS],
+      3,
+      [BIOMASS, BIOMASS],
+      null,
+      5,
+    ],
+    ROVER => [
+      null,
+      ROVER,
+      'move_2',
+      'move_2',
+      'move_3',
+      'move_3',
+      ['move_3', ROVER],
+      'move_3',
+      ['move_3', 1],
+      'move_3',
+      ['move_3', SYNERGY],
+      'move_3',
+      ['move_3', 2],
+      'move_4',
+      'move_4',
+      ['move_4', 5],
+    ],
+    TECH => [null, null, SYNERGY, TECH, null, TECH, 1, TECH, null, null, TECH, null, SYNERGY, 2, TECH, 5],
   ];
   protected $level = 3;
 
@@ -54,10 +125,15 @@ class Corporation2 extends Corporation
     $level = $this->countLevel(TECH);
 
     $action->pushParallelChild([
-      'action' => CHOOSE_FLUX_TRACK
+      'action' => CHOOSE_FLUX_TRACK,
     ]);
 
     return $level;
+  }
+
+  public function hasTechLevel($techLvl)
+  {
+    return $this->getTechLevel() == $techLvl;
   }
 
   public function getBonuses($cell, $withBonus = true)
@@ -96,8 +172,8 @@ class Corporation2 extends Corporation
       return [
         'action' => MOVE_ROVER,
         'args' => [
-          'remaining' => $move
-        ]
+          'remaining' => $move,
+        ],
       ];
     }
   }
@@ -111,8 +187,8 @@ class Corporation2 extends Corporation
         'args' => [
           'type' => PGlobals::getFluxTrack($this->player->getId()),
           'n' => 1,
-          'withBonus' => true
-        ]
+          'withBonus' => true,
+        ],
       ];
     }
 

@@ -10,9 +10,8 @@ class Corporation0 extends Corporation
 {
   public function __construct($player)
   {
-    $this->name = clienttranslate('Universal Coalition'); //TODO ASK need to be translatable ?
-    $this->desc = clienttranslate('Advance your trackers to gain benefits, 
-    unlock milestones, and score the highest medal your tracker covers or surpasses');
+    $this->name = clienttranslate('Universal Coalition');
+    $this->desc = clienttranslate('Advance your trackers to gain benefits, unlock milestones, and score the highest medal your tracker covers or surpasses');
 
     $this->techBonuses = [
       1 => [

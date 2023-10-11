@@ -202,6 +202,11 @@ class Corporation
     return $this->countLevel(TECH);
   }
 
+  public function hasTechLevel($techLvl)
+  {
+    return $this->getTechLevel() >= $techLvl;
+  }
+
   /**
    * count the milestones reached by a tracker
    * to be overriden for some corporations

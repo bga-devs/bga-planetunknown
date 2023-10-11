@@ -223,6 +223,7 @@ const TECH_ROVER_MOVE_PLUS_ONE = 'tech_0_3';
 const TECH_WATER_ADVANCE_TWICE = 'tech_0_4';
 const TECH_NO_METEOR = 'tech_0_5';
 
+const COSMOS_INC = 1;
 const TECH_ROVER_MOVE_DIAG = 'tech_1_1';
 const TECH_REPOSITION_LIFEPOD_AFTER_ENERGY = 'tech_1_3';
 const TECH_FREE_MOVE_ON_ENERGY = 'tech_1_4';

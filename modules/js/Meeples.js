@@ -91,13 +91,13 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       if (meeple.type == 'meteor' && meeple.location == 'corporation') {
         return $(`meteor-reserve-${meeple.pId}`);
       }
+      // Things on tracks
+      if (meeple.location == 'corporation' && $(`corporation-${meeple.pId}-${meeple.x}-${meeple.y}`)) {
+        return $(`corporation-${meeple.pId}-${meeple.x}-${meeple.y}`);
+      }
       // Lifepod in reserve
       if (meeple.type == 'lifepod' && meeple.location == 'corporation') {
         return $(`lifepod-reserve-${meeple.pId}`);
-      }
-      // Things on tracks
-      if (meeple.location == 'corporation') {
-        return $(`corporation-${meeple.pId}-${meeple.x}-${meeple.y}`);
       }
 
       console.error('Trying to get container of a meeple', meeple);
@@ -136,7 +136,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
         // Rename if meeple is existing => due to private flow, some meeples might receive the same id
         let oMeeple = $(`meeple-${resource.id}`);
-        if(config.renameIfExisting && oMeeple){
+        if (config.renameIfExisting && oMeeple) {
           let newId = +oMeeple.dataset.id + 1;
           oMeeple.dataset.id = newId;
           oMeeple.id = `meeple-${newId}`;
