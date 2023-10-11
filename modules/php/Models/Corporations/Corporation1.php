@@ -69,14 +69,11 @@ class Corporation1 extends Corporation
   {
     $trackPawn = $this->player->getTracker($type);
 
-    //Y can't be lower than 0
-    $nextSpaceY = max(0, $trackPawn->getY() + $n);
-
     // skip spaceId with lifepod
     $dy = $n > 1 ? 1 : -1;
     $y = $trackPawn->getY() + $n;
     while ($this->player->hasLifepodOnTrack($trackPawn->getX(), $y)) {
-      $y += 1;
+      $y += $dy;
     }
 
     // Blocked at the top or the bottom => why would anyone do that anyway ??
@@ -96,7 +93,11 @@ class Corporation1 extends Corporation
   {
     $result = 0;
     for ($i = $this->getLevelOnTrack($track); $i > 0; $i--) {
-      if ($this->isOrIn($track, $this->tracks[$track][$i]) && !$this->player->hasLifepodOnTrack($track, $i)) {
+      if (
+        $this->isOrIn($track, $this->tracks[$track][$i]) &&
+        //not for CIV because covered CIV doesn't change his level.
+        (!$this->player->hasLifepodOnTrack($track, $i) || $track == CIV)
+      ) {
         $result++;
       }
     }
@@ -116,9 +117,20 @@ class Corporation1 extends Corporation
 
   public function hasTechLevel($techLvl)
   {
-    // TODO : lifepod also blocks techs!
-    return $this->getTechLevel() >= $techLvl;
+    //lifepod can block tech 2 and not tech 3 !
+    $indexTech = 1;
+    for ($i = 0; $i <= $this->getLevelOnTrack(TECH); $i--) {
+      if ($this->isOrIn(TECH, $this->tracks[TECH][$i])) {
+        if ($techLvl == $indexTech) {
+          return !$this->player->hasLifepodOnTrack(TECH, $i);
+        }
+        $indexTech++;
+      }
+    }
+    return false; //should not happen
   }
+
+
 
   // public function getTechLevel($action = null)
   // {
