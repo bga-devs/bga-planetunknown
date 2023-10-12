@@ -489,9 +489,9 @@ class Planet
               if ($specialRule == CANNOT_PLACE_ON_ICE && $this->isIntersectionNonEmpty($cells, $ice)) {
                 continue;
               }
-            }
 
-            $rotations[] = [$rotation, $flipped];
+              $rotations[] = [$rotation, $flipped];
+            }
           }
         }
       }

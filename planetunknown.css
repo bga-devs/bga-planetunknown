@@ -1011,7 +1011,8 @@
       transform: rotate(-300deg); }
     #susan-container #susan-interior .susan-space {
       padding-bottom: 27px;
-      padding-top: 3px; }
+      padding-top: 3px;
+      clip-path: polygon(0px 0px, 100% 0%, 70% 75%, 30% 75%); }
       #susan-container #susan-interior .susan-space#top-interior-0 {
         transform: rotate(0deg); }
       #susan-container #susan-interior .susan-space#top-interior-1 {

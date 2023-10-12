@@ -378,7 +378,7 @@ define([
       let selectedPlanet = null;
       let selectedCorpo = null;
       let selectedObj = null;
-      let possibleObjs = args._private.POCards;
+      let possibleObjs = Object.values(args._private.POCards);
 
       // Display button only if all choices are made
       let updateSelection = () => {
@@ -492,7 +492,7 @@ define([
         updateSelection();
       };
 
-      Object.values(possibleObjs).forEach((card) => {
+      possibleObjs.forEach((card) => {
         card.pId = this.player_id;
         this.addCard(card);
         this.onClick(`card-${card.id}`, () => selectObj(card.id));
@@ -604,18 +604,19 @@ define([
         this.rotateSusan();
       });
 
+      console.log(this._baseRotation);
       [0, 1, 2, 3, 4, 5].forEach((i) => {
         let extTile = $(`top-exterior-${i}`).querySelector('.tile-container');
         if (extTile)
           this.onClick(extTile, () => {
-            this.gamedatas.susan.rotation = i;
+            this.gamedatas.susan.rotation = i + this._baseRotation;
             this.rotateSusan();
           });
 
         let intTile = $(`top-interior-${i}`).querySelector('.tile-container');
         if (intTile)
           this.onClick(intTile, () => {
-            this.gamedatas.susan.rotation = this.gamedatas.susan.shift + i;
+            this.gamedatas.susan.rotation = -this.gamedatas.susan.shift + i + this._baseRotation;
             this.rotateSusan();
           });
       });
