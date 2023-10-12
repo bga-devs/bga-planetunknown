@@ -18,6 +18,7 @@ class Meeples extends \PU\Helpers\CachedPieces
   protected static $customFields = ['type', 'player_id', 'x', 'y'];
   protected static $datas = null;
   protected static $autoremovePrefix = false;
+  protected static $maxIndex = 0;
 
   protected static function cast($meeple)
   {

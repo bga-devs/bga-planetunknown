@@ -393,11 +393,11 @@ class Notifications
   // TODO : make the notif either private or public depending on some flag
   protected static function pnotify($player, $name, $msg, $data)
   {
+    $mode = Globals::getMode();
     $pId = is_int($player) ? $player : $player->getId();
     $data['player'] = $player;
     self::updateArgs($data, $mode == \MODE_APPLY);
 
-    $mode = Globals::getMode();
     // PRIVATE MODE => send private notif
     if ($mode == MODE_PRIVATE) {
       Game::get()->notifyPlayer($pId, $name, $msg, $data);

@@ -16,6 +16,7 @@ class Cards extends \PU\Helpers\CachedPieces
   protected static $customFields = ['player_id', 'player_id2', 'extra_datas'];
   protected static $datas = null;
   protected static $autoremovePrefix = false;
+  protected static $maxIndex = 0;
 
   protected static function cast($row)
   {
