@@ -70,10 +70,6 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       return `<div class="planetunknown-meeple planetunknown-icon icon-${type}" id="meeple-${meeple.id}" data-id="${meeple.id}" data-type="${type}" data-state="${meeple.state}"></div>`;
     },
 
-    getPlayerColor(pId) {
-      return this.gamedatas.players[pId].color;
-    },
-
     getMeepleContainer(meeple) {
       let t = meeple.location.split('_');
       if (meeple.location == 'trash') {

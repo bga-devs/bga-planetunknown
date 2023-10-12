@@ -1,6 +1,6 @@
 {OVERALL_GAME_HEADER}
 
-<div id="planetunknown-main-container"></div>
+<div id="planetunknown-main-container"><div id="pending-cards"></div></div>
 
 
 <svg style="display:none" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="map-marker-question" role="img" xmlns="http://www.w3.org/2000/svg">

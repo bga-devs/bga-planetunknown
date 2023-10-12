@@ -34,6 +34,7 @@ define([
       this._activeStates = ['chooseRotation'];
       this._notifications = [
         ['chooseSetup', 200],
+        ['confirmSetupObjectives', 1200],
         ['clearTurn', 200],
         ['refreshUI', 200],
         ['setupPlayer', 1200],
@@ -376,21 +377,29 @@ define([
       if (!args._private) return;
       let selectedPlanet = null;
       let selectedCorpo = null;
+      let selectedObj = null;
+      let possibleObjs = args._private.POCards;
+
       // Display button only if all choices are made
       let updateSelection = () => {
         let canConfirm = false;
 
         if (args._private.choice != undefined) {
           let choice = args._private.choice;
-          canConfirm = selectedPlanet != choice.planetId || selectedCorpo != choice.corporationId;
+          canConfirm =
+            selectedPlanet != choice.planetId || selectedCorpo != choice.corporationId || selectedObj != choice.rejectedCardId;
         } else {
-          canConfirm = selectedPlanet != null && selectedCorpo != null;
+          canConfirm = selectedPlanet != null && selectedCorpo != null && (selectedObj != null || possibleObjs.length == 0);
         }
 
         if (canConfirm) {
           // Add confirm button (only if choice is different from potential existing selection)
           this.addPrimaryActionButton('btnConfirmChoice', _('Confirm'), () =>
-            this.takeAction('actChooseSetup', { planetId: selectedPlanet, corporationId: selectedCorpo }, false)
+            this.takeAction(
+              'actChooseSetup',
+              { planetId: selectedPlanet, corporationId: selectedCorpo, rejectedCardId: selectedObj },
+              false
+            )
           );
         } else if ($('btnConfirmChoice')) {
           $('btnConfirmChoice').remove();
@@ -442,7 +451,6 @@ define([
           $('pagesubtitle').innerHTML = this.formatString(_(CORPOS_DATA[corpoId].desc));
           return;
         }
-        // data-id='${corpo.id}'
         let container = $(`player-board-corporation-${this.player_id}`);
         let corpo = container.querySelector('.corporation');
         corpo.dataset.id = corpoId;
@@ -473,12 +481,40 @@ define([
       else {
         selectCorpo(args._private.corporations[0]);
       }
+
+      // OBJECTIVES
+      let selectObj = (objId) => {
+        if (selectedObj !== null) {
+          $(`card-${selectedObj}`).classList.remove('selected', 'selectedToDiscard');
+        }
+        selectedObj = objId;
+        $(`card-${selectedObj}`).classList.add('selected', 'selectedToDiscard');
+        updateSelection();
+      };
+
+      Object.values(possibleObjs).forEach((card) => {
+        card.pId = this.player_id;
+        this.addCard(card);
+        this.onClick(`card-${card.id}`, () => selectObj(card.id));
+      });
+
+      // Already made a selection => allow to change its mind
+      if (args._private.choice != null && args._private.choice.rejectedCardId != null) {
+        selectObj(args._private.choice.rejectedCardId);
+      }
     },
 
     notif_chooseSetup(n) {
       this.clearPossible();
       this.updatePageTitle();
       this.onEnteringStateChooseSetup(n.args.args);
+    },
+
+    notif_confirmSetupObjectives(n) {
+      debug('Notif: confirming objectives at setup', n);
+      n.args.cardIds.forEach((cardId) => {
+        this.slide(`card-${cardId}`, `private-objectives-${this.player_id}`);
+      });
     },
 
     notif_setupPlayer(n) {

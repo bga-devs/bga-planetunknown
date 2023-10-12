@@ -24,7 +24,7 @@ class OCard extends \PU\Models\Card
 
   public function getCard()
   {
-    return $this->getLocation('NOCards') ? $this->getNeighborSide() : $this->getPrivateSide();
+    return $this->getLocation() == 'NOCards' ? $this->getNeighborSide() : $this->getPrivateSide();
   }
   public function getTitle()
   {

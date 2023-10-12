@@ -38,6 +38,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         Object.values(player.handCiv).forEach((card) => {
           this.addCard(card, `cards-${player.id}`);
         });
+
+        Object.values(player.handObj).forEach((card) => {
+          this.addCard(card, `private-objectives-${player.id}`);
+        });
       });
     },
 
@@ -84,25 +88,45 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       let uid = card.uid || card.id;
 
       // CIV CARD
-      if(card.type == 'civCard'){
+      if (card.type == 'civCard') {
         return `<div id="card-${uid}" data-type="${card.type}" class="planetunknown-card ${card.id < 0 ? 'fake' : ''}">
           <div class='card-inner' data-id="${card.id}" data-level="${card.level}"></div>
         </div>`;
       }
       // Neighbour objectives
-      else if(card.type == 'NOCard'){
-        let pId1 = card.pId, pId2 = card.pId2;
-        return `<div id="card-${uid}" class="nocard-wraper">
+      else if (card.type == 'NOCard') {
+        let pId1 = card.pId,
+          pId2 = card.pId2;
+        return `<div id="card-${uid}" class="nocard-wrapper">
           <div class='nocard-indicator'>
-            <span class='nocard-indicator-value' id='card-${uid}-${pId1}-value' style="color:#${this.getPlayerColor(pId1)}"></span>
+            <span class='nocard-indicator-value' id='card-${uid}-${pId1}-value' style="color:#${this.getPlayerColor(
+              pId1
+            )}"></span>
             <span class='planetunknown-icon icon-medal' id='card-${uid}-${pId1}-medal'></span>
           </div>
           <div data-type="${card.type}" class="planetunknown-card icon-only">
             <div class='card-inner' data-id="${card.id}"></div>
           </div>
           <div class='nocard-indicator'>
-            <span class='nocard-indicator-value' id='card-${uid}-${pId2}-value' style="color:#${this.getPlayerColor(pId2)}"></span>
+            <span class='nocard-indicator-value' id='card-${uid}-${pId2}-value' style="color:#${this.getPlayerColor(
+              pId2
+            )}"></span>
             <span class='planetunknown-icon icon-medal' id='card-${uid}-${pId2}-medal'></span>
+          </div>
+        </div>`;
+      }
+      // Private objectives
+      else if (card.type == 'POCard') {
+        let pId1 = card.pId;
+        return `<div id="card-${uid}" class="pocard-wrapper">
+          <div class='pocard-indicator'>
+            <span class='nocard-indicator-value' id='card-${uid}-${pId1}-value' style="color:#${this.getPlayerColor(
+              pId1
+            )}"></span>
+            <span class='planetunknown-icon icon-medal' id='card-${uid}-${pId1}-medal'></span>
+          </div>
+          <div data-type="${card.type}" class="planetunknown-card">
+            <div class='card-inner' data-id="${card.id}"></div>
           </div>
         </div>`;
       }
@@ -123,6 +147,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         } else {
           return $(`prev-objectives-${pId1}`);
         }
+      }
+      console.log(card);
+      if (card.location == 'tochoose_obj') {
+        return $('pending-cards');
       }
 
       console.error('Trying to get container of a meeple', meeple);

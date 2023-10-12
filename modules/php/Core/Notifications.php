@@ -12,6 +12,11 @@ use PU\Managers\Tiles;
 
 class Notifications
 {
+  public static function confirmSetupObjectives($pId, $otherCards)
+  {
+    self::notify($pId, 'confirmSetupObjectives', '', ['cardIds' => $otherCards->getIds()]);
+  }
+
   public static function addCivCards()
   {
     $datas = [];

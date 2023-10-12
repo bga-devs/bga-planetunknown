@@ -67,27 +67,4 @@ trait SetupTrait
     $this->activeNextPlayer();
     $this->gamestate->nextState('');
   }
-
-  // protected function setupPlayer($player, $notif = false)
-  // {
-  //   $pId = $player->getId();
-  //   $meeples = Meeples::setupPlayer($pId);
-  //   $cards = ActionCards::setupPlayer($pId);
-
-  //   // Create buildings for map A
-  //   $buildings = [];
-  //   $mapId = $player->getMapId();
-  //   Stats::setMap($player, $mapId == 'A' ? 100 : ((int) $mapId));
-  //   if ($mapId == 'A') {
-  //     $buildings[] = Buildings::add($pId, 'size-3', ['x' => 0, 'y' => 9], 0);
-  //     $buildings[] = Buildings::add($pId, 'kiosk', ['x' => 0, 'y' => 7], 0);
-  //     Stats::incBuiltEnclosures($pId);
-  //     Stats::incBuiltKiosks($pId);
-  //     Stats::incCoveredHexes($pId, 4);
-  //   }
-
-  //   if ($notif) {
-  //     Notifications::setupPlayer($player, $mapId, $cards, $meeples, $buildings);
-  //   }
-  // }
 }

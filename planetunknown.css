@@ -440,18 +440,18 @@
   .planetunknown-card[data-type="civCard"] .card-inner[data-id="-1"][data-level="4"] {
     background-position: 100% 100%; }
 
-.nocard-wraper {
+.nocard-wrapper {
   display: flex;
   border-left: 1px solid black;
   padding: 0px 5px;
   font-family: "HemiHead"; }
-  .nocard-wraper .nocard-indicator {
+  .nocard-wrapper .nocard-indicator {
     padding: 0px 3px;
     margin-top: -3px; }
-  .nocard-wraper .nocard-indicator-value {
+  .nocard-wrapper .nocard-indicator-value {
     font-weight: bold;
     font-size: 20px; }
-  .nocard-wraper .icon-medal {
+  .nocard-wrapper .icon-medal {
     display: inline-block;
     width: 20px;
     height: 20px;
@@ -567,6 +567,173 @@
 .planetunknown-card.icon-only[data-type="NOCard"] .card-inner {
   margin-top: -53px;
   margin-left: -46px; }
+
+.planetunknown-card[data-type="POCard"] {
+  width: calc(var(--cardScale) * 260px);
+  height: calc(var(--cardScale) * 396px); }
+
+.planetunknown-card[data-type="POCard"] .card-inner {
+  width: 260px;
+  height: 396px;
+  background-image: url("img/private-objectives.jpg");
+  background-size: 700% 400%;
+  border-radius: 7px;
+  box-shadow: 2px 2px 6px -1px black;
+  box-sizing: border-box; }
+  .planetunknown-card[data-type="POCard"] .card-inner[data-id="37"] {
+    background-position-x: 0%;
+    background-position-y: 0%; }
+  .planetunknown-card[data-type="POCard"] .card-inner[data-id="38"] {
+    background-position-x: 16.6666666667%;
+    background-position-y: 0%; }
+  .planetunknown-card[data-type="POCard"] .card-inner[data-id="39"] {
+    background-position-x: 33.3333333333%;
+    background-position-y: 0%; }
+  .planetunknown-card[data-type="POCard"] .card-inner[data-id="40"] {
+    background-position-x: 50%;
+    background-position-y: 0%; }
+  .planetunknown-card[data-type="POCard"] .card-inner[data-id="41"] {
+    background-position-x: 66.6666666667%;
+    background-position-y: 0%; }
+  .planetunknown-card[data-type="POCard"] .card-inner[data-id="42"] {
+    background-position-x: 83.3333333333%;
+    background-position-y: 0%; }
+  .planetunknown-card[data-type="POCard"] .card-inner[data-id="43"] {
+    background-position-x: 100%;
+    background-position-y: 0%; }
+  .planetunknown-card[data-type="POCard"] .card-inner[data-id="44"] {
+    background-position-x: 0%;
+    background-position-y: 33.3333333333%; }
+  .planetunknown-card[data-type="POCard"] .card-inner[data-id="45"] {
+    background-position-x: 16.6666666667%;
+    background-position-y: 33.3333333333%; }
+  .planetunknown-card[data-type="POCard"] .card-inner[data-id="46"] {
+    background-position-x: 33.3333333333%;
+    background-position-y: 33.3333333333%; }
+  .planetunknown-card[data-type="POCard"] .card-inner[data-id="47"] {
+    background-position-x: 50%;
+    background-position-y: 33.3333333333%; }
+  .planetunknown-card[data-type="POCard"] .card-inner[data-id="48"] {
+    background-position-x: 66.6666666667%;
+    background-position-y: 33.3333333333%; }
+  .planetunknown-card[data-type="POCard"] .card-inner[data-id="49"] {
+    background-position-x: 83.3333333333%;
+    background-position-y: 33.3333333333%; }
+  .planetunknown-card[data-type="POCard"] .card-inner[data-id="50"] {
+    background-position-x: 100%;
+    background-position-y: 33.3333333333%; }
+  .planetunknown-card[data-type="POCard"] .card-inner[data-id="51"] {
+    background-position-x: 0%;
+    background-position-y: 66.6666666667%; }
+  .planetunknown-card[data-type="POCard"] .card-inner[data-id="52"] {
+    background-position-x: 16.6666666667%;
+    background-position-y: 66.6666666667%; }
+  .planetunknown-card[data-type="POCard"] .card-inner[data-id="53"] {
+    background-position-x: 33.3333333333%;
+    background-position-y: 66.6666666667%; }
+  .planetunknown-card[data-type="POCard"] .card-inner[data-id="54"] {
+    background-position-x: 50%;
+    background-position-y: 66.6666666667%; }
+  .planetunknown-card[data-type="POCard"] .card-inner[data-id="55"] {
+    background-position-x: 66.6666666667%;
+    background-position-y: 66.6666666667%; }
+  .planetunknown-card[data-type="POCard"] .card-inner[data-id="56"] {
+    background-position-x: 83.3333333333%;
+    background-position-y: 66.6666666667%; }
+  .planetunknown-card[data-type="POCard"] .card-inner[data-id="57"] {
+    background-position-x: 100%;
+    background-position-y: 66.6666666667%; }
+  .planetunknown-card[data-type="POCard"] .card-inner[data-id="58"] {
+    background-position-x: 0%;
+    background-position-y: 100%; }
+  .planetunknown-card[data-type="POCard"] .card-inner[data-id="59"] {
+    background-position-x: 16.6666666667%;
+    background-position-y: 100%; }
+  .planetunknown-card[data-type="POCard"] .card-inner[data-id="60"] {
+    background-position-x: 33.3333333333%;
+    background-position-y: 100%; }
+  .planetunknown-card[data-type="POCard"] .card-inner[data-id="61"] {
+    background-position-x: 50%;
+    background-position-y: 100%; }
+  .planetunknown-card[data-type="POCard"] .card-inner[data-id="62"] {
+    background-position-x: 66.6666666667%;
+    background-position-y: 100%; }
+  .planetunknown-card[data-type="POCard"] .card-inner[data-id="63"] {
+    background-position-x: 83.3333333333%;
+    background-position-y: 100%; }
+  .planetunknown-card[data-type="POCard"] .card-inner[data-id="64"] {
+    background-position-x: 100%;
+    background-position-y: 100%; }
+
+.pocard-wrapper.selectable {
+  cursor: pointer; }
+  .pocard-wrapper.selectable:hover {
+    transform: scale(1.1); }
+  .pocard-wrapper.selectable.selectedToDiscard .card-inner {
+    filter: grayscale(1);
+    -webkit-transform: translateZ(0) scale(var(--cardScale));
+    -webkit-perspective: 1000;
+    -webkit-backface-visibility: hidden;
+    position: relative; }
+    .pocard-wrapper.selectable.selectedToDiscard .card-inner::before {
+      content: "\f1f8";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background: #d1d1d1be;
+      z-index: 10;
+      font: normal normal normal 14px/1 FontAwesome;
+      font-size: 140px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 7px; }
+
+.private-objectives {
+  --cardScale: 0.35; }
+  .private-objectives .pocard-wrapper {
+    display: flex;
+    border: 2px solid #2d2c2c;
+    padding: 0px 5px;
+    font-family: "HemiHead";
+    border-radius: 9px;
+    height: 36px;
+    box-shadow: 2px 2px 3px #3c3b3b;
+    background: #e4dacc; }
+    .private-objectives .pocard-wrapper .pocard-indicator {
+      padding: 0px 3px;
+      margin-top: -3px; }
+    .private-objectives .pocard-wrapper .pocard-indicator-value {
+      font-weight: bold;
+      font-size: 20px; }
+    .private-objectives .pocard-wrapper .icon-medal {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      color: white;
+      margin-top: 7px;
+      transform: translateY(11px);
+      font-size: 15px;
+      line-height: 19px;
+      text-indent: 5px; }
+  .private-objectives .planetunknown-card.icon-only[data-type="POCard"] {
+    width: calc(var(--cardScale) * 210px);
+    height: calc(var(--cardScale) * 102px);
+    overflow: hidden; }
+  .private-objectives .planetunknown-card.icon-only[data-type="POCard"] .card-inner {
+    margin-top: -82px;
+    margin-left: -11px; }
+
+#pending-cards {
+  --cardScale: 0.6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; }
+  #pending-cards .planetunknown-card {
+    margin: 1px 5px 7px; }
 
 .planetunknown-icon {
   background: url("img/icons.png");

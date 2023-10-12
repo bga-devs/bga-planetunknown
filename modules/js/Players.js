@@ -54,12 +54,12 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       return Object.values(this.gamedatas.players);
     },
 
-    getColoredName(pId){
+    getColoredName(pId) {
       let name = this.gamedatas.players[pId].name;
       return this.coloredPlayerName(name);
     },
 
-    getPlayerColor(pId){
+    getPlayerColor(pId) {
       return this.gamedatas.players[pId].color;
     },
 
@@ -269,7 +269,9 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
           <div class='player-board-name' style='color:#${player.color}'>
             ${arrows}
           </div>
-          <div class='next-objectives' id='next-objectives-${player.id}'></div>
+          <div class='next-objectives' id='next-objectives-${player.id}'>
+          ${this.isSolo() ? `<div class="private-objectives" id="private-objectives-${player.id}"></div>` : ''}
+          </div>
         </div>
         <div class='pu-player-board-resizable' id='player-board-resizable-${player.id}'>
           <div class='pu-player-board-fixed-size'>
@@ -294,6 +296,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
           •
           ${this.formatIcon('civ')}
         </div>
+        ${this.isSolo() ? '' : `<div class="private-objectives" id="private-objectives-${player.id}"></div>`}
       </div>`;
     },
 
@@ -469,7 +472,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
 
       // Might happen if several players place biomass on the same turn
       let oTile = $(tileId);
-      if(oTile){
+      if (oTile) {
         let newId = +oTile.dataset.id + 1;
         oTile.dataset.id = newId;
         oTile.id = `tile-${newId}`;
@@ -650,11 +653,11 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
           });
         }
         // Objectives
-        else if(category == 'objectives'){
+        else if (category == 'objectives') {
           Object.keys(entries).forEach((cardId) => {
             let t = cardId.split('_');
 
-            if(t[0] == 'NOCard'){
+            if (t[0] == 'NOCard') {
               console.log(`card-${t[1]}-${pId}-value`);
               $(`card-${t[1]}-${pId}-value`).innerHTML = Math.abs(entries[cardId][1]);
               $(`card-${t[1]}-${pId}-medal`).innerHTML = entries[cardId][0];

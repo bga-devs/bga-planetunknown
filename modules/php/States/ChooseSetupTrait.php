@@ -31,9 +31,7 @@ trait ChooseSetupTrait
         'choice' => $choices[$pId] ?? null,
         'planets' => $planetId ? [0, $planetId] : [0],
         'corporations' => $corporationId ? [0, $corporationId] : [0],
-        'POCards' => Cards::getInLocation('hand_obj')
-          ->where('pId', $pId)
-          ->getIds(),
+        'POCards' => Cards::getInLocation('tochoose_obj')->where('pId', $pId),
       ];
     }
 
@@ -108,6 +106,9 @@ trait ChooseSetupTrait
 
       if (!is_null($choice['rejectedCardId'])) {
         Cards::move($choice['rejectedCardId'], 'trash');
+        $otherCards = Cards::getInLocation('tochoose_obj')->where('pId', $pId);
+        Cards::move($otherCards->getIds(), 'hand_obj');
+        Notifications::confirmSetupObjectives($pId, $otherCards);
       }
       $player->setCorporationId($choice['corporationId']);
       $player->setPlanetId($choice['planetId']);
