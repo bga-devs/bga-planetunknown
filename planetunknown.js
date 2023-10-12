@@ -50,6 +50,7 @@ define([
         ['changeFirstPlayer', 1400],
         ['endOfGameTriggered', 1400],
         ['revealCards', 1400],
+        ['newEventCard', 3500],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -214,7 +215,7 @@ define([
     notif_refreshUI(n) {
       debug('Notif: refreshing UI', n);
       this.clearPossible();
-      ['meeples', 'players', 'tiles'].forEach((value) => {
+      ['cards', 'meeples', 'players', 'tiles'].forEach((value) => {
         this.gamedatas[value] = n.args.datas[value];
       });
       this.setupMeeples();
@@ -223,6 +224,7 @@ define([
       this.rotateSusan();
       this.updatePlayersCounters();
       this.updateHand();
+      this.updateCivCounters();
 
       // this.forEachPlayer((player) => {
       //   this._scoreCounters[player.id].toValue(player.newScore);
@@ -1321,6 +1323,9 @@ define([
       });
       this.onClick('susan-holder', () => this._susanModal.show(), false);
 
+      if ($('events-info')) {
+        this.onClick('events-info', () => this.zoomOnEventCard(), false);
+      }
       // let handWrapper = $('floating-hand-wrapper');
       // $('floating-hand-button').addEventListener('click', () => {
       //   if (handWrapper.dataset.open && handWrapper.dataset.open == 'hand') {
@@ -1348,7 +1353,8 @@ define([
         susanInterior += `<div class="susan-space" id='top-interior-${j}'></div>`;
       }
 
-      return `
+      return (
+        `
    <div class='player-board' id="player_board_config">
      <div id="player_config" class="player_board_content">
        <div class="player_config_row">
@@ -1377,6 +1383,35 @@ define([
            </svg>
          </div>
        </div>
+       <div class='player_config_row' id="decks-info">
+        <div class='civ-deck-counter-wrapper'>
+          <span id='civ-deck-counter-1'>0</span>
+          ${this.formatIcon('civ', 1)}
+        </div>
+        <div class='civ-deck-counter-wrapper'>
+          <span id='civ-deck-counter-2'>0</span>
+          ${this.formatIcon('civ', 2)}
+        </div>
+        <div class='civ-deck-counter-wrapper'>
+          <span id='civ-deck-counter-3'>0</span>
+          ${this.formatIcon('civ', 3)}
+        </div>
+        <div class='civ-deck-counter-wrapper'>
+          <span id='civ-deck-counter-4'>0</span>
+          ${this.formatIcon('civ', 4)}
+        </div>
+        ` +
+        (this.gamedatas.eventGame == 'eventCard'
+          ? `<div id="events-info">
+            <div id="event-deck" data-type="EventCard" class="planetunknown-card">
+              <div class='card-inner' data-id="back"></div>
+              <span id="counter-deck-event">0</span>
+            </div>
+            <div id='event-card-holder'></div>
+          </div>`
+          : '') +
+        `
+       </div>
        <div class="player_config_row" id="susan-holder">
          <div id="susan-container">
            <div id="susan-indicators">${susanIndicators}</div>
@@ -1388,7 +1423,8 @@ define([
        </div>
      </div>
    </div>
-   `;
+   `
+      );
     },
 
     tplSusanIndicator(player) {

@@ -38,7 +38,7 @@ class Cards extends \PU\Helpers\CachedPieces
       'deck_civ_3' => static::countInLocation('deck_civ_3'),
       'deck_civ_4' => static::countInLocation('deck_civ_4'),
       'deck_event' => static::countInLocation('deck_event'),
-      'discard_event' => static::getTopOf('discard_event'),
+      'event' => static::getTopOf('discard_event')->first(),
     ];
   }
 

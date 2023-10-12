@@ -724,7 +724,7 @@
         font-size: 16px;
         text-rendering: auto;
         text-stroke: 1px white;
-        -webkit-text-stroke: 1px #040404;
+        -webkit-text-stroke: 1px white;
         margin-top: 3px;
         margin-left: -4px;
         content: "\f00d";
@@ -771,6 +771,284 @@
   width: 100%; }
   #pending-cards .planetunknown-card {
     margin: 1px 5px 7px; }
+
+.planetunknown-card[data-type="EventCard"] {
+  width: calc(var(--cardScale) * 260px);
+  height: calc(var(--cardScale) * 396px);
+  border-radius: 4px;
+  box-shadow: 2px 2px 2px -1px black; }
+
+.planetunknown-card[data-type="EventCard"] .card-inner {
+  width: 260px;
+  height: 396px;
+  background-image: url("img/events.jpg");
+  background-size: 900% 700%;
+  border-radius: 15px;
+  box-sizing: border-box; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="65"] {
+    background-position-x: 0%;
+    background-position-y: 0%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="66"] {
+    background-position-x: 12.5%;
+    background-position-y: 0%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="67"] {
+    background-position-x: 25%;
+    background-position-y: 0%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="68"] {
+    background-position-x: 37.5%;
+    background-position-y: 0%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="69"] {
+    background-position-x: 50%;
+    background-position-y: 0%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="70"] {
+    background-position-x: 62.5%;
+    background-position-y: 0%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="71"] {
+    background-position-x: 75%;
+    background-position-y: 0%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="72"] {
+    background-position-x: 87.5%;
+    background-position-y: 0%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="73"] {
+    background-position-x: 100%;
+    background-position-y: 0%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="74"] {
+    background-position-x: 0%;
+    background-position-y: 16.6666666667%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="75"] {
+    background-position-x: 12.5%;
+    background-position-y: 16.6666666667%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="76"] {
+    background-position-x: 25%;
+    background-position-y: 16.6666666667%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="77"] {
+    background-position-x: 37.5%;
+    background-position-y: 16.6666666667%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="78"] {
+    background-position-x: 50%;
+    background-position-y: 16.6666666667%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="79"] {
+    background-position-x: 62.5%;
+    background-position-y: 16.6666666667%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="80"] {
+    background-position-x: 75%;
+    background-position-y: 16.6666666667%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="81"] {
+    background-position-x: 87.5%;
+    background-position-y: 16.6666666667%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="82"] {
+    background-position-x: 100%;
+    background-position-y: 16.6666666667%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="83"] {
+    background-position-x: 0%;
+    background-position-y: 33.3333333333%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="84"] {
+    background-position-x: 12.5%;
+    background-position-y: 33.3333333333%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="85"] {
+    background-position-x: 25%;
+    background-position-y: 33.3333333333%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="86"] {
+    background-position-x: 37.5%;
+    background-position-y: 33.3333333333%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="87"] {
+    background-position-x: 50%;
+    background-position-y: 33.3333333333%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="88"] {
+    background-position-x: 62.5%;
+    background-position-y: 33.3333333333%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="89"] {
+    background-position-x: 75%;
+    background-position-y: 33.3333333333%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="90"] {
+    background-position-x: 87.5%;
+    background-position-y: 33.3333333333%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="91"] {
+    background-position-x: 100%;
+    background-position-y: 33.3333333333%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="92"] {
+    background-position-x: 0%;
+    background-position-y: 50%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="93"] {
+    background-position-x: 12.5%;
+    background-position-y: 50%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="94"] {
+    background-position-x: 25%;
+    background-position-y: 50%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="95"] {
+    background-position-x: 37.5%;
+    background-position-y: 50%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="96"] {
+    background-position-x: 50%;
+    background-position-y: 50%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="97"] {
+    background-position-x: 62.5%;
+    background-position-y: 50%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="98"] {
+    background-position-x: 75%;
+    background-position-y: 50%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="99"] {
+    background-position-x: 87.5%;
+    background-position-y: 50%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="100"] {
+    background-position-x: 100%;
+    background-position-y: 50%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="101"] {
+    background-position-x: 0%;
+    background-position-y: 66.6666666667%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="102"] {
+    background-position-x: 12.5%;
+    background-position-y: 66.6666666667%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="103"] {
+    background-position-x: 25%;
+    background-position-y: 66.6666666667%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="104"] {
+    background-position-x: 37.5%;
+    background-position-y: 66.6666666667%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="105"] {
+    background-position-x: 50%;
+    background-position-y: 66.6666666667%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="106"] {
+    background-position-x: 62.5%;
+    background-position-y: 66.6666666667%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="107"] {
+    background-position-x: 75%;
+    background-position-y: 66.6666666667%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="108"] {
+    background-position-x: 87.5%;
+    background-position-y: 66.6666666667%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="109"] {
+    background-position-x: 100%;
+    background-position-y: 66.6666666667%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="110"] {
+    background-position-x: 0%;
+    background-position-y: 83.3333333333%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="111"] {
+    background-position-x: 12.5%;
+    background-position-y: 83.3333333333%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="112"] {
+    background-position-x: 25%;
+    background-position-y: 83.3333333333%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="113"] {
+    background-position-x: 37.5%;
+    background-position-y: 83.3333333333%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="114"] {
+    background-position-x: 50%;
+    background-position-y: 83.3333333333%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="115"] {
+    background-position-x: 62.5%;
+    background-position-y: 83.3333333333%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="116"] {
+    background-position-x: 75%;
+    background-position-y: 83.3333333333%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="117"] {
+    background-position-x: 87.5%;
+    background-position-y: 83.3333333333%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="118"] {
+    background-position-x: 100%;
+    background-position-y: 83.3333333333%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="119"] {
+    background-position-x: 0%;
+    background-position-y: 100%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="120"] {
+    background-position-x: 12.5%;
+    background-position-y: 100%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="121"] {
+    background-position-x: 25%;
+    background-position-y: 100%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="122"] {
+    background-position-x: 37.5%;
+    background-position-y: 100%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="123"] {
+    background-position-x: 50%;
+    background-position-y: 100%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="124"] {
+    background-position-x: 62.5%;
+    background-position-y: 100%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="125"] {
+    background-position-x: 75%;
+    background-position-y: 100%; }
+  .planetunknown-card[data-type="EventCard"] .card-inner[data-id="back"] {
+    background-position-x: 75%;
+    background-position-y: 100%; }
+
+#decks-info {
+  display: flex;
+  justify-content: space-between;
+  font-family: "HemiHead"; }
+  #decks-info .civ-deck-counter-wrapper {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: white;
+    background: #353534;
+    border: 1px solid white;
+    border-radius: 9px;
+    padding: 4px 6px;
+    box-shadow: 1px 1px 1px black;
+    position: relative; }
+    #decks-info .civ-deck-counter-wrapper span {
+      margin-right: 5px; }
+    #decks-info .civ-deck-counter-wrapper .icon-civ {
+      position: relative; }
+      #decks-info .civ-deck-counter-wrapper .icon-civ span {
+        position: absolute;
+        display: inline-block;
+        background: #d5d5d5;
+        top: -2px;
+        right: -6px;
+        color: #2b2b2b;
+        width: 10px;
+        border: 1px solid white;
+        font-size: 11px;
+        text-align: center;
+        border-radius: 3px; }
+  #decks-info #events-info {
+    --cardScale: 0.1;
+    display: flex;
+    border-left: 1px solid black;
+    margin: -5px 0px;
+    padding: 4px 0px 4px 7px;
+    cursor: zoom-in; }
+    #decks-info #events-info #event-deck {
+      margin-right: 4px;
+      position: relative; }
+      #decks-info #events-info #event-deck .planetunknown-card {
+        position: absolute; }
+      #decks-info #events-info #event-deck span {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        color: black;
+        text-stroke: 1px white;
+        -webkit-text-stroke: 1px white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        font-size: 20px;
+        text-shadow: 0px 0px 10px white, 0px 0px 10px white, 0px 0px 10px white, 0px 0px 10px white; }
+
+#card-overlay {
+  opacity: 0;
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  z-index: 4000;
+  pointer-events: none;
+  transition: opacity 600ms;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  --cardScale: 1; }
+  #card-overlay.active {
+    opacity: 1;
+    pointer-events: all; }
 
 .planetunknown-icon {
   background: url("img/icons.png");
