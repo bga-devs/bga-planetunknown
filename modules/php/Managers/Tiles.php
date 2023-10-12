@@ -121,6 +121,11 @@ class Tiles extends \PU\Helpers\CachedPieces
 
   */
 
+  static function getTypeFamily($type)
+  {
+    return static::$typesNames[intdiv($type, 24)];
+  }
+
   static function getStaticDataFromType($type)
   {
     if ($type == BIOMASS_PATCH) {

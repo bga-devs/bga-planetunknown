@@ -34,6 +34,11 @@ class Tile extends \PU\Helpers\DB_Model
     return Tiles::getStaticDataFromType($this->getType());
   }
 
+  public function getTerrainTypes()
+  {
+    return Tiles::getTypeFamily($this->getType());
+  }
+
   public function getSymbolsForDiscardedTile()
   {
     $datas = $this->getData();

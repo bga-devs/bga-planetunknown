@@ -297,7 +297,7 @@ class Planet
   public function hasUncoveredLand()
   {
     foreach ($this->getListOfCells() as $cell) {
-      if (!$this->isCoveredCoord($x, $y)($cell['x'], $cell['y']) && $this->getVisible($cell['x'], $cell['y']) != ICE) {
+      if (!$this->isCoveredCoord($cell['x'], $cell['y']) && $this->getVisible($cell['x'], $cell['y']) != ICE) {
         return true;
       }
     }
@@ -455,6 +455,10 @@ class Planet
     $ice = $this->getIceCells();
     $byPassCheck = false; // Coorpo techs
 
+    if ($this->player->hasTech(TECH_ROVER_TILES_EVERYWHERE) && in_array(ROVER, $tile->getTerrainTypes())) {
+      $byPassCheck = true;
+    }
+
     $result = [];
     // For each possible cell to place the reference cell of the tile
     foreach ($freeCells as $pos) {
@@ -468,18 +472,21 @@ class Planet
             continue;
           }
 
-          // TODO: add check function that can be overwritten by some planets
-          if (!$this->isValidPlacementOption($tile, $cells)) {
-            continue;
-          }
+          if (!$byPassCheck) {
 
-          if ($this->isIntersectionNonEmpty($cells, $checkingCells) || $this->player->hasTech(TECH_BYPASS_ADJACENT_CONSTRAINT)) {
-            // Check if tile is intersecting border or not
-            if ($specialRule == CANNOT_PLACE_ON_EDGE && $this->isIntersectionNonEmpty($cells, $border)) {
+            // TODO: add check function that can be overwritten by some planets
+            if (!$this->isValidPlacementOption($tile, $cells)) {
               continue;
             }
-            if ($specialRule == CANNOT_PLACE_ON_ICE && $this->isIntersectionNonEmpty($cells, $ice)) {
-              continue;
+
+            if ($this->isIntersectionNonEmpty($cells, $checkingCells) || $this->player->hasTech(TECH_BYPASS_ADJACENT_CONSTRAINT)) {
+              // Check if tile is intersecting border or not
+              if ($specialRule == CANNOT_PLACE_ON_EDGE && $this->isIntersectionNonEmpty($cells, $border)) {
+                continue;
+              }
+              if ($specialRule == CANNOT_PLACE_ON_ICE && $this->isIntersectionNonEmpty($cells, $ice)) {
+                continue;
+              }
             }
 
             $rotations[] = [$rotation, $flipped];
