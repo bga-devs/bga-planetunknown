@@ -246,6 +246,18 @@
         margin-left: -12px;
     }
 }
+.next-objectives .private-objectives {
+    display: flex;
+    .pocard-wrapper {
+        display: flex;
+        border: none;
+        border-left: 1px solid black;
+        border-radius: 0;
+        height: 40px;
+        box-shadow: none;
+        background: none;
+    }
+}
 
 #pending-cards {
     --cardScale: 0.6;

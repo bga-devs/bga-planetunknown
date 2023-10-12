@@ -215,7 +215,8 @@ class Globals extends \PU\Helpers\DB_Manager
     static::setFirstPlayer(array_keys($players)[0]);
     static::setPlanetOption($options[OPTION_PLANET]);
     static::setCorporationOption($options[OPTION_CORPORATION]);
-    $choiceForCards = $isSolo || $options[OPTION_EVENT_CARDS] == OPTION_EVENT_CARDS_GAME ? EVENT_CARD_GAME : NO_EVENT_CARD_GAME;
+    // $choiceForCards = $isSolo || $options[OPTION_EVENT_CARDS] == OPTION_EVENT_CARDS_GAME ? EVENT_CARD_GAME : NO_EVENT_CARD_GAME;
+    $choiceForCards = ($options[OPTION_EVENT_CARDS] ?? 1) == OPTION_EVENT_CARDS_GAME ? EVENT_CARD_GAME : NO_EVENT_CARD_GAME;
     static::setEventCardsGame($choiceForCards);
     static::setPrivateObjectiveCardsGame(
       $isSolo || $options[OPTION_PRIVATE_OBJECTIVE_CARDS] == OPTION_PRIVATE_OBJECTIVE_CARDS_GAME

@@ -29,8 +29,7 @@ $gameinfos = [
   'bgg_id' => 342942,
 
   // Players configuration that can be played (ex: 2 to 4 players)
-  // 'players' => [1, 2, 3, 4, 5, 6],
-  'players' => [2, 3, 4, 5, 6],
+  'players' => [1, 2, 3, 4, 5, 6],
 
   // Suggest players to play with this number of players. Must be null if there is no such advice, or if there is only one possible player configuration.
   'suggest_player_number' => 4,
