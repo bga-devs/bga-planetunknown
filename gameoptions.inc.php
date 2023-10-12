@@ -76,11 +76,11 @@ $game_options = [
   OPTION_PRIVATE_OBJECTIVE_CARDS => [
     'name' => totranslate('Objective Cards'),
     'values' => [
-      // OPTION_PRIVATE_OBJECTIVE_CARDS_GAME => [
-      //   'name' => totranslate('On'),
-      //   'description' => totranslate('With private objective cards'),
-      //   'tmdisplay' => totranslate('On'),
-      // ],
+      OPTION_PRIVATE_OBJECTIVE_CARDS_GAME => [
+        'name' => totranslate('On'),
+        'description' => totranslate('With private objective cards'),
+        'tmdisplay' => totranslate('On'),
+      ],
       OPTION_NO_PRIVATE_OBJECTIVE_CARDS_GAME => [
         'name' => totranslate('Off'),
         'description' => totranslate('Without private objective cards'),

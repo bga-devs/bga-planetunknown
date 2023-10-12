@@ -18,6 +18,7 @@ class Corporation
   public $desc;
 
   public $techBonuses;
+  protected $flagsToReset = [];
 
   // CONSTRUCT
   protected $player = null;
@@ -280,9 +281,15 @@ class Corporation
     return [];
   }
 
+
+
   public function resetFlags()
   {
-    PGlobals::setFlags($this->pId, []);
+    $flags = PGlobals::getFlags($this->pId);
+    foreach ($this->flagsToReset as $flag) {
+      unset($flags[$flag]);
+    }
+    PGlobals::setFlags($this->pId, $flags);
   }
 
   public function isFlagged($flag)

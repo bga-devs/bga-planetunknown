@@ -74,27 +74,27 @@ class MoveRover extends \PU\Models\Action
     $cell = Planet::getCellFromId($spaceId);
 
     $rover = Meeples::get($roverId);
-    $meteor = null;
+    $carried_meteor = null;
 
     //horizon group move meteor with rover
     if ($player->corporation()->getId() == HORIZON_GROUP) {
-      $meteor = $player->getMeteorOnCell($rover->getCell());
+      $carried_meteor = $player->getMeteorOnCell($rover->getCell());
       //can move meteor only if the destination has no meteor yet
-      if (!is_null($meteor) && !$player->getMeteorOnCell($cell)) {
-        $meteor->placeOnPlanet($cell);
+      if (!is_null($carried_meteor) && !$player->getMeteorOnCell($cell)) {
+        $carried_meteor->placeOnPlanet($cell);
       } else {
-        $meteor = null; //(meteor has not been moved)
+        $carried_meteor = null; //(meteor has not been moved)
       }
     }
 
     // Move it on the board
     $rover->placeOnPlanet($cell);
 
-    Notifications::moveRover($player, $rover, $meteor);
+    Notifications::moveRover($player, $rover, $carried_meteor);
 
-    //if a $meteor has been convoyed on water terrain, it's destroyed
-    if ($meteor && $player->hasTech(TECH_DESTROY_METEORITE_ON_WATER) && $player->planet()->getVisible() == WATER) {
-      $player->corporation->destroy($meteor);
+    //if a $carried_meteor has been convoyed on water terrain, it's destroyed
+    if ($carried_meteor && $player->hasTech(TECH_DESTROY_METEORITE_ON_WATER) && $player->planet()->getVisible() == WATER) {
+      $player->corporation->destroy($carried_meteor);
     }
 
     //collect lifepod or meteor

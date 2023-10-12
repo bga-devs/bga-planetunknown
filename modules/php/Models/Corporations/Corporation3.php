@@ -9,6 +9,8 @@ class Corporation3 extends Corporation
     $this->name = clienttranslate('Horizon Group');
     $this->desc = clienttranslate('To Collect meteorite, your rover must pick it up and deliver it to a rover resource on your planet.'); //TODO
 
+    $this->flagsToReset = [TECH_ADVANCE_ROVER];
+
     $this->techBonuses = [
       1 => [ //TODOTissac
         'text' => clienttranslate('Rover tiles may be placed ignoring placement restrictions.')
@@ -42,19 +44,25 @@ class Corporation3 extends Corporation
   public function getAnytimeActions()
   {
     $actions = [];
-    if ($this->player->hasTech(TECH_ADVANCE_ROVER)) {
+    if ($this->canUse(TECH_ADVANCE_ROVER)) {
       $actions[] = [
         'action' => MOVE_TRACK,
         'args' => [
           'type' => ROVER,
           'n' => 1,
           'withBonus' => true
-        ]
+        ],
+        'source' => $this->name,
+        'flag' => TECH_ADVANCE_ROVER,
       ];
     }
 
     if ($this->player->hasTech(TECH_GET_1_MOVE_CARRYING_METEOR)) {
-      $actions[] = $this->get1MoveCarryingMeteor();
+      $actions[] = [
+        $this->get1MoveCarryingMeteor(),
+        'source' => $this->name,
+        'flag' => TECH_GET_1_MOVE_CARRYING_METEOR,
+      ];
     }
 
     return $actions;
