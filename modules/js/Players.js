@@ -658,11 +658,15 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
             let t = cardId.split('_');
 
             if (t[0] == 'NOCard') {
-              console.log(`card-${t[1]}-${pId}-value`);
               $(`card-${t[1]}-${pId}-value`).innerHTML = Math.abs(entries[cardId][1]);
               $(`card-${t[1]}-${pId}-medal`).innerHTML = entries[cardId][0];
               $(`card-${t[1]}d-${pId}-value`).innerHTML = Math.abs(entries[cardId][1]);
               $(`card-${t[1]}d-${pId}-medal`).innerHTML = entries[cardId][0];
+            } else if (t[0] == 'POCard') {
+              console.log(cardId);
+              let v = entries[cardId];
+              $(`card-${t[1]}-${pId}-medal`).innerHTML = v;
+              $(`card-${t[1]}-${pId}-value`).classList.toggle('ok', v > 0);
             }
           });
         }

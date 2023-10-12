@@ -273,7 +273,7 @@ class Player extends \PU\Helpers\DB_Model
       return ['total' => 0];
     }
 
-    $isCurrent = $this->id == $currentPlayerId;
+    $isCurrent = $this->id === $currentPlayerId;
     $result = [];
     $total = 0;
 

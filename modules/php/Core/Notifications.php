@@ -379,7 +379,7 @@ class Notifications
    *************************/
   protected static function notifyAll($name, $msg, $data)
   {
-    self::updateArgs($data);
+    self::updateArgs($data, true);
     Game::get()->notifyAllPlayers($name, $msg, $data);
   }
 
@@ -395,7 +395,7 @@ class Notifications
   {
     $pId = is_int($player) ? $player : $player->getId();
     $data['player'] = $player;
-    self::updateArgs($data);
+    self::updateArgs($data, $mode == \MODE_APPLY);
 
     $mode = Globals::getMode();
     // PRIVATE MODE => send private notif
@@ -500,12 +500,14 @@ class Notifications
   /*
    * Automatically adds some standard field about player and/or card
    */
-  protected static function updateArgs(&$data)
+  protected static function updateArgs(&$data, $public = false)
   {
     if (isset($data['player'])) {
       $data['player_name'] = $data['player']->getName();
       $data['player_id'] = $data['player']->getId();
-      $data['scores'] = Players::scores($data['player']->getId(), false);
+      if (!$public) {
+        $data['scores'] = Players::scores($data['player']->getId(), false);
+      }
       unset($data['player']);
     }
     if (isset($data['player2'])) {

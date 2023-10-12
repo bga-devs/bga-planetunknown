@@ -515,6 +515,14 @@ define([
       n.args.cardIds.forEach((cardId) => {
         this.slide(`card-${cardId}`, `private-objectives-${this.player_id}`);
       });
+      [...$('pending-cards').querySelectorAll('.pocard-wrapper')].forEach((elt) => {
+        let id = parseInt(elt.id.split('-')[1]);
+        if (n.args.cardIds.includes(id)) return;
+
+        this.slide(elt, this.getVisibleTitleContainer(), {
+          destroy: true,
+        });
+      });
     },
 
     notif_setupPlayer(n) {

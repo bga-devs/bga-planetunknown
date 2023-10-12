@@ -284,7 +284,7 @@
   --tileScale: 0.577; }
 
 :root {
-  --cardScale: 1; }
+  --cardScale: 0.6; }
 
 .planetunknown-card {
   box-sizing: border-box; }
@@ -461,6 +461,11 @@
     font-size: 15px;
     line-height: 19px;
     text-indent: 5px; }
+
+.prev-objectives .nocard-wrapper {
+  border-left: none;
+  border-right: 1px solid black;
+  flex-flow: row-reverse; }
 
 .planetunknown-card[data-type="NOCard"] {
   width: calc(var(--cardScale) * 396px);
@@ -691,8 +696,11 @@
       align-items: center;
       border-radius: 7px; }
 
+.pocard-indicator {
+  display: none; }
+
 .private-objectives {
-  --cardScale: 0.35; }
+  --cardScale: 0.3; }
   .private-objectives .pocard-wrapper {
     display: flex;
     border: 2px solid #2d2c2c;
@@ -703,11 +711,27 @@
     box-shadow: 2px 2px 3px #3c3b3b;
     background: #e4dacc; }
     .private-objectives .pocard-wrapper .pocard-indicator {
-      padding: 0px 3px;
+      display: block;
+      padding: 0px 6px 0px 3px;
       margin-top: -3px; }
     .private-objectives .pocard-wrapper .pocard-indicator-value {
       font-weight: bold;
       font-size: 20px; }
+      .private-objectives .pocard-wrapper .pocard-indicator-value::before {
+        position: absolute;
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: 16px;
+        text-rendering: auto;
+        text-stroke: 1px white;
+        -webkit-text-stroke: 1px #040404;
+        margin-top: 3px;
+        margin-left: -4px;
+        content: "\f00d";
+        color: red; }
+      .private-objectives .pocard-wrapper .pocard-indicator-value.ok::before {
+        content: "\f00c";
+        color: #00d900; }
     .private-objectives .pocard-wrapper .icon-medal {
       display: inline-block;
       width: 20px;
@@ -718,13 +742,15 @@
       font-size: 15px;
       line-height: 19px;
       text-indent: 5px; }
-  .private-objectives .planetunknown-card.icon-only[data-type="POCard"] {
+  .private-objectives .planetunknown-card[data-type="POCard"] {
     width: calc(var(--cardScale) * 210px);
-    height: calc(var(--cardScale) * 102px);
-    overflow: hidden; }
-  .private-objectives .planetunknown-card.icon-only[data-type="POCard"] .card-inner {
-    margin-top: -82px;
-    margin-left: -11px; }
+    height: 36px;
+    overflow: hidden;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px; }
+  .private-objectives .planetunknown-card[data-type="POCard"] .card-inner {
+    margin-top: -70px;
+    margin-left: -12px; }
 
 #pending-cards {
   --cardScale: 0.6;
@@ -2692,7 +2718,7 @@
 #customActions .bgabutton.selected {
   background: linear-gradient(rgba(89, 219, 78, 0.87), rgba(87, 149, 59, 0.89)); }
 
-#page-title .ark-card {
+#page-title .pocard-wrapper {
   position: absolute; }
 
 #maintitlebar_content .action-button ~ .action-button {

@@ -120,10 +120,8 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         let pId1 = card.pId;
         return `<div id="card-${uid}" class="pocard-wrapper">
           <div class='pocard-indicator'>
-            <span class='nocard-indicator-value' id='card-${uid}-${pId1}-value' style="color:#${this.getPlayerColor(
-              pId1
-            )}"></span>
-            <span class='planetunknown-icon icon-medal' id='card-${uid}-${pId1}-medal'></span>
+            <span class='pocard-indicator-value' id='card-${uid}-${pId1}-value'></span>
+            <span class='planetunknown-icon icon-medal' id='card-${uid}-${pId1}-medal'>0</span>
           </div>
           <div data-type="${card.type}" class="planetunknown-card">
             <div class='card-inner' data-id="${card.id}"></div>
