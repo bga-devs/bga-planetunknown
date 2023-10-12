@@ -44,6 +44,7 @@ trait EndGameTrait
   public function stEndGameTurn()
   {
     $players = Players::getAll();
+    Globals::setPhase(END_OF_GAME_PHASE);
     $flows = [];
     foreach ($players as $pId => $player) {
       $actions = $player->getEndOfGameActions();
@@ -62,6 +63,7 @@ trait EndGameTrait
   public function stPostEndGameTurn()
   {
     Susan::refill();
+    Globals::setPhase(NORMAL_PHASE);
     Notifications::endOfTurn();
 
     $players = Players::getAll();

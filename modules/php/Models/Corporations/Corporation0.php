@@ -3,6 +3,7 @@
 namespace PU\Models\Corporations;
 
 use PU\Core\Game;
+use PU\Core\Globals;
 use PU\Core\Notifications;
 use PU\Managers\Actions;
 use PU\Managers\Tiles;
@@ -52,7 +53,7 @@ class Corporation0 extends Corporation
   public function receiveBiomassPatch()
   {
     $patch = Tiles::createBiomassPatch($this->player);
-    if ($this->player->hasTech(TECH_CAN_STORE_BIOMASS_PATCH) && Game::get()->gamestate->state_id() != ST_END_GAME_TURN) {
+    if ($this->player->hasTech(TECH_CAN_STORE_BIOMASS_PATCH) && Globals::getPhase() != END_OF_GAME_PHASE) {
       $this->player->addEndOfGameAction(Actions::getBiomassPatchFlow($patch->getId()));
 
       Notifications::receiveBiomassPatch($this->player, $patch, true);

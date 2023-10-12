@@ -195,6 +195,7 @@ trait TurnTrait
   public function stChooseCivCard()
   {
     $player = Players::getActive();
+    Globals::setPhase(END_OF_TURN_PHASE);
     Engine::setup(
       [
         'type' => NODE_PARALLEL,
@@ -209,6 +210,8 @@ trait TurnTrait
   // Now that everyone is done, proceed to the end of turn
   public function stEndTurn()
   {
+    Globals::setPhase(NORMAL_PHASE);
+
     Susan::refill();
 
     // Update first player

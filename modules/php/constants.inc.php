@@ -138,6 +138,13 @@ const CHOOSE_FLUX_TRACK = 'ChooseFluxTrack';
 const PEEK_NEXT_EVENT = 'PeekNextEvent';
 
 /*
+* Phases
+*/
+const NORMAL_PHASE = 0;
+const END_OF_TURN_PHASE = 1;
+const END_OF_GAME_PHASE = 2;
+
+/*
  * Resources
  */
 const CIV = 'civ';

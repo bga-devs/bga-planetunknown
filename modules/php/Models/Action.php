@@ -142,7 +142,7 @@ class Action
             ],
           ];
 
-          if (Game::get()->gamestate->state_id() == ST_CHOOSE_CIV_CARD) {
+          if (Globals::getPhase() == END_OF_TURN_PHASE) {
             $actions[] = $action;
           } else {
             $player->addEndOfTurnAction($action);
