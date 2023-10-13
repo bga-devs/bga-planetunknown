@@ -66,7 +66,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         let v = this.gamedatas.cards[`deck_civ_${i}`];
         this._civDeckCounters[i].toValue(v);
       }
-      this._eventDeckCounter.toValue(this.gamedatas.cards.deck_event);
+      this._eventDeckCounter?.toValue(this.gamedatas.cards.deck_event);
     },
 
     updateHand() {

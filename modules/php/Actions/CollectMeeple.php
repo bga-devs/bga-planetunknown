@@ -57,7 +57,7 @@ class CollectMeeple extends \PU\Models\Action
       ->getMeeples($this->getType())
       ->where('location', $this->getLocation())
       ->toArray();
-    return array_map(fn($meeple) => $meeple->getX() . '_' . $meeple->getY(), $meeples);
+    return array_map(fn ($meeple) => $meeple->getX() . '_' . $meeple->getY(), $meeples);
   }
 
   public function argsCollectMeeple()
@@ -104,6 +104,14 @@ class CollectMeeple extends \PU\Models\Action
     } else {
       foreach ($meeples as $meeple) {
         $player->corporation()->collect($meeple);
+
+        if ($player->corporation()->getId() == COSMOS_INC) {
+          $this->pushParallelChild([
+            'action' => POSITION_LIFEPOD_ON_TRACK,
+            'args' => ['lifepodId' => $meeple->getId()],
+            'optional' => true,
+          ]);
+        }
       }
     }
 

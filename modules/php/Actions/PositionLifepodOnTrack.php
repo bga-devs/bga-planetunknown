@@ -23,8 +23,10 @@ class PositionLifepodOnTrack extends \PU\Models\Action
 
   public function getDescription()
   {
+    $lifepodId = $this->getCtxArg('lifepodId');
+    $log = is_null($lifepodId) ? clienttranslate('Reposition ${n} lifepod(s)') : clienttranslate('Reposition the lifepod you collected');
     return [
-      'log' => clienttranslate('Reposition ${n} lifepod(s)'),
+      'log' => $log,
       'args' => ['n' => $this->getRemaining()],
     ];
   }
@@ -32,6 +34,11 @@ class PositionLifepodOnTrack extends \PU\Models\Action
   public function isDoable($player)
   {
     return $player->getCollectedLifepods()->count() > 0;
+  }
+
+  public function isOptional()
+  {
+    return true;
   }
 
   public function getRemaining()
@@ -44,8 +51,8 @@ class PositionLifepodOnTrack extends \PU\Models\Action
     $lifepodId = $this->getCtxArg('lifepodId') ?? null;
     return is_null($lifepodId)
       ? $this->getPlayer()
-        ->getCollectedLifepods()
-        ->getIds()
+      ->getCollectedLifepods()
+      ->getIds()
       : [$lifepodId];
   }
 

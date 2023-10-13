@@ -109,8 +109,9 @@ class Corporation1 extends Corporation
   public function getBestMedal($type)
   {
     for ($i = $this->getLevelOnTrack($type); $i > 0; $i--) {
-      if ($this->extractMedal($this->tracks[$type][$i]) && !$this->player->hasLifepodOnTrack($type, $i)) {
-        return $this->tracks[$type][$i];
+      $medal = $this->extractMedal($this->tracks[$type][$i]);
+      if ($medal !== false && !$this->player->hasLifepodOnTrack($type, $i)) {
+        return $medal;
       }
     }
     return 0;
@@ -146,6 +147,7 @@ class Corporation1 extends Corporation
       ];
     }
 
+    //TODO To deplace in Action Waiting for Adam
     if ($this->canUse(TECH_REPOSITION_THREE_LIFEPODS_ONCE)) {
       $actions[] = [
         'action' => POSITION_LIFEPOD_ON_TRACK,
@@ -165,5 +167,10 @@ class Corporation1 extends Corporation
     $flags = PGlobals::getFlags($this->pId);
     unset($flags[TECH_REPOSITION_ONE_LIFEPOD_EACH_TURN]);
     PGlobals::setFlags($this->pId, $flags);
+  }
+
+  public function scoreByLifepods()
+  {
+    return $this->player->getCollectedLifepods()->where('x', '')->where('y', '')->count();
   }
 }

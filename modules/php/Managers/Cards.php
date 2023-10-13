@@ -137,6 +137,7 @@ class Cards extends \PU\Helpers\CachedPieces
         static::shuffle('deck_event_' . $color);
         static::pickForLocation($eventCardSet[$color], 'deck_event_' . $color, 'deck_event');
       }
+      Globals::setEventCardSet($eventCardSet);
       static::shuffle('deck_event');
     }
   }

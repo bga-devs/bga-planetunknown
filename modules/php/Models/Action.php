@@ -157,6 +157,19 @@ class Action
           break;
         case TECH:
           $levelTech = $player->corporation()->getTechLevel($this);
+
+          // TODO Waiting for Adam
+          // if ($player->corporation()->canUse(TECH_REPOSITION_THREE_LIFEPODS_ONCE)) {
+          //   $actions[] = [
+          //     'action' => POSITION_LIFEPOD_ON_TRACK,
+          //     'args' => [
+          //       'remaining' => 3,
+          //     ],
+          //     'source' => $player->corporation()->name,
+          //     'flag' => TECH_REPOSITION_THREE_LIFEPODS_ONCE,
+          //   ];
+          // }
+
           Notifications::milestone($player, TECH, $levelTech);
           break;
         case SYNERGY:

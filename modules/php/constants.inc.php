@@ -131,7 +131,7 @@ const COLLECT_MEEPLE = 'CollectMeeple';
 const DESTROY_ALL_IN_ROW = 'DestroyAllInRow';
 const MOVE_TRACKERS_TO_FIVE = 'MoveTrackersToFive';
 const PLACE_MEEPLE = 'PlaceMeeple';
-const CHOOSE_ROTATION_ENGINE = 'ChooseRotationEngine';
+const CHOOSE_ROTATION_ENGINE = 'ChooseRotation';
 const DESTROY_P_O_CARD = 'DestroyPOCard';
 const POSITION_LIFEPOD_ON_TRACK = 'PositionLifepodOnTrack';
 const CHOOSE_FLUX_TRACK = 'ChooseFluxTrack';
@@ -295,8 +295,8 @@ const ALL_PLANETS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 /*
  * CORPORATIONS
  */
-const ADVANCED_CORPORATIONS = [1, 2, 3, 4, 5, 6, 7, 8];
-const ALL_CORPORATIONS = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+const ADVANCED_CORPORATIONS = [1, 2, 3, /*4, 5, 6, 7, 8*/];
+const ALL_CORPORATIONS = [0, 1, 2, 3, /*4, 5, 6, 7, 8*/];
 
 /*
  * MISC

@@ -28,7 +28,7 @@ class EventCard114 extends \PU\Models\Cards\EventCard
       'action' => COLLECT_MEEPLE,
       'args' => [
         'type' => LIFEPOD,
-        'n' => 2,
+        'n' => 1,
         'action' => 'destroy',
         'location' => 'corporation'
       ]
