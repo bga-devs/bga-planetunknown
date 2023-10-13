@@ -18,6 +18,11 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         this.addCard(card);
       });
 
+      let eventCard = this.gamedatas.cards.event;
+      if (eventCard) {
+        this.addCard(eventCard);
+      }
+
       this._fakeCardCounter = -2;
       this._handModals = {};
       this.orderedPlayers.forEach((player, i) => {
@@ -43,6 +48,25 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           this.addCard(card, `private-objectives-${player.id}`);
         });
       });
+
+      this._civDeckCounters = {};
+      for (let i = 1; i <= 4; i++) {
+        let v = this.gamedatas.cards[`deck_civ_${i}`];
+        this._civDeckCounters[i] = this.createCounter(`civ-deck-counter-${i}`, v);
+      }
+
+      this._eventDeckCounter = null;
+      if ($('counter-deck-event')) {
+        this._eventDeckCounter = this.createCounter('counter-deck-event', this.gamedatas.cards.deck_event);
+      }
+    },
+
+    updateCivCounters() {
+      for (let i = 1; i <= 4; i++) {
+        let v = this.gamedatas.cards[`deck_civ_${i}`];
+        this._civDeckCounters[i].toValue(v);
+      }
+      this._eventDeckCounter.toValue(this.gamedatas.cards.deck_event);
     },
 
     updateHand() {
@@ -91,6 +115,12 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       if (card.type == 'civCard') {
         return `<div id="card-${uid}" data-type="${card.type}" class="planetunknown-card ${card.id < 0 ? 'fake' : ''}">
           <div class='card-inner' data-id="${card.id}" data-level="${card.level}"></div>
+        </div>`;
+      }
+      // EVENT CARD
+      else if (card.type == 'EventCard') {
+        return `<div id="card-${uid}" data-type="${card.type}" class="planetunknown-card">
+          <div class='card-inner' data-id="${card.id}"></div>
         </div>`;
       }
       // Neighbour objectives
@@ -146,7 +176,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           return $(`prev-objectives-${pId1}`);
         }
       }
-      console.log(card);
+      if (card.type == 'EventCard') {
+        return $('event-card-holder');
+      }
       if (card.location == 'tochoose_obj') {
         return $('pending-cards');
       }
@@ -174,6 +206,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         oCard = $(`card-${card.id}`);
       }
 
+      this._civDeckCounters[card.level].incValue(-1);
       this.slide(oCard, `civ-cards-indicator-${pId}`).then(() => {
         dojo.place(oCard, `cards-${pId}`);
         let counter = card.location == 'playedCivCards' ? 'immediateCiv' : 'endgameCiv';
@@ -193,6 +226,35 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       });
 
       this.updatePlayersCounters();
+    },
+
+    notif_newEventCard(n) {
+      debug('Notif: revealing new event card', n);
+      let card = n.args.card;
+      this.empty('event-card-holder');
+      this.addCard(card);
+      this._eventDeckCounter.incValue(-1);
+      this.zoomOnEventCard(true);
+    },
+
+    zoomOnEventCard(autoClose = false) {
+      let oCard = $('event-card-holder').querySelector('.planetunknown-card');
+      if (!oCard) return;
+
+      dojo.place("<div id='card-overlay'></div>", 'ebd-body');
+      let duplicate = oCard.cloneNode(true);
+      duplicate.id = duplicate.id + 'duplicate';
+      $('card-overlay').appendChild(duplicate);
+      $('card-overlay').offsetHeight;
+      $('card-overlay').classList.add('active');
+
+      let close = () => {
+        $('card-overlay').classList.remove('active');
+        this.wait(700).then(() => $('card-overlay').remove());
+      };
+
+      if (autoClose) this.wait(2500).then(close);
+      else $('card-overlay').addEventListener('click', close);
     },
   });
 });

@@ -154,9 +154,9 @@ class Notifications
   {
     $message = clienttranslate('A new event card is revealed');
     $data = [
-      'event_card' => $card,
+      'card' => $card,
     ];
-    static::notifyAll('eventCard', $message, $data);
+    static::notifyAll('newEventCard', $message, $data);
   }
 
   public static function newRotation($rotation, $player = null)
@@ -456,7 +456,7 @@ class Notifications
       'meeples' => $datas['meeples'],
       'susan' => $datas['susan'],
       'scores' => $datas['scores'],
-      // 'cards' => $datas['cards']
+      'cards' => $datas['cards'],
     ];
 
     //TODOTissac

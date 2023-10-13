@@ -110,6 +110,7 @@ class planetunknown extends Table
       'scores' => $scores,
       'firstPlayer' => Globals::getFirstPlayer(),
       'endOfGameTriggered' => Globals::isGameEndTriggered(),
+      'eventGame' => Globals::getEventCardsGame(),
     ];
   }
 

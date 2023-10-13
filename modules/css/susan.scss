@@ -95,6 +95,7 @@
         .susan-space {
             padding-bottom: 27px;
             padding-top: 3px;
+            clip-path: polygon(0px 0px, 100% 0%, 70% 75%, 30% 75%);
 
             @for $j from 0 to 6 {
                 &#top-interior-#{$j} {
