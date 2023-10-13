@@ -113,7 +113,7 @@ class Cards extends \PU\Helpers\CachedPieces
     }
 
     //prepare Event Card Deck
-    if (count($players) == 1 || $options[OPTION_EVENT_CARDS] == OPTION_EVENT_CARDS_GAME) {
+    if ($options[OPTION_EVENT_CARDS] == OPTION_EVENT_CARDS_GAME) {
       $data = [];
       $cardColors = [GREEN, ORANGE, RED];
       for ($i = 65; $i <= 124; $i++) {
