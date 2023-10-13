@@ -173,7 +173,7 @@ class Planet
   public function countSymbolsOnEdge($symbol)
   {
     $cells = $this->getEdgeCells();
-    return array_reduce($cells, fn($result, $cell) => $result + ($this->getSymbol($cell['x'], $cell['y']) == $symbol ? 1 : 0), 0);
+    return array_reduce($cells, fn ($result, $cell) => $result + ($this->getSymbol($cell['x'], $cell['y']) == $symbol ? 1 : 0), 0);
   }
 
   /**
@@ -225,12 +225,12 @@ class Planet
   public function countLargestAdjacent($type)
   {
     $zones = $this->detectZones($type);
-    return $zones ? max(array_map(fn($zone) => count($zone), $zones)) : 0;
+    return $zones ? max(array_map(fn ($zone) => count($zone), $zones)) : 0;
   }
 
   public function countSymbols($type, $zone = null)
   {
-    $cells = array_filter($zone ?? $this->getListOfCells(), fn($cell) => $this->getSymbol($cell['x'], $cell['y']) == $type);
+    $cells = array_filter($zone ?? $this->getListOfCells(), fn ($cell) => $this->getSymbol($cell['x'], $cell['y']) == $type);
     return count($cells);
   }
 
@@ -238,7 +238,7 @@ class Planet
   {
     return array_filter(
       $this->getListOfCells(),
-      fn($cell) => $this->hasMeteorSymbol($cell['x'], $cell['y']) && $this->player->getMeteorOnCell($cell)
+      fn ($cell) => $this->hasMeteorSymbol($cell['x'], $cell['y']) && $this->player->getMeteorOnCell($cell)
     );
   }
 
@@ -489,10 +489,10 @@ class Planet
               if ($specialRule == CANNOT_PLACE_ON_ICE && $this->isIntersectionNonEmpty($cells, $ice)) {
                 continue;
               }
-
-              $rotations[] = [$rotation, $flipped];
             }
           }
+
+          $rotations[] = [$rotation, $flipped];
         }
       }
       if (!empty($rotations)) {

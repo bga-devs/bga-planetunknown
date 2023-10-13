@@ -14,7 +14,7 @@ use PU\Managers\Susan;
 use PU\Models\Meeple;
 use PU\Models\Planet;
 
-class PositionLifepodOnTrack extends \PU\Models\Action
+class PositionLifepodOnTech extends \PU\Models\Action
 {
   public function getState()
   {
@@ -24,7 +24,7 @@ class PositionLifepodOnTrack extends \PU\Models\Action
   public function getDescription()
   {
     $lifepodId = $this->getCtxArg('lifepodId');
-    $log = is_null($lifepodId) ? clienttranslate('Reposition ${n} lifepod(s)') : clienttranslate('Position the lifepod you collected');
+    $log = is_null($lifepodId) ? clienttranslate('Position ${n} lifepod(s)') : clienttranslate('Position the lifepod you collected');
     return [
       'log' => $log,
       'args' => ['n' => $this->getRemaining()],
@@ -60,13 +60,9 @@ class PositionLifepodOnTrack extends \PU\Models\Action
   {
     $spaceIds = [];
 
-    foreach (ALL_TYPES as $track) {
-      $level = $player->corporation()->getLevelOnTrack($track);
-      $max = $player->corporation()->getMaxIndexOnTrack($track);
-      for ($i = 0; $i < $max; $i++) {
-        if (is_null($player->getMeepleOnCell(['x' => $track, 'y' => $i], null, false))) {
-          $spaceIds[] = $track . '_' . $i;
-        }
+    for ($index = 1; $index <= 6; $index++) {
+      if (!$player->corporation()->hasTechLevel($index)) {
+        $spaceIds[] = 'tech_nb_' . $index;
       }
     }
 
@@ -106,15 +102,14 @@ class PositionLifepodOnTrack extends \PU\Models\Action
       $lifepod->setX('');
       $lifepod->setY('');
     } else {
-      $cell = Planet::getCellFromId($spaceId);
-      $lifepod->setX($cell['x']);
-      $lifepod->setY($cell['y']);
+      $lifepod->setX($spaceId);
+      $lifepod->setY('');
     }
     Notifications::repositionLifepod($player, $lifepod);
 
     if ($this->getRemaining() > 1) {
       $this->pushParallelChild([
-        'action' => POSITION_LIFEPOD_ON_TRACK,
+        'action' => POSITION_LIFEPOD_ON_TECH,
         'args' => [
           'remaining' => $this->getRemaining() - 1,
         ],

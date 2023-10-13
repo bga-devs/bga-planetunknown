@@ -152,6 +152,21 @@ class Action
         case BIOMASS:
           $patchToPlace = $player->corporation()->receiveBiomassPatch();
           if ($patchToPlace) {
+            if ($player->corporation()->canUse(TECH_GET_SYNERGY_INSTEAD_OF_BIOMASS_PATCH_ONCE_PER_ROUND)) {
+              //as the tech is optional, player can choose biomass or synergy
+              $action = $player->getSynergy();
+              if ($action) {
+                $action['source'] = $player->corporation()->name;
+                $action['flag'] = TECH_GET_SYNERGY_INSTEAD_OF_BIOMASS_PATCH_ONCE_PER_ROUND;
+                $actions[] = [
+                  'type' => NODE_XOR,
+                  'childs' => [
+                    Actions::getBiomassPatchFlow($patchToPlace->getId()),
+                    $action
+                  ]
+                ];
+              }
+            }
             $actions[] = Actions::getBiomassPatchFlow($patchToPlace->getId());
           }
           break;

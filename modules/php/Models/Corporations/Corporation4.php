@@ -2,31 +2,40 @@
 
 namespace PU\Models\Corporations;
 
+use PU\Core\Notifications;
+use PU\Managers\Tiles;
+
 class Corporation4 extends Corporation
 {
   public function __construct($player)
   {
     $this->name = clienttranslate('Jump Drive');
-    $this->desc = clienttranslate('Choose to place a collected lifepod onto your tech or your scoring area. A lifepod placed onto tech unlocks the tech in any order.'); //TODO
+    $this->desc = clienttranslate('Choose to place a collected lifepod onto your tech or your scoring area. A lifepod placed onto tech unlocks the tech in any order.');
+
+    $this->flagsToReset = [
+      TECH_GET_SYNERGY_INSTEAD_OF_BIOMASS_PATCH_ONCE_PER_ROUND,
+      TECH_TELEPORT_ROVER_SAME_TERRAIN_ONCE_PER_ROUND,
+      TECH_TWICE_SYNERGY_ONCE_PER_ROUND
+    ];
 
     $this->techBonuses = [
       1 => [ //TODOCautionNOSynergy
         'text' => clienttranslate('Gain synergy boost instead of a biomass patch. Once per round.')
       ],
       2 => [ //TODO
-        'text' => clienttranslate('Teleport a rover to a tile ofthe same terrain. One movement cost. Once per round.')
+        'text' => clienttranslate('Teleport a rover to a tile of the same terrain. One movement cost. Once per round.')
       ],
       3 => [ //TODO
         'text' => clienttranslate('Advance the tracker twice when using a synergy boost. Once per round.')
       ],
-      4 => [ //TODO
+      4 => [ //TODO ASK
         'text' => clienttranslate('You may treat a tech resource as energy during tile placement')
       ],
       5 => [ //TODO
         'text' => clienttranslate('Choose a tracker and claim all benefits in its row. Once per game.')
       ],
       6 => [ //TODO
-        'text' => clienttranslate('Draw 3 objectives and keep on that all players compete for. Once per game.')
+        'text' => clienttranslate('Draw 3 objectives and keep one that all players compete for. Once per game.')
       ],
     ];
     parent::__construct($player);
@@ -41,4 +50,11 @@ class Corporation4 extends Corporation
     TECH => [null, 5, SYNERGY, null, null, null, 3, null, 2, null, null, 1, SYNERGY, null, null, null]
   ];
   protected $level = 3;
+
+  public function hasTechLevel($techLvl)
+  {
+    return $this->player->getCollectedLifepods()
+      ->where('x', 'tech_nb' . $techLvl)
+      ->count() == 1;
+  }
 }

@@ -33,6 +33,7 @@ class Actions
     //from corpo
     POSITION_LIFEPOD_ON_TRACK,
     CHOOSE_FLUX_TRACK,
+    POSITION_LIFEPOD_ON_TECH,
   ];
 
   public static function getBiomassPatchFlow($patchId)

@@ -306,6 +306,16 @@ $machinestates = [
     'possibleactions' => ['actPositionLifepodOnTrack', 'actRestart'],
   ],
 
+  ST_POSITION_LIFEPOD_ON_TECH => [
+    'name' => POSITION_LIFEPOD_ON_TECH,
+    'descriptionmyturn' => clienttranslate('${you} can place a lifepod on a tech'),
+    'descriptionmyturnaftercollect' => clienttranslate('${you} may place the lifepod you collected on a tech'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actPositionLifepodOnTech', 'actRestart'],
+  ],
+
   ST_MOVE_ROVER => [
     'name' => 'moveRover',
     'descriptionmyturn' => clienttranslate('${you} must move your Rover(s) (${remaining} move(s) remaining)'),
