@@ -56,6 +56,7 @@ class Corporation2 extends Corporation
       'move_3',
       'move_3',
       ['move_3', 5],
+      ['move_3']
     ],
     TECH => [null, null, SYNERGY, TECH, null, TECH, 1, TECH, null, null, TECH, null, SYNERGY, 2, TECH, 5],
   ];

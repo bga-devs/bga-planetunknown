@@ -69,6 +69,11 @@ class Corporation
     ];
 
     $pawn->setX($coord['x']);
+
+    //if reach the top of rover track, regress by 1
+    if ($type == ROVER && $coord['y'] == count($this->tracks[ROVER]) - 1) {
+      $coord['y']--;
+    }
     $pawn->setY($coord['y']);
 
     Notifications::moveTrack($this->player, $oldCoord, $pawn);
@@ -107,12 +112,7 @@ class Corporation
       return $this->getLevelOnTrack($type) + $n >= 0;
     } else {
       //for positive progression
-      //rover can always been activated even on last level
-      if ($type == ROVER) {
-        return true;
-      } else {
-        return !$this->isTrackerOnTop($type);
-      }
+      return !$this->isTrackerOnTop($type);
     }
   }
 
