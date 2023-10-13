@@ -112,7 +112,6 @@ trait ChooseSetupTrait
       }
       $player->setCorporationId($choice['corporationId']);
       $player->setPlanetId($choice['planetId']);
-      PGlobals::setFluxTrack($player->getId(), $choice['flux']);
     }
 
     $this->gamestate->nextState('done');

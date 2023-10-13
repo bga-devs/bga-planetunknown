@@ -160,10 +160,7 @@ class Action
                 $action['flag'] = TECH_GET_SYNERGY_INSTEAD_OF_BIOMASS_PATCH_ONCE_PER_ROUND;
                 $actions[] = [
                   'type' => NODE_XOR,
-                  'childs' => [
-                    Actions::getBiomassPatchFlow($patchToPlace->getId()),
-                    $action
-                  ]
+                  'childs' => [Actions::getBiomassPatchFlow($patchToPlace->getId()), $action],
                 ];
               }
             }
@@ -184,6 +181,12 @@ class Action
           //     'flag' => TECH_REPOSITION_THREE_LIFEPODS_ONCE,
           //   ];
           // }
+
+          if ($player->corporation()->getId() == FLUX) {
+            $actions[] = [
+              'action' => CHOOSE_FLUX_TRACK,
+            ];
+          }
 
           Notifications::milestone($player, TECH, $levelTech);
           break;

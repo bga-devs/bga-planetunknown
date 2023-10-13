@@ -380,6 +380,15 @@ $machinestates = [
     'possibleactions' => ['actPeekNextEvent', 'actRestart'],
   ],
 
+  ST_CHOOSE_FLUX_TRACK => [
+    'name' => CHOOSE_FLUX_TRACK,
+    'descriptionmyturn' => clienttranslate('${you} must choose on which track to place the flux token'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actChooseFluxTrack', 'actRestart'],
+  ],
+
   //////////////////////////////////////////////////////////////////
   //  _____           _    ___   __    ____
   // | ____|_ __   __| |  / _ \ / _|  / ___| __ _ _ __ ___   ___

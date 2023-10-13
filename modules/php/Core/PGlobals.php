@@ -20,7 +20,6 @@ class PGlobals extends \PU\Helpers\DB_Manager
 
     'pendingActionsEndOfTurn' => 'obj',
     'pendingActionsEndOfGame' => 'obj',
-    'fluxTrack' => 'str',
     'flags' => 'obj', // Useful for flagging a "once per turn action" as flagged,
   ];
 

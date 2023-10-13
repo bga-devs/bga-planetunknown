@@ -1068,6 +1068,9 @@
   .planetunknown-icon.icon-first-player {
     background-position: 85.9203693017888% 33.295063145809415%;
     background-size: 650.1587301587301%; }
+  .planetunknown-icon.icon-flux {
+    background-position: 12.570260602963721% 60.342979635584136%;
+    background-size: 2250.5494505494507%; }
   .planetunknown-icon.icon-lifepod {
     background-position: 72.0844327176781% 2.484472049689441%;
     background-size: 1338.562091503268%; }
@@ -1096,13 +1099,13 @@
     background-position: 98.1% 36.68032786885246%;
     background-size: 4266.666666666666%; }
   .planetunknown-icon.icon-tracker-rover {
-    background-position: 12.3% 57.684426229508205%;
+    background-position: 17.849999999999998% 57.684426229508205%;
     background-size: 4266.666666666666%; }
   .planetunknown-icon.icon-tracker-tech {
-    background-position: 15.7% 57.684426229508205%;
+    background-position: 21.25% 57.684426229508205%;
     background-size: 4266.666666666666%; }
   .planetunknown-icon.icon-tracker-water {
-    background-position: 19.1% 57.684426229508205%;
+    background-position: 24.65% 57.684426229508205%;
     background-size: 4266.666666666666%; }
   .planetunknown-icon.icon-water {
     background-position: 84.14434117003827% 2.484472049689441%;
@@ -1120,13 +1123,17 @@
     width: 1.9em;
     height: 1.9em;
     border-radius: 15%; }
+  .icon-container .icon-flux {
+    width: 1.9em;
+    height: 1.9em; }
 
 .action-button .icon-container-water,
 .action-button .icon-container-tech,
 .action-button .icon-container-rover,
 .action-button .icon-container-civ,
 .action-button .icon-container-biomass,
-.action-button .icon-container-energy {
+.action-button .icon-container-energy,
+.action-button .icon-container-flux {
   margin: -5px 0px -5px; }
 .action-button#btnciv, .action-button#btntech, .action-button#btnwater, .action-button#btnrover, .action-button#btnbiomass {
   padding: 9px 7px;
@@ -1181,6 +1188,9 @@
   .planetunknown-meeple.icon-first-player {
     width: 5em;
     height: 2.4em; }
+  .planetunknown-meeple.icon-flux {
+    width: 2.2em;
+    height: 2.2em; }
 
 .action-button .icon-container ~ .planetunknown-meeple {
   margin-left: 0.5em; }
@@ -1599,9 +1609,17 @@
               transform: translateX(-75%); }
             .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-columns:hover .icon-lifepod {
               transform: translateX(-100%); }
+            .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-columns:hover .icon-flux {
+              transform: translateX(-100%); }
             .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-columns .corporation-column {
               width: 38px;
-              height: 608px; }
+              height: 608px;
+              position: relative; }
+              .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-columns .corporation-column .icon-flux {
+                position: absolute;
+                top: -28px;
+                left: 2px;
+                transition: transform 0.5s; }
               .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-columns .corporation-column .corpo-cell {
                 width: 38px;
                 height: 38px;
@@ -3010,6 +3028,10 @@
 
 #page-title .pocard-wrapper {
   position: absolute; }
+
+#flux-selection {
+  display: inline-block;
+  padding-left: 10px; }
 
 #maintitlebar_content .action-button ~ .action-button {
   margin-left: 15px; }

@@ -215,10 +215,13 @@ trait TurnTrait
     Susan::refill();
 
     // Update first player
-    $nextId = Players::getNextId(Globals::getFirstPlayer());
-    Globals::setFirstPlayer($nextId);
-    Notifications::changeFirstPlayer($nextId);
-    $this->gamestate->changeActivePlayer($nextId);
+    $pId = Globals::getFirstPlayer();
+    $nextId = Players::getNextId($pId);
+    if ($pId != $nextId) {
+      Globals::setFirstPlayer($nextId);
+      Notifications::changeFirstPlayer($nextId);
+      $this->gamestate->changeActivePlayer($nextId);
+    }
 
     // Notify end of turn
     Notifications::endOfTurn();

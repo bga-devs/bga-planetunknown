@@ -27,7 +27,7 @@ class ChooseFluxTrack extends \PU\Models\Action
     $player = $this->getPlayer();
 
     return [
-      'tracks' => ALL_TYPES
+      'tracks' => ALL_TYPES,
     ];
   }
 
@@ -37,7 +37,10 @@ class ChooseFluxTrack extends \PU\Models\Action
     if (!in_array($track, ALL_TYPES)) {
       throw new \BgaVisibleSystemException('Track value unknown. Should not happen');
     }
-
-    PGlobals::setFluxTrack($player->getId(), $track);
+    $player = $this->getPlayer();
+    $meeple = Meeples::getOfPlayer($player, FLUX_MEEPLE)->first();
+    $previousTrack = $meeple->getX();
+    $meeple->setX($track);
+    Notifications::chooseFluxTrack($player, $track, $meeple, $previousTrack);
   }
 }

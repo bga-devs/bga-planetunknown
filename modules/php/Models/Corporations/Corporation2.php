@@ -2,7 +2,7 @@
 
 namespace PU\Models\Corporations;
 
-use PU\Core\PGlobals;
+use PU\Managers\Meeples;
 
 class Corporation2 extends Corporation
 {
@@ -56,7 +56,7 @@ class Corporation2 extends Corporation
       'move_3',
       'move_3',
       ['move_3', 5],
-      ['move_3']
+      ['move_3'],
     ],
     TECH => [null, null, SYNERGY, TECH, null, TECH, 1, TECH, null, null, TECH, null, SYNERGY, 2, TECH, 5],
   ];
@@ -120,16 +120,10 @@ class Corporation2 extends Corporation
   ];
   protected $level = 3;
 
-  //receive $action when reach the mileston to add an action if needed
-  public function getTechLevel($action = null)
+  public function getFluxTrack()
   {
-    $level = $this->countLevel(TECH);
-
-    $action->pushParallelChild([
-      'action' => CHOOSE_FLUX_TRACK,
-    ]);
-
-    return $level;
+    $meeple = Meeples::getOfPlayer($this->player, \FLUX_MEEPLE)->first();
+    return $meeple->getX();
   }
 
   public function hasTechLevel($techLvl)
@@ -158,11 +152,9 @@ class Corporation2 extends Corporation
   public function get2MovesOnFlux()
   {
     $rovers = $this->player->getRoversOnPlanet();
-
-    $flux = PGlobals::getFluxTrack($this->player->getId());
+    $flux = $this->getFluxTrack();
 
     $move = 0;
-
     foreach ($rovers as $id => $rover) {
       if ($this->player->planet()->getVisible($rover->getX(), $rover->getY()) == $flux) {
         $move += 2;
@@ -186,7 +178,7 @@ class Corporation2 extends Corporation
       $actions[] = [
         'action' => MOVE_TRACK,
         'args' => [
-          'type' => PGlobals::getFluxTrack($this->player->getId()),
+          'type' => $this->getFluxTrack(),
           'n' => 1,
           'withBonus' => true,
         ],

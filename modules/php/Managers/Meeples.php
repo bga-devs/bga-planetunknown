@@ -145,6 +145,19 @@ class Meeples extends \PU\Helpers\CachedPieces
       ];
     }
 
+    // create flux if needed
+    if ($corporation->getId() == FLUX) {
+      $choices = Globals::getSetupChoices();
+      $track = $choices[$pId]['flux'];
+      $data[] = [
+        'type' => FLUX_MEEPLE,
+        'location' => 'corporation',
+        'player_id' => $pId,
+        'x' => $track,
+        'y' => 'flux',
+      ];
+    }
+
     return static::create($data);
   }
 }

@@ -254,11 +254,23 @@ $planetGridHeight: 12 * $cellHeight;
                             .icon-lifepod {
                                 transform: translateX(-100%);
                             }
+
+                            .icon-flux {
+                                transform: translateX(-75%);
+                            }
                         }
 
                         .corporation-column {
                             width: 38px;
                             height: 608px;
+                            position: relative;
+
+                            .icon-flux {
+                                position: absolute;
+                                top: -28px;
+                                left: 2px;
+                                transition: transform 0.5s;
+                            }
 
                             .corpo-cell {
                                 width: 38px;

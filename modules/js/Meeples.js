@@ -29,9 +29,13 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       });
 
       if (!$(`meeple-firstPlayer`)) {
-        console.log($(`firstPlayer-${this.gamedatas.firstPlayer}`), `firstPlayer-${this.gamedatas.firstPlayer}`);
         this.addMeeple({ id: 'firstPlayer', type: 'first-player' }, $(`firstPlayer-${this.gamedatas.firstPlayer}`));
       }
+
+      // if (!$('meeple-flux')) {
+      //   this.addMeeple({ id: 'flux', type: 'flux' }, $(`corporation-${this.player_id}`));
+      // }
+
       this.updatePlayersCounters();
     },
 
@@ -58,6 +62,9 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       if (type == 'first-player') {
         return [_('Station Commander')];
       }
+      if (type == 'flux') {
+        return [_('Flux token')];
+      }
       return null;
     },
 
@@ -74,6 +81,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       let t = meeple.location.split('_');
       if (meeple.location == 'trash') {
         return this.getVisibleTitleContainer();
+      }
+      // Flux token
+      if (meeple.type == 'flux') {
+        return $(`corporation-${meeple.pId}`).querySelector(`.column-${meeple.x}`);
       }
       // Things on the planet
       if (meeple.location == 'planet') {
@@ -212,6 +223,15 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     notif_changeFirstPlayer(n) {
       debug('Notif: change of first player', n);
       this.slide($(`meeple-firstPlayer`), $(`firstPlayer-${n.args.player_id}`));
+    },
+
+    notif_chooseFluxTrack(n) {
+      debug('Notif: change flux track', n);
+      if (n.args.isSame) {
+        this.wait(1000).then(() => this.notifqueue.setSynchronousDuration(this.isFastMode() ? 0 : 10));
+      } else {
+        this.slideResources([n.args.meeple]);
+      }
     },
   });
 });

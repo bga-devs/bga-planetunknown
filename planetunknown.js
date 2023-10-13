@@ -29,6 +29,17 @@ define([
   g_gamethemeurl + 'modules/js/Meeples.js',
   g_gamethemeurl + 'modules/js/Cards.js',
 ], function (dojo, declare) {
+  const CIV = 'civ';
+  const WATER = 'water';
+  const ROVER = 'rover';
+  const TECH = 'tech';
+  const ENERGY = 'energy';
+  const BIOMASS = 'biomass';
+
+  const ALL_TYPES = [CIV, WATER, BIOMASS, ROVER, TECH];
+
+  const FLUX = 2;
+
   return declare('bgagame.planetunknown', [customgame.game, planetunknown.players, planetunknown.meeples, planetunknown.cards], {
     constructor() {
       this._activeStates = ['chooseRotation'];
@@ -51,6 +62,7 @@ define([
         ['endOfGameTriggered', 1400],
         ['revealCards', 1400],
         ['newEventCard', 3500],
+        ['chooseFluxTrack', null],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -380,6 +392,7 @@ define([
       let selectedPlanet = null;
       let selectedCorpo = null;
       let selectedObj = null;
+      let selectedFlux = null;
       let possibleObjs = Object.values(args._private.POCards);
 
       // Display button only if all choices are made
@@ -389,9 +402,14 @@ define([
         if (args._private.choice != undefined) {
           let choice = args._private.choice;
           canConfirm =
-            selectedPlanet != choice.planetId || selectedCorpo != choice.corporationId || selectedObj != choice.rejectedCardId;
+            selectedPlanet != choice.planetId ||
+            selectedCorpo != choice.corporationId ||
+            selectedObj != choice.rejectedCardId ||
+            selectedFlux != choice.flux;
         } else {
           canConfirm = selectedPlanet != null && selectedCorpo != null && (selectedObj != null || possibleObjs.length == 0);
+          debug(selectedFlux, selectedFlux === null);
+          if (selectedCorpo == FLUX && selectedFlux === null) canConfirm = false;
         }
 
         if (canConfirm) {
@@ -399,7 +417,7 @@ define([
           this.addPrimaryActionButton('btnConfirmChoice', _('Confirm'), () =>
             this.takeAction(
               'actChooseSetup',
-              { planetId: selectedPlanet, corporationId: selectedCorpo, rejectedCardId: selectedObj },
+              { planetId: selectedPlanet, corporationId: selectedCorpo, rejectedCardId: selectedObj, flux: selectedFlux },
               false
             )
           );
@@ -448,6 +466,15 @@ define([
       $('customActions').insertAdjacentHTML('beforeend', '<div class="separator">|</div>');
 
       // CORPO
+      let selectFlux = (type) => {
+        // Highlight button
+        if (selectedFlux !== null) {
+          $(`btn${selectedFlux}`).classList.remove('selected');
+        }
+        selectedFlux = type;
+        $(`btn${selectedFlux}`).classList.add('selected');
+        updateSelection();
+      };
       let selectCorpo = (corpoId) => {
         if (selectedCorpo !== null && selectedCorpo == corpoId) {
           $('pagesubtitle').innerHTML = this.formatString(_(CORPOS_DATA[corpoId].desc));
@@ -458,6 +485,26 @@ define([
         corpo.dataset.id = corpoId;
         $('pagesubtitle').innerHTML = this.formatString(_(CORPOS_DATA[corpoId].desc));
         this.attachRegisteredTooltips();
+
+        /////////////
+        // FLUX
+        if (corpoId == FLUX && !$('flux-selection')) {
+          $('customActions').insertAdjacentHTML('beforeend', `<div id="flux-selection">${this.formatIcon('flux')} : </div>`);
+
+          ALL_TYPES.forEach((type) => {
+            this.addSecondaryActionButton(
+              'btn' + type,
+              this.fsr('${type}', { type, type_name: type }),
+              () => selectFlux(type),
+              'flux-selection'
+            );
+          });
+          $('flux-selection').insertAdjacentHTML('beforeend', '<div class="separator">|</div>');
+        }
+        if (corpoId != FLUX && $('flux-selection')) {
+          $('flux-selection').remove();
+        }
+        /////////////
 
         // Highlight button
         if (selectedCorpo !== null) {
@@ -478,6 +525,7 @@ define([
       // Already made a selection => allow to change its mind
       if (args._private.choice != null) {
         selectCorpo(args._private.choice.corporationId);
+        if (args._private.choice.flux) selectFlux(args._private.choice.flux);
       }
       // No selection yet => let the user click on any
       else {
@@ -1218,6 +1266,14 @@ define([
               this.takeAtomicAction('actPositionLifepodOnTrack', [selectedLifepod, selectedSpace])
             );
         });
+      });
+    },
+
+    onEnteringStateChooseFluxTrack(args) {
+      ALL_TYPES.forEach((type) => {
+        this.addSecondaryActionButton('btn' + type, this.fsr('${type}', { type, type_name: type }), () =>
+          this.takeAtomicAction('actChooseFluxTrack', [type])
+        );
       });
     },
 

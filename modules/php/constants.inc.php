@@ -86,7 +86,7 @@ const ST_DESTROY_P_O_CARD = 35;
 const ST_POSITION_LIFEPOD_ON_TRACK = 36;
 const ST_CHOOSE_FLUX_TRACK = 37;
 const ST_PEEK_NEXT_EVENT = 38;
-const ST_POSITION_LIFEPOD_ON_TECH = 37;
+const ST_POSITION_LIFEPOD_ON_TECH = 39;
 
 const ST_PRE_END_GAME_TURN = 80;
 const ST_END_GAME_TURN = 81;
@@ -140,8 +140,8 @@ const PEEK_NEXT_EVENT = 'PeekNextEvent';
 const POSITION_LIFEPOD_ON_TECH = 'PositionLifepodOnTech';
 
 /*
-* Phases
-*/
+ * Phases
+ */
 const NORMAL_PHASE = 0;
 const END_OF_TURN_PHASE = 1;
 const END_OF_GAME_PHASE = 2;
@@ -221,6 +221,7 @@ const ELECTRIC = 'electric';
 
 const METEOR = 'meteor';
 const ROVER_MEEPLE = 'rover-meeple';
+const FLUX_MEEPLE = 'flux';
 
 /**
  * Corporation Tech
@@ -259,8 +260,6 @@ const TECH_TWICE_SYNERGY_ONCE_PER_ROUND = 'tech_4_3';
 const TECH_TREAT_TECH_AS_ENERGY = 'tech_4_4';
 const TECH_CLAIM_ALL_BENEFITS_IN_A_ROW_ONCE_PER_GAME = 'tech_4_5';
 const TECH_ADD_OBJECTIVE_FOR_ALL_ONCE_PER_GAME = 'tech_4_6';
-
-
 
 const MAKE_SHIFT = 5;
 const TECH_CIV_TECH_ADJACENT = 'tech_5_1';
@@ -307,8 +306,8 @@ const ALL_PLANETS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 /*
  * CORPORATIONS
  */
-const ADVANCED_CORPORATIONS = [1, 2, 3, /*4, 5, 6, 7, 8*/];
-const ALL_CORPORATIONS = [0, 1, 2, 3, /*4, 5, 6, 7, 8*/];
+const ADVANCED_CORPORATIONS = [1, 2, 3 /*4, 5, 6, 7, 8*/];
+const ALL_CORPORATIONS = [0, 1, 2, 3 /*4, 5, 6, 7, 8*/];
 
 /*
  * MISC

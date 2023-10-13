@@ -60,6 +60,20 @@ class Notifications
     }
   }
 
+  public static function chooseFluxTrack($player, $track, $meeple, $previousTrack)
+  {
+    $isSame = $previousTrack == $track;
+    $msg = $isSame
+      ? clienttranslate('${player_name} keeps the flux token on track ${types_desc}')
+      : clienttranslate('${player_name} moves flux token on track ${types_desc}');
+    static::pnotify($player, 'chooseFluxTrack', $msg, [
+      'player' => $player,
+      'types' => [$track],
+      'meeple' => $meeple,
+      'isSame' => $isSame,
+    ]);
+  }
+
   public static function destroyCard($player, $cardId)
   {
     $message = clienttranslate('${player_name} detroys one of his objective cards');
