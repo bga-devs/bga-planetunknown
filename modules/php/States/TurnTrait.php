@@ -110,7 +110,7 @@ trait TurnTrait
         Engine::setup($effect, ['method' => 'stEndOfEventTurn'], 'endOfTurn', $pIds);
       }
     } else {
-      $this->gamestate->jumpToState(ST_SETUP_BRANCH);
+      $this->gamestate->jumpToState(ST_START_TURN_ENGINE);
     }
   }
 

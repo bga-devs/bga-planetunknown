@@ -98,8 +98,8 @@ class Globals extends \PU\Helpers\DB_Manager
     self::$log = false;
 
     foreach (self::DB()
-        ->select(['value', 'name'])
-        ->get(false)
+      ->select(['value', 'name'])
+      ->get(false)
       as $name => $variable) {
       if (\array_key_exists($name, self::$variables)) {
         self::$data[$name] = $variable;
