@@ -281,7 +281,13 @@ class Corporation
     return [];
   }
 
-
+  public function addFlag($flag)
+  {
+    $pId = $this->player->getId();
+    $flags = PGlobals::getFlags($pId);
+    $flags[$flag] = true;
+    PGlobals::setFlags($pId, $flags);
+  }
 
   public function resetFlags()
   {

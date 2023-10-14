@@ -34,6 +34,7 @@ class Actions
     POSITION_LIFEPOD_ON_TRACK,
     CHOOSE_FLUX_TRACK,
     POSITION_LIFEPOD_ON_TECH,
+    CLAIM_ALL_IN_A_ROW,
   ];
 
   public static function getBiomassPatchFlow($patchId)

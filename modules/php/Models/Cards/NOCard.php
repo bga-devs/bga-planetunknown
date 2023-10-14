@@ -38,4 +38,25 @@ class NOCard extends \PU\Models\Card
 
     return [$score, $playerValue, $otherValue];
   }
+
+  public function competeAll()
+  {
+    $playersIds = Players::getAll()->getIds;
+
+    $scores = [];
+    $values = [];
+    foreach ($playersIds as $pId) {
+      $values[$pId] = $this->evalCriteria($pId);
+    }
+
+    $max = max($values);
+
+    $score = array_count_values($values)[$max] == 1 ? $this->win : $this->tie;
+
+    foreach ($values as $pId => $value) {
+      $scores[$pId] = ($value == $max) ? $score : 0;
+    }
+
+    return [$scores, $values];
+  }
 }

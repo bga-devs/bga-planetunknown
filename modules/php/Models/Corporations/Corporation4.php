@@ -19,19 +19,19 @@ class Corporation4 extends Corporation
     ];
 
     $this->techBonuses = [
-      1 => [ //TODOCautionNOSynergy
+      1 => [
         'text' => clienttranslate('Gain synergy boost instead of a biomass patch. Once per round.')
       ],
-      2 => [ //TODO
+      2 => [
         'text' => clienttranslate('Teleport a rover to a tile of the same terrain. One movement cost. Once per round.')
       ],
-      3 => [ //TODO
+      3 => [
         'text' => clienttranslate('Advance the tracker twice when using a synergy boost. Once per round.')
       ],
       4 => [ //TODO ASK
         'text' => clienttranslate('You may treat a tech resource as energy during tile placement')
       ],
-      5 => [ //TODO
+      5 => [
         'text' => clienttranslate('Choose a tracker and claim all benefits in its row. Once per game.')
       ],
       6 => [ //TODO

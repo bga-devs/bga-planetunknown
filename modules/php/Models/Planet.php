@@ -826,6 +826,19 @@ class Planet
     return $this->_borderCells;
   }
 
+  public function getCellsOfType($type)
+  {
+    if (!$type) return [];
+
+    $cells = [];
+    foreach ($this->getListOfCells() as $cell) {
+      if ($this->getTypeAtPos($cell) == $type) {
+        $cells[] = $cell;
+      }
+    }
+    return $this->$cells;
+  }
+
   public function getIceCells()
   {
     if (!isset($this->_iceCells)) {
@@ -878,6 +891,12 @@ class Planet
   public function getPossibleMovesFrom($cell)
   {
     $cells = $this->getNeighbours($cell, $this->player->hasTech(TECH_ROVER_MOVE_DIAG));
+
+    if ($this->player->corporation()->canUse(TECH_TELEPORT_ROVER_SAME_TERRAIN_ONCE_PER_ROUND)) {
+      $tileType = $this->getTypeAtPos($cell);
+      $cells = array_merge($this->getCellsOfType($tileType), $cells);
+    }
+
     //can't move on a rover
     Utils::filter($cells, function ($c) {
       return !$this->player->getRoverOnCell($c);
