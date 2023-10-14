@@ -40,17 +40,22 @@ class MoveTrackersToFive extends \PU\Models\Action
 
   public function getDescription()
   {
-    return [
-      'log' => \clienttranslate('Advance all your trackers to 5th position, if possible'),
-      'args' => [],
-    ];
+    return clienttranslate('Advance all your trackers to 5th position, if possible');
   }
 
   public function argsMoveTrackersToFive()
   {
     return [
-      'playableTracks' => $this->getPlayableTrackers()
+      'playableTracks' => $this->getPlayableTrackers(),
     ];
+  }
+
+  public function stMoveTrackersToFive()
+  {
+    $args = $this->argsMoveTrackersToFive();
+    if (count($args['playableTracks']) == 1) {
+      return [$args['playableTracks'][0]];
+    }
   }
 
   public function actMoveTrackersToFive($type)
@@ -74,9 +79,9 @@ class MoveTrackersToFive extends \PU\Models\Action
           ],
         ],
         [
-          'action' => MOVE_TRACKERS_TO_FIVE
-        ]
-      ]
+          'action' => MOVE_TRACKERS_TO_FIVE,
+        ],
+      ],
     ]);
   }
 }

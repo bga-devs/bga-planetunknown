@@ -1277,6 +1277,14 @@ define([
       });
     },
 
+    onEnteringStateMoveTrackersToFive(args) {
+      args.playableTracks.forEach((type) => {
+        this.addSecondaryActionButton('btn' + type, this.fsr('${type}', { type, type_name: type }), () =>
+          this.takeAtomicAction('actMoveTrackersToFive', [type])
+        );
+      });
+    },
+
     ////////////////////////////////////////////////////////////
     // _____                          _   _   _
     // |  ___|__  _ __ _ __ ___   __ _| |_| |_(_)_ __   __ _
