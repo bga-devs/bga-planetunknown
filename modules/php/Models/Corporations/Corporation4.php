@@ -57,4 +57,19 @@ class Corporation4 extends Corporation
       ->where('x', 'tech_nb' . $techLvl)
       ->count() == 1;
   }
+
+  public function getAnytimeActions()
+  {
+    $actions = [];
+
+    if ($this->canUse(TECH_ADD_OBJECTIVE_FOR_ALL_ONCE_PER_GAME)) {
+      $actions[] = [
+        'action' => CHOOSE_OBJECTIVE_FOR_ALL,
+        'source' => $this->name,
+        'flag' => TECH_ADD_OBJECTIVE_FOR_ALL_ONCE_PER_GAME,
+      ];
+    }
+
+    return $actions;
+  }
 }
