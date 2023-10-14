@@ -28,6 +28,10 @@ class PGlobals extends \PU\Helpers\DB_Manager
   protected static function cast($row)
   {
     list($name, $pId) = explode('-', $row['name']);
+    if (!isset(self::$variables[$name])) {
+      return null;
+    }
+
     $val = json_decode(\stripslashes($row['value']), true);
     return self::$variables[$name] == 'int' ? ((int) $val) : $val;
   }

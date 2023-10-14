@@ -346,11 +346,11 @@ $machinestates = [
 
   ST_MOVE_TRACKERS_TO_FIVE => [
     'name' => MOVE_TRACKERS_TO_FIVE,
-    'descriptionmyturn' => clienttranslate('${you} must advance all trackers to 5th position'),
+    'descriptionmyturn' => clienttranslate('${you} must choose which track to advance now to get all of them in 5th position'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
-    'possibleactions' => ['actMoveTrackersToFive', 'actRestart'],
+    'possibleactions' => ['actMoveTrackersToFive', 'actRestart', 'actPassOptionalAction'],
   ],
 
   ST_CLAIM_ALL_IN_A_ROW => [
