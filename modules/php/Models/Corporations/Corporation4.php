@@ -34,7 +34,7 @@ class Corporation4 extends Corporation
       5 => [
         'text' => clienttranslate('Choose a tracker and claim all benefits in its row. Once per game.')
       ],
-      6 => [ //TODO
+      6 => [
         'text' => clienttranslate('Draw 3 objectives and keep one that all players compete for. Once per game.')
       ],
     ];

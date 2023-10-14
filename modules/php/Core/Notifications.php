@@ -173,12 +173,22 @@ class Notifications
     static::notifyAll('newEventCard', $message, $data);
   }
 
+  public static function newObjectiveCard($card, $player)
+  {
+    $message = clienttranslate('${player_name} chooses a new objective card that all players compete for');
+    $data = [
+      'card' => $card,
+      'player' => $player
+    ];
+    static::pnotify($player, 'newObjectiveCard', $message, $data);
+  }
+
   public static function newRotation($rotation, $player = null)
   {
     $message =
       $player == null
-        ? clienttranslate('S.U.S.A.N. rotates.')
-        : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
+      ? clienttranslate('S.U.S.A.N. rotates.')
+      : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
     $data = [
       'player' => $player,
       'newRotation' => $rotation,

@@ -362,6 +362,15 @@ $machinestates = [
     'possibleactions' => ['actClaimAllInARow', 'actRestart'],
   ],
 
+  ST_CHOOSE_OBJECTIVE_FOR_ALL => [
+    'name' => CHOOSE_OBJECTIVE_FOR_ALL,
+    'descriptionmyturn' => clienttranslate('${you} must choose one objective card that all players compete for'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actChooseObjectiveForAll', 'actRestart'],
+  ],
+
   ST_PLACE_MEEPLE => [
     'name' => PLACE_MEEPLE,
     'descriptionmyturn' => clienttranslate('${you} must place a ${type} on your planet'),
