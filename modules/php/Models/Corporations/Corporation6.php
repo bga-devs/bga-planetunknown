@@ -32,7 +32,7 @@ class Corporation6 extends Corporation
   protected $id = '6';
   protected $tracks = [
     CIV => [null, null, 1, CIV, null, 2, CIV, null, SYNERGY, 3, CIV, SYNERGY, null, null, CIV, 5],
-    WATER => [null, null, SKIP, SYNERGY, SKIP, SYNERGY, 3, SKIP, SKIP, 5, SKIP, 8, SKIP, 12, null, 15],
+    WATER => [null, null, SKIP, SYNERGY, SKIP, SYNERGY, 3, SKIP, SKIP, 6, SKIP, 8, SKIP, 12, null, 15],
     BIOMASS => [null, null, SYNERGY, BIOMASS, null, 1, BIOMASS, null, 2, BIOMASS, SYNERGY, BIOMASS, 3, BIOMASS, null, 5],
     ROVER => [null, ROVER, 'move_1', 'move_1', 'move_2', 'move_2', ['move_2', ROVER], 'move_2', ['move_2', 1], 'move_2', ['move_2', SYNERGY], 'move_2', ['move_2', 2], 'move_3', 'move_3', ['move_3', 5], ['move_3']],
     TECH => [null, null, SYNERGY, TECH, null, TECH, 1, TECH, null, null, TECH, null, SYNERGY, 2, TECH, 5]
@@ -72,9 +72,19 @@ class Corporation6 extends Corporation
    */
   public function getLevelOnTrack($type)
   {
-    return $type != WATER ?
-      $this->player->getTracker($type)->getY() :
-      $this->getWaterCoords()['y'];
+    //if $type is not water, or is water and on water track do as usual
+    if ($type != WATER || $this->player->getTracker($type)->getX() == WATER) {
+      return $this->player->getTracker($type)->getY();
+    } else { // search for last postion of waterTracker on the watertrack
+      $waterTracker = $this->player->getTracker($type);
+      $y = $this->convertWaterPositionToY($waterTracker) - 1;
+      $lastPositionOnWaterTrack = $this->convertYToWaterPosition($y);
+      while ($lastPositionOnWaterTrack['x'] != WATER) {
+        $y -= 1;
+        $lastPositionOnWaterTrack = $this->convertYToWaterPosition($y);
+      }
+      return $lastPositionOnWaterTrack['y'];
+    }
   }
 
   /**
@@ -84,6 +94,24 @@ class Corporation6 extends Corporation
   public function getWaterCoords($y = null)
   {
     $y = $y ?? $this->player->getTracker(WATER)->getY();
+    return $this->convertYToWaterPosition($y);
+  }
+
+  public function convertWaterPositionToY($tracker)
+  {
+    $x = $tracker->getX();
+    $y = $tracker->getY();
+
+    foreach ($this->waterTrack as $id => $cell) {
+      if ($cell['x'] == $x && $cell['y'] == $y) {
+        return $id;
+      }
+    }
+  }
+
+  public function convertYToWaterPosition($y)
+  {
+    if ($y < 0 || $y >= count($this->waterTrack)) return false;
     return $this->waterTrack[$y];
   }
 
@@ -98,10 +126,9 @@ class Corporation6 extends Corporation
     // skip spaceId with tracker
     $dy = $n > 0 ? 1 : -1;
 
-    $nextY = $trackPawn->getY() + $n;
-
     //determine coord for next space
     if ($type == WATER) {
+      $nextY = $this->convertWaterPositionToY($this->player->getTracker($type)) + $n;
       if ($nextY >= count($this->waterTrack) || $nextY < 0) {
         return [];
       }
@@ -109,6 +136,7 @@ class Corporation6 extends Corporation
       $x = $nextCell['x'];
       $y = $nextCell['y'];
     } else {
+      $nextY = $this->getLevelOnTrack($type) + $n;
       $x = $trackPawn->getX();
       $y = $nextY;
     }

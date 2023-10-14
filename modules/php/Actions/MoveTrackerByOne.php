@@ -53,7 +53,7 @@ class MoveTrackerByOne extends \PU\Models\Action
 
   public function isDoable($player)
   {
-    return $player->corporation()->canMoveTrack($this->getType(), $this->getMove());
+    return count($player->corporation()->getNextSpaceIds($this->getType(), $this->getMove()));
   }
 
   public function isOptional()

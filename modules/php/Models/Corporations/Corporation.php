@@ -159,6 +159,7 @@ class Corporation
     }
     return 0;
   }
+
   public function extractMedal($trackCell)
   {
     if (is_int($trackCell)) {
