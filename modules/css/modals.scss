@@ -264,6 +264,7 @@
 #popin_chooseCard {
     width: 750px;
     min-height: 300px;
+    --cardScale: 1;
 
     #planetunknown-choose-card {
         padding: 10px;
@@ -290,6 +291,7 @@
 .planetunknown_popin_cards {
     width: 750px;
     min-height: 300px;
+    --cardScale: 1;
 
     .modal-cards-holder {
         padding: 10px;

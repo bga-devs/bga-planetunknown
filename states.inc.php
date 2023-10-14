@@ -256,7 +256,7 @@ $machinestates = [
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
-    'possibleactions' => ['actMoveTrack', 'actRestart'],
+    'possibleactions' => ['actMoveTrack', 'actRestart', 'actPassOptionalAction'],
   ],
 
   ST_MOVE_TRACKER_BY_ONE => [
@@ -265,7 +265,7 @@ $machinestates = [
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
-    'possibleactions' => ['actMoveTrackerByOne', 'actRestart'],
+    'possibleactions' => ['actMoveTrackerByOne', 'actRestart', 'actPassOptionalAction'],
   ],
 
   ST_TAKE_CIV_CARD => [
@@ -274,7 +274,7 @@ $machinestates = [
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
-    'possibleactions' => ['actTakeCivCard', 'actRestart'],
+    'possibleactions' => ['actTakeCivCard', 'actRestart', 'actPassOptionalAction'],
   ],
 
   ST_CHOOSE_TRACKS => [
@@ -284,7 +284,7 @@ $machinestates = [
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
-    'possibleactions' => ['actChooseTracks', 'actRestart'],
+    'possibleactions' => ['actChooseTracks', 'actRestart', 'actPassOptionalAction'],
   ],
 
   ST_PLACE_ROVER => [
@@ -293,7 +293,7 @@ $machinestates = [
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
-    'possibleactions' => ['actPlaceRover', 'actRestart'],
+    'possibleactions' => ['actPlaceRover', 'actRestart', 'actPassOptionalAction'],
   ],
 
   ST_POSITION_LIFEPOD_ON_TRACK => [
@@ -332,7 +332,7 @@ $machinestates = [
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
-    'possibleactions' => ['actCollectMeeple', 'actRestart'],
+    'possibleactions' => ['actCollectMeeple', 'actRestart', 'actPassOptionalAction'],
   ],
 
   ST_DESTROY_ALL_IN_ROW => [
@@ -341,7 +341,7 @@ $machinestates = [
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
-    'possibleactions' => ['actDestroyAllInRow', 'actRestart'],
+    'possibleactions' => ['actDestroyAllInRow', 'actRestart', 'actPassOptionalAction'],
   ],
 
   ST_MOVE_TRACKERS_TO_FIVE => [
@@ -359,7 +359,7 @@ $machinestates = [
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
-    'possibleactions' => ['actPlaceMeeple', 'actRestart'],
+    'possibleactions' => ['actPlaceMeeple', 'actRestart', 'actPassOptionalAction'],
   ],
 
   ST_CHOOSE_ROTATION_ENGINE => [
@@ -368,7 +368,7 @@ $machinestates = [
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
-    'possibleactions' => ['actChooseRotation', 'actRestart'],
+    'possibleactions' => ['actChooseRotation', 'actRestart', 'actPassOptionalAction'],
   ],
 
   ST_PEEK_NEXT_EVENT => [
@@ -377,7 +377,7 @@ $machinestates = [
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
-    'possibleactions' => ['actPeekNextEvent', 'actRestart'],
+    'possibleactions' => ['actPeekNextEvent', 'actRestart', 'actPassOptionalAction'],
   ],
 
   ST_CHOOSE_FLUX_TRACK => [
