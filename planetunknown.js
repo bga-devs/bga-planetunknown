@@ -297,7 +297,7 @@ define([
       debug('Entering state: ' + stateName, args);
       if (this.isFastMode() && ![].includes(stateName)) return;
 
-      if (this._focusedPlayer != null && this._focusedPlayer != this.player_id) {
+      if (this._focusedPlayer != null && this._focusedPlayer != this.player_id && !this.isSpectator) {
         this.goToPlayerBoard(this.player_id);
       }
 
