@@ -167,9 +167,7 @@ class PlaceTile extends \PU\Models\Action
 
     //if the played tile cover no ice, a corpo advance its water tracker
     if ($player->hasTech(TECH_MOVE_WATER_IF_NO_ICE)) {
-      $coveredCells = $player->planet()->getTileCoveredCells($tile, false);
-      $iceCells = $player->planet()->getIceCells();
-      if (!$player->planet()->isIntersectionNonEmpty($coveredCells, $iceCells)) {
+      if ($player->planet()->isTileOnlyOnLand($tile)) {
         $this->pushParallelChild([
           'action' => MOVE_TRACK,
           'args' => ['type' => WATER, 'n' => 1, 'withBonus' => true],

@@ -404,6 +404,13 @@ class Planet
     return $this->getTileOfType($tileType) !== null;
   }
 
+  public function isTileOnlyOnLand($tile)
+  {
+    $coveredCells = $this->getTileCoveredCells($tile, false);
+    $iceCells = $this->getIceCells();
+    return !$this->isIntersectionNonEmpty($coveredCells, $iceCells);
+  }
+
   protected function getTilesNeighbourCells()
   {
     $cells = [];
