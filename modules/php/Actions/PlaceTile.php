@@ -12,6 +12,7 @@ use PU\Core\PGlobals;
 use PU\Core\Stats;
 use PU\Helpers\Utils;
 use PU\Helpers\FlowConvertor;
+use PU\Managers\Actions;
 use PU\Managers\Susan;
 
 class PlaceTile extends \PU\Models\Action
@@ -164,6 +165,18 @@ class PlaceTile extends \PU\Models\Action
       ]);
     }
 
+    //if the played tile cover no ice, a corpo advance its water tracker
+    if ($player->hasTech(TECH_MOVE_WATER_IF_NO_ICE)) {
+      $coveredCells = $player->planet()->getTileCoveredCells($tile, false);
+      $iceCells = $player->planet()->getIceCells();
+      if (!$player->planet()->isIntersectionNonEmpty($coveredCells, $iceCells)) {
+        $this->pushParallelChild([
+          'action' => MOVE_TRACK,
+          'args' => ['type' => WATER, 'n' => 1, 'withBonus' => true],
+        ]);
+      }
+    }
+
     // Move tracks
     $tileTypes = [];
 
@@ -210,8 +223,21 @@ class PlaceTile extends \PU\Models\Action
         ];
         continue;
       }
-      // Water => stop if the tile is not covering water or make checks if player->corpo is OASIS
+      // Water => stop if the tile is not covering water or give some action for special corpo
       elseif ($type == WATER) {
+        if ($player->hasTech(TECH_GET_BIOMASS_WITH_WATER)) {
+          $patchToPlace = $player->corporation()->receiveBiomassPatch();
+          if ($patchToPlace) {
+            $this->pushParallelChild(Actions::getBiomassPatchFlow($patchToPlace->getId()));
+          }
+        }
+        if ($player->hasTech(TECH_GET_SYNERGY_WITH_WATER)) {
+          $action = $player->getSynergy();
+          if ($action) {
+            $this->pushParallelChild($action);
+          }
+        }
+
         if (!$coveringWater) {
           continue;
         } elseif ($player->corporation()->getId() == OASIS) {

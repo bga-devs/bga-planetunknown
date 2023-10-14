@@ -10,19 +10,19 @@ class Corporation6 extends Corporation
     $this->desc = clienttranslate('Advance your water tracker once for each water terrain square that covers planet ice. Gain the benefits from advancing your water tracker even when it advances onto another track.');
 
     $this->techBonuses = [
-      1 => [ //TODO
+      1 => [
         'text' => clienttranslate('Skip over another tracker blocking your advancement.')
       ],
-      2 => [ //TODO
+      2 => [
         'text' => clienttranslate('Gain one movement for each rover starting on water terrain.')
       ],
-      3 => [ //TODO
+      3 => [
         'text' => clienttranslate('Advance your water tracker once if you place your tile covering no ice.')
       ],
-      4 => [ //TODO
+      4 => [
         'text' => clienttranslate('Gain Biomass patch when you place a water resource tile.')
       ],
-      5 => [ //TODOCautionNOSynergy
+      5 => [
         'text' => clienttranslate('Gain a synergy boost when you place a water resource tile.')
       ],
     ];
@@ -77,6 +77,10 @@ class Corporation6 extends Corporation
       $this->getWaterCoords()['y'];
   }
 
+  /**
+   * Return cell corresponding to a level in water track, 
+   * by default : the level of the water tracker
+   */
   public function getWaterCoords($y = null)
   {
     $y = $y ?? $this->player->getTracker(WATER)->getY();
@@ -90,17 +94,87 @@ class Corporation6 extends Corporation
   public function getNextSpaceIds($type, $n = 1)
   {
     $trackPawn = $this->player->getTracker($type);
-    //Y can't be lower than 0
-    $nextSpaceY = max(0, $trackPawn->getY() + $n);
 
-    //Y can't be higher than top of the track type
-    $nextSpaceY = min(count($this->tracks[$type]) - 1, $nextSpaceY);
+    // skip spaceId with tracker
+    $dy = $n > 0 ? 1 : -1;
 
+    $nextY = $trackPawn->getY() + $n;
+
+    //determine coord for next space
     if ($type == WATER) {
-      $nextCell = $this->getWaterCoords($nextSpaceY);
-      return [$this->getSpaceId($nextCell)];
+      if ($nextY >= count($this->waterTrack) || $nextY < 0) {
+        return [];
+      }
+      $nextCell = $this->getWaterCoords($nextY);
+      $x = $nextCell['x'];
+      $y = $nextCell['y'];
     } else {
-      return [$trackPawn->getX() . '_' . $nextSpaceY];
+      $x = $trackPawn->getX();
+      $y = $nextY;
+    }
+
+    //check if the nextSpace is busy
+    while ($this->player->hasMeepleOnTrack($x, $y)) {
+      if ($this->canUse(TECH_SKIP_OVER_TRACKER)) {
+        $nextY += $dy;
+        //determine coord for next space
+        if ($type == WATER) {
+          if ($nextY >= count($this->waterTrack) || $nextY < 0) {
+            return [];
+          }
+          $nextCell = $this->getWaterCoords($nextY);
+          $x = $nextCell['x'];
+          $y = $nextCell['y'];
+        } else {
+          $x = $trackPawn->getX();
+          $y = $nextY;
+        }
+      } else {
+        return [];
+      }
+    }
+
+    // Blocked at the top or the bottom => why would anyone do that anyway ??
+    if ($y >= count($this->tracks[$type]) || $y < 0) {
+      return [];
+    }
+
+    return [$x . '_' . $y];
+  }
+
+  public function getAnytimeActions()
+  {
+    $actions = [];
+
+    if ($this->canUse(TECH_GET_1_MOVE_STARTING_ON_WATER)) {
+      $action = $this->get1MoveStartingOnWater();
+      if (is_array($action)) {
+        $action['source'] = $this->name;
+        $action['flag'] = TECH_GET_1_MOVE_STARTING_ON_WATER;
+        $actions[] = $action;
+      }
+    }
+
+    return $actions;
+  }
+
+  public function get1MoveStartingOnWater()
+  {
+    $rovers = $this->player->getRoversOnPlanet();
+    $move = 0;
+    foreach ($rovers as $id => $rover) {
+      if ($this->player->planet()->getVisibleAtPos($rover->getCell()) ==  WATER) {
+        $move += 1;
+      }
+    }
+
+    if ($move > 0) {
+      return [
+        'action' => MOVE_ROVER,
+        'args' => [
+          'remaining' => $move,
+        ],
+      ];
     }
   }
 }

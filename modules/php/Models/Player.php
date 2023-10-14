@@ -145,9 +145,22 @@ class Player extends \PU\Helpers\DB_Model
     return $this->getLifepodOnTrack($x, $y)->count() > 0;
   }
 
+  public function hasMeepleOnTrack($x, $y)
+  {
+    return $this->getMeepleOnTrack($x, $y)->count() > 0;
+  }
+
   public function getLifepodOnTrack($x, $y)
   {
     return $this->getMeeples(LIFEPOD)
+      ->where('location', 'corporation')
+      ->where('x', $x)
+      ->where('y', $y);
+  }
+
+  public function getMeepleOnTrack($x, $y)
+  {
+    return $this->getMeeples(null)
       ->where('location', 'corporation')
       ->where('x', $x)
       ->where('y', $y);
