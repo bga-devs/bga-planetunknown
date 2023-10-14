@@ -74,6 +74,9 @@ class MoveRover extends \PU\Models\Action
     $cell = Planet::getCellFromId($spaceId);
 
     $rover = Meeples::get($roverId);
+
+    $fromCell = $rover->getCell();
+
     $carried_meteor = null;
 
     //horizon group move meteor with rover
@@ -89,6 +92,15 @@ class MoveRover extends \PU\Models\Action
 
     // Move it on the board
     $rover->placeOnPlanet($cell);
+
+    //if player has used TECH_TELEPORT_ROVER_SAME_TERRAIN_ONCE_PER_ROUND, flag it
+    if (
+      !in_array($cell, $player->planet()->getNeighbours($fromCell, $player->hasTech(TECH_ROVER_MOVE_DIAG)))
+      && $this->getTeleport() != "anywhere" && $player->corporation()->canUse(TECH_TELEPORT_ROVER_SAME_TERRAIN_ONCE_PER_ROUND)
+    ) {
+      $player->corporation()->addFlag(TECH_TELEPORT_ROVER_SAME_TERRAIN_ONCE_PER_ROUND);
+    }
+
 
     Notifications::moveRover($player, $rover, $carried_meteor);
 

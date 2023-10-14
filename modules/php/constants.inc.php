@@ -87,6 +87,7 @@ const ST_POSITION_LIFEPOD_ON_TRACK = 36;
 const ST_CHOOSE_FLUX_TRACK = 37;
 const ST_PEEK_NEXT_EVENT = 38;
 const ST_POSITION_LIFEPOD_ON_TECH = 39;
+const ST_CLAIM_ALL_IN_A_ROW = 40;
 
 const ST_PRE_END_GAME_TURN = 80;
 const ST_END_GAME_TURN = 81;
@@ -138,6 +139,7 @@ const POSITION_LIFEPOD_ON_TRACK = 'PositionLifepodOnTrack';
 const CHOOSE_FLUX_TRACK = 'ChooseFluxTrack';
 const PEEK_NEXT_EVENT = 'PeekNextEvent';
 const POSITION_LIFEPOD_ON_TECH = 'PositionLifepodOnTech';
+const CLAIM_ALL_IN_A_ROW = 'ClaimAllInARow';
 
 /*
  * Phases

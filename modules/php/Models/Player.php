@@ -465,11 +465,15 @@ class Player extends \PU\Helpers\DB_Model
     if (Globals::getTurnSpecialRule() == NO_SYNERGY) {
       return;
     }
+    $n = 1;
+    if ($this->corporation()->canUse(TECH_TWICE_SYNERGY_ONCE_PER_ROUND)) {
+      $n = 2;
+    }
     return [
       'action' => CHOOSE_TRACKS,
       'args' => [
         'types' => ALL_TYPES,
-        'n' => 1,
+        'n' => $n,
         'from' => SYNERGY,
       ],
     ];

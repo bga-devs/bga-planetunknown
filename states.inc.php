@@ -353,6 +353,15 @@ $machinestates = [
     'possibleactions' => ['actMoveTrackersToFive', 'actRestart'],
   ],
 
+  ST_CLAIM_ALL_IN_A_ROW => [
+    'name' => CLAIM_ALL_IN_A_ROW,
+    'descriptionmyturn' => clienttranslate('${you} receive all benefits form a tracks row'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actClaimAllInARow', 'actRestart'],
+  ],
+
   ST_PLACE_MEEPLE => [
     'name' => PLACE_MEEPLE,
     'descriptionmyturn' => clienttranslate('${you} must place a ${type} on your planet'),
