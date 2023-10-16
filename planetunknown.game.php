@@ -119,11 +119,11 @@ class planetunknown extends Table
    */
   function getGameProgression()
   {
-    $max = -999;
-    foreach (Players::getAll() as $pId => $player) {
-      $max = max($player->getScore(), $max);
+    if (Globals::getEventCardsGame() == EVENT_CARD_GAME) {
+      return (20 - Cards::countInLocation('deck_event')) * 100 / 20;
+    } else {
+      return (12 - Susan::getTilesNumberInMinDeck()) * 100 / 12;
     }
-    return min(100, (($max + 14) / 114) * 100);
   }
 
   function actChangePreference($pref, $value)

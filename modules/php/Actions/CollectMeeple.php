@@ -25,6 +25,11 @@ class CollectMeeple extends \PU\Models\Action
     return $this->getCollectableMeeples($player);
   }
 
+  public function isOptional()
+  {
+    return !$this->isDoable($this->getPlayer());
+  }
+
   public function getN()
   {
     return $this->getCtxArg('n') ?? 1;
@@ -51,6 +56,27 @@ class CollectMeeple extends \PU\Models\Action
     return $forcedMeeples ? Tiles::getMany($forcedMeeples) : null;
   }
 
+  public function getDescription()
+  {
+    $action = ($this->getAction() == 'collect') ? clienttranslate('Collect') : clienttranslate("Destroy");
+    $type = $this->getType() == LIFEPOD
+      ? clienttranslate('lifepod(s)')
+      : ($this->getType() == ROVER
+        ? clienttranslate('rover(s)')
+        : clienttranslate('meteor(s)'));
+
+    return [
+      'log' => clienttranslate('${action} ${n} ${type} on your ${where}'),
+      'args' => [
+        'action' => $action,
+        'n' => $this->getN(),
+        'type' => $type,
+        'where' => $this->getLocation(),
+        'i18n' => ['action', 'type', 'where']
+      ],
+    ];
+  }
+
   public function getCollectableMeeples($player)
   {
     $meeples = $player
@@ -64,11 +90,16 @@ class CollectMeeple extends \PU\Models\Action
   {
     $player = $this->getPlayer();
     $collectableMeeples = $this->getCollectableMeeples($player);
+    $type = $this->getType() == LIFEPOD
+      ? clienttranslate('lifepod(s)')
+      : ($this->getType() == ROVER
+        ? clienttranslate('rover(s)')
+        : clienttranslate('meteor(s)'));
 
     return [
       'meeples' => $collectableMeeples,
       'action' => $this->getAction() == 'destroy' ? clienttranslate('destroy') : clienttranslate('collect'),
-      'type' => $this->getType() == LIFEPOD ? clienttranslate('lifepod(s)') : clienttranslate('rover(s)'),
+      'type' => $type,
       'n' => min($this->getN(), count($collectableMeeples)),
       'i18n' => ['action', 'type'],
     ];

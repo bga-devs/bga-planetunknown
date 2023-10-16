@@ -497,6 +497,10 @@ class Planet
                 continue;
               }
             }
+
+            if (!$this->isIntersectionNonEmpty($cells, $checkingCells)) {
+              continue;
+            }
           }
 
           $rotations[] = [$rotation, $flipped];
