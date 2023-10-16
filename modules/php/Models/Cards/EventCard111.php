@@ -30,7 +30,7 @@ class EventCard111 extends \PU\Models\Cards\EventCard
     $flows = [];
 
     foreach ($players as $pId => $player) {
-      if ($player->count($this->getRoversOnPlanet()) > 1) {
+      if ($player->count($player->getRoversOnPlanet()) > 1) {
         $flows['nestedFlows'][$pId] = [
           'action' => COLLECT_MEEPLE,
           'args' => [

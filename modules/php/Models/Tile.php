@@ -40,6 +40,11 @@ class Tile extends \PU\Helpers\DB_Model
     return $type == BIOMASS_PATCH ? [BIOMASS] : Tiles::getTypeFamily($type);
   }
 
+  public function isBiomassPatch()
+  {
+    return $this->getType() == BIOMASS_PATCH;
+  }
+
   public function getSymbolsForDiscardedTile()
   {
     $datas = $this->getData();

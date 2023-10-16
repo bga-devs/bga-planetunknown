@@ -11,7 +11,7 @@ class Corporation3 extends Corporation
       'To Collect meteorite, your rover must pick it up and deliver it to a rover resource on your planet.'
     );
 
-    $this->flagsToReset = [TECH_ADVANCE_ROVER_TRACKER_EACH_ROUND];
+    $this->flagsToReset = [TECH_ADVANCE_ROVER_TRACKER_EACH_ROUND, TECH_GET_1_MOVE_CARRYING_METEOR];
 
     $this->techBonuses = [
       1 => [
@@ -61,6 +61,24 @@ class Corporation3 extends Corporation
   ];
   protected $level = 2;
 
+  /*
+  * Provides actions that are given at start of the turn
+  */
+  public function getStartingRoundActions()
+  {
+    $actions = [];
+
+    //TODO add
+    if ($this->canUse(TECH_GET_1_MOVE_CARRYING_METEOR)) {
+      $action = $this->get1MoveCarryingMeteor();
+      if (is_array($action)) {
+        $actions[] = $action;
+      }
+    }
+
+    return $actions;
+  }
+
   public function getAnytimeActions()
   {
     $actions = [];
@@ -77,11 +95,10 @@ class Corporation3 extends Corporation
       ];
     }
 
+    //TODO remove
     if ($this->canUse(TECH_GET_1_MOVE_CARRYING_METEOR)) {
       $action = $this->get1MoveCarryingMeteor();
       if (is_array($action)) {
-        $action['source'] = $this->name;
-        $action['flag'] = TECH_GET_1_MOVE_CARRYING_METEOR;
         $actions[] = $action;
       }
     }
@@ -105,6 +122,8 @@ class Corporation3 extends Corporation
         'args' => [
           'remaining' => $move,
         ],
+        'source' => $this->name,
+        'flag' => TECH_GET_1_MOVE_CARRYING_METEOR
       ];
     }
   }

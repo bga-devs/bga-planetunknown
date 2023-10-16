@@ -147,8 +147,10 @@ class PlaceTile extends \PU\Models\Action
     // Place it on the board
     list($tile, $symbols, $coveringWater, $meteor) = $player->planet()->addTile($tileId, $pos, $rotation, $flipped);
 
-    //record it
-    $player->setLastTileId($tileId);
+    //record it except if it's a patch
+    if (!$tile->isBiomassPatch()) {
+      $player->setLastTileId($tileId);
+    }
 
     // Add asteroid meeples
     if (!is_null($meteor)) {
@@ -188,7 +190,7 @@ class PlaceTile extends \PU\Models\Action
         continue;
       }
 
-      if ($player->hasTech(TECH_COLLECT_METEOR_FLUX) && $type == PGlobals::getFluxTrack($player->getId)) {
+      if ($player->hasTech(TECH_COLLECT_METEOR_FLUX) && $type == $player->corporation()->getFluxTrack()) {
         $actions[] = [
           'action' => COLLECT_MEEPLE,
           'args' => [

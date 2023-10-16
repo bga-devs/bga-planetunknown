@@ -105,7 +105,7 @@ class MoveRover extends \PU\Models\Action
     Notifications::moveRover($player, $rover, $carried_meteor);
 
     //if a $carried_meteor has been convoyed on water terrain, it's destroyed
-    if ($carried_meteor && $player->hasTech(TECH_DESTROY_METEORITE_ON_WATER) && $player->planet()->getVisible() == WATER) {
+    if ($carried_meteor && $player->hasTech(TECH_DESTROY_METEORITE_ON_WATER) && $player->planet()->getVisibleAtPos($cell) == WATER) {
       $player->corporation->destroy($carried_meteor);
     }
 

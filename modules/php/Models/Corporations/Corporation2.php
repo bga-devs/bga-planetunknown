@@ -2,6 +2,7 @@
 
 namespace PU\Models\Corporations;
 
+use PU\Core\PGlobals;
 use PU\Managers\Meeples;
 
 class Corporation2 extends Corporation
@@ -12,6 +13,8 @@ class Corporation2 extends Corporation
     $this->desc = clienttranslate(
       'Your flux token designates one of your resource tracks as the flux track. Whenever you unlock a tech, you may reposition your flux token. Only your most recently unlocked tech is available.'
     );
+
+    $this->flagsToReset = [TECH_ADVANCE_FLUX, TECH_GET_2_MOVES_ON_FLUX];
 
     $this->techBonuses = [
       1 => [
@@ -136,7 +139,7 @@ class Corporation2 extends Corporation
     $bonuses = [];
 
     $t = $this->tracks;
-    if ($this->player->hasTech(TECH_UPGRADED_FLUX_TRACK)) {
+    if ($this->player->hasTech(TECH_UPGRADED_FLUX_TRACK) && $cell['x'] == $this->getFluxTrack()) {
       $t = $this->upgradedTracks;
     }
 
@@ -161,20 +164,22 @@ class Corporation2 extends Corporation
       }
     }
 
-    if ($move > 0) {
-      return [
-        'action' => MOVE_ROVER,
-        'args' => [
-          'remaining' => $move,
-        ],
-      ];
+    return $move;
+  }
+  public function getCivLevel()
+  {
+    if ($this->player->hasTech(TECH_UPGRADED_FLUX_TRACK) && $this->getFluxTrack() == CIV) {
+      $civLevels = [0, 2, 3, 4, 4];
+      return $civLevels[$this->countLevel(CIV)];
+    } else {
+      return $this->countLevel(CIV);
     }
   }
 
   public function getAnytimeActions()
   {
     $actions = [];
-    if ($this->player->hasTech(TECH_ADVANCE_FLUX)) {
+    if ($this->canUse(TECH_ADVANCE_FLUX)) {
       $actions[] = [
         'action' => MOVE_TRACK,
         'args' => [
@@ -182,16 +187,36 @@ class Corporation2 extends Corporation
           'n' => 1,
           'withBonus' => true,
         ],
+        'source' => $this->name,
+        'flag' => TECH_ADVANCE_FLUX
       ];
     }
 
-    if ($this->player->hasTech(TECH_GET_2_MOVES_ON_FLUX)) {
-      $action = $this->get2MovesOnFlux();
-      if ($action) {
-        $actions[] = $action;
+    if ($this->canUse(TECH_GET_2_MOVES_ON_FLUX)) {
+      $move = PGlobals::getFreeRoverMoves($this->player->getId());
+      if ($move) {
+        $actions[] = [
+          'action' => MOVE_ROVER,
+          'args' => [
+            'remaining' => $move,
+          ],
+          'source' => $this->name,
+          'flag' => TECH_GET_2_MOVES_ON_FLUX
+        ];
       }
     }
 
     return $actions;
+  }
+
+  public function resetFlags()
+  {
+    $flags = PGlobals::getFlags($this->pId);
+    foreach ($this->flagsToReset as $flag) {
+      unset($flags[$flag]);
+    }
+    PGlobals::setFlags($this->pId, $flags);
+
+    PGlobals::setFreeRoverMoves($this->pId, $this->get2MovesOnFlux());
   }
 }

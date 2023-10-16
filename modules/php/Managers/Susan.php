@@ -96,6 +96,17 @@ class Susan
 		return $result;
 	}
 
+	public static function getTilesNumberInMinDeck()
+	{
+		$min = 20;
+		for ($i = 0; $i < 6; $i++) {
+			$tileInDepot = Tiles::countInLocation('interior-' . $i) + Tiles::countInLocation('top-interior-' . $i) +
+				Tiles::countInLocation('exterior-' . $i) + Tiles::countInLocation('top-exterior-' . $i);
+			$min = min($min, $tileInDepot);
+		}
+		return $min;
+	}
+
 	/*
    * Setup new game
    */
