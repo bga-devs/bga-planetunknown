@@ -149,6 +149,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           oMeeple.id = `meeple-${newId}`;
         }
 
+        if (oMeeple && oMeeple.parentNode == $(target)) {
+          return this.wait(800);
+        }
+
         // Slide it
         let slideIt = () => {
           // Create meeple if needed
