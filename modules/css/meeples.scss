@@ -28,6 +28,7 @@
     &.icon-meteor {
         width: 4em;
         height: 4em;
+        pointer-events: none;
 
         &.selected {
             filter: hue-rotate(60deg);

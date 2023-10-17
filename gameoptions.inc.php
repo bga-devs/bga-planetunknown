@@ -53,12 +53,12 @@ $game_options = [
   OPTION_EVENT_CARDS => [
     'name' => totranslate('Event Cards'),
     'values' => [
-      OPTION_EVENT_CARDS_GAME => [
-        'name' => totranslate('On'),
-        'description' => totranslate('With event cards'),
-        'tmdisplay' => totranslate('On'),
-        'alpha' => true,
-      ],
+      // OPTION_EVENT_CARDS_GAME => [
+      //   'name' => totranslate('On'),
+      //   'description' => totranslate('With event cards'),
+      //   'tmdisplay' => totranslate('On'),
+      //   'alpha' => true,
+      // ],
       OPTION_NO_EVENT_CARDS_GAME => [
         'name' => totranslate('Off'),
         'description' => totranslate('Without event cards'),
@@ -70,7 +70,7 @@ $game_options = [
       // Note: only display for non-solo mode
       [
         'type' => 'minplayers',
-        // 'value' => [2, 3, 4, 5, 6],//TODO change 
+        // 'value' => [2, 3, 4, 5, 6],//TODO change
         'value' => [1, 2, 3, 4, 5, 6],
       ],
     ],

@@ -1159,7 +1159,8 @@
       background-color: rgba(0, 128, 0, 0.548); }
   .planetunknown-meeple.icon-meteor {
     width: 4em;
-    height: 4em; }
+    height: 4em;
+    pointer-events: none; }
     .planetunknown-meeple.icon-meteor.selected {
       filter: hue-rotate(60deg); }
   .planetunknown-meeple.icon-rover-meeple {
@@ -1484,8 +1485,7 @@
       line-height: 14px;
       font-weight: bold;
       letter-spacing: -1px;
-      text-indent: -1px;
-      transition: transform 0.5s; }
+      text-indent: -1px; }
 
 #susan-enlarge #susan-container .susan-space .susan-counter {
   display: block; }

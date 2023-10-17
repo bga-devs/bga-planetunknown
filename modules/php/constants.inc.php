@@ -320,8 +320,8 @@ const ALL_PLANETS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 /*
  * CORPORATIONS
  */
-const ADVANCED_CORPORATIONS = [1, 2, 3 /*4, 5, 6, 7, 8*/];
-const ALL_CORPORATIONS = [0, 1, 2, 3 /*4, 5, 6, 7, 8*/];
+const ADVANCED_CORPORATIONS = [1, 2, 3, 4, 5, 6, 7 /*, 8*/];
+const ALL_CORPORATIONS = [0, 1, 2, 3, 4, 5, 6, 7 /*, 8*/];
 
 /*
  * MISC
