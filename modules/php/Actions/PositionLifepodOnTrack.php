@@ -112,11 +112,11 @@ class PositionLifepodOnTrack extends \PU\Models\Action
     }
     Notifications::repositionLifepod($player, $lifepod);
 
-    if ($this->getRemaining() > 1) {
+    if ($args['remaining'] > 1) {
       $this->pushParallelChild([
         'action' => POSITION_LIFEPOD_ON_TRACK,
         'args' => [
-          'remaining' => $this->getRemaining() - 1,
+          'remaining' => $args['remaining'] - 1,
         ],
       ]);
     }
