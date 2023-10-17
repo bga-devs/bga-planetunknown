@@ -39,7 +39,13 @@ class TakeCivCard extends \PU\Models\Action
 
   public function getPossibleCards()
   {
-    return Cards::getAll()->where('location', 'deck_civ_' . $this->getLevel());
+    $cardLevel = $this->getLevel();
+    $cards = Cards::getAll()->where('location', 'deck_civ_' . $cardLevel);
+    $player = $this->getPlayer();
+    if ($player->hasTech(TECH_REPUBLIC_CAN_CHOOSE_UPGRADED_CIV_CARD) && $cardLevel < 4) {
+      $cards = Cards::getTopOf('deck_civ_' . ($cardLevel + 1))->merge($cards);
+    }
+    return $cards;
   }
 
   public function argsTakeCivCard()

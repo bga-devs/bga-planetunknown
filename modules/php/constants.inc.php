@@ -89,6 +89,7 @@ const ST_PEEK_NEXT_EVENT = 38;
 const ST_POSITION_LIFEPOD_ON_TECH = 39;
 const ST_CLAIM_ALL_IN_A_ROW = 40;
 const ST_CHOOSE_OBJECTIVE_FOR_ALL = 41;
+const ST_REACH_NEXT_MILESTONE = 42;
 
 const ST_PRE_END_GAME_TURN = 80;
 const ST_END_GAME_TURN = 81;
@@ -142,6 +143,7 @@ const PEEK_NEXT_EVENT = 'PeekNextEvent';
 const POSITION_LIFEPOD_ON_TECH = 'PositionLifepodOnTech';
 const CLAIM_ALL_IN_A_ROW = 'ClaimAllInARow';
 const CHOOSE_OBJECTIVE_FOR_ALL = 'ChooseObjectiveForAll';
+const REACH_NEXT_MILESTONE = 'ReachNextMilestone';
 
 /*
  * Phases
@@ -246,6 +248,7 @@ const TECH_REPOSITION_ONE_LIFEPOD_EACH_TURN = 'tech_1_5';
 
 const FLUX = 2;
 const TECH_GET_2_MOVES_ON_FLUX = 'tech_2_1';
+const TECH_FLUX_TO_NEXT_MILESTONE = 'tech_2_2';
 const TECH_UPGRADED_FLUX_TRACK = 'tech_2_3';
 const TECH_COLLECT_METEOR_FLUX = 'tech_2_4';
 const TECH_ADVANCE_FLUX = 'tech_2_5';
@@ -278,6 +281,13 @@ const TECH_GET_1_MOVE_STARTING_ON_WATER = 'tech_6_2';
 const TECH_MOVE_WATER_IF_NO_ICE = 'tech_6_3';
 const TECH_GET_BIOMASS_WITH_WATER = 'tech_6_4';
 const TECH_GET_SYNERGY_WITH_WATER = 'tech_6_5';
+
+const REPUBLIC = 7;
+const TECH_REPUBLIC_MOVE_ROVER_WITH_CIV_TILE = 'tech_7_1';
+const TECH_REPUBLIC_CAN_CHOOSE_UPGRADED_CIV_CARD = 'tech_7_2';
+const TECH_REPUBLIC_TELEPORT_ROVER_CIV_TERRAIN = 'tech_7_3';
+const TECH_REPUBLIC_GET_SYNERGY_WITH_CIV_MILESTONE = 'tech_7_4';
+const TECH_REPUBLIC_GET_2_CIV_CARDS_END_OF_GAME = 'tech_7_5';
 
 /*
  * Tiles and Space station

@@ -485,20 +485,15 @@ class Planet
               continue;
             }
 
-            if (
-              $this->isIntersectionNonEmpty($cells, $checkingCells) ||
-              $this->player->hasTech(TECH_BYPASS_ADJACENT_CONSTRAINT)
-            ) {
-              // Check if tile is intersecting border or not
-              if ($specialRule == CANNOT_PLACE_ON_EDGE && $this->isIntersectionNonEmpty($cells, $border)) {
-                continue;
-              }
-              if ($specialRule == CANNOT_PLACE_ON_ICE && $this->isIntersectionNonEmpty($cells, $ice)) {
-                continue;
-              }
+            // Check if tile is intersecting border or not
+            if ($specialRule == CANNOT_PLACE_ON_EDGE && $this->isIntersectionNonEmpty($cells, $border)) {
+              continue;
+            }
+            if ($specialRule == CANNOT_PLACE_ON_ICE && $this->isIntersectionNonEmpty($cells, $ice)) {
+              continue;
             }
 
-            if (!$this->isIntersectionNonEmpty($cells, $checkingCells)) {
+            if (!$this->isIntersectionNonEmpty($cells, $checkingCells) && !$this->player->hasTech(TECH_BYPASS_ADJACENT_CONSTRAINT)) {
               continue;
             }
           }

@@ -25,6 +25,16 @@ class ChooseTracks extends \PU\Models\Action
     return $this->getCtxArg('types');
   }
 
+  public function isDoable($player)
+  {
+    return count($this->getChoosableTypes()) != 0;
+  }
+
+  public function isOptional()
+  {
+    return count($this->getChoosableTypes()) == 0;
+  }
+
   public function getChoosableTypes()
   {
     $types = $this->getTypes();
@@ -93,7 +103,6 @@ class ChooseTracks extends \PU\Models\Action
 
   public function argsChooseTracks()
   {
-    $player = $this->getPlayer();
     $choosableTypes = $this->getChoosableTypes();
     $m = $this->getMove();
 

@@ -168,7 +168,7 @@ class PlaceTile extends \PU\Models\Action
     }
 
     //if the played tile cover no ice, a corpo advance its water tracker
-    if ($player->hasTech(TECH_MOVE_WATER_IF_NO_ICE)) {
+    if ($player->hasTech(TECH_MOVE_WATER_IF_NO_ICE) && !$tile->isBiomassPatch()) {
       if ($player->planet()->isTileOnlyOnLand($tile)) {
         $this->pushParallelChild([
           'action' => MOVE_TRACK,
@@ -190,7 +190,7 @@ class PlaceTile extends \PU\Models\Action
         continue;
       }
 
-      if ($player->hasTech(TECH_COLLECT_METEOR_FLUX) && $type == $player->corporation()->getFluxTrack()) {
+      if ($player->hasTech(TECH_COLLECT_METEOR_FLUX) && $type == $player->corporation()->getFluxTrack() && !$tile->isBiomassPatch()) {
         $actions[] = [
           'action' => COLLECT_MEEPLE,
           'args' => [
@@ -246,6 +246,13 @@ class PlaceTile extends \PU\Models\Action
             'args' => ['type' => $type, 'n' => $coveringWater, 'withBonus' => true],
           ];
           continue;
+        }
+      } else if ($type == CIV) {
+        if ($player->hasTech(TECH_REPUBLIC_MOVE_ROVER_WITH_CIV_TILE)) {
+          $action = $player->corporation()->getMoveFromRoverTrack();
+          if ($action) {
+            $actions[] = $action;
+          }
         }
       }
 

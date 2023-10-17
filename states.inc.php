@@ -371,6 +371,15 @@ $machinestates = [
     'possibleactions' => ['actChooseObjectiveForAll', 'actRestart'],
   ],
 
+  ST_REACH_NEXT_MILESTONE => [
+    'name' => REACH_NEXT_MILESTONE,
+    'descriptionmyturn' => clienttranslate('${you} can move your tracker on flux track to the next milestone'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actReachNextMilestone', 'actRestart'],
+  ],
+
   ST_PLACE_MEEPLE => [
     'name' => PLACE_MEEPLE,
     'descriptionmyturn' => clienttranslate('${you} must place a ${type} on your planet'),

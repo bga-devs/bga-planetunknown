@@ -176,6 +176,15 @@ class Corporation2 extends Corporation
     }
   }
 
+  public function getTechAction($techLvl)
+  {
+    if ($this->canUse('tech_' . $this->id . '_' . $techLvl)) {
+      return [
+        'action' => REACH_NEXT_MILESTONE
+      ];
+    }
+  }
+
   public function getAnytimeActions()
   {
     $actions = [];
@@ -207,6 +216,41 @@ class Corporation2 extends Corporation
     }
 
     return $actions;
+  }
+
+  public function getFluxToNextMilestone()
+  {
+    $flux = $this->getFluxTrack();
+    $fluxLevel = $this->getLevelOnTrack($flux);
+
+    for ($i = $fluxLevel + 1; $i < count($this->tracks[$flux]); $i++) {
+      if ($this->isOrIn($this->tracks[$flux][$i], $flux)) {
+        return [
+          'type' => NODE_SEQ,
+          'childs' => [
+            [
+              'action' => MOVE_TRACK,
+              'args' => [
+                'type' => $flux,
+                'n' => $i - $fluxLevel - 1,
+                'withBonus' => false,
+              ],
+            ],
+            [
+              'action' => MOVE_TRACK,
+              'args' => [
+                'type' => $flux,
+                'n' => 1,
+                'withBonus' => true,
+              ],
+              'flag' => TECH_FLUX_TO_NEXT_MILESTONE,
+              'source' => $this->name
+            ],
+          ]
+        ];
+      }
+    }
+    return false;
   }
 
   public function resetFlags()

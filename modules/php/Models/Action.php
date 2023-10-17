@@ -142,12 +142,19 @@ class Action
             ],
           ];
 
+          //if we are already playing civ card, get it immediately
           if (Globals::getPhase() == END_OF_TURN_PHASE) {
             $actions[] = $action;
           } else {
             $player->addEndOfTurnAction($action);
           }
           Notifications::milestone($player, CIV, $levelCiv);
+
+          //if republic corporation regress on track
+          if ($player->corporation()->getId() == REPUBLIC) {
+            $actions[] = $player->corporation()->regressOnCivMilestone();
+          }
+
           break;
         case BIOMASS:
           $patchToPlace = $player->corporation()->receiveBiomassPatch();
@@ -169,6 +176,11 @@ class Action
           break;
         case TECH:
           $levelTech = $player->corporation()->getTechLevel($this);
+
+          $action = $player->corporation()->getTechAction($levelTech);
+          if ($action) {
+            $actions[] = $action;
+          }
 
           // TODO Waiting for Adam
           // if ($player->corporation()->canUse(TECH_REPOSITION_THREE_LIFEPODS_ONCE)) {
