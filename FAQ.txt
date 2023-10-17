@@ -1,0 +1,124 @@
+Q1] "If two or more players reach the same ranking civ milestone during a round, they should select their cards in clockwise order starting with the station commande" 
+    => how is this supposed to work IRL ? and what about on BGA ?
+
+A1] IRL this works as follows.  At the end of the round, station commander gets first selection of any and all CIV milestones they gain, then next player clockwise etc.  
+    Generally players do not gain more than one CIV milestone in a round but it can be possible with some corporations. 
+    Generally not all players gain a CIV milestone each turn which helps speed this up IRL, and often times if two players are gaining a CIV milestone then they might be LVL 1 versus LVL 2 so no player order conflicts in this situation.
+    It is possible that no CIV cards are available to claim when gaining a milestone
+
+////////////////////////////////////////////////////////////////////////////////////
+
+Q2]  when you pick up a tile, you uncover the one below so does that means you should be able to choose what to do with it while knowing what is under it ? 
+    In which case it means that picking the tile would be irreversible on BGA ? Or would it make sense to hide the tile below until the player confirm its turn on BGA ?
+
+
+A2]  RL when you pick up a tile you can definitely see underneath.  
+    I think it's okay to keep this as is during the BGA implementation because it doesn't significantly affect strategy. 
+    We generally let players pick up a tile, try it on board, flip/ rotate, then return it to top of stack if they wanted the other tile. 
+    Sometimes spatial decisions take visualization.
+
+
+Q2'] I understand than IRL it makes sense to work like that. But now on an online adaptation, you have the choices between the following three behaviors :
+ - dont show the tile below : you can play around and move it on your board without revealing tile under because we can display tiles just in time
+ - show the tile below when picking up, and allow to undo as in IRL
+ - show the tile below but only once the placement is confirmed and makes that undoable (which still let you play around to make sure it fits)
+We could even propose more than 1 behavior as gameoptions if you think that could matter for some players / for competitive play.
+So really it's up to you, either are fine for us.
+
+
+////////////////////////////////////////////////////////////////////////////////////
+
+Q3] resolution order : in general, how does the effect stack for resolution? 
+    If I place a tile, can I first move on 1 track, then move on the second one, then gain the bonus offered by moving the first one ?
+    Or more generally, when you get a bonus from an action, do you need to resolve this immediately before going back to what was pending, or do you just add that in the list of thing you need to resolve in any order you want ?
+
+A3] Because there are two resources on a tile, that introduces resolution order questions.  
+    We allow players to handle resolution order in their preferred way.  
+    I want to advance Tech tracker first, because it unlocks a new tech which helps me when advancing Rover tracker is a very common question.  
+    It is the players choice on how to best optimize this.  
+    Additionally, when you place a tile and advance your trackers or gain milestones, we still let players "undo" those actions as long as they were tracked by the player IRL.  
+    In BGA I would assume that tracking the actions taken during the turn would be more easily tracked/documented and thus easier to undo.
+     
+    I also understand why resolving the milestone/benefit immediately might be more intuitive for a player and easier to track/rules enforce for digital implementation.  
+    I am open to this approach.  
+    We handled this previously in a digital implementation by resolving the new benefit immediately, but letting them "undo" decisions all the way back to tile placement so they could test out other "orders of benefits" to optimize their turn.
+    In general we can possibly be flexible if there are significant advantages one way or the other with a particular platform. 
+    We do want to put the future-proof lens on when making these decisions looking at interactions/corporations/planets, which I can help with if you make these concerns visible
+
+Q3'] It sounds like you are saying "always stack gains with other pending things to resolve", which is fine for me
+
+A3'] Always stack gains with other pending things to resolve yes
+
+Q3''] Are we able to "interchain" effect resolution or not ? Let's say I have a move 4 rover and some other things pending. 
+    Can I do 2 rover moves, resolve something else (that might put a new rover somewhere for instance), and then go back to moving this new rover 2 spaces ?
+    For most games, you usually need to fully resolve a pending effect because choosing another one so that would be forbidden, but just want to make it 100% clear with you that PU is also working like this or not.
+
+A3'']  Good question.  The game technically does not break either way we handle it so I'm okay if we handle it in the simplest manner for a BGA execution.  See two specific notes below.
+
+    Rover movement is a value that can technically be added to or spent at any time during the turn.  If you gain rover movement, you do not need to immediately spend it.  This is easy enough to remember in the physical game and sometimes you are simply focusing on doing other things.
+    In the digital rules enforced implementation on Sovranti, they chose to resolve the rover movement gained immediately when it's gained.  This makes sense from a new player learning perspective because you can immediately see where the rover movement gained is coming from, and you don't need to remember to use it later during the turn for example.
+
+
+////////////////////////////////////////////////////////////////////////////////////
+
+Q4]  Some civ cards like 'gaming comission' are "End game" cards, but they give "upgrade a tracker" bonus, this bonus is taken at the end of the game ?
+
+A4] Yes if it says "End Game", it happens at the end of the game, regardless if it's VP medals or advancement on a track.  If it says "Immediately" then it happens immediately.
+
+////////////////////////////////////////////////////////////////////////////////////
+
+Q5] In card Event, cards 31 and 43 are the same (wording is slightly different) ? Same question for event cards 40 and 44 ? 
+
+A5] Ah yes an old relic from our digital files. The PDFs below will be fixed.
+
+////////////////////////////////////////////////////////////////////////////////////
+
+Q6] Planet Oblivion : where are you allowed to place the first tile ? Because for scoring objective, only the "inner border" is taken into account so does that means the first tile also need to hit that inner border ?
+
+
+////////////////////////////////////////////////////////////////////////////////////
+
+Q7] Planet Pajitnov : what does sliding into position means exactly ? Are you allowed to rotate the tile while you slide it from one side of your board ? Or should I first rotate it and then just slide it from one side ?
+
+////////////////////////////////////////////////////////////////////////////////////
+
+Q8] Planet Tartarus : the description says 2 points of the chiasm may be crossed diagonally, I assume it's the two corners where the chiasm is fading out ?
+
+////////////////////////////////////////////////////////////////////////////////////
+
+Q9] Corporation Flux : 
+ - "Advance one tracker to the next milestone of the flux track. Once per Game." 
+    => are you gaining the befenits while moving the tracker ?
+ - "Gain two movement for each rover starting on terrain of the flux track." 
+    => what if I place a tile tech/rover, then move up on tech and enable this tech and change the flux track to biomass and have 1 rover on biomass.
+    Do I get 2 extra moves or should we check this condition at the beginning of the turn only ? (in which case I wont get it the turn I am unlocking my tech)
+
+
+////////////////////////////////////////////////////////////////////////////////////
+
+Q10] In general, when a corporation tech says "Once per game", do we need to apply this immediately or can we "bank" it for latter ? (eg Cosmos Inc lvl2, Flux lvl 2)
+
+////////////////////////////////////////////////////////////////////////////////////
+
+Q11] Corpo republic, tech 2 : "'Add a card from the next rank to your choices when you claim a civ milestone.'"
+    => that card must be taken from the "deck" of next rank cards only, right ? Not at random from all the civ cards left out at setup ?
+
+////////////////////////////////////////////////////////////////////////////////////
+
+Q12] Corpo republic, 1 : "Move your rover when you SELECT a civ tile"
+    => what does SELECT means here ? Should it be PLACE instead ?
+    In other word, should I be able to select a civ tile, move my rover that just collected a lifepod in previous turn to put it back on a tile, then place the tile on top of that now empty space so I wont destroy my rover ?
+
+////////////////////////////////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////////////////////////////////
