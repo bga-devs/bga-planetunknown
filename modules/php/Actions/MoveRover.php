@@ -8,6 +8,7 @@ use PU\Managers\Tiles;
 use PU\Core\Notifications;
 use PU\Core\Engine;
 use PU\Core\Stats;
+use PU\Helpers\Collection;
 use PU\Helpers\Utils;
 use PU\Helpers\FlowConvertor;
 use PU\Managers\Susan;
@@ -107,6 +108,7 @@ class MoveRover extends \PU\Models\Action
     //if a $carried_meteor has been convoyed on water terrain, it's destroyed
     if ($carried_meteor && $player->hasTech(TECH_DESTROY_METEORITE_ON_WATER) && $player->planet()->getVisibleAtPos($cell) == WATER) {
       $player->corporation()->destroy($carried_meteor);
+      Notifications::collectMeeple($player, [$carried_meteor], 'destroy');
     }
 
     //collect lifepod or meteor

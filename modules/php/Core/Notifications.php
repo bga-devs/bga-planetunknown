@@ -51,6 +51,7 @@ class Notifications
       'n' => count($meeples),
       'type' => $meeples[0]->getType(),
       'meeples' => $meeples,
+      'i18n' => ['type']
     ];
 
     if ($action == 'destroy') {
