@@ -142,12 +142,19 @@ class Action
             ],
           ];
 
+          //if we are already playing civ card, get it immediately
           if (Globals::getPhase() == END_OF_TURN_PHASE) {
             $actions[] = $action;
           } else {
             $player->addEndOfTurnAction($action);
           }
           Notifications::milestone($player, CIV, $levelCiv);
+
+          //if republic corporation regress on track
+          if ($player->corporation()->getId() == REPUBLIC) {
+            $actions[] = $player->corporation()->regressOnCivMilestone();
+          }
+
           break;
         case BIOMASS:
           $patchToPlace = $player->corporation()->receiveBiomassPatch();

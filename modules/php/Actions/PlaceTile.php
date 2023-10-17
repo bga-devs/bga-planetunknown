@@ -247,6 +247,13 @@ class PlaceTile extends \PU\Models\Action
           ];
           continue;
         }
+      } else if ($type == CIV) {
+        if ($player->hasTech(TECH_REPUBLIC_MOVE_ROVER_WITH_CIV_TILE)) {
+          $action = $player->corporation()->getMoveFromRoverTrack();
+          if ($action) {
+            $actions[] = $action;
+          }
+        }
       }
 
       // Normal case: add parallel child

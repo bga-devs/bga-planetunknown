@@ -11,6 +11,8 @@ class Corporation5 extends Corporation
       'You may advance any tracker diagonally onto an adjacent track. Any tracker may claim any benefit. Tech Levels are locked if no tracker is currently unlocking the tech.'
     );
 
+    $this->flagsToReset = [TECH_REGRESS_TRACKER];
+
     $this->techBonuses = [
       1 => [
         'text' => clienttranslate('Treat civ and tech tracks as adjacent.'),

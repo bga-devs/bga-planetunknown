@@ -7,13 +7,13 @@ class Corporation7 extends Corporation
   public function __construct($player)
   {
     $this->name = clienttranslate('Republic');
-    $this->desc = clienttranslate('You must regress another tracker each time you claim a milestone from the civ track. Do not claim benefits from regressing.'); //TODO
+    $this->desc = clienttranslate('You must regress another tracker each time you claim a milestone from the civ track. Do not claim benefits from regressing.');
 
     $this->techBonuses = [
-      1 => [ //TODO
+      1 => [
         'text' => clienttranslate('Gain movement based on your rover tracker when you select a civ tile.')
       ],
-      2 => [ //TODO
+      2 => [
         'text' => clienttranslate('Add a card from the next rank to your choices when you claim a civ milestone.')
       ],
       3 => [ //TODO
@@ -43,5 +43,35 @@ class Corporation7 extends Corporation
   {
     $civLevels = [0, 1, 2, 2, 3, 3, 4, 4];
     return $civLevels[$this->countLevel(CIV)];
+  }
+
+  public function regressOnCivMilestone()
+  {
+    return [
+      'action' => CHOOSE_TRACKS,
+      'args' => [
+        'types' => [WATER, BIOMASS, ROVER, TECH],
+        'n' => 1,
+        'move' => -1,
+        'from' => $this->name,
+      ],
+    ];
+  }
+
+  public function getMoveFromRoverTrack()
+  {
+    $roverLevel = $this->getLevelOnTrack(ROVER);
+    foreach ($this->tracks[ROVER][$roverLevel] as $bonus) {
+      if (is_string($bonus) && str_starts_with($bonus, 'move')) {
+        $levelMove = $this->moveRoverBy(explode('_', $bonus)[1]);
+        return [
+          'action' => MOVE_ROVER,
+          'args' => [
+            'remaining' => $levelMove,
+          ],
+        ];
+      }
+    }
+    return false;
   }
 }
