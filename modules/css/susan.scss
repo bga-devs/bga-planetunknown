@@ -74,6 +74,16 @@
                 }
             }
         }
+
+        @for $i from 0 to 6 {
+            &[data-rotation="#{$i}"] {
+                @for $j from 0 to 6 {
+                    #susan-counter-exterior-#{$j} {
+                        transform: rotate(($i - $j) * 60deg);
+                    }
+                }
+            }
+        }
     }
 
     #susan-interior {
@@ -95,11 +105,21 @@
         .susan-space {
             padding-bottom: 27px;
             padding-top: 3px;
-            clip-path: polygon(0px 0px, 100% 0%, 70% 75%, 30% 75%);
+            clip-path: polygon(0px -20px, 100% -20px, 70% 75%, 30% 75%);
 
             @for $j from 0 to 6 {
                 &#top-interior-#{$j} {
                     transform: rotate($j * 60deg);
+                }
+            }
+        }
+
+        @for $i from 0 to 6 {
+            &[data-rotation="#{$i}"] {
+                @for $j from 0 to 6 {
+                    #susan-counter-interior-#{$j} {
+                        transform: rotate(($i - $j) * 60deg);
+                    }
                 }
             }
         }
@@ -119,7 +139,29 @@
         .tile-container {
             margin: 0;
         }
+
+        .susan-counter {
+            display: none;
+            position: absolute;
+            top: -8px;
+            width: 14px;
+            height: 14px;
+            background: white;
+            border-radius: 50%;
+            border: 1px solid black;
+            text-align: center;
+            z-index: 100;
+            font-size: 9px;
+            line-height: 14px;
+            font-weight: bold;
+            letter-spacing: -1px;
+            text-indent: -1px;
+        }
     }
+}
+
+#susan-enlarge #susan-container .susan-space .susan-counter {
+    display: block;
 }
 
 /*

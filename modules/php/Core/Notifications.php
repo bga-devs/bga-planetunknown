@@ -51,7 +51,7 @@ class Notifications
       'n' => count($meeples),
       'type' => $meeples[0]->getType(),
       'meeples' => $meeples,
-      'i18n' => ['type']
+      'i18n' => ['type'],
     ];
 
     if ($action == 'destroy') {
@@ -179,7 +179,7 @@ class Notifications
     $message = clienttranslate('${player_name} chooses a new objective card that all players compete for');
     $data = [
       'card' => $card,
-      'player' => $player
+      'player' => $player,
     ];
     static::pnotify($player, 'newObjectiveCard', $message, $data);
   }
@@ -188,8 +188,8 @@ class Notifications
   {
     $message =
       $player == null
-      ? clienttranslate('S.U.S.A.N. rotates.')
-      : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
+        ? clienttranslate('S.U.S.A.N. rotates.')
+        : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
     $data = [
       'player' => $player,
       'newRotation' => $rotation,
@@ -250,7 +250,7 @@ class Notifications
     static::pnotify($player, 'slideMeeples', $msg, $data);
   }
 
-  public static function placeTile($player, $tile, $meteor, $types)
+  public static function placeTile($player, $tile, $meteor, $types, $oldLocation = null)
   {
     self::pnotify(
       $player,
@@ -264,6 +264,7 @@ class Notifications
         'tile' => $tile,
         'types' => $types,
         'meteor' => $meteor,
+        'oldLocation' => $oldLocation,
       ]
     );
   }

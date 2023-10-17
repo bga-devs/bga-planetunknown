@@ -181,6 +181,7 @@ define([
       this.setupTiles();
       this.setupMeeples();
       this.updateLastRoundBanner();
+      this.updateSusanCounters();
       // this.setupTour();
       this.inherited(arguments);
     },
@@ -234,6 +235,7 @@ define([
       this.setupTiles();
       this.updatePlayersScores();
       this.rotateSusan();
+      this.updateSusanCounters();
       this.updatePlayersCounters();
       this.updateHand();
       this.updateCivCounters();
@@ -1044,7 +1046,7 @@ define([
             this.takeAtomicAction('actChooseTracks', [[type]]);
           }
           // Otherwise, toggle selected
-          else {
+          else if ($('btnConfirmTracks')) {
             let trackIndex = tracks.findIndex((t) => t == type);
 
             if (trackIndex !== -1) {
@@ -1413,8 +1415,8 @@ define([
         susanInterior = '';
       for (let j = 0; j < 6; j++) {
         susanIndicators += `<div class="susan-indicator-slot" id='indicator-${j}'></div>`;
-        susanExterior += `<div class="susan-space" id='top-exterior-${j}'></div>`;
-        susanInterior += `<div class="susan-space" id='top-interior-${j}'></div>`;
+        susanExterior += `<div class="susan-space" id='top-exterior-${j}'><span class="susan-counter" id="susan-counter-exterior-${j}">0</span></div>`;
+        susanInterior += `<div class="susan-space" id='top-interior-${j}'><span class="susan-counter" id="susan-counter-interior-${j}">0</span></div>`;
       }
 
       return (
@@ -1498,11 +1500,22 @@ define([
     rotateSusan() {
       let rotation = -this.gamedatas.susan.rotation + (this._baseRotation || 0);
       $('susan-exterior').style.transform = `rotate(${60 * rotation}deg)`;
+
+      let modRotation = ((-rotation % 6) + 6) % 6;
+      $('susan-exterior').dataset.rotation = modRotation;
+      $('susan-interior').dataset.rotation = (modRotation + this.gamedatas.susan.shift) % 6;
     },
 
     updatePlayerOrdering() {
       this.inherited(arguments);
       dojo.place('player_board_config', 'player_boards', 'first');
+    },
+
+    updateSusanCounters() {
+      let decks = this.gamedatas.susan.decks;
+      Object.keys(decks).forEach((deck) => {
+        $(`susan-counter-${deck}`).innerHTML = decks[deck];
+      });
     },
 
     notif_newRotation(n) {

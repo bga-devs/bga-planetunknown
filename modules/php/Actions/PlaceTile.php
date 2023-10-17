@@ -144,6 +144,7 @@ class PlaceTile extends \PU\Models\Action
       throw new \BgaVisibleSystemException('You cannot place the tile here with that rotation/flip. Should not happen');
     }
 
+    $oldLocation = Tiles::get($tileId)->getLocation();
     // Place it on the board
     list($tile, $symbols, $coveringWater, $meteor) = $player->planet()->addTile($tileId, $pos, $rotation, $flipped);
 
@@ -190,7 +191,11 @@ class PlaceTile extends \PU\Models\Action
         continue;
       }
 
-      if ($player->hasTech(TECH_COLLECT_METEOR_FLUX) && $type == $player->corporation()->getFluxTrack() && !$tile->isBiomassPatch()) {
+      if (
+        $player->hasTech(TECH_COLLECT_METEOR_FLUX) &&
+        $type == $player->corporation()->getFluxTrack() &&
+        !$tile->isBiomassPatch()
+      ) {
         $actions[] = [
           'action' => COLLECT_MEEPLE,
           'args' => [
@@ -247,7 +252,7 @@ class PlaceTile extends \PU\Models\Action
           ];
           continue;
         }
-      } else if ($type == CIV) {
+      } elseif ($type == CIV) {
         if ($player->hasTech(TECH_REPUBLIC_MOVE_ROVER_WITH_CIV_TILE)) {
           $action = $player->corporation()->getMoveFromRoverTrack();
           if ($action) {
@@ -263,7 +268,6 @@ class PlaceTile extends \PU\Models\Action
       ];
     }
 
-
     if (Globals::getTurnSpecialRule() == ONLY_ONE_MOVE_TRACKER) {
       $this->pushParallelChild([
         'type' => NODE_XOR,
@@ -274,7 +278,7 @@ class PlaceTile extends \PU\Models\Action
       $this->pushParallelChilds($actions);
     }
 
-    Notifications::placeTile($player, $tile, $meteor, $tileTypes);
+    Notifications::placeTile($player, $tile, $meteor, $tileTypes, $oldLocation);
 
     if ($destroyedLifepod->count()) {
       Notifications::destroyedMeeples($player, $destroyedLifepod, LIFEPOD);

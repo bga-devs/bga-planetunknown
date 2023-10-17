@@ -1275,78 +1275,6 @@
         transform: rotate(240deg); }
       #susan-container #susan-exterior .susan-space#top-exterior-5 {
         transform: rotate(300deg); }
-    #susan-container #susan-exterior[data-rotation="0"] #susan-counter-exterior-0 {
-      transform: rotate(0deg); }
-    #susan-container #susan-exterior[data-rotation="0"] #susan-counter-exterior-1 {
-      transform: rotate(-60deg); }
-    #susan-container #susan-exterior[data-rotation="0"] #susan-counter-exterior-2 {
-      transform: rotate(-120deg); }
-    #susan-container #susan-exterior[data-rotation="0"] #susan-counter-exterior-3 {
-      transform: rotate(-180deg); }
-    #susan-container #susan-exterior[data-rotation="0"] #susan-counter-exterior-4 {
-      transform: rotate(-240deg); }
-    #susan-container #susan-exterior[data-rotation="0"] #susan-counter-exterior-5 {
-      transform: rotate(-300deg); }
-    #susan-container #susan-exterior[data-rotation="1"] #susan-counter-exterior-0 {
-      transform: rotate(60deg); }
-    #susan-container #susan-exterior[data-rotation="1"] #susan-counter-exterior-1 {
-      transform: rotate(0deg); }
-    #susan-container #susan-exterior[data-rotation="1"] #susan-counter-exterior-2 {
-      transform: rotate(-60deg); }
-    #susan-container #susan-exterior[data-rotation="1"] #susan-counter-exterior-3 {
-      transform: rotate(-120deg); }
-    #susan-container #susan-exterior[data-rotation="1"] #susan-counter-exterior-4 {
-      transform: rotate(-180deg); }
-    #susan-container #susan-exterior[data-rotation="1"] #susan-counter-exterior-5 {
-      transform: rotate(-240deg); }
-    #susan-container #susan-exterior[data-rotation="2"] #susan-counter-exterior-0 {
-      transform: rotate(120deg); }
-    #susan-container #susan-exterior[data-rotation="2"] #susan-counter-exterior-1 {
-      transform: rotate(60deg); }
-    #susan-container #susan-exterior[data-rotation="2"] #susan-counter-exterior-2 {
-      transform: rotate(0deg); }
-    #susan-container #susan-exterior[data-rotation="2"] #susan-counter-exterior-3 {
-      transform: rotate(-60deg); }
-    #susan-container #susan-exterior[data-rotation="2"] #susan-counter-exterior-4 {
-      transform: rotate(-120deg); }
-    #susan-container #susan-exterior[data-rotation="2"] #susan-counter-exterior-5 {
-      transform: rotate(-180deg); }
-    #susan-container #susan-exterior[data-rotation="3"] #susan-counter-exterior-0 {
-      transform: rotate(180deg); }
-    #susan-container #susan-exterior[data-rotation="3"] #susan-counter-exterior-1 {
-      transform: rotate(120deg); }
-    #susan-container #susan-exterior[data-rotation="3"] #susan-counter-exterior-2 {
-      transform: rotate(60deg); }
-    #susan-container #susan-exterior[data-rotation="3"] #susan-counter-exterior-3 {
-      transform: rotate(0deg); }
-    #susan-container #susan-exterior[data-rotation="3"] #susan-counter-exterior-4 {
-      transform: rotate(-60deg); }
-    #susan-container #susan-exterior[data-rotation="3"] #susan-counter-exterior-5 {
-      transform: rotate(-120deg); }
-    #susan-container #susan-exterior[data-rotation="4"] #susan-counter-exterior-0 {
-      transform: rotate(240deg); }
-    #susan-container #susan-exterior[data-rotation="4"] #susan-counter-exterior-1 {
-      transform: rotate(180deg); }
-    #susan-container #susan-exterior[data-rotation="4"] #susan-counter-exterior-2 {
-      transform: rotate(120deg); }
-    #susan-container #susan-exterior[data-rotation="4"] #susan-counter-exterior-3 {
-      transform: rotate(60deg); }
-    #susan-container #susan-exterior[data-rotation="4"] #susan-counter-exterior-4 {
-      transform: rotate(0deg); }
-    #susan-container #susan-exterior[data-rotation="4"] #susan-counter-exterior-5 {
-      transform: rotate(-60deg); }
-    #susan-container #susan-exterior[data-rotation="5"] #susan-counter-exterior-0 {
-      transform: rotate(300deg); }
-    #susan-container #susan-exterior[data-rotation="5"] #susan-counter-exterior-1 {
-      transform: rotate(240deg); }
-    #susan-container #susan-exterior[data-rotation="5"] #susan-counter-exterior-2 {
-      transform: rotate(180deg); }
-    #susan-container #susan-exterior[data-rotation="5"] #susan-counter-exterior-3 {
-      transform: rotate(120deg); }
-    #susan-container #susan-exterior[data-rotation="5"] #susan-counter-exterior-4 {
-      transform: rotate(60deg); }
-    #susan-container #susan-exterior[data-rotation="5"] #susan-counter-exterior-5 {
-      transform: rotate(0deg); }
   #susan-container #susan-interior {
     position: absolute;
     top: 70px;
@@ -1372,7 +1300,7 @@
     #susan-container #susan-interior .susan-space {
       padding-bottom: 27px;
       padding-top: 3px;
-      clip-path: polygon(0px -20px, 100% -20px, 70% 75%, 30% 75%); }
+      clip-path: polygon(0px 0px, 100% 0%, 70% 75%, 30% 75%); }
       #susan-container #susan-interior .susan-space#top-interior-0 {
         transform: rotate(0deg); }
       #susan-container #susan-interior .susan-space#top-interior-1 {
@@ -1385,78 +1313,6 @@
         transform: rotate(240deg); }
       #susan-container #susan-interior .susan-space#top-interior-5 {
         transform: rotate(300deg); }
-    #susan-container #susan-interior[data-rotation="0"] #susan-counter-interior-0 {
-      transform: rotate(0deg); }
-    #susan-container #susan-interior[data-rotation="0"] #susan-counter-interior-1 {
-      transform: rotate(-60deg); }
-    #susan-container #susan-interior[data-rotation="0"] #susan-counter-interior-2 {
-      transform: rotate(-120deg); }
-    #susan-container #susan-interior[data-rotation="0"] #susan-counter-interior-3 {
-      transform: rotate(-180deg); }
-    #susan-container #susan-interior[data-rotation="0"] #susan-counter-interior-4 {
-      transform: rotate(-240deg); }
-    #susan-container #susan-interior[data-rotation="0"] #susan-counter-interior-5 {
-      transform: rotate(-300deg); }
-    #susan-container #susan-interior[data-rotation="1"] #susan-counter-interior-0 {
-      transform: rotate(60deg); }
-    #susan-container #susan-interior[data-rotation="1"] #susan-counter-interior-1 {
-      transform: rotate(0deg); }
-    #susan-container #susan-interior[data-rotation="1"] #susan-counter-interior-2 {
-      transform: rotate(-60deg); }
-    #susan-container #susan-interior[data-rotation="1"] #susan-counter-interior-3 {
-      transform: rotate(-120deg); }
-    #susan-container #susan-interior[data-rotation="1"] #susan-counter-interior-4 {
-      transform: rotate(-180deg); }
-    #susan-container #susan-interior[data-rotation="1"] #susan-counter-interior-5 {
-      transform: rotate(-240deg); }
-    #susan-container #susan-interior[data-rotation="2"] #susan-counter-interior-0 {
-      transform: rotate(120deg); }
-    #susan-container #susan-interior[data-rotation="2"] #susan-counter-interior-1 {
-      transform: rotate(60deg); }
-    #susan-container #susan-interior[data-rotation="2"] #susan-counter-interior-2 {
-      transform: rotate(0deg); }
-    #susan-container #susan-interior[data-rotation="2"] #susan-counter-interior-3 {
-      transform: rotate(-60deg); }
-    #susan-container #susan-interior[data-rotation="2"] #susan-counter-interior-4 {
-      transform: rotate(-120deg); }
-    #susan-container #susan-interior[data-rotation="2"] #susan-counter-interior-5 {
-      transform: rotate(-180deg); }
-    #susan-container #susan-interior[data-rotation="3"] #susan-counter-interior-0 {
-      transform: rotate(180deg); }
-    #susan-container #susan-interior[data-rotation="3"] #susan-counter-interior-1 {
-      transform: rotate(120deg); }
-    #susan-container #susan-interior[data-rotation="3"] #susan-counter-interior-2 {
-      transform: rotate(60deg); }
-    #susan-container #susan-interior[data-rotation="3"] #susan-counter-interior-3 {
-      transform: rotate(0deg); }
-    #susan-container #susan-interior[data-rotation="3"] #susan-counter-interior-4 {
-      transform: rotate(-60deg); }
-    #susan-container #susan-interior[data-rotation="3"] #susan-counter-interior-5 {
-      transform: rotate(-120deg); }
-    #susan-container #susan-interior[data-rotation="4"] #susan-counter-interior-0 {
-      transform: rotate(240deg); }
-    #susan-container #susan-interior[data-rotation="4"] #susan-counter-interior-1 {
-      transform: rotate(180deg); }
-    #susan-container #susan-interior[data-rotation="4"] #susan-counter-interior-2 {
-      transform: rotate(120deg); }
-    #susan-container #susan-interior[data-rotation="4"] #susan-counter-interior-3 {
-      transform: rotate(60deg); }
-    #susan-container #susan-interior[data-rotation="4"] #susan-counter-interior-4 {
-      transform: rotate(0deg); }
-    #susan-container #susan-interior[data-rotation="4"] #susan-counter-interior-5 {
-      transform: rotate(-60deg); }
-    #susan-container #susan-interior[data-rotation="5"] #susan-counter-interior-0 {
-      transform: rotate(300deg); }
-    #susan-container #susan-interior[data-rotation="5"] #susan-counter-interior-1 {
-      transform: rotate(240deg); }
-    #susan-container #susan-interior[data-rotation="5"] #susan-counter-interior-2 {
-      transform: rotate(180deg); }
-    #susan-container #susan-interior[data-rotation="5"] #susan-counter-interior-3 {
-      transform: rotate(120deg); }
-    #susan-container #susan-interior[data-rotation="5"] #susan-counter-interior-4 {
-      transform: rotate(60deg); }
-    #susan-container #susan-interior[data-rotation="5"] #susan-counter-interior-5 {
-      transform: rotate(0deg); }
   #susan-container .susan-space {
     position: absolute;
     top: 0;
@@ -1470,25 +1326,14 @@
     #susan-container .susan-space .tile-container {
       margin: 0; }
     #susan-container .susan-space .susan-counter {
-      display: none;
       position: absolute;
-      top: -8px;
-      width: 14px;
-      height: 14px;
+      top: 0;
+      width: 20px;
+      height: 20px;
       background: white;
       border-radius: 50%;
       border: 1px solid black;
-      text-align: center;
-      z-index: 100;
-      font-size: 9px;
-      line-height: 14px;
-      font-weight: bold;
-      letter-spacing: -1px;
-      text-indent: -1px;
-      transition: transform 0.5s; }
-
-#susan-enlarge #susan-container .susan-space .susan-counter {
-  display: block; }
+      text-align: center; }
 
 /*
 #susan-container {
@@ -3250,4 +3095,4 @@
 #customActions .bgabutton {
   text-overflow: initial; }
 
-/*# sourceMappingURL=planetunknown.css.map */
+/*# sourceMappingURL=planetunknown.cs.map */

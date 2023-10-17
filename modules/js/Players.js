@@ -455,6 +455,15 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         this.goToPlayerBoard(tile.pId);
       }
 
+      let oldLocation = n.args.oldLocation;
+      if (oldLocation) {
+        let counter = n.args.oldLocation.substr(4);
+        if (this.gamedatas.susan.decks[counter]) {
+          this.gamedatas.susan.decks[counter]--;
+          this.updateSusanCounters();
+        }
+      }
+
       this.updateTileObj($(tileId), tile);
       this.slide($(tileId), this.getTileContainer(tile)).then(() => {
         if (n.args.meteor) {
