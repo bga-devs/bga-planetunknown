@@ -101,7 +101,7 @@ trait DebugTrait
     // Change for your game
     // We are setting the current state to match the start of a player's turn if it's already game over
     $sql = ['UPDATE global SET global_value=21 WHERE global_id=1 AND global_value=99'];
-    $sql[] = 'ALTER TABLE `gamelog` ADD `cancel` TINYINT(1) NOT NULL DEFAULT 0;';
+    // $sql[] = 'ALTER TABLE `gamelog` ADD `cancel` TINYINT(1) NOT NULL DEFAULT 0;';
     $map = [];
     foreach ($players as $pId) {
       $map[(int) $pId] = (int) $studioPlayer;

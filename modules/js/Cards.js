@@ -44,6 +44,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
           this.addCard(card, `cards-${player.id}`);
         });
 
+        Object.values(player.playedObj).forEach((card) => {
+          this.addCard(card, `private-objectives-${player.id}`);
+        });
+
         Object.values(player.handObj).forEach((card) => {
           this.addCard(card, `private-objectives-${player.id}`);
         });

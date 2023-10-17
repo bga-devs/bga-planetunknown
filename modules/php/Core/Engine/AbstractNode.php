@@ -311,7 +311,7 @@ class AbstractNode
   /**
    * Replay childs one by one in choices order
    */
-  public function replay()
+  public function replayMyselfIfAction()
   {
     $flag = $this->getFlag();
     if (!is_null($flag)) {
@@ -328,6 +328,11 @@ class AbstractNode
         $action->$methodName(...$args['args']);
       }
     }
+  }
+
+  public function replay()
+  {
+    $this->replayMyselfIfAction();
 
     $choices = $this->infos['choices'] ?? [];
     foreach ($choices as $childId) {

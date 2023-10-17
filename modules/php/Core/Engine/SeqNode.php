@@ -86,12 +86,7 @@ class SeqNode extends AbstractNode
    */
   public function replay()
   {
-    if (isset($this->infos['action']) && $this->isActionResolved()) {
-      $args = $this->infos['actionResolutionArgs'];
-      $action = Actions::get($this->infos['action'], $this);
-      $methodName = $args['actionName'];
-      $action->$methodName(...$args['args']);
-    }
+    $this->replayMyselfIfAction();
 
     foreach ($this->childs as &$child) {
       $child->replay();
