@@ -271,6 +271,7 @@ $machinestates = [
   ST_TAKE_CIV_CARD => [
     'name' => TAKE_CIV_CARD,
     'descriptionmyturn' => clienttranslate('${you} must take a civ card from the deck ${level}'),
+    'descriptionmyturnalldeck' => clienttranslate('${you} must take 2 civ cards in the remaining cards from all decks'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',

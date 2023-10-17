@@ -16,13 +16,13 @@ class Corporation7 extends Corporation
       2 => [
         'text' => clienttranslate('Add a card from the next rank to your choices when you claim a civ milestone.')
       ],
-      3 => [ //TODO
+      3 => [
         'text' => clienttranslate('Teleport your rover between any two civ resources. One movement cost.')
       ],
-      4 => [ //TODOCautionNOSynergy
+      4 => [
         'text' => clienttranslate('Gain a synergy boost when you claim a civ milestone.')
       ],
-      5 => [ //TODO
+      5 => [
         'text' => clienttranslate('Look at all remaining civ cards and keep two. End of game.')
       ],
     ];

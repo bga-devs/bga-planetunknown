@@ -29,7 +29,9 @@ class TakeCivCard extends \PU\Models\Action
 
   public function getDescription()
   {
-    return clienttranslate('Take one Civ Card');
+    return ($this->getLevel() == 'all')
+      ? clienttranslate('Take one Civ Card')
+      : clienttranslate('Take 2 civ cards');
   }
 
   public function getLevel()
@@ -37,13 +39,23 @@ class TakeCivCard extends \PU\Models\Action
     return $this->getCtxArg('level');
   }
 
+  public function getN()
+  {
+    return $this->getCtxArg('n') ?? 1;
+  }
+
   public function getPossibleCards()
   {
     $cardLevel = $this->getLevel();
-    $cards = Cards::getAll()->where('location', 'deck_civ_' . $cardLevel);
-    $player = $this->getPlayer();
-    if ($player->hasTech(TECH_REPUBLIC_CAN_CHOOSE_UPGRADED_CIV_CARD) && $cardLevel < 4) {
-      $cards = Cards::getTopOf('deck_civ_' . ($cardLevel + 1))->merge($cards);
+
+    if ($cardLevel == 'all') {
+      $cards = Cards::getAll()->where('location', 'deck_civ%');
+    } else {
+      $cards = Cards::getAll()->where('location', 'deck_civ_' . $cardLevel);
+      $player = $this->getPlayer();
+      if ($player->hasTech(TECH_REPUBLIC_CAN_CHOOSE_UPGRADED_CIV_CARD) && $cardLevel < 4) {
+        $cards = Cards::getTopOf('deck_civ_' . ($cardLevel + 1))->merge($cards);
+      }
     }
     return $cards;
   }
@@ -53,28 +65,37 @@ class TakeCivCard extends \PU\Models\Action
     return [
       'cards' => $this->getPossibleCards(),
       'level' => $this->getLevel(),
+      'n' => $this->getN(),
+      'descSuffix' => ($this->getLevel() == 'all') ? 'all' : '',
     ];
   }
 
-  public function actTakeCivCard($cardId)
+  public function actTakeCivCard($cards)
   {
     $player = $this->getPlayer();
     $args = $this->argsTakeCivCard();
 
-    if (!array_key_exists($cardId, $args['cards'])) {
-      throw new \BgaVisibleSystemException("You cannot take this card ($cardId) from this deck. Should not happen");
+    if (!is_array($cards)) {
+      $cards = [$cards];
     }
 
-    // Place it on the player board or hand
-    $card = $args['cards'][$cardId];
-    $player->takeCivCard($card);
-    Notifications::takeCivCard($player, $card, $args['level']);
+    foreach ($cards as $cardId) {
 
-    // Trigger potentiel effect
-    $flow = $player->activateCivCard($card);
+      if (!array_key_exists($cardId, $args['cards'])) {
+        throw new \BgaVisibleSystemException("You cannot take this card ($cardId) from this deck. Should not happen");
+      }
 
-    if ($flow) {
-      $this->insertAsChild($flow);
+      // Place it on the player board or hand
+      $card = $args['cards'][$cardId];
+      $player->takeCivCard($card);
+      Notifications::takeCivCard($player, $card, $args['level']);
+
+      // Trigger potentiel effect
+      $flow = $player->activateCivCard($card);
+
+      if ($flow) {
+        $this->insertAsChild($flow);
+      }
     }
   }
 }

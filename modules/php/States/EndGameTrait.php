@@ -49,6 +49,16 @@ trait EndGameTrait
     foreach ($players as $pId => $player) {
       $actions = $player->getEndOfGameActions();
 
+      if ($player->hasTech(TECH_REPUBLIC_GET_2_CIV_CARDS_END_OF_GAME)) {
+        $actions[] = [
+          'action' => TAKE_CIV_CARD,
+          'args' => [
+            'level' => "all",
+            'n' => 2
+          ]
+        ];
+      }
+
       if ($actions) {
         $flows[$pId] = [
           'type' => NODE_PARALLEL,

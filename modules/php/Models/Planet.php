@@ -908,6 +908,13 @@ class Planet
       $cells = array_merge($this->getCellsOfType($tileType), $cells);
     }
 
+    if (
+      $this->player->corporation()->canUse(TECH_REPUBLIC_TELEPORT_ROVER_CIV_TERRAIN)
+      && $this->getTypeAtPos($cell) == CIV
+    ) {
+      $cells = array_merge($this->getCellsOfType(CIV), $cells);
+    }
+
     //can't move on a rover
     Utils::filter($cells, function ($c) {
       return !$this->player->getRoverOnCell($c);
