@@ -89,6 +89,7 @@ const ST_PEEK_NEXT_EVENT = 38;
 const ST_POSITION_LIFEPOD_ON_TECH = 39;
 const ST_CLAIM_ALL_IN_A_ROW = 40;
 const ST_CHOOSE_OBJECTIVE_FOR_ALL = 41;
+const ST_REACH_NEXT_MILESTONE = 42;
 
 const ST_PRE_END_GAME_TURN = 80;
 const ST_END_GAME_TURN = 81;
@@ -142,6 +143,7 @@ const PEEK_NEXT_EVENT = 'PeekNextEvent';
 const POSITION_LIFEPOD_ON_TECH = 'PositionLifepodOnTech';
 const CLAIM_ALL_IN_A_ROW = 'ClaimAllInARow';
 const CHOOSE_OBJECTIVE_FOR_ALL = 'ChooseObjectiveForAll';
+const REACH_NEXT_MILESTONE = 'ReachNextMilestone';
 
 /*
  * Phases
@@ -246,6 +248,7 @@ const TECH_REPOSITION_ONE_LIFEPOD_EACH_TURN = 'tech_1_5';
 
 const FLUX = 2;
 const TECH_GET_2_MOVES_ON_FLUX = 'tech_2_1';
+const TECH_FLUX_TO_NEXT_MILESTONE = 'tech_2_2';
 const TECH_UPGRADED_FLUX_TRACK = 'tech_2_3';
 const TECH_COLLECT_METEOR_FLUX = 'tech_2_4';
 const TECH_ADVANCE_FLUX = 'tech_2_5';

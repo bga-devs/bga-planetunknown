@@ -31,6 +31,11 @@ class ChooseFluxTrack extends \PU\Models\Action
     ];
   }
 
+  public function getDescription()
+  {
+    return clienttranslate('Choose flux track');
+  }
+
   public function actChooseFluxTrack($track)
   {
     $player = $this->getPlayer();
