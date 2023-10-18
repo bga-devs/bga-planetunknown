@@ -170,8 +170,8 @@ class PlaceTile extends \PU\Models\Action
       $player->setLastTileId($tileId);
     }
 
-    // Add asteroid meeples
-    if (!is_null($meteor)) {
+    // Add asteroid meeples UNLESS tech no meteor of universal corporation
+    if (!is_null($meteor) && !$player->hasTech(TECH_NO_METEOR)) {
       $meteor = Meeples::addMeteor($player, $meteor);
     }
 

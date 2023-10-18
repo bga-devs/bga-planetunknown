@@ -133,12 +133,9 @@ class Planet
     $burntRows = [];
     $burntColumns = [];
 
-    //BIG IF except for Corporation0 tech5
-    if (!$this->player->hasTech(TECH_NO_METEOR)) {
-      foreach ($meteors as $id => $meteor) {
-        $burntColumns[] = $meteor->getX();
-        $burntRows[] = $meteor->getY();
-      }
+    foreach ($meteors as $id => $meteor) {
+      $burntColumns[] = $meteor->getX();
+      $burntRows[] = $meteor->getY();
     }
 
     foreach ($this->rowMedals as $rowId => $value) {
