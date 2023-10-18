@@ -1758,7 +1758,7 @@
             background-position-x: 100%;
             background-position-y: 100%; }
           .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-columns {
-            width: 295px;
+            width: 445px;
             height: 608px;
             position: absolute;
             top: 167px;
@@ -1800,6 +1800,29 @@
                   font-size: 11px;
                   transition: transform 0.5s;
                   margin-top: -8px; }
+            .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-columns .tech-descs {
+              width: 125px;
+              position: relative; }
+              .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-columns .tech-descs .tech-desc-container {
+                width: 100%;
+                height: 70px;
+                margin-bottom: 29px;
+                margin-top: 6px;
+                box-sizing: border-box;
+                position: relative; }
+                .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-columns .tech-descs .tech-desc-container.selectable {
+                  box-shadow: 0px 0px 8px 4px white;
+                  cursor: pointer; }
+                  .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-columns .tech-descs .tech-desc-container.selectable:hover {
+                    background: rgba(255, 255, 255, 0.473); }
+                .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-columns .tech-descs .tech-desc-container.selected, .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-columns .tech-descs .tech-desc-container.selectable.selected {
+                  box-shadow: 0px 0px 8px 4px green;
+                  background: rgba(0, 128, 0, 0.548); }
+                .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-columns .tech-descs .tech-desc-container .icon-lifepod {
+                  position: absolute;
+                  font-size: 10px;
+                  transition: transform 0.5s;
+                  bottom: 0; }
           .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .rover-reserve {
             position: absolute;
             bottom: 10px;

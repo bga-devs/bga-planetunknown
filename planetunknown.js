@@ -1237,6 +1237,7 @@ define([
       let selectedLifepod = null,
         selectedSpace = null,
         selectedElem = null;
+      let action = args.action || 'actPositionLifepodOnTrack';
 
       // Select lifepod
       let selectLifepod = (lifepodId) => {
@@ -1246,7 +1247,7 @@ define([
 
         if (selectedSpace)
           this.addPrimaryActionButton('btnConfirm', _('Confirm'), () =>
-            this.takeAtomicAction('actPositionLifepodOnTrack', [selectedLifepod, selectedSpace])
+            this.takeAtomicAction(action, [selectedLifepod, selectedSpace])
           );
       };
       if (args.lifepodIds.length == 1) {
@@ -1273,10 +1274,15 @@ define([
           selectedElem.classList.add('selected');
           if (selectedLifepod)
             this.addPrimaryActionButton('btnConfirm', _('Confirm'), () =>
-              this.takeAtomicAction('actPositionLifepodOnTrack', [selectedLifepod, selectedSpace])
+              this.takeAtomicAction(action, [selectedLifepod, selectedSpace])
             );
         });
       });
+    },
+
+    onEnteringStatePositionLifepodOnTech(args) {
+      args.action = 'actPositionLifepodOnTech';
+      this.onEnteringStatePositionLifepodOnTrack(args);
     },
 
     onEnteringStateChooseFluxTrack(args) {

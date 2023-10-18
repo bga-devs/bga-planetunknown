@@ -312,8 +312,7 @@ $machinestates = [
 
   ST_POSITION_LIFEPOD_ON_TECH => [
     'name' => POSITION_LIFEPOD_ON_TECH,
-    'descriptionmyturn' => clienttranslate('${you} can place a lifepod on a tech'),
-    'descriptionmyturnaftercollect' => clienttranslate('${you} may place the lifepod you collected on a tech'),
+    'descriptionmyturn' => clienttranslate('${you} may place the lifepod you collected on a tech'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',

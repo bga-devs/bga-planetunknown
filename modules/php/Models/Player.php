@@ -454,9 +454,15 @@ class Player extends \PU\Helpers\DB_Model
       Notifications::collectMeeple($this, [$lifepod], 'collect');
 
       if ($this->corporation()->getId() == COSMOS_INC) {
-        //TODO
         $flow = [
           'action' => POSITION_LIFEPOD_ON_TRACK,
+          'args' => ['lifepodId' => $lifepod->getId()],
+          'optional' => true,
+        ];
+      }
+      if ($this->corporation()->getId() == JUMP_DRIVE) {
+        $flow = [
+          'action' => POSITION_LIFEPOD_ON_TECH,
           'args' => ['lifepodId' => $lifepod->getId()],
           'optional' => true,
         ];

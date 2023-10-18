@@ -18,17 +18,12 @@ class PositionLifepodOnTech extends \PU\Models\Action
 {
   public function getState()
   {
-    return \ST_POSITION_LIFEPOD_ON_TRACK;
+    return \ST_POSITION_LIFEPOD_ON_TECH;
   }
 
   public function getDescription()
   {
-    $lifepodId = $this->getCtxArg('lifepodId');
-    $log = is_null($lifepodId) ? clienttranslate('Position ${n} lifepod(s)') : clienttranslate('Position the lifepod you collected');
-    return [
-      'log' => $log,
-      'args' => ['n' => $this->getRemaining()],
-    ];
+    return clienttranslate('Position the lifepod you collected');
   }
 
   public function isDoable($player)
@@ -41,19 +36,10 @@ class PositionLifepodOnTech extends \PU\Models\Action
     return true;
   }
 
-  public function getRemaining()
-  {
-    return $this->getCtxArg('remaining') ?? 1;
-  }
-
   public function getPossibleLifepodIds()
   {
     $lifepodId = $this->getCtxArg('lifepodId') ?? null;
-    return is_null($lifepodId)
-      ? $this->getPlayer()
-      ->getCollectedLifepods()
-      ->getIds()
-      : [$lifepodId];
+    return [$lifepodId];
   }
 
   public function getPossibleSpaceIds($player)
@@ -62,18 +48,14 @@ class PositionLifepodOnTech extends \PU\Models\Action
 
     for ($index = 1; $index <= 6; $index++) {
       if (!$player->corporation()->hasTechLevel($index)) {
-        $spaceIds[] = 'tech_nb_' . $index;
+        $spaceIds[] = 'tech-nb_' . $index;
       }
-    }
-
-    if (is_null($this->getCtxArg('lifepodId'))) {
-      $spaceIds[] = 'reserve';
     }
 
     return $spaceIds;
   }
 
-  public function argsPositionLifepodOnTrack()
+  public function argsPositionLifepodOnTech()
   {
     $player = $this->getPlayer();
     $lifepodId = $this->getCtxArg('lifepodId');
@@ -81,15 +63,13 @@ class PositionLifepodOnTech extends \PU\Models\Action
     return [
       'spaceIds' => $this->getPossibleSpaceIds($player),
       'lifepodIds' => $this->getPossibleLifepodIds(),
-      'remaining' => min($this->getRemaining(), $player->getCollectedLifepods()->count()),
-      'descSuffix' => is_null($lifepodId) ? '' : 'aftercollect',
     ];
   }
 
-  public function actPositionLifepodOnTrack($lifepodId, $spaceId)
+  public function actPositionLifepodOnTech($lifepodId, $spaceId)
   {
     $player = $this->getPlayer();
-    $args = $this->argsPositionLifepodOnTrack();
+    $args = $this->argsPositionLifepodOnTech();
     if (!in_array($lifepodId, $args['lifepodIds'])) {
       throw new \BgaVisibleSystemException('You cannot place this lifepod. Should not happen');
     }
@@ -97,23 +77,10 @@ class PositionLifepodOnTech extends \PU\Models\Action
       throw new \BgaVisibleSystemException('You cannot place your lifepod here. Should not happen');
     }
 
+    $y = explode('_', $spaceId)[1];
     $lifepod = Meeples::get($lifepodId);
-    if ($spaceId == 'reserve') {
-      $lifepod->setX('');
-      $lifepod->setY('');
-    } else {
-      $lifepod->setX($spaceId);
-      $lifepod->setY('');
-    }
+    $lifepod->setX('tech-nb');
+    $lifepod->setY($y);
     Notifications::repositionLifepod($player, $lifepod);
-
-    if ($this->getRemaining() > 1) {
-      $this->pushParallelChild([
-        'action' => POSITION_LIFEPOD_ON_TECH,
-        'args' => [
-          'remaining' => $this->getRemaining() - 1,
-        ],
-      ]);
-    }
   }
 }

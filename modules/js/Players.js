@@ -243,7 +243,11 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         }
         grid += '</div>';
       });
-      grid += '</div>';
+      grid += '<div class="tech-descs">';
+      for (let y = 6; y > 0; y--) {
+        grid += `<div class='tech-desc-container' id='corporation-${pId}-tech-nb-${y}'></div>`;
+      }
+      grid += '</div></div>';
 
       return `<div class='corporation' data-id='${corpo.id}' id='corporation-${pId}'>
         ${grid}

@@ -234,7 +234,7 @@ $planetGridHeight: 12 * $cellHeight;
                     }
 
                     .corporation-columns {
-                        width: 295px;
+                        width: 445px;
                         height: 608px;
                         position: absolute;
                         top: 167px;
@@ -297,6 +297,43 @@ $planetGridHeight: 12 * $cellHeight;
                                     font-size: 11px;
                                     transition: transform 0.5s;
                                     margin-top: -8px;
+                                }
+                            }
+                        }
+
+                        .tech-descs {
+                            width: 125px;
+                            position: relative;
+
+                            .tech-desc-container {
+                                width: 100%;
+                                height: 70px;
+                                margin-bottom: 29px;
+                                margin-top: 6px;
+                                box-sizing: border-box;
+                                position: relative;
+
+                                &.selectable {
+                                    box-shadow: 0px 0px 8px 4px white;
+                                    // margin-left: -1px;
+                                    // margin-bottom: -2px;
+                                    cursor: pointer;
+                                    &:hover {
+                                        background: rgba(255, 255, 255, 0.473);
+                                    }
+                                }
+
+                                &.selected,
+                                &.selectable.selected {
+                                    box-shadow: 0px 0px 8px 4px green;
+                                    background: rgba(0, 128, 0, 0.548);
+                                }
+
+                                .icon-lifepod {
+                                    position: absolute;
+                                    font-size: 10px;
+                                    transition: transform 0.5s;
+                                    bottom: 0;
                                 }
                             }
                         }
