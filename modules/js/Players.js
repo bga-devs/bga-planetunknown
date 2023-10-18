@@ -660,6 +660,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
             if (['Cerberus1', 'Cerberus2', 'Cerberus3'].includes(id)) return;
 
             let t = id.split('_');
+            if (t[0] == 'city') return; // Gaia
             let cell = t[0] == 'column' ? this.getPlanetCell(pId, t[1], -1) : this.getPlanetCell(pId, -1, t[1]);
             cell.classList.toggle('ok', entries[id] > 0);
             cell.classList.toggle('nok', entries[id] == 0);
