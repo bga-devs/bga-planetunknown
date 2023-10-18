@@ -173,7 +173,7 @@ class Planet
   public function countSymbolsOnEdge($symbol)
   {
     $cells = $this->getEdgeCells();
-    return array_reduce($cells, fn ($result, $cell) => $result + ($this->getSymbol($cell['x'], $cell['y']) == $symbol ? 1 : 0), 0);
+    return array_reduce($cells, fn($result, $cell) => $result + ($this->getSymbol($cell['x'], $cell['y']) == $symbol ? 1 : 0), 0);
   }
 
   /**
@@ -225,12 +225,12 @@ class Planet
   public function countLargestAdjacent($type)
   {
     $zones = $this->detectZones($type);
-    return $zones ? max(array_map(fn ($zone) => count($zone), $zones)) : 0;
+    return $zones ? max(array_map(fn($zone) => count($zone), $zones)) : 0;
   }
 
   public function countSymbols($type, $zone = null)
   {
-    $cells = array_filter($zone ?? $this->getListOfCells(), fn ($cell) => $this->getSymbol($cell['x'], $cell['y']) == $type);
+    $cells = array_filter($zone ?? $this->getListOfCells(), fn($cell) => $this->getSymbol($cell['x'], $cell['y']) == $type);
     return count($cells);
   }
 
@@ -238,7 +238,7 @@ class Planet
   {
     return array_filter(
       $this->getListOfCells(),
-      fn ($cell) => $this->hasMeteorSymbol($cell['x'], $cell['y']) && $this->player->getMeteorOnCell($cell)
+      fn($cell) => $this->hasMeteorSymbol($cell['x'], $cell['y']) && $this->player->getMeteorOnCell($cell)
     );
   }
 
@@ -436,7 +436,7 @@ class Planet
   public function getPlacementOptionsCachedDatas()
   {
     if (is_null($this->checkingCells)) {
-      $this->checkingCells = $this->tiles->empty() ? $this->getInitialPlacementCells() : $this->getConnectedCells();
+      $this->checkingCells = $this->tiles->empty() ? $this->getInitialPlacementCells() : $this->getConnectedCells(false);
     }
     if (is_null($this->freeCells)) {
       $cells = self::getListOfCells();
@@ -458,6 +458,11 @@ class Planet
   {
     $tileType = $tile->getType();
     list($checkingCells, $freeCells) = $this->getPlacementOptionsCachedDatas();
+    // WORMHOLE : can place also on cell with tiles on it
+    if ($tile->getType() == BIOMASS_PATCH && $this->player->hasTech(TECH_WORMHOLE_PATCH_ON_TILE)) {
+      $freeCells = self::getListOfCells();
+    }
+
     $border = $this->getBorderCells();
     $ice = $this->getIceCells();
     $byPassCheck = false; // Coorpo techs
@@ -480,7 +485,6 @@ class Planet
           }
 
           if (!$byPassCheck) {
-            // TODO: add check function that can be overwritten by some planets
             if (!$this->isValidPlacementOption($tile, $cells)) {
               continue;
             }
@@ -493,7 +497,10 @@ class Planet
               continue;
             }
 
-            if (!$this->isIntersectionNonEmpty($cells, $checkingCells) && !$this->player->hasTech(TECH_BYPASS_ADJACENT_CONSTRAINT)) {
+            if (
+              !$this->isIntersectionNonEmpty($cells, $checkingCells) &&
+              !$this->player->hasTech(TECH_BYPASS_ADJACENT_CONSTRAINT)
+            ) {
               continue;
             }
           }
@@ -540,7 +547,7 @@ class Planet
         'y' => $pos['y'] + $cellOffset['y'],
       ];
 
-      if (!$this->isCellAvailableToBuild($cell) && $checkAvailableToBuild) {
+      if (!$this->isCellAvailableToBuild($cell, $tileType) && $checkAvailableToBuild) {
         return false;
       } else {
         $cells[] = $cell;
@@ -587,15 +594,21 @@ class Planet
   /**
    * isCellAvailableToBuild: given an cell, can we build here ?
    */
-  public function isCellAvailableToBuild($cell)
+  public function isCellAvailableToBuild($cell, $tileType)
   {
     $uid = self::getCellId($cell);
     // Can't build on an invalid cell or already built cell
-    if (!$this->isCellValid($cell) || !is_null($this->getTileAtPos($cell))) {
+    if (!$this->isCellValid($cell)) {
       return false;
     }
+    $tile = $this->getTileAtPos($cell);
+    // Wormhole tech => allow to put biomass patch anywhere
+    if ($tileType == BIOMASS_PATCH && $this->player->hasTech(TECH_WORMHOLE_PATCH_ON_TILE)) {
+      $meeple = $this->player->getMeepleOnCell($cell, METEOR);
+      return is_null($meeple) || $this->player->hasTech(TECH_WORMHOLE_CAN_DESTROY_METEOR_WITH_PATCH);
+    }
 
-    return true;
+    return is_null($tile);
   }
 
   public function isCoveredCoord($x, $y)
@@ -839,7 +852,9 @@ class Planet
 
   public function getCellsOfType($type)
   {
-    if (!$type) return [];
+    if (!$type) {
+      return [];
+    }
 
     $cells = [];
     foreach ($this->getListOfCells() as $cell) {
@@ -908,10 +923,7 @@ class Planet
       $cells = array_merge($this->getCellsOfType($tileType), $cells);
     }
 
-    if (
-      $this->player->corporation()->canUse(TECH_REPUBLIC_TELEPORT_ROVER_CIV_TERRAIN)
-      && $this->getTypeAtPos($cell) == CIV
-    ) {
+    if ($this->player->corporation()->canUse(TECH_REPUBLIC_TELEPORT_ROVER_CIV_TERRAIN) && $this->getTypeAtPos($cell) == CIV) {
       $cells = array_merge($this->getCellsOfType(CIV), $cells);
     }
 

@@ -55,9 +55,14 @@ class Notifications
     ];
 
     if ($action == 'destroy') {
-      static::pnotify($player, 'destroyedMeeples', clienttranslate('${player_name} detroys ${n} ${type} from his planet'), $data);
+      static::pnotify(
+        $player,
+        'destroyedMeeples',
+        clienttranslate('${player_name} detroys ${n} ${type} from their planet'),
+        $data
+      );
     } else {
-      static::pnotify($player, 'slideMeeples', clienttranslate('${player_name} collects ${n} ${type} from his planet'), $data);
+      static::pnotify($player, 'slideMeeples', clienttranslate('${player_name} collects ${n} ${type} from their planet'), $data);
     }
   }
 
@@ -77,7 +82,7 @@ class Notifications
 
   public static function destroyCard($player, $cardId)
   {
-    $message = clienttranslate('${player_name} detroys one of his objective cards');
+    $message = clienttranslate('${player_name} detroys one of their objective cards');
     $data = [
       'player' => $player,
       'cardId' => $cardId,
@@ -106,12 +111,27 @@ class Notifications
       $player,
       'destroyedMeeples',
       $type == ROVER
-        ? clienttranslate('By placing his new tile, ${player_name} covers and destroys ${nb} rover(s)')
-        : clienttranslate('By placing his new tile, ${player_name} covers and destroys ${nb} lifepod(s)'),
+        ? clienttranslate('By placing their new tile, ${player_name} covers and destroys ${nb} rover(s)')
+        : clienttranslate('By placing their new tile, ${player_name} covers and destroys ${nb} lifepod(s)'),
       [
         'player' => $player,
         'nb' => count($destroyedMeeples),
         'meeples' => $destroyedMeeples->toArray(),
+      ]
+    );
+  }
+
+  public static function destroyedMeteorWormholePatch($player, $meeple)
+  {
+    self::pnotify(
+      $player,
+      'destroyedMeeples',
+      clienttranslate(
+        'By placing their biomass patch, ${player_name} covers and destroys one meteor (using Wormhole Corp technology)'
+      ),
+      [
+        'player' => $player,
+        'meeples' => [$meeple],
       ]
     );
   }
@@ -210,7 +230,7 @@ class Notifications
 
   public static function placeMeeple($player, $type, $meeple)
   {
-    $msg = clienttranslate('${player_name} places a new ${type} on his planet');
+    $msg = clienttranslate('${player_name} places a new ${type} on their planet');
     $data = [
       'player' => $player,
       'meeple' => $meeple,
@@ -232,7 +252,7 @@ class Notifications
 
   public static function placeRover($player, $rover)
   {
-    $msg = clienttranslate('${player_name} places a new rover on his planet');
+    $msg = clienttranslate('${player_name} places a new rover on their planet');
     $data = [
       'player' => $player,
       'meeple' => $rover,
@@ -242,7 +262,7 @@ class Notifications
 
   public static function moveRover($player, $rover, $meteor = null)
   {
-    $msg = clienttranslate('${player_name} moves his rover on his planet');
+    $msg = clienttranslate('${player_name} moves their rover on their planet');
     $data = [
       'player' => $player,
       'meeples' => $meteor ? [$rover, $meteor] : [$rover],
@@ -369,14 +389,20 @@ class Notifications
     static::pnotify($player, 'milestone', $message, $data);
   }
 
-  public static function receiveBiomassPatch($player, $tile, $bLater = false)
+  public static function receiveBiomassPatch($player, $tile)
   {
-    $msg = $bLater
-      ? \clienttranslate('${player_name} receives a new biomass patch to place at the game end')
-      : \clienttranslate('${player_name} receives a new biomass patch');
+    $msg = \clienttranslate('${player_name} receives a new biomass patch');
     static::pnotify($player, 'receiveBiomassPatch', $msg, [
       'player' => $player,
       'tile' => $tile,
+    ]);
+  }
+
+  public static function delayBiomassPatch($player)
+  {
+    $msg = clienttranslate('${player_name} keeps their new biomass patch to place at the game end');
+    static::pnotify($player, 'midMessage', $msg, [
+      'player' => $player,
     ]);
   }
 

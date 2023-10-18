@@ -17,23 +17,20 @@ class EventCard80 extends \PU\Models\Cards\EventCard
 
   public function __construct($player)
   {
-    $this->title = clienttranslate("Just put it anywhere.");
-    $this->desc = clienttranslate("Gain one biomass patch.");
+    $this->title = clienttranslate('Just put it anywhere.');
+    $this->desc = clienttranslate('Gain one biomass patch.');
     parent::__construct($player);
   }
 
   //ACTION : Patch+1
-  //CONTRAINT : 
+  //CONTRAINT :
   public function effect()
   {
     $players = Players::getAll();
     $result = [];
 
     foreach ($players as $pId => $player) {
-      $patchToPlace = $player->corporation()->receiveBiomassPatch();
-      if ($patchToPlace) {
-        $result['nestedFlows'][$pId] = Actions::getBiomassPatchFlow($patchToPlace->getId());
-      }
+      $result['nestedFlows'][$pId] = Actions::getBiomassPatchFlow();
     }
   }
 }

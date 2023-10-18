@@ -244,10 +244,13 @@ $machinestates = [
     'name' => 'placeTile',
     'descriptionmyturn' => clienttranslate('${you} must place a tile'),
     'descriptionmyturnimpossible' => clienttranslate('${you} can\'t place a tile. Choose one to keep for your last round'),
+    'descriptionmyturnskippablebiomass' => clienttranslate(
+      '${you} may place your biomass patch or keep it for the end of the game'
+    ),
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
-    'possibleactions' => ['actPlaceTile', 'actPlaceTileNoPlacement', 'actRestart'],
+    'possibleactions' => ['actPlaceTile', 'actKeepBiomassPatch', 'actPlaceTileNoPlacement', 'actRestart'],
   ],
 
   ST_MOVE_TRACK => [
@@ -415,6 +418,24 @@ $machinestates = [
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
     'possibleactions' => ['actChooseFluxTrack', 'actRestart'],
+  ],
+
+  ST_RESET_TRACK => [
+    'name' => RESET_TRACK,
+    'descriptionmyturn' => '',
+    'type' => 'private',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actResetTrack'],
+  ],
+
+  ST_GAIN_BIOMASS_PATCH => [
+    'name' => GAIN_BIOMASS_PATCH,
+    'descriptionmyturn' => '',
+    'descriptionmyturnchoice' => clienttranslate('${you} must choose how many biomass patches you want to gain (Wormhole corp)'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actGainBiomassPatch', 'actRestart'],
   ],
 
   //////////////////////////////////////////////////////////////////

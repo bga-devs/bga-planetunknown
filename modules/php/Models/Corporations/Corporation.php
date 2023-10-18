@@ -247,12 +247,9 @@ class Corporation
     return [$trackPawn->getX() . '_' . $nextSpaceY];
   }
 
-  //should be overidden for certain tech level/corporations
-  public function receiveBiomassPatch()
+  public function canPlaceBiomassPatchLater()
   {
-    $tile = Tiles::createBiomassPatch($this->player);
-    Notifications::receiveBiomassPatch($this->player, $tile);
-    return $tile;
+    return false;
   }
 
   public function collect($meeple)

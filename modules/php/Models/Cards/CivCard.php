@@ -45,10 +45,7 @@ class CivCard extends \PU\Models\Card
     $player = $this->getPlayer();
     $childs = [];
     for ($i = 0; $i < $n; $i++) {
-      $patchToPlace = $player->corporation()->receiveBiomassPatch();
-      if ($patchToPlace) {
-        $childs[] = Actions::getBiomassPatchFlow($patchToPlace->getId());
-      }
+      $childs[] = Actions::getBiomassPatchFlow();
     }
 
     return [

@@ -211,11 +211,11 @@ class Player extends \PU\Helpers\DB_Model
       if (in_array($contraint, FORBIDDEN_TERRAINS)) {
         Utils::filter(
           $neighbours,
-          fn ($cell) => $this->planet->getVisible($cell['x'], $cell['y']) != FORBIDDEN_TERRAINS[$contraint]
+          fn($cell) => $this->planet->getVisible($cell['x'], $cell['y']) != FORBIDDEN_TERRAINS[$contraint]
         );
       }
 
-      $spaceIds[$roverId] = array_map(fn ($cell) => Planet::getCellId($cell), $neighbours);
+      $spaceIds[$roverId] = array_map(fn($cell) => Planet::getCellId($cell), $neighbours);
     }
 
     return $spaceIds;
@@ -369,10 +369,8 @@ class Player extends \PU\Helpers\DB_Model
 
   public static function reduce_entries($array)
   {
-    return array_reduce($array['entries'], fn ($sum, $item) => $sum + (is_array($item) ? $item[0] : $item), 0);
+    return array_reduce($array['entries'], fn($sum, $item) => $sum + (is_array($item) ? $item[0] : $item), 0);
   }
-
-
 
   public function addEndOfTurnAction($flow)
   {
@@ -445,10 +443,7 @@ class Player extends \PU\Helpers\DB_Model
       Notifications::collectMeeple($this, [$meteor], 'collect');
 
       if ($this->hasTech(TECH_GET_BIOMASS_COLLECTING_METEOR)) {
-        $patchToPlace = $this->corporation()->receiveBiomassPatch();
-        if ($patchToPlace) {
-          $flow = Actions::getBiomassPatchFlow($patchToPlace->getId());
-        }
+        $flow = Actions::getBiomassPatchFlow();
       }
     }
 
@@ -458,7 +453,8 @@ class Player extends \PU\Helpers\DB_Model
       $this->corporation()->collect($lifepod);
       Notifications::collectMeeple($this, [$lifepod], 'collect');
 
-      if ($this->corporation()->getId() == COSMOS_INC) { //TODO
+      if ($this->corporation()->getId() == COSMOS_INC) {
+        //TODO
         $flow = [
           'action' => POSITION_LIFEPOD_ON_TRACK,
           'args' => ['lifepodId' => $lifepod->getId()],

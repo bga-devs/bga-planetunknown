@@ -21,7 +21,6 @@ class Corporation2 extends Corporation
         'text' => clienttranslate('Gain two movements for each rover starting on terrain of the flux track.'),
       ],
       2 => [
-        //TODO
         'text' => clienttranslate('Advance one tracker to the next milestone of the flux track. Once per Game.'),
       ],
       3 => [
@@ -180,7 +179,7 @@ class Corporation2 extends Corporation
   {
     if ($this->canUse('tech_' . $this->id . '_' . $techLvl)) {
       return [
-        'action' => REACH_NEXT_MILESTONE
+        'action' => REACH_NEXT_MILESTONE,
       ];
     }
   }
@@ -197,7 +196,7 @@ class Corporation2 extends Corporation
           'withBonus' => true,
         ],
         'source' => $this->name,
-        'flag' => TECH_ADVANCE_FLUX
+        'flag' => TECH_ADVANCE_FLUX,
       ];
     }
 
@@ -210,7 +209,7 @@ class Corporation2 extends Corporation
             'remaining' => $move,
           ],
           'source' => $this->name,
-          'flag' => TECH_GET_2_MOVES_ON_FLUX
+          'flag' => TECH_GET_2_MOVES_ON_FLUX,
         ];
       }
     }
@@ -244,9 +243,9 @@ class Corporation2 extends Corporation
                 'withBonus' => true,
               ],
               'flag' => TECH_FLUX_TO_NEXT_MILESTONE,
-              'source' => $this->name
+              'source' => $this->name,
             ],
-          ]
+          ],
         ];
       }
     }
@@ -255,12 +254,7 @@ class Corporation2 extends Corporation
 
   public function resetFlags()
   {
-    $flags = PGlobals::getFlags($this->pId);
-    foreach ($this->flagsToReset as $flag) {
-      unset($flags[$flag]);
-    }
-    PGlobals::setFlags($this->pId, $flags);
-
+    parent::resetFlags();
     PGlobals::setFreeRoverMoves($this->pId, $this->get2MovesOnFlux());
   }
 }

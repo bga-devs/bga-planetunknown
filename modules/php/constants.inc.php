@@ -90,6 +90,8 @@ const ST_POSITION_LIFEPOD_ON_TECH = 39;
 const ST_CLAIM_ALL_IN_A_ROW = 40;
 const ST_CHOOSE_OBJECTIVE_FOR_ALL = 41;
 const ST_REACH_NEXT_MILESTONE = 42;
+const ST_RESET_TRACK = 43;
+const ST_GAIN_BIOMASS_PATCH = 44;
 
 const ST_PRE_END_GAME_TURN = 80;
 const ST_END_GAME_TURN = 81;
@@ -144,6 +146,8 @@ const POSITION_LIFEPOD_ON_TECH = 'PositionLifepodOnTech';
 const CLAIM_ALL_IN_A_ROW = 'ClaimAllInARow';
 const CHOOSE_OBJECTIVE_FOR_ALL = 'ChooseObjectiveForAll';
 const REACH_NEXT_MILESTONE = 'ReachNextMilestone';
+const RESET_TRACK = 'ResetTrack';
+const GAIN_BIOMASS_PATCH = 'GainBiomassPatch';
 
 /*
  * Phases
@@ -288,6 +292,13 @@ const TECH_REPUBLIC_CAN_CHOOSE_UPGRADED_CIV_CARD = 'tech_7_2';
 const TECH_REPUBLIC_TELEPORT_ROVER_CIV_TERRAIN = 'tech_7_3';
 const TECH_REPUBLIC_GET_SYNERGY_WITH_CIV_MILESTONE = 'tech_7_4';
 const TECH_REPUBLIC_GET_2_CIV_CARDS_END_OF_GAME = 'tech_7_5';
+
+const WORMHOLE = 8;
+const TECH_WORMHOLE_RESET_BIOMASS = 'tech_8_1';
+const TECH_WORMHOLE_PATCH_ON_TILE = 'tech_8_2';
+const TECH_WORMHOLE_GAIN_TWO_BIOMASS_PATCHES = 'tech_8_3';
+const TECH_WORMHOLE_CAN_STORE_BIOMASS_PATCH = 'tech_8_4';
+const TECH_WORMHOLE_CAN_DESTROY_METEOR_WITH_PATCH = 'tech_8_5';
 
 /*
  * Tiles and Space station

@@ -100,9 +100,14 @@ class PlaceTile extends \PU\Models\Action
     return [$tiles, false];
   }
 
+  public function isBiomassPatch()
+  {
+    return $this->getCtxArgs('biomassPatch') ?? false;
+  }
+
   public function getDescription()
   {
-    $description = $this->getCtxArg('descriptionTile') ?? clienttranslate('a new tile');
+    $description = $this->isBiomassPatch() ? clienttranslate('a biomass patch') : clienttranslate('a new tile');
 
     return [
       'log' => \clienttranslate('Place ${description} on your planet'),
@@ -118,9 +123,10 @@ class PlaceTile extends \PU\Models\Action
     $player = $this->getPlayer();
     list($tiles, $canPlace) = $this->getPlayableTiles($player);
 
+    $skippableBiomass = $this->isBiomassPatch() && $player->corporation()->canPlaceBiomassPatchLater();
     return [
       'tiles' => $tiles,
-      'descSuffix' => $canPlace ? '' : 'impossible',
+      'descSuffix' => $canPlace ? ($skippableBiomass ? 'skippablebiomass' : '') : 'impossible',
     ];
   }
 
@@ -144,11 +150,22 @@ class PlaceTile extends \PU\Models\Action
       throw new \BgaVisibleSystemException('You cannot place the tile here with that rotation/flip. Should not happen');
     }
 
+    // Old location is used to update SUSAN counters in UI
     $oldLocation = Tiles::get($tileId)->getLocation();
+    // Wormhole corpration => check number of biomass zones before and after
+    if ($player->getCorporationId() == WORMHOLE) {
+      $biomassZones = $player->planet()->countZoneNb(BIOMASS);
+    }
+
     // Place it on the board
     list($tile, $symbols, $coveringWater, $meteor) = $player->planet()->addTile($tileId, $pos, $rotation, $flipped);
 
-    //record it except if it's a patch
+    // Wormhole corpration => check number of biomass zones before and after
+    if ($player->getCorporationId() == WORMHOLE) {
+      $cantAdvanceBiomass = $player->planet()->countZoneNb(BIOMASS) > $biomassZones;
+    }
+
+    // Record it except if it's a patch
     if (!$tile->isBiomassPatch()) {
       $player->setLastTileId($tileId);
     }
@@ -168,7 +185,7 @@ class PlaceTile extends \PU\Models\Action
       ]);
     }
 
-    //if the played tile cover no ice, a corpo advance its water tracker
+    // If the played tile cover no ice, a corpo advance its water tracker
     if ($player->hasTech(TECH_MOVE_WATER_IF_NO_ICE) && !$tile->isBiomassPatch()) {
       if ($player->planet()->isTileOnlyOnLand($tile)) {
         $this->pushParallelChild([
@@ -180,7 +197,6 @@ class PlaceTile extends \PU\Models\Action
 
     // Move tracks
     $tileTypes = [];
-
     $actions = [];
 
     foreach ($symbols as $symbol) {
@@ -191,6 +207,12 @@ class PlaceTile extends \PU\Models\Action
         continue;
       }
 
+      // Wormhole corpration => must expand a biomass zone to gain symbol
+      if ($type == BIOMASS && ($cantAdvanceBiomass ?? false)) {
+        continue;
+      }
+
+      // Flux tech : collect meteor on a placed tile if it matches flux track
       if (
         $player->hasTech(TECH_COLLECT_METEOR_FLUX) &&
         $type == $player->corporation()->getFluxTrack() &&
@@ -217,6 +239,13 @@ class PlaceTile extends \PU\Models\Action
         }
 
         $types = $player->planet()->getTypesAdjacentToEnergy($symbol['cell']);
+        // WORMHOLE : cant advance BIOMASS using energy
+        if ($player->getCorporationId() == WORMHOLE) {
+          Utils::filter($types, function ($type) {
+            return $type != BIOMASS;
+          });
+        }
+
         $actions[] = [
           'action' => CHOOSE_TRACKS,
           'args' => [
@@ -231,10 +260,7 @@ class PlaceTile extends \PU\Models\Action
       // Water => stop if the tile is not covering water or give some action for special corpo
       elseif ($type == WATER) {
         if ($player->hasTech(TECH_GET_BIOMASS_WITH_WATER)) {
-          $patchToPlace = $player->corporation()->receiveBiomassPatch();
-          if ($patchToPlace) {
-            $this->pushParallelChild(Actions::getBiomassPatchFlow($patchToPlace->getId()));
-          }
+          $this->pushParallelChild(Actions::getBiomassPatchFlow());
         }
         if ($player->hasTech(TECH_GET_SYNERGY_WITH_WATER)) {
           $action = $player->getSynergy();
@@ -286,6 +312,23 @@ class PlaceTile extends \PU\Models\Action
     if ($destroyedRover->count()) {
       Notifications::destroyedMeeples($player, $destroyedRover, ROVER);
     }
+
+    ////////////////
+    // WORMHOLE
+    if ($tile->getType() == BIOMASS_PATCH) {
+      // Destroy meteor with biomass patch
+      if ($player->hasTech(TECH_WORMHOLE_CAN_DESTROY_METEOR_WITH_PATCH)) {
+        $meeple = $player->getMeepleOnCell($pos, METEOR);
+        if (!is_null($meeple)) {
+          Meeples::move($meeple->getId(), 'trash');
+          Notifications::destroyedMeteorWormholePatch($player, $meeple);
+        }
+      }
+
+      // Gain an extra free biomass patch
+      if ($player->corporation()->canUse(TECH_WORMHOLE_GAIN_TWO_BIOMASS_PATCHES)) {
+      }
+    }
   }
 
   public function actPlaceTileNoPlacement($tileId)
@@ -333,5 +376,24 @@ class PlaceTile extends \PU\Models\Action
     }
 
     Notifications::placeTileNoPlacement($player, $tile, $tileTypes);
+  }
+
+  public function actKeepBiomassPatch()
+  {
+    $player = $this->getPlayer();
+    $args = $this->argsPlaceTile();
+    if ($args['descSuffix'] != 'skippablebiomass') {
+      throw new \BgaVisibleSystemException('You cannot keep that biomass patch for later. Should not happen ');
+    }
+
+    $player->addEndOfGameAction([
+      'action' => PLACE_TILE,
+      'args' => [
+        'forcedTiles' => $this->getForcedTiles(),
+        'biomassPatch' => true,
+      ],
+    ]);
+
+    Notifications::delayBiomassPatch($player);
   }
 }

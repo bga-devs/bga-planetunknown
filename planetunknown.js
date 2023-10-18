@@ -63,12 +63,14 @@ define([
         ['revealCards', 1400],
         ['newEventCard', 3500],
         ['chooseFluxTrack', null],
+        ['midMessage', 1200],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
       this.default_viewport = 'width=740';
       this.cardStatuses = {};
     },
+    notif_midMessage(n) {},
 
     getSettingsSections() {
       return {
@@ -844,6 +846,12 @@ define([
         return;
       }
 
+      if (args.descSuffix == 'skippablebiomass') {
+        this.addSecondaryActionButton('btnKeepIt', _('Keep it for later'), () =>
+          this.takeAtomicAction('actKeepBiomassPatch', [])
+        );
+      }
+
       // REGULAR FLOW
       let selection = null;
       let rotation = 0;
@@ -1285,6 +1293,13 @@ define([
           this.takeAtomicAction('actMoveTrackersToFive', [type])
         );
       });
+    },
+
+    onEnteringStateGainBiomassPatch(args) {
+      for (let i = 1; i <= args.n; i++) {
+        let n = i;
+        this.addPrimaryActionButton('btn' + i, i, () => this.takeAtomicAction('actGainBiomassPatch', [n]));
+      }
     },
 
     ////////////////////////////////////////////////////////////

@@ -165,22 +165,20 @@ class Action
 
           break;
         case BIOMASS:
-          $patchToPlace = $player->corporation()->receiveBiomassPatch();
-          if ($patchToPlace) {
-            if ($player->corporation()->canUse(TECH_GET_SYNERGY_INSTEAD_OF_BIOMASS_PATCH_ONCE_PER_ROUND)) {
-              //as the tech is optional, player can choose biomass or synergy
-              $action = $player->getSynergy();
-              if ($action) {
-                $action['source'] = $player->corporation()->name;
-                $action['flag'] = TECH_GET_SYNERGY_INSTEAD_OF_BIOMASS_PATCH_ONCE_PER_ROUND;
-                $actions[] = [
-                  'type' => NODE_XOR,
-                  'childs' => [Actions::getBiomassPatchFlow($patchToPlace->getId()), $action],
-                ];
-              }
+          $actionBiomass = Actions::getBiomassPatchFlow();
+          if ($player->corporation()->canUse(TECH_GET_SYNERGY_INSTEAD_OF_BIOMASS_PATCH_ONCE_PER_ROUND)) {
+            //as the tech is optional, player can choose biomass or synergy
+            $actionSynergy = $player->getSynergy();
+            if ($actionSynergy) {
+              $actionSynergy['source'] = $player->corporation()->name;
+              $actionSynergy['flag'] = TECH_GET_SYNERGY_INSTEAD_OF_BIOMASS_PATCH_ONCE_PER_ROUND;
+              $actionBiomass = [
+                'type' => NODE_XOR,
+                'childs' => [$actionBiomass, $actionSynergy],
+              ];
             }
-            $actions[] = Actions::getBiomassPatchFlow($patchToPlace->getId());
           }
+          $actions[] = $actionBiomass;
           break;
         case TECH:
           $levelTech = $player->corporation()->getTechLevel($this);
@@ -217,6 +215,21 @@ class Action
             Notifications::milestone($player, $bonus);
           }
           break;
+        case SYNERGY_CIV:
+        case SYNERGY_WATER:
+        case SYNERGY_ROVER:
+        case SYNERGY_TECH:
+          $type = explode('_', $bonus)[1];
+          $actions[] = [
+            'action' => MOVE_TRACKER_BY_ONE,
+            'args' => [
+              'type' => $type,
+              'n' => 1,
+              'withBonus' => true,
+            ],
+          ];
+          Notifications::milestone($player, $bonus);
+          break;
         case ROVER:
           $actions[] = [
             'action' => PLACE_ROVER,
@@ -239,6 +252,13 @@ class Action
       }
     }
 
+    // if ($xorNode) {
+    //   var_dump($actions);
+    //   die('test');
+    //   $this->pushParallelChild([
+    //     'type' => NODE_XOR,
+    //     'childs' => $actions,
+    //   ]);
     $this->pushParallelChilds($actions);
   }
 }

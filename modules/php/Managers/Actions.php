@@ -21,6 +21,7 @@ class Actions
     MOVE_TRACKER_BY_ONE,
     TAKE_CIV_CARD,
     MOVE_ROVER,
+    GAIN_BIOMASS_PATCH,
     //from civ card
     COLLECT_MEEPLE,
     DESTROY_ALL_IN_ROW,
@@ -36,17 +37,14 @@ class Actions
     POSITION_LIFEPOD_ON_TECH,
     CLAIM_ALL_IN_A_ROW,
     CHOOSE_OBJECTIVE_FOR_ALL,
-    REACH_NEXT_MILESTONE //no front
+    REACH_NEXT_MILESTONE, //no front
+    RESET_TRACK,
   ];
 
-  public static function getBiomassPatchFlow($patchId)
+  public static function getBiomassPatchFlow()
   {
     return [
-      'action' => PLACE_TILE,
-      'args' => [
-        'descriptionTile' => clienttranslate('a biomass patch'),
-        'forcedTiles' => [$patchId],
-      ],
+      'action' => GAIN_BIOMASS_PATCH,
     ];
   }
 
