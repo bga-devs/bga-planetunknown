@@ -685,7 +685,7 @@ define([
     //              |___/
     ////////////////////////////////////////
     onEnteringStateSetupEngine(args) {
-      if (!this.isCurrentPlayerActive()) {
+      if (!this.isCurrentPlayerActive() && !this.isSpectator) {
         this.addSecondaryActionButton('btnCancel', _('Cancel'), () => this.takeAction('actCancel', {}, false));
       }
     },
