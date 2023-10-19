@@ -27,6 +27,21 @@ class Susan
 		];
 	}
 
+	public static function getPlayableTilesForPlayer($player)
+	{
+		$tiles = [];
+		$depot = Susan::getDepotOfPlayer($player);
+		$tile = Tiles::getTopOf('top-interior-' . $depot['interior'])->first();
+		if ($tile) {
+			$tiles[] = $tile;
+		}
+		$tile2 = Tiles::getTopOf('top-exterior-' . $depot['exterior'])->first();
+		if ($tile2) {
+			$tiles[] = $tile2;
+		}
+		return $tiles;
+	}
+
 	public static function getDepots()
 	{
 		$depots = [];

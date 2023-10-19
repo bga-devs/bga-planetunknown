@@ -2,6 +2,9 @@
 
 namespace PU\Models\Corporations;
 
+use PU\Managers\Susan;
+use PU\Managers\Tiles;
+
 class Corporation7 extends Corporation
 {
   public function __construct($player)
@@ -9,6 +12,7 @@ class Corporation7 extends Corporation
     $this->name = clienttranslate('Republic');
     $this->desc = clienttranslate('You must regress another tracker each time you claim a milestone from the civ track. Do not claim benefits from regressing.');
 
+    $this->flagsToReset = [TECH_REPUBLIC_MOVE_ROVER_WITH_CIV_TILE, REPUBLIC_TILE_PLACED];
     $this->techBonuses = [
       1 => [
         'text' => clienttranslate('Gain movement based on your rover tracker when you select a civ tile.')
@@ -58,17 +62,51 @@ class Corporation7 extends Corporation
     ];
   }
 
+  public function getAnytimeActions()
+  {
+    $actions = [];
+
+    //tile must not have been played
+    if ($this->canUse(TECH_REPUBLIC_MOVE_ROVER_WITH_CIV_TILE) && !$this->isFlagged(REPUBLIC_TILE_PLACED)) {
+
+      $tiles = Susan::getPlayableTilesForPlayer($this->player);
+
+      $hasCiv = false;
+      foreach ($tiles as $tile) {
+        if (in_array(CIV, $tile->getTerrainTypes())) {
+          $hasCiv = true;
+          break;
+        }
+      }
+
+      if ($hasCiv) {
+        $action = $this->getMoveFromRoverTrack();
+        if ($action) {
+          $actions[] = $action;
+        }
+      }
+    }
+
+
+    return $actions;
+  }
+
   public function getMoveFromRoverTrack()
   {
     $roverLevel = $this->getLevelOnTrack(ROVER);
-    foreach ($this->tracks[ROVER][$roverLevel] as $bonus) {
+
+    $bonuses = (is_array($this->tracks[ROVER][$roverLevel])) ? $this->tracks[ROVER][$roverLevel] : [$this->tracks[ROVER][$roverLevel]];
+    foreach ($bonuses as $bonus) {
       if (is_string($bonus) && str_starts_with($bonus, 'move')) {
         $levelMove = $this->moveRoverBy(explode('_', $bonus)[1]);
         return [
           'action' => MOVE_ROVER,
           'args' => [
             'remaining' => $levelMove,
+            'description' => clienttranslate('Move your rover (${remaining}) if you select a civ tile')
           ],
+          'flag' => TECH_REPUBLIC_MOVE_ROVER_WITH_CIV_TILE,
+          'source' => $this->name
         ];
       }
     }

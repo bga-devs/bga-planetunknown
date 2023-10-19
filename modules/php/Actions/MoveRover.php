@@ -40,7 +40,7 @@ class MoveRover extends \PU\Models\Action
   public function getDescription()
   {
     return [
-      'log' => clienttranslate('Move your rover (${remaining})'),
+      'log' => $this->getCtxArg('description') ?? clienttranslate('Move your rover (${remaining})'),
       'args' => [
         'remaining' => $this->getCtxArg('remaining'),
       ],

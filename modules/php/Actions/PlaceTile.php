@@ -45,15 +45,12 @@ class PlaceTile extends \PU\Models\Action
 
   public function getPossibleTiles($player)
   {
-    $tiles = [];
-    $depot = Susan::getDepotOfPlayer($player);
-    $tile = Tiles::getTopOf('top-interior-' . $depot['interior'])->first();
-    if ($tile) {
-      $tiles[] = $tile;
-    }
-    $tile2 = Tiles::getTopOf('top-exterior-' . $depot['exterior'])->first();
-    if ($tile2) {
-      $tiles[] = $tile2;
+    $tiles = Susan::getPlayableTilesForPlayer($player);
+
+    if ($player->corporation()->isFlagged(TECH_REPUBLIC_MOVE_ROVER_WITH_CIV_TILE)) {
+      Utils::filter($tiles, function ($tile) {
+        return in_array(CIV, $tile->getTerrainTypes());
+      });
     }
     return $tiles;
   }
@@ -277,13 +274,6 @@ class PlaceTile extends \PU\Models\Action
             'args' => ['type' => $type, 'n' => $coveringWater, 'withBonus' => true],
           ];
           continue;
-        }
-      } elseif ($type == CIV) {
-        if ($player->hasTech(TECH_REPUBLIC_MOVE_ROVER_WITH_CIV_TILE)) {
-          $action = $player->corporation()->getMoveFromRoverTrack();
-          if ($action) {
-            $actions[] = $action;
-          }
         }
       }
 
