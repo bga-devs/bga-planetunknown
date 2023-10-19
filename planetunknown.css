@@ -3233,19 +3233,20 @@
   display: inline-block;
   text-transform: uppercase;
   font-family: "HemiHead";
-  border: 1px solid black; }
+  border: 1px solid black;
+  padding: 2px 7px; }
   .event-alert.alert-green {
     border-color: green;
     color: green;
-    background: green; }
+    background: #b2f2dd; }
   .event-alert.alert-orange {
-    border-color: green;
-    color: green;
-    background: green; }
+    border-color: #80570d;
+    color: #80570d;
+    background: orange; }
   .event-alert.alert-red {
-    border-color: green;
-    color: green;
-    background: green; }
+    border-color: #730909;
+    color: #730909;
+    background: #df9292; }
 
 #ebd-body.help-mode .tooltipable {
   cursor: help; }

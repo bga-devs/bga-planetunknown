@@ -39,8 +39,21 @@ class PlaceTile extends \PU\Models\Action
 
   public function getForcedTiles()
   {
-    $forcedTiles = $this->getCtxArg('forcedTiles');
-    return $forcedTiles ? Tiles::getMany($forcedTiles) : null;
+    $forcedTiles = $this->getCtxArg('forcedTiles') ?? null;
+    if (!is_null($forcedTiles)) {
+      $ids = [];
+      // TODO : remove later
+      foreach ($forcedTiles as $tileId => $tile) {
+        if (is_array($tile)) {
+          $ids[] = $tileId;
+        } else {
+          $ids[] = $tile;
+        }
+      }
+      $forcedTiles = Tiles::getMany($ids);
+    }
+
+    return $forcedTiles;
   }
 
   public function getPossibleTiles($player)
@@ -99,7 +112,7 @@ class PlaceTile extends \PU\Models\Action
 
   public function isBiomassPatch()
   {
-    return $this->getCtxArgs('biomassPatch') ?? false;
+    return $this->getCtxArg('biomassPatch') ?? false;
   }
 
   public function getDescription()
@@ -379,7 +392,7 @@ class PlaceTile extends \PU\Models\Action
     $player->addEndOfGameAction([
       'action' => PLACE_TILE,
       'args' => [
-        'forcedTiles' => $this->getForcedTiles(),
+        'forcedTiles' => $this->getForcedTiles()->getIds(),
         'biomassPatch' => true,
       ],
     ]);
