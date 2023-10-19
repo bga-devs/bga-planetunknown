@@ -32,5 +32,6 @@ class EventCard80 extends \PU\Models\Cards\EventCard
     foreach ($players as $pId => $player) {
       $result['nestedFlows'][$pId] = Actions::getBiomassPatchFlow();
     }
+    return $result;
   }
 }

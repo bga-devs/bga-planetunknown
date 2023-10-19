@@ -44,6 +44,7 @@ class EventCard extends \PU\Models\Card
         'n' => $toChoose,
         'move' => $nMove,
         'from' => clienttranslate('Event Card'),
+        'withBonus' => ($nMove > 0)
       ],
     ];
   }

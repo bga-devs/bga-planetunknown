@@ -72,6 +72,7 @@ trait TurnTrait
 
   public function stRevealEventCard()
   {
+    Globals::setTurnSpecialRule('');
     $card = Cards::pickOneForLocation('deck_event', 'discard_event', Cards::countInLocation('discard_event'));
 
     //if deck_event is empty -> last round

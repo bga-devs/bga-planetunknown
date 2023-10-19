@@ -136,7 +136,7 @@ class CollectMeeple extends \PU\Models\Action
       foreach ($meeples as $meeple) {
         $player->corporation()->collect($meeple);
 
-        if ($player->corporation()->getId() == COSMOS_INC) {
+        if ($player->corporation()->getId() == COSMOS_INC && $type == LIFEPOD) {
           $this->pushParallelChild([
             'action' => POSITION_LIFEPOD_ON_TRACK,
             'args' => ['lifepodId' => $meeple->getId()],

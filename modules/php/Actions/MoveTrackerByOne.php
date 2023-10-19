@@ -40,10 +40,7 @@ class MoveTrackerByOne extends \PU\Models\Action
   public function getWithBonus()
   {
     $withBonus = $this->getCtxArg('withBonus');
-    if ($withBonus == NO_SYNERGY) {
-      return $withBonus;
-    }
-    return $withBonus && Globals::getTurnSpecialRule() != NO_MILESTONE;
+    return $withBonus;
   }
 
   public function getMoveId()

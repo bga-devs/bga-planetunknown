@@ -132,6 +132,9 @@ class Action
     $actions = [];
 
     foreach ($bonuses as $bonus) {
+      if ((Globals::getTurnSpecialRule() == NO_MILESTONE) && in_array($bonus, [CIV, TECH, ROVER, BIOMASS])) {
+        continue;
+      }
       switch ($bonus) {
         case CIV:
           $levelCiv = $player->corporation()->getCivLevel();
