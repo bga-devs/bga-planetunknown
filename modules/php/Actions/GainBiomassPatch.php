@@ -8,12 +8,14 @@ use PU\Managers\Tiles;
 use PU\Core\Notifications;
 use PU\Core\Engine;
 use PU\Core\Stats;
+use PU\Core\Globals;
 use PU\Core\PGlobals;
 use PU\Helpers\Utils;
 use PU\Helpers\FlowConvertor;
 use PU\Managers\Susan;
 use PU\Models\Corporations\Corporation;
 use PU\Models\Planet;
+use PU\Models\Tile;
 
 class GainBiomassPatch extends \PU\Models\Action
 {
@@ -24,7 +26,14 @@ class GainBiomassPatch extends \PU\Models\Action
 
   public function getDescription()
   {
-    return clienttranslate('Gain one <BIOMASS_PATCH>');
+    return clienttranslate('Gain one <BIOMASS-PATCH>');
+  }
+
+  public function isDoable($player)
+  {
+    $tile = new Tile(['type' => BIOMASS_PATCH]);
+    $specialRule = Globals::getTurnSpecialRule();
+    return !empty($player->planet()->getPlacementOptions($tile, true, $specialRule));
   }
 
   public function argsGainBiomassPatch()

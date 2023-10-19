@@ -1331,7 +1331,7 @@ define([
     },
 
     formatString(str) {
-      const ICONS = ['WATER', 'ROVER', 'CIV', 'BIOMASS', 'TECH'];
+      const ICONS = ['WATER', 'ROVER', 'CIV', 'BIOMASS', 'TECH', 'BIOMASS-PATCH'];
 
       ICONS.forEach((name) => {
         const regex = new RegExp('<' + name + ':([^>]+)>', 'g');

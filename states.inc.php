@@ -250,7 +250,13 @@ $machinestates = [
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
-    'possibleactions' => ['actPlaceTile', 'actKeepBiomassPatch', 'actPlaceTileNoPlacement', 'actRestart'],
+    'possibleactions' => [
+      'actPlaceTile',
+      'actKeepBiomassPatch',
+      'actPlaceTileNoPlacement',
+      'actRestart',
+      'actPassOptionalAction',
+    ],
   ],
 
   ST_MOVE_TRACK => [
