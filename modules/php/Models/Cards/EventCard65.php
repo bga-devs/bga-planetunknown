@@ -19,19 +19,19 @@ class EventCard65 extends \PU\Models\Cards\EventCard
 
   public function __construct($player)
   {
-    $this->title = clienttranslate("Have you seen the R-16? It makes the R-15 obsolete.");
-    $this->desc = clienttranslate("Gain an extra Rover and position it on a tile you place this round");
+    $this->title = clienttranslate('Have you seen the R-16? It makes the R-15 obsolete.');
+    $this->desc = clienttranslate('Gain an extra Rover and position it on a tile you place this round');
     parent::__construct($player);
   }
 
   //ACTION : Rover+1
-  //CONTRAINT : 
+  //CONTRAINT :
   public function effect()
   {
     $player = Players::getAll();
 
     Meeples::add(ROVER_MEEPLE, $player);
 
-    Globals::setTurnSpecialRules(ADD_ROVER);
+    Globals::setTurnSpecialRule(ADD_ROVER);
   }
 }

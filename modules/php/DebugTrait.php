@@ -13,9 +13,18 @@ use PU\Helpers\Collection;
 use PU\Managers\Tiles;
 use PU\Managers\Players;
 use PU\Managers\Meeples;
+use PU\Managers\Cards;
 
 trait DebugTrait
 {
+  function chooseEvent($eventId)
+  {
+    $mode = Globals::getMode();
+    Globals::setMode(MODE_APPLY);
+    Cards::insertOnTop($eventId, 'deck_event');
+    Globals::setMode($mode);
+  }
+
   function tp()
   {
     //    Log::clearUndoableStepNotifications(true);

@@ -187,9 +187,18 @@ class Notifications
 
   public static function newEventCard($card)
   {
-    $message = clienttranslate('A new event card is revealed');
+    $alert = [
+      GREEN => clienttranslate('Green alert'),
+      ORANGE => clienttranslate('Orange alert'),
+      RED => clienttranslate('Red alert'),
+    ];
+    $message = clienttranslate('${alert} : ${desc}');
     $data = [
+      'i18n' => ['alert', 'desc'],
+      'alert' => $alert[$card->getColor()],
+      'color' => $card->getColor(),
       'card' => $card,
+      'desc' => $card->getDesc(),
     ];
     static::notifyAll('newEventCard', $message, $data);
   }

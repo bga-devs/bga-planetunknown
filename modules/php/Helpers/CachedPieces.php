@@ -229,7 +229,9 @@ class CachedPieces extends DB_Manager
       $found = count($result);
       $searched = count($ids);
       // throw new \feException(print_r(\debug_print_backtrace()));
-      throw new \feException("Class Pieces: getMany, some pieces have not been found ! ($found on $searched)(" . json_encode($ids));
+      throw new \feException(
+        "Class Pieces: getMany, some pieces have not been found ! ($found on $searched)(" . json_encode($ids)
+      );
     }
 
     return $result;
@@ -520,10 +522,12 @@ class CachedPieces extends DB_Manager
         ->multipleInsert($fields)
         ->values($values);
 
-      foreach (static::getSelectQuery()
+      foreach (
+        static::getSelectQuery()
           ->whereIn(static::$prefix . 'id', $ids)
           ->get()
-        as $id => $obj) {
+        as $id => $obj
+      ) {
         static::$datas[$id] = $obj;
       }
 

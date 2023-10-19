@@ -3229,6 +3229,24 @@
   margin-left: 30px;
   background: #d7ab29; }
 
+.event-alert {
+  display: inline-block;
+  text-transform: uppercase;
+  font-family: "HemiHead";
+  border: 1px solid black; }
+  .event-alert.alert-green {
+    border-color: green;
+    color: green;
+    background: green; }
+  .event-alert.alert-orange {
+    border-color: green;
+    color: green;
+    background: green; }
+  .event-alert.alert-red {
+    border-color: green;
+    color: green;
+    background: green; }
+
 #ebd-body.help-mode .tooltipable {
   cursor: help; }
 

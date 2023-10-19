@@ -228,6 +228,30 @@ html {
   background: #d7ab29;
 }
 
+.event-alert {
+  display: inline-block;
+  text-transform: uppercase;
+  font-family: "HemiHead";
+  border: 1px solid black;
+  padding: 2px 7px;
+
+  &.alert-green {
+    border-color: green;
+    color: green;
+    background: #b2f2dd;
+  }
+  &.alert-orange {
+    border-color: #80570d;
+    color: #80570d;
+    background: orange;
+  }
+  &.alert-red {
+    border-color: #730909;
+    color: #730909;
+    background: #df9292;
+  }
+}
+
 #ebd-body.help-mode {
   .tooltipable {
     cursor: help;

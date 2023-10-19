@@ -19,6 +19,16 @@ class EventCard extends \PU\Models\Card
     parent::__construct($player);
   }
 
+  public function getColor()
+  {
+    return $this->color;
+  }
+
+  public function getDesc()
+  {
+    return $this->desc;
+  }
+
   //ACTION : {ACTION}
   //CONTRAINT : {RULE}
   public function effect()
@@ -33,8 +43,8 @@ class EventCard extends \PU\Models\Card
         'types' => $types,
         'n' => $toChoose,
         'move' => $nMove,
-        'from' => clienttranslate('Event Card')
-      ]
+        'from' => clienttranslate('Event Card'),
+      ],
     ];
   }
 
@@ -45,9 +55,9 @@ class EventCard extends \PU\Models\Card
       'childs' => [
         $this->synergy(1, 1),
         [
-          'action' => PEEK_NEXT_EVENT
-        ]
-      ]
+          'action' => PEEK_NEXT_EVENT,
+        ],
+      ],
     ];
   }
 }

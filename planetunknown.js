@@ -1359,6 +1359,10 @@ define([
             args.type = this.formatIcon(args.type_name);
             args.type_name = '';
           }
+
+          if (args.alert !== undefined) {
+            args.alert = `<span class='event-alert alert-${args.color}'>${_(args.alert)}</span>`;
+          }
         }
       } catch (e) {
         console.error(log, args, 'Exception thrown', e.stack);
