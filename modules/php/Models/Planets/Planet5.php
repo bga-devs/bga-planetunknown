@@ -30,7 +30,7 @@ class Planet5 extends \PU\Models\Planet
     parent::__construct($player);
   }
 
-  public function isValidPlacementOption($tile, $cells)
+  public function isValidPlacementOption($tile, $cells, $pos, $rotation, $flipped)
   {
     $touchingIce = false;
     $touchingLand = false;

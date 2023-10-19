@@ -30,7 +30,7 @@ class Planet1 extends \PU\Models\Planet
     parent::__construct($player);
   }
 
-  public function isValidPlacementOption($tile, $cells)
+  public function isValidPlacementOption($tile, $cells, $pos, $rotation, $flipped)
   {
     $touchingRing = false;
     $touchingPlanet = false;

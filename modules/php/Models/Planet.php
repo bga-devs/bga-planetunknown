@@ -482,7 +482,7 @@ class Planet
           }
 
           if (!$byPassCheck) {
-            if (!$this->isValidPlacementOption($tile, $cells)) {
+            if (!$this->isValidPlacementOption($tile, $cells, $pos, $rotation, $flipped)) {
               continue;
             }
 
@@ -519,7 +519,7 @@ class Planet
   }
 
   // Will be overwritten by some planets
-  public function isValidPlacementOption($tile, $cells)
+  public function isValidPlacementOption($tile, $cells, $pos, $rotation, $flipped)
   {
     return true;
   }

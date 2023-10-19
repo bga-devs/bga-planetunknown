@@ -1,6 +1,7 @@
 <?php
-
 namespace PU\Models\Planets;
+
+const DIRECTIONS = [['x' => -1, 'y' => 0], ['x' => 0, 'y' => -1], ['x' => 1, 'y' => 0], ['x' => 0, 'y' => 1]];
 
 class Planet9 extends \PU\Models\Planet
 {
@@ -26,7 +27,36 @@ class Planet9 extends \PU\Models\Planet
   public function __construct($player)
   {
     $this->name = clienttranslate('Pajitnov');
-    $this->desc = clienttranslate('You must be able to slide your tiles into place.'); // TODOTissac
+    $this->desc = clienttranslate('You must be able to slide your tiles into place.');
     parent::__construct($player);
+  }
+
+  public function isValidPlacementOption($tile, $cells, $pos, $rotation, $flipped)
+  {
+    foreach (DIRECTIONS as $dir) {
+      $newPos = [
+        'x' => $pos['x'] + $dir['x'],
+        'y' => $pos['y'] + $dir['y'],
+      ];
+
+      $otherCells = self::getCoveredCells($tile->getType(), $newPos, $rotation, $flipped, false);
+      $valid = true;
+      foreach ($otherCells as $cell) {
+        if (!$this->isCellValid($cell)) {
+          continue;
+        }
+        $tile2 = $this->getTileAtPos($cell);
+        if (!is_null($tile2)) {
+          $valid = false;
+          break;
+        }
+      }
+
+      if ($valid) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }

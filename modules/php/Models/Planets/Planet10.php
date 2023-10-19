@@ -32,7 +32,7 @@ class Planet10 extends \PU\Models\Planet
     parent::__construct($player);
   }
 
-  public function isValidPlacementOption($tile, $cells)
+  public function isValidPlacementOption($tile, $cells, $pos, $rotation, $flipped)
   {
     $datas = $tile->getData();
     foreach ($cells as $i => $cell) {

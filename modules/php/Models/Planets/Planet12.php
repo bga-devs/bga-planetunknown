@@ -55,7 +55,7 @@ class Planet12 extends \PU\Models\Planet
     parent::__construct($player);
   }
 
-  public function isValidPlacementOption($tile, $cells)
+  public function isValidPlacementOption($tile, $cells, $pos, $rotation, $flipped)
   {
     $touchingLeft = false;
     $touchingRight = false;
