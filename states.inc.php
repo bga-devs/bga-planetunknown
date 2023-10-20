@@ -411,7 +411,6 @@ $machinestates = [
     'name' => PEEK_NEXT_EVENT,
     'descriptionmyturn' => clienttranslate('${you} can peek at next event card'),
     'type' => 'private',
-    'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
     'possibleactions' => ['actPeekNextEvent', 'actRestart', 'actPassOptionalAction'],
   ],

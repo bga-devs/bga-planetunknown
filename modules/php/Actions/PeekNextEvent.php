@@ -45,17 +45,12 @@ class PeekNextEvent extends \PU\Models\Action
     ];
   }
 
-  public function argsMoveTrackersToFive()
-  {
-    return [];
-  }
-
-  public function stMoveTrackersToFive()
+  public function stPeekNextEvent()
   {
     return []; // Ensure the UI is not entering the state !!!
   }
 
-  public function actMoveTrackersToFive()
+  public function actPeekNextEvent()
   {
     $player = $this->getPlayer();
 
