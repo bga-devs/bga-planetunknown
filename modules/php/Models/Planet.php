@@ -170,7 +170,7 @@ class Planet
   public function countSymbolsOnEdge($symbol)
   {
     $cells = $this->getEdgeCells();
-    return array_reduce($cells, fn ($result, $cell) => $result + ($this->getSymbol($cell['x'], $cell['y']) == $symbol ? 1 : 0), 0);
+    return array_reduce($cells, fn($result, $cell) => $result + ($this->getSymbol($cell['x'], $cell['y']) == $symbol ? 1 : 0), 0);
   }
 
   /**
@@ -222,19 +222,19 @@ class Planet
   public function countLargestAdjacent($type)
   {
     $zones = $this->detectZones($type);
-    return $zones ? max(array_map(fn ($zone) => count($zone), $zones)) : 0;
+    return $zones ? max(array_map(fn($zone) => count($zone), $zones)) : 0;
   }
 
   public function countSymbols($type, $zone = null)
   {
-    $cells = array_filter($zone ?? $this->getListOfCells(), fn ($cell) => $this->getSymbol($cell['x'], $cell['y']) == $type);
+    $cells = array_filter($zone ?? $this->getListOfCells(), fn($cell) => $this->getSymbol($cell['x'], $cell['y']) == $type);
     return count($cells);
   }
 
   public function getEmptyMeteorSymbolCells()
   {
     $cells = $this->getListOfCells();
-    Utils::filter($cells, fn ($cell) => $this->hasMeteorSymbol($cell['x'], $cell['y']) && !$this->player->getMeteorOnCell($cell));
+    Utils::filter($cells, fn($cell) => $this->hasMeteorSymbol($cell['x'], $cell['y']) && !$this->player->getMeteorOnCell($cell));
     return $cells;
   }
 
@@ -485,14 +485,18 @@ class Planet
               continue;
             }
 
-            // Check if tile is intersecting border or not
+            // EVENTS
             if ($specialRule == CANNOT_PLACE_ON_EDGE && $this->isIntersectionNonEmpty($cells, $border)) {
               continue;
             }
             if ($specialRule == CANNOT_PLACE_ON_ICE && $this->isIntersectionNonEmpty($cells, $ice)) {
               continue;
             }
+            if ($specialRule == NO_MATCHING_TERRAINS && $this->isMatchingTerrainWithNeighbours($tile, $cells)) {
+              continue;
+            }
 
+            // Must intersect borders or adjacent to another tile
             if (
               !$this->isIntersectionNonEmpty($cells, $checkingCells) &&
               !$this->player->hasTech(TECH_BYPASS_ADJACENT_CONSTRAINT)
@@ -521,6 +525,22 @@ class Planet
   public function isValidPlacementOption($tile, $cells, $pos, $rotation, $flipped)
   {
     return true;
+  }
+
+  // Event Card 119
+  public function isMatchingTerrainWithNeighbours($tile, $cells)
+  {
+    $datas = $tile->getData();
+    foreach ($cells as $i => $cell) {
+      $type = $datas[$i]['type'];
+      foreach ($this->getNeighbours($cell) as $ncell) {
+        if ($this->getVisible($ncell['x'], $ncell['y']) == $type) {
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 
   // Will be overwritten by some planets
