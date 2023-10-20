@@ -76,12 +76,22 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
     },
 
     notif_newCards(n) {
-      debug('Notif: adding civ cards (event)');
-      for (let i = 1; i <= 4; i++) {
-        let deck = `deck_civ_${i}`;
-        this.gamedatas.cards[deck] = n.args[deck];
+      debug('Notif: newCards (event)');
+
+      // Gaining new objective
+      if (n.args.card) {
+        let card = n.args.card;
+        this.addCard(card, this.getVisibleTitleContainer());
+        this.slide(`card-${card.id}`, `private-objectives-${this.player_id}`);
       }
-      this.updateCivCounters();
+      // Adding/removing CIV cards
+      else {
+        for (let i = 1; i <= 4; i++) {
+          let deck = `deck_civ_${i}`;
+          this.gamedatas.cards[deck] = n.args[deck];
+        }
+        this.updateCivCounters();
+      }
     },
 
     updateHand() {
@@ -249,6 +259,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       this.empty('event-card-holder');
       this.addCard(card);
       this._eventDeckCounter.incValue(-1);
+      this.gamedatas.cards.deck_event--;
       this.zoomOnEventCard(true);
     },
 

@@ -615,25 +615,6 @@ define([
 
       // Meeples
       n.args.meeples.forEach((meeple) => this.addMeeple(meeple));
-
-      // // Action Cards
-      // player.actionCards = n.args.action_cards;
-      // this.updateActionCards();
-
-      // player.planetId = n.args.planetId;
-      // $(`icons-summary-map-${player.id}`).insertAdjacentHTML('afterend', this.tplZooPlanet(MAPS_DATA[player.planetId], player));
-      // this.activateShowTileHelperButtons();
-      // this.setupChangeBoardArrows(player.id);
-
-      // // Meeples
-      // n.args.meeples.forEach((meeple) => this.addMeeple(meeple));
-
-      // // Tiles (for map A)
-      // n.args.tiles.forEach((tile) => this.addTile(tile));
-
-      // // Worker counter
-      // this._playerCounters[player.id]['worker'] = this.createCounter(`counter-${player.id}-worker`, 0);
-      // this.updateWorkerCounters();
     },
 
     onEnteringStateChooseRotationEngine(args) {
