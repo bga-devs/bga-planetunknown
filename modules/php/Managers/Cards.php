@@ -138,7 +138,23 @@ class Cards extends \PU\Helpers\CachedPieces
         static::pickForLocation($eventCardSet[$color], 'deck_event_' . $color, 'deck_event');
       }
       Globals::setEventCardSet($eventCardSet);
+      Globals::setTarget(static::computeSoloTarget($eventCardSet[RED], $eventCardSet[ORANGE], $eventCardSet[GREEN]));
       static::shuffle('deck_event');
     }
+  }
+
+  public static function computeSoloTarget($redNb, $orangeNb, $greenNb)
+  {
+    $target = 60;
+
+    $redScore = [0, 0, 0, -5, -5, -5, -5, -7, -7, -7, -7, -9, -9, -9, -9, -11, -11, -11, -11, -11, -11];
+    $orangeScore = [0, 0, 0, -1, -1, -1, -1, -2, -2, -2, -2, -3, -3, -3, -3, -4, -4, -4, -4, -4, -4];
+    $greenScore = [0, 0, 0, 3, 3, 3, 3, 6, 6, 6, 6, 9, 9, 9, 9, 12, 12, 12, 12, 12, 12];
+
+    $target += $redScore[$redNb];
+    $target += $orangeScore[$orangeNb];
+    $target += $greenScore[$greenNb];
+
+    return $target;
   }
 }

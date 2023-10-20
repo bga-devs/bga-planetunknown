@@ -24,6 +24,8 @@ class EventCard116 extends \PU\Models\Cards\EventCard
   //CONTRAINT : 
   public function effect()
   {
-    //TODO
+    return [
+      'action' => EMPTY_SLOT
+    ];
   }
 }

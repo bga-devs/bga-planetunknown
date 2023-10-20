@@ -360,7 +360,12 @@ class Player extends \PU\Helpers\DB_Model
     $result['total'] = $total;
 
     if ($save) {
-      $this->setScore($total);
+      if (Globals::isSolo()) {
+        $target = Globals::getTarget();
+        $this->setScore($total - $target);
+      } else {
+        $this->setScore($total);
+      }
       $this->setScoreAux(10000 - $this->planet()->countEmptySpaces() * 100 - $this->planet()->countMeteors());
     }
 

@@ -92,6 +92,7 @@ const ST_CHOOSE_OBJECTIVE_FOR_ALL = 41;
 const ST_REACH_NEXT_MILESTONE = 42;
 const ST_RESET_TRACK = 43;
 const ST_GAIN_BIOMASS_PATCH = 44;
+const ST_EMPTY_SLOT = 45;
 
 const ST_PRE_END_GAME_TURN = 80;
 const ST_END_GAME_TURN = 81;
@@ -148,6 +149,7 @@ const CHOOSE_OBJECTIVE_FOR_ALL = 'ChooseObjectiveForAll';
 const REACH_NEXT_MILESTONE = 'ReachNextMilestone';
 const RESET_TRACK = 'ResetTrack';
 const GAIN_BIOMASS_PATCH = 'GainBiomassPatch';
+const EMPTY_SLOT = 'EmptySlot';
 
 /*
  * Phases

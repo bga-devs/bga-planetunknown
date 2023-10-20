@@ -73,7 +73,8 @@ class Globals extends \PU\Helpers\DB_Manager
     'turnSpecialRule' => 'str',
 
     'gameEndTriggered' => 'bool',
-    'phase' => 'int'
+    'phase' => 'int',
+    'target' => 'int' //for solo mode
   ];
 
   protected static $table = 'global_variables';

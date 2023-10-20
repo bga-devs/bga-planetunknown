@@ -39,6 +39,7 @@ class Actions
     CHOOSE_OBJECTIVE_FOR_ALL,
     REACH_NEXT_MILESTONE, //no front
     RESET_TRACK,
+    EMPTY_SLOT
   ];
 
   public static function getBiomassPatchFlow()

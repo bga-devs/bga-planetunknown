@@ -2,7 +2,10 @@
 
 namespace PU\Models\Cards;
 
+use PU\Core\Notifications;
 use PU\Managers\Cards;
+use PU\Managers\Meeples;
+use PU\Managers\Players;
 
 /*
  * EventCard n°115
@@ -24,14 +27,14 @@ class EventCard115 extends \PU\Models\Cards\EventCard
   //CONTRAINT : 
   public function effect()
   {
-    return [
-      'action' => COLLECT_MEEPLE,
-      'args' => [
-        'type' => METEOR,
-        'n' => 2,
-        'action' => 'destroy',
-        'location' => 'corporation'
-      ]
-    ];
+    $players = Players::getAll();
+
+    foreach ($players as $pId => $player) {
+      $meteor = Meeples::getOfPlayer($player, METEOR)->first();
+      if ($meteor) {
+        $meteor->setLocation('trash');
+        Notifications::destroyMeteor($player, $meteor);
+      }
+    }
   }
 }

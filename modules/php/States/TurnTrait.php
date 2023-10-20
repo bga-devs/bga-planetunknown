@@ -105,7 +105,7 @@ trait TurnTrait
     $effect = $card->effect();
     if (is_array($effect)) {
       //if each player have special flow
-      if (isset($effect['nestedFlows'])) {
+      if (isset($effect['nestedFlows'])) { //TODO bug if action = []
         Engine::multipleSetup($effect['nestedFlows'], ['method' => 'stEndOfEventTurn'], 'endOfTurn', $pIds);
       } else {
         Engine::setup($effect, ['method' => 'stEndOfEventTurn'], 'endOfTurn', $pIds);

@@ -442,6 +442,15 @@ $machinestates = [
     'possibleactions' => ['actResetTrack'],
   ],
 
+  ST_EMPTY_SLOT => [
+    'name' => EMPTY_SLOT,
+    'descriptionmyturn' => '',
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actEmptySlot'],
+  ],
+
   ST_GAIN_BIOMASS_PATCH => [
     'name' => GAIN_BIOMASS_PATCH,
     'descriptionmyturn' => '',

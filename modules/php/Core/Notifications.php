@@ -90,6 +90,26 @@ class Notifications
     static::pnotify($player, 'destroyCard', $message, $data);
   }
 
+  public static function destroyMeteor($player, $meteor)
+  {
+    $message = clienttranslate('${player_name} detroys one of their collected meteor');
+    $data = [
+      'player' => $player,
+      'meteorId' => $meteor->getId(),
+    ];
+    static::pnotify($player, 'destroyMeteor', $message, $data);
+  }
+
+  public static function emptySlot($player, $slot)
+  {
+    static::pnotify(
+      $player,
+      'emptySlot',
+      clienttranslate('You removed all tiles from one stack in your depot'),
+      ['slot' => $slot]
+    );
+  }
+
   public static function getNewCard($player, $card)
   {
     static::notify($player, 'newCards', clienttranslate('${player_name} receive a new private objective card'), [
@@ -142,6 +162,38 @@ class Notifications
       'scores' => Players::scores(null, true),
     ];
     static::notifyAll('scores', '', $data);
+  }
+
+  public static function soloReveal($player)
+  {
+    $deltaScore = $player->getScore();
+    $target = Globals::getTarget();
+    $initialScore = $target + $deltaScore;
+    $msg = '';
+
+    if ($deltaScore < -10) {
+      $msg =  clienttranslate("Critical Fail. We're going to need another Planet.");
+    } elseif ($deltaScore < -5) {
+      $msg =  clienttranslate("Any sign of other survivors?");
+    } elseif ($deltaScore < 0) {
+      $msg =  clienttranslate("Low capacity but at least we survive.");
+    } elseif ($deltaScore < 5) {
+      $msg =  clienttranslate("Mission Complete and job well done.");
+    } elseif ($deltaScore < 10) {
+      $msg =  clienttranslate("Excellent Work, you've earned a promotion.");
+    } elseif ($deltaScore < 15) {
+      $msg =  clienttranslate("This might be the best planet we've seen yet.");
+    } else {
+      $msg =  clienttranslate("All stars have aligned because of you, Planeteer.");
+    }
+
+    $data = [
+      'player' => $player,
+      'deltaScore' => $deltaScore,
+      'target' => $target,
+      'initialScore' => $initialScore
+    ];
+    static::notify($player, 'soloReveal', $msg, $data);
   }
 
   public static function scores()
@@ -217,8 +269,8 @@ class Notifications
   {
     $message =
       $player == null
-        ? clienttranslate('S.U.S.A.N. rotates.')
-        : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
+      ? clienttranslate('S.U.S.A.N. rotates.')
+      : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
     $data = [
       'player' => $player,
       'newRotation' => $rotation,
