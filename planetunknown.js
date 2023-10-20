@@ -635,8 +635,12 @@ define([
       // this.updateWorkerCounters();
     },
 
+    onEnteringStateChooseRotationEngine(args) {
+      args.atomicAction = true;
+      this.onEnteringStateChooseRotation(args);
+    },
     onEnteringStateChooseRotation(args) {
-      if (this.getPlayers().length < 3) {
+      if (this.getPlayers().length < 3 && !args.atomicAction) {
         return;
       }
 
@@ -656,7 +660,8 @@ define([
 
       this.onClick('btnConfirmSusanRotation', () => {
         this._susanModal.hide();
-        this.takeAction('actChooseRotation', { rotation: this.gamedatas.susan.rotation });
+        if (args.atomicAction) this.takeAtomicAction('actChooseRotation', [this.gamedatas.susan.rotation]);
+        else this.takeAction('actChooseRotation', { rotation: this.gamedatas.susan.rotation });
       });
 
       // Add buttons in top bar
@@ -665,7 +670,8 @@ define([
         this.rotateSusan();
       });
       this.addPrimaryActionButton('btnSusanConfirmRotation', _('Confirm'), () => {
-        this.takeAction('actChooseRotation', { rotation: this.gamedatas.susan.rotation });
+        if (args.atomicAction) this.takeAtomicAction('actChooseRotation', [this.gamedatas.susan.rotation]);
+        else this.takeAction('actChooseRotation', { rotation: this.gamedatas.susan.rotation });
       });
       this.addSecondaryActionButton('btnSusanRotateClockwise', '<svg><use href="#rotate-clockwise-svg" /></svg>', () => {
         this.gamedatas.susan.rotation--;

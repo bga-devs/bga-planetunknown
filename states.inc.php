@@ -399,7 +399,7 @@ $machinestates = [
   ],
 
   ST_CHOOSE_ROTATION_ENGINE => [
-    'name' => CHOOSE_ROTATION_ENGINE,
+    'name' => 'chooseRotationEngine',
     'descriptionmyturn' => clienttranslate('${you} must choose Space Station orientation'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
