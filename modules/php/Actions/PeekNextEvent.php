@@ -54,7 +54,7 @@ class PeekNextEvent extends \PU\Models\Action
   {
     $player = $this->getPlayer();
 
-    $card = Cards::getTopOf('deck_event');
+    $card = Cards::getTopOf('deck_event')->first();
 
     Notifications::peekNextEvent($player, $card);
   }

@@ -307,24 +307,13 @@ class Engine
       PGlobals::incEngineChoices($pId);
     }
     if ($checkpoint) {
-      self::checkpoint();
+      self::checkpoint($pId);
     }
   }
 
-  public function checkpoint()
+  public function checkpoint($pId)
   {
-    $player = Players::getActive();
-    $node = self::getUndoableMandatoryNode($player);
-    if (!is_null($node) && $node->getPId() == $player->getId()) {
-      throw new UserException(
-        totranslate(
-          "You can't take an irreversible action if there is a mandatory undoable action pending (eg unpayable Venom fee)"
-        )
-      );
-    }
-
-    // TODO : flag the tree
-    Globals::setEngineChoices(0);
+    PGlobals::setEngineChoices($pId, 0);
     Log::checkpoint();
   }
 

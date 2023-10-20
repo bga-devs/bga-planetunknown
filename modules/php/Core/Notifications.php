@@ -102,12 +102,9 @@ class Notifications
 
   public static function emptySlot($player, $slot)
   {
-    static::pnotify(
-      $player,
-      'emptySlot',
-      clienttranslate('You removed all tiles from one stack in your depot'),
-      ['slot' => $slot]
-    );
+    static::pnotify($player, 'emptySlot', clienttranslate('You removed all tiles from one stack in your depot'), [
+      'slot' => $slot,
+    ]);
   }
 
   public static function getNewCard($player, $card)
@@ -172,26 +169,26 @@ class Notifications
     $msg = '';
 
     if ($deltaScore < -10) {
-      $msg =  clienttranslate("Critical Fail. We're going to need another Planet.");
+      $msg = clienttranslate("Critical Fail. We're going to need another Planet.");
     } elseif ($deltaScore < -5) {
-      $msg =  clienttranslate("Any sign of other survivors?");
+      $msg = clienttranslate('Any sign of other survivors?');
     } elseif ($deltaScore < 0) {
-      $msg =  clienttranslate("Low capacity but at least we survive.");
+      $msg = clienttranslate('Low capacity but at least we survive.');
     } elseif ($deltaScore < 5) {
-      $msg =  clienttranslate("Mission Complete and job well done.");
+      $msg = clienttranslate('Mission Complete and job well done.');
     } elseif ($deltaScore < 10) {
-      $msg =  clienttranslate("Excellent Work, you've earned a promotion.");
+      $msg = clienttranslate("Excellent Work, you've earned a promotion.");
     } elseif ($deltaScore < 15) {
-      $msg =  clienttranslate("This might be the best planet we've seen yet.");
+      $msg = clienttranslate("This might be the best planet we've seen yet.");
     } else {
-      $msg =  clienttranslate("All stars have aligned because of you, Planeteer.");
+      $msg = clienttranslate('All stars have aligned because of you, Planeteer.');
     }
 
     $data = [
       'player' => $player,
       'deltaScore' => $deltaScore,
       'target' => $target,
-      'initialScore' => $initialScore
+      'initialScore' => $initialScore,
     ];
     static::notify($player, 'soloReveal', $msg, $data);
   }
@@ -251,6 +248,7 @@ class Notifications
       'color' => $card->getColor(),
       'card' => $card,
       'desc' => $card->getDesc(),
+      'preserve' => ['color'],
     ];
     static::notifyAll('newEventCard', $message, $data);
   }
@@ -269,8 +267,8 @@ class Notifications
   {
     $message =
       $player == null
-      ? clienttranslate('S.U.S.A.N. rotates.')
-      : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
+        ? clienttranslate('S.U.S.A.N. rotates.')
+        : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
     $data = [
       'player' => $player,
       'newRotation' => $rotation,
@@ -284,9 +282,25 @@ class Notifications
     $msg = clienttranslate('${player_name} peeks at the next event card');
     $data = [
       'player' => $player,
-      'eventCard' => Globals::getMode() == MODE_APPLY ? null : $card,
     ];
-    static::pnotify($player, 'peekNextEvent', $msg, $data);
+    static::pnotify($player, 'midMessage', $msg, $data);
+
+    $alert = [
+      GREEN => clienttranslate('Green alert'),
+      ORANGE => clienttranslate('Orange alert'),
+      RED => clienttranslate('Red alert'),
+    ];
+    $message = clienttranslate('The next event is going to be a ${alert} : ${desc}');
+    $data = [
+      'i18n' => ['alert', 'desc'],
+      'alert' => $alert[$card->getColor()],
+      'color' => $card->getColor(),
+      'card' => $card,
+      'desc' => $card->getDesc(),
+      'preserve' => ['color'],
+      'public' => false,
+    ];
+    static::pnotify($player, 'peekNextEvent', $message, $data);
   }
 
   public static function placeMeeple($player, $type, $meeple)
@@ -517,7 +531,7 @@ class Notifications
       self::flush();
     }
     // PUBLIC MODE => send public notif with ignore flag
-    elseif ($mode == \MODE_APPLY) {
+    elseif ($mode == \MODE_APPLY && ($data['public'] ?? true)) {
       $data['ignore'] = $pId;
       $data['preserve'][] = 'ignore';
       Game::get()->notifyAllPlayers($name, $msg, $data);

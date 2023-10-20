@@ -62,6 +62,7 @@ define([
         ['endOfGameTriggered', 1400],
         ['revealCards', 1400],
         ['newEventCard', 3500],
+        ['peekNextEvent', 3500],
         ['chooseFluxTrack', null],
         ['midMessage', 1200],
         ['newCards', 1000],

@@ -263,8 +263,19 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       this.zoomOnEventCard(true);
     },
 
-    zoomOnEventCard(autoClose = false) {
-      let oCard = $('event-card-holder').querySelector('.planetunknown-card');
+    notif_peekNextEvent(n) {
+      debug('Notif: peeking next event card', n);
+      if (this.isFastMode()) return;
+
+      let card = n.args.card;
+      this.addCard(card);
+      let oCard = $(`card-${card.id}`);
+      this.zoomOnEventCard(true, oCard);
+      this.wait(200).then(oCard.remove());
+    },
+
+    zoomOnEventCard(autoClose = false, oCard = null) {
+      oCard = oCard || $('event-card-holder').querySelector('.planetunknown-card');
       if (!oCard) return;
 
       dojo.place("<div id='card-overlay'></div>", 'ebd-body');

@@ -39,7 +39,7 @@ class Actions
     CHOOSE_OBJECTIVE_FOR_ALL,
     REACH_NEXT_MILESTONE, //no front
     RESET_TRACK,
-    EMPTY_SLOT
+    EMPTY_SLOT,
   ];
 
   public static function getBiomassPatchFlow()
@@ -112,7 +112,7 @@ class Actions
 
     // Resolve action
     $automatic = $ctx->isAutomatic($player);
-    $checkpoint = false; // TODO
+    $checkpoint = $ctx->isIrreversible($player);
     $ctx = $action->getCtx();
     Engine::resolveAction(['actionName' => $actionName, 'args' => $args], $checkpoint, $ctx, $automatic);
     Engine::proceed($player->getId());
