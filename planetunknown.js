@@ -644,7 +644,7 @@ define([
 
       this.onClick('btnConfirmSusanRotation', () => {
         this._susanModal.hide();
-        if (args.atomicAction) this.takeAtomicAction('actChooseRotation', [this.gamedatas.susan.rotation]);
+        if (args && args.atomicAction) this.takeAtomicAction('actChooseRotation', [this.gamedatas.susan.rotation]);
         else this.takeAction('actChooseRotation', { rotation: this.gamedatas.susan.rotation });
       });
 
@@ -654,7 +654,7 @@ define([
         this.rotateSusan();
       });
       this.addPrimaryActionButton('btnSusanConfirmRotation', _('Confirm'), () => {
-        if (args.atomicAction) this.takeAtomicAction('actChooseRotation', [this.gamedatas.susan.rotation]);
+        if (args && args.atomicAction) this.takeAtomicAction('actChooseRotation', [this.gamedatas.susan.rotation]);
         else this.takeAction('actChooseRotation', { rotation: this.gamedatas.susan.rotation });
       });
       this.addSecondaryActionButton('btnSusanRotateClockwise', '<svg><use href="#rotate-clockwise-svg" /></svg>', () => {
