@@ -1,8 +1,6 @@
 <?php
 namespace PU\Models\Planets;
 
-const DIRECTIONS = [['x' => -1, 'y' => 0], ['x' => 0, 'y' => -1], ['x' => 1, 'y' => 0], ['x' => 0, 'y' => 1]];
-
 class Planet9 extends \PU\Models\Planet
 {
   protected $id = '9';
