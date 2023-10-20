@@ -349,8 +349,8 @@ class CachedPieces extends DB_Manager
     self::checkLocation($toLocation);
 
     return self::getInLocation($fromLocation, $fromState)
-      ->update('location', $location)
-      ->update('state', $state);
+      ->update('location', $toLocation)
+      ->update('state', $toState);
   }
 
   /**

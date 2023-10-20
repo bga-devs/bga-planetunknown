@@ -443,7 +443,7 @@ $machinestates = [
 
   ST_EMPTY_SLOT => [
     'name' => EMPTY_SLOT,
-    'descriptionmyturn' => '',
+    'descriptionmyturn' => clienttranslate('${you} must choose which slot to empty'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',

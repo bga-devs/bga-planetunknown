@@ -45,7 +45,7 @@ class EmptySlot extends \PU\Models\Action
     }
 
     return [
-      'slots' => $slots
+      'slots' => $slots,
     ];
   }
 
@@ -54,6 +54,7 @@ class EmptySlot extends \PU\Models\Action
     $player = $this->getPlayer();
 
     Tiles::moveAllInLocation($slotId, 'trash');
+    Tiles::moveAllInLocation('top-' . $slotId, 'trash');
 
     Notifications::emptySlot($player, $slotId);
   }

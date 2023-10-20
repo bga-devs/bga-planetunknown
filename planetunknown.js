@@ -65,6 +65,7 @@ define([
         ['chooseFluxTrack', null],
         ['midMessage', 1200],
         ['newCards', 1000],
+        ['emptySlot', 1200],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -1330,6 +1331,15 @@ define([
       }
     },
 
+    onEnteringStateEmptySlot(args) {
+      args.slots.forEach((slotId) => {
+        let t = slotId.split('-');
+        this.addPrimaryActionButton('btn' + slotId, t[0] == 'interior' ? _('Interior') : _('Exterior'), () =>
+          this.takeAtomicAction('actEmptySlot', [slotId])
+        );
+      });
+    },
+
     ////////////////////////////////////////////////////////////
     // _____                          _   _   _
     // |  ___|__  _ __ _ __ ___   __ _| |_| |_(_)_ __   __ _
@@ -1563,6 +1573,14 @@ define([
       Object.keys(decks).forEach((deck) => {
         $(`susan-counter-${deck}`).innerHTML = decks[deck];
       });
+    },
+
+    notif_emptySlot(n) {
+      debug('Notif: empty susan slot', n);
+      let deck = n.args.slot;
+      $(`susan-counter-${deck}`).innerHTML = 0;
+      let tile = $(`top-${deck}`).querySelector('.tile-container');
+      if (tile) tile.remove();
     },
 
     notif_newRotation(n) {
