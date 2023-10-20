@@ -75,6 +75,15 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       }
     },
 
+    notif_newCards(n) {
+      debug('Notif: adding civ cards (event)');
+      for (let i = 1; i <= 4; i++) {
+        let deck = `deck_civ_${i}`;
+        this.gamedatas.cards[deck] = n.args[deck];
+      }
+      this.updateCivCounters();
+    },
+
     updateHand() {
       let pId = this.player_id;
       let player = this.gamedatas.players[pId];

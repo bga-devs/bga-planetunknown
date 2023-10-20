@@ -64,6 +64,7 @@ define([
         ['newEventCard', 3500],
         ['chooseFluxTrack', null],
         ['midMessage', 1200],
+        ['newCards', 1000],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -640,7 +641,7 @@ define([
       this.onEnteringStateChooseRotation(args);
     },
     onEnteringStateChooseRotation(args) {
-      if (this.getPlayers().length < 3 && !args.atomicAction) {
+      if (this.getPlayers().length < 3 && (!args || !args.atomicAction)) {
         return;
       }
 
