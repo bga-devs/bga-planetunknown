@@ -446,6 +446,7 @@ $machinestates = [
     'name' => GAIN_BIOMASS_PATCH,
     'descriptionmyturn' => '',
     'descriptionmyturnchoice' => clienttranslate('${you} must choose how many biomass patches you want to gain (Wormhole corp)'),
+    'descriptionmyturnxorsynergy' => clienttranslate('${you} must choose to gain a biomass patch or a synergy (Jump Drive corp)'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',

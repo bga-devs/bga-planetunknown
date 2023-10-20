@@ -1308,6 +1308,10 @@ define([
         let n = i;
         this.addPrimaryActionButton('btn' + i, i, () => this.takeAtomicAction('actGainBiomassPatch', [n]));
       }
+
+      if (args.canTakeSynergyInstead) {
+        this.addPrimaryActionButton('btnSynergy', _('Synergy'), () => this.takeAtomicAction('actGainBiomassPatch', [0]));
+      }
     },
 
     ////////////////////////////////////////////////////////////

@@ -132,7 +132,7 @@ class Action
     $actions = [];
 
     foreach ($bonuses as $bonus) {
-      if ((Globals::getTurnSpecialRule() == NO_MILESTONE) && in_array($bonus, [CIV, TECH, ROVER, BIOMASS])) {
+      if (Globals::getTurnSpecialRule() == NO_MILESTONE && in_array($bonus, [CIV, TECH, ROVER, BIOMASS])) {
         continue;
       }
       switch ($bonus) {
@@ -168,20 +168,7 @@ class Action
 
           break;
         case BIOMASS:
-          $actionBiomass = Actions::getBiomassPatchFlow();
-          if ($player->corporation()->canUse(TECH_GET_SYNERGY_INSTEAD_OF_BIOMASS_PATCH_ONCE_PER_ROUND)) {
-            //as the tech is optional, player can choose biomass or synergy
-            $actionSynergy = $player->getSynergy();
-            if ($actionSynergy) {
-              $actionSynergy['source'] = $player->corporation()->name;
-              $actionSynergy['flag'] = TECH_GET_SYNERGY_INSTEAD_OF_BIOMASS_PATCH_ONCE_PER_ROUND;
-              $actionBiomass = [
-                'type' => NODE_XOR,
-                'childs' => [$actionBiomass, $actionSynergy],
-              ];
-            }
-          }
-          $actions[] = $actionBiomass;
+          $actions[] = Actions::getBiomassPatchFlow();
           break;
         case TECH:
           $levelTech = $player->corporation()->getTechLevel($this);

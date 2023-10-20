@@ -211,11 +211,11 @@ class Player extends \PU\Helpers\DB_Model
       if (in_array($contraint, array_keys(FORBIDDEN_TERRAINS))) {
         Utils::filter(
           $neighbours,
-          fn ($cell) => $this->planet->getVisible($cell['x'], $cell['y']) != FORBIDDEN_TERRAINS[$contraint]
+          fn($cell) => $this->planet->getVisible($cell['x'], $cell['y']) != FORBIDDEN_TERRAINS[$contraint]
         );
       }
 
-      $spaceIds[$roverId] = array_map(fn ($cell) => Planet::getCellId($cell), $neighbours);
+      $spaceIds[$roverId] = array_map(fn($cell) => Planet::getCellId($cell), $neighbours);
     }
 
     return $spaceIds;
@@ -369,7 +369,7 @@ class Player extends \PU\Helpers\DB_Model
 
   public static function reduce_entries($array)
   {
-    return array_reduce($array['entries'], fn ($sum, $item) => $sum + (is_array($item) ? $item[0] : $item), 0);
+    return array_reduce($array['entries'], fn($sum, $item) => $sum + (is_array($item) ? $item[0] : $item), 0);
   }
 
   public function addEndOfTurnAction($flow)
@@ -478,7 +478,7 @@ class Player extends \PU\Helpers\DB_Model
   public function getSynergy()
   {
     if (Globals::getTurnSpecialRule() == NO_SYNERGY) {
-      return;
+      return false;
     }
     $n = 1;
     if ($this->corporation()->canUse(TECH_TWICE_SYNERGY_ONCE_PER_ROUND)) {
