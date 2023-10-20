@@ -32,6 +32,7 @@ $game_options = [
         'name' => totranslate('Assymetric planets'),
         'description' => totranslate('Each player can choose their planet board side'),
         'tmdisplay' => totranslate('Assymetric planets'),
+        'alpha' => true,
       ],
     ],
   ],
@@ -47,18 +48,19 @@ $game_options = [
         'name' => totranslate('Assymetric corporations'),
         'description' => totranslate('Each player can choose their corporation board side'),
         'tmdisplay' => totranslate('Assymetric corporations'),
+        'alpha' => true,
       ],
     ],
   ],
   OPTION_EVENT_CARDS => [
     'name' => totranslate('Event Cards'),
     'values' => [
-      // OPTION_EVENT_CARDS_GAME => [
-      //   'name' => totranslate('On'),
-      //   'description' => totranslate('With event cards'),
-      //   'tmdisplay' => totranslate('On'),
-      //   'alpha' => true,
-      // ],
+      OPTION_EVENT_CARDS_GAME => [
+        'name' => totranslate('On'),
+        'description' => totranslate('With event cards'),
+        'tmdisplay' => totranslate('On'),
+        'alpha' => true,
+      ],
       OPTION_NO_EVENT_CARDS_GAME => [
         'name' => totranslate('Off'),
         'description' => totranslate('Without event cards'),
