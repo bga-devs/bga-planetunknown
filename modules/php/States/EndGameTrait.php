@@ -53,9 +53,9 @@ trait EndGameTrait
         $actions[] = [
           'action' => TAKE_CIV_CARD,
           'args' => [
-            'level' => "all",
-            'n' => 2
-          ]
+            'level' => 'all',
+            'n' => 2,
+          ],
         ];
       }
 
@@ -85,7 +85,7 @@ trait EndGameTrait
 
     // Game end if no player has gain an extra end of turn action
     if ($newTurn) {
-      $this->gamestate->jumpToState(ST_PRE_CHOOSE_CIV_CARD);
+      $this->initCustomTurnOrder('civCardTurn', $order, 'stChooseCivCard', ST_END_TURN);
     } else {
       $this->revealCardsInHand('Obj');
       $this->gamestate->jumpToState(ST_PRE_END_OF_GAME);
