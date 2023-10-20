@@ -42,7 +42,7 @@ class ChooseTracks extends \PU\Models\Action
 
     return array_values(array_filter(
       $types,
-      fn ($type) => $player->corporation()->canMoveTrack($type, $this->getN())
+      fn ($type) => $player->corporation()->canMoveTrack($type, $this->getMove())
     ));
   }
 

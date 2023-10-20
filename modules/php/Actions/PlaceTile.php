@@ -300,7 +300,7 @@ class PlaceTile extends \PU\Models\Action
     if (Globals::getTurnSpecialRule() == ONLY_ONE_MOVE_TRACKER) {
       $this->pushParallelChild([
         'type' => NODE_XOR,
-        'actions' => $actions,
+        'childs' => $actions,
       ]);
     } else {
       //normal case
@@ -372,7 +372,7 @@ class PlaceTile extends \PU\Models\Action
     if (Globals::getTurnSpecialRule() == ONLY_ONE_MOVE_TRACKER) {
       $this->pushParallelChild([
         'type' => NODE_XOR,
-        'actions' => $actions,
+        'childs' => $actions,
       ]);
     } else {
       $this->pushParallelChilds($actions);

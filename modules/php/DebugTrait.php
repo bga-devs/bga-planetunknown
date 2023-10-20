@@ -25,6 +25,16 @@ trait DebugTrait
     Globals::setMode($mode);
   }
 
+  function createDeckEvent()
+  {
+    $mode = Globals::getMode();
+    Globals::setMode(MODE_APPLY);
+    for ($i = 124; $i >= 120; $i--) {
+      Cards::insertOnTop($i, 'deck_event');
+    }
+    Globals::setMode($mode);
+  }
+
   function tp()
   {
     //    Log::clearUndoableStepNotifications(true);
@@ -43,7 +53,10 @@ trait DebugTrait
 
   function dv()
   {
+    $mode = Globals::getMode();
+    Globals::setMode(MODE_APPLY);
     Globals::setGameEndTriggered(true);
+    Globals::setMode($mode);
   }
 
   function resolveDebug()

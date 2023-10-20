@@ -52,7 +52,7 @@ class MoveTrack extends \PU\Models\Action
 
   public function isOptional()
   {
-    return !$this->isDoable($this->getPlayer());
+    return !$this->isDoable($this->getPlayer()) && $this->getN() > 0;
   }
 
   public function getDescription()

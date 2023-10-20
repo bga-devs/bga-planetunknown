@@ -79,11 +79,10 @@ class CollectMeeple extends \PU\Models\Action
 
   public function getCollectableMeeples($player)
   {
-    $meeples = $player
+    return $player
       ->getMeeples($this->getType())
       ->where('location', $this->getLocation())
-      ->toArray();
-    return array_map(fn ($meeple) => $meeple->getX() . '_' . $meeple->getY(), $meeples);
+      ->getIds();
   }
 
   public function argsCollectMeeple()

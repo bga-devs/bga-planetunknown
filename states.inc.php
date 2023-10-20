@@ -425,6 +425,15 @@ $machinestates = [
     'possibleactions' => ['actChooseFluxTrack', 'actRestart'],
   ],
 
+  ST_DESTROY_P_O_CARD => [
+    'name' => DESTROY_P_O_CARD,
+    'descriptionmyturn' => clienttranslate('${you} must choose a private objective to destroy'),
+    'type' => 'private',
+    'args' => 'argsAtomicAction',
+    'action' => 'stAtomicAction',
+    'possibleactions' => ['actDestroyPOCard', 'actRestart'],
+  ],
+
   ST_RESET_TRACK => [
     'name' => RESET_TRACK,
     'descriptionmyturn' => '',

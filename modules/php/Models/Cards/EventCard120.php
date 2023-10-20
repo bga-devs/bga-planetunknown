@@ -26,6 +26,5 @@ class EventCard120 extends \PU\Models\Cards\EventCard
   public function effect()
   {
     Globals::setTurnSpecialRule(CANNOT_PLACE_ON_ICE);
-    //TODOTissac
   }
 }

@@ -140,7 +140,9 @@ class Corporation
 
   public function isTrackerOnTop($type)
   {
-    return count($this->tracks[$type]) == $this->getLevelOnTrack($type) + 1;
+    $n = ($type != ROVER) ? 1 : 2;
+    //if $type == ROVER top is 2 under the steps number (because the very last step is 'virtual')
+    return count($this->tracks[$type]) == $this->getLevelOnTrack($type) + $n;
   }
 
   public function getMaxIndexOnTrack($type)
