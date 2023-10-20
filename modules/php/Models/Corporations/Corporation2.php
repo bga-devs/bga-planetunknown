@@ -175,15 +175,6 @@ class Corporation2 extends Corporation
     }
   }
 
-  public function getTechAction($techLvl)
-  {
-    if ($this->canUse('tech_' . $this->id . '_' . $techLvl)) {
-      return [
-        'action' => REACH_NEXT_MILESTONE,
-      ];
-    }
-  }
-
   public function getAnytimeActions()
   {
     $actions = [];
@@ -212,6 +203,13 @@ class Corporation2 extends Corporation
           'flag' => TECH_GET_2_MOVES_ON_FLUX,
         ];
       }
+    }
+
+    if ($this->canUse(TECH_FLUX_TO_NEXT_MILESTONE)) {
+      $actions[] = [
+        'action' => REACH_NEXT_MILESTONE,
+        'flag' => TECH_FLUX_TO_NEXT_MILESTONE,
+      ];
     }
 
     return $actions;
