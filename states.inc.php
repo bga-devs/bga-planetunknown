@@ -399,7 +399,7 @@ $machinestates = [
   ],
 
   ST_CHOOSE_ROTATION_ENGINE => [
-    'name' => CHOOSE_ROTATION_ENGINE,
+    'name' => 'chooseRotationEngine',
     'descriptionmyturn' => clienttranslate('${you} must choose Space Station orientation'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
@@ -455,6 +455,7 @@ $machinestates = [
     'name' => GAIN_BIOMASS_PATCH,
     'descriptionmyturn' => '',
     'descriptionmyturnchoice' => clienttranslate('${you} must choose how many biomass patches you want to gain (Wormhole corp)'),
+    'descriptionmyturnxorsynergy' => clienttranslate('${you} must choose to gain a biomass patch or a synergy (Jump Drive corp)'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',

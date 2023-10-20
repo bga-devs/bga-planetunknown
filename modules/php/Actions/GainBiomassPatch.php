@@ -38,21 +38,26 @@ class GainBiomassPatch extends \PU\Models\Action
 
   public function argsGainBiomassPatch()
   {
-    $n = $this->getPlayer()
-      ->corporation()
-      ->canUse(TECH_WORMHOLE_GAIN_TWO_BIOMASS_PATCHES)
-      ? 2
-      : 1;
+    $player = $this->getPlayer();
+
+    // WORMHOLE => 2 patches, once per round
+    $n = $player->corporation()->canUse(TECH_WORMHOLE_GAIN_TWO_BIOMASS_PATCHES) ? 2 : 1;
+
+    // JUMP DRIVE => synergy instead of biomass patch, once per round
+    $canTakeSynergyInstead =
+      $player->corporation()->canUse(TECH_GET_SYNERGY_INSTEAD_OF_BIOMASS_PATCH_ONCE_PER_ROUND) && $player->getSynergy();
+
     return [
       'n' => $n,
-      'descSuffix' => $n > 1 ? 'choice' : '',
+      'canTakeSynergyInstead' => $canTakeSynergyInstead,
+      'descSuffix' => $canTakeSynergyInstead ? 'xorsynergy' : ($n > 1 ? 'choice' : ''),
     ];
   }
 
   public function stGainBiomassPatch()
   {
     $args = $this->argsGainBiomassPatch();
-    if ($args['n'] == 1) {
+    if ($args['n'] == 1 && !$args['canTakeSynergyInstead']) {
       return [1];
     } // Ensure the UI is not entering the state !!!
   }
@@ -63,7 +68,26 @@ class GainBiomassPatch extends \PU\Models\Action
     if ($n > $args['n']) {
       throw new \BgaVisibleSystemException('You cannot gain that much biomass patch. Should not happen.');
     }
+    if ($n == 0 && !$args['canTakeSynergyInstead']) {
+      throw new \BgaVisibleSystemException('You cannot gain 0 biomass patch. Should not happen.');
+    }
+
     $player = $this->getPlayer();
+
+    // JUMP DRIVE => synergy instead
+    if ($n == 0) {
+      // Flag tech
+      $pId = $player->getId();
+      $flags = PGlobals::getFlags($pId);
+      $flags[TECH_GET_SYNERGY_INSTEAD_OF_BIOMASS_PATCH_ONCE_PER_ROUND] = true;
+      PGlobals::setFlags($pId, $flags);
+
+      // Insert synergy
+      $actionSynergy = $player->getSynergy();
+      $actionSynergy['source'] = $player->corporation()->name;
+      $this->insertAsChild($actionSynergy);
+      return;
+    }
 
     // WORMHOLE => flag TECH
     if ($n > 1) {

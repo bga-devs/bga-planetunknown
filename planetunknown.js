@@ -64,6 +64,7 @@ define([
         ['newEventCard', 3500],
         ['chooseFluxTrack', null],
         ['midMessage', 1200],
+        ['newCards', 1000],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -614,29 +615,14 @@ define([
 
       // Meeples
       n.args.meeples.forEach((meeple) => this.addMeeple(meeple));
-
-      // // Action Cards
-      // player.actionCards = n.args.action_cards;
-      // this.updateActionCards();
-
-      // player.planetId = n.args.planetId;
-      // $(`icons-summary-map-${player.id}`).insertAdjacentHTML('afterend', this.tplZooPlanet(MAPS_DATA[player.planetId], player));
-      // this.activateShowTileHelperButtons();
-      // this.setupChangeBoardArrows(player.id);
-
-      // // Meeples
-      // n.args.meeples.forEach((meeple) => this.addMeeple(meeple));
-
-      // // Tiles (for map A)
-      // n.args.tiles.forEach((tile) => this.addTile(tile));
-
-      // // Worker counter
-      // this._playerCounters[player.id]['worker'] = this.createCounter(`counter-${player.id}-worker`, 0);
-      // this.updateWorkerCounters();
     },
 
+    onEnteringStateChooseRotationEngine(args) {
+      args.atomicAction = true;
+      this.onEnteringStateChooseRotation(args);
+    },
     onEnteringStateChooseRotation(args) {
-      if (this.getPlayers().length < 3) {
+      if (this.getPlayers().length < 3 && (!args || !args.atomicAction)) {
         return;
       }
 
@@ -656,7 +642,8 @@ define([
 
       this.onClick('btnConfirmSusanRotation', () => {
         this._susanModal.hide();
-        this.takeAction('actChooseRotation', { rotation: this.gamedatas.susan.rotation });
+        if (args.atomicAction) this.takeAtomicAction('actChooseRotation', [this.gamedatas.susan.rotation]);
+        else this.takeAction('actChooseRotation', { rotation: this.gamedatas.susan.rotation });
       });
 
       // Add buttons in top bar
@@ -665,7 +652,8 @@ define([
         this.rotateSusan();
       });
       this.addPrimaryActionButton('btnSusanConfirmRotation', _('Confirm'), () => {
-        this.takeAction('actChooseRotation', { rotation: this.gamedatas.susan.rotation });
+        if (args.atomicAction) this.takeAtomicAction('actChooseRotation', [this.gamedatas.susan.rotation]);
+        else this.takeAction('actChooseRotation', { rotation: this.gamedatas.susan.rotation });
       });
       this.addSecondaryActionButton('btnSusanRotateClockwise', '<svg><use href="#rotate-clockwise-svg" /></svg>', () => {
         this.gamedatas.susan.rotation--;
@@ -1063,6 +1051,8 @@ define([
       let tracks = [];
       args.types.forEach((type) => {
         this.addSecondaryActionButton('btn' + type, this.fsr('${type}', { type, type_name: type }), () => {
+          if (!args.choosableTypes.includes(type)) return;
+
           // Only a single track to resolve => auto confirm
           if (args.n == 1) {
             this.takeAtomicAction('actChooseTracks', [[type]]);
@@ -1082,6 +1072,7 @@ define([
             $('btnConfirmTracks').classList.toggle('disabled', tracks.length != args.n);
           }
         });
+        $('btn' + type).classList.toggle('disabled', !args.choosableTypes.includes(type));
       });
 
       if (args.n > 1) {
@@ -1090,6 +1081,11 @@ define([
         });
         $('btnConfirmTracks').classList.add('disabled');
       }
+    },
+
+    onEnteringStatePlaceMeeple(args) {
+      args.action = 'actPlaceMeeple';
+      this.onEnteringStatePlaceRover(args);
     },
 
     onEnteringStatePlaceRover(args) {
@@ -1105,7 +1101,9 @@ define([
           selected = spaceId;
           selectedCell = oCell;
           oCell.classList.add('selected');
-          this.addPrimaryActionButton('btnConfirm', _('Confirm'), () => this.takeAtomicAction('actPlaceRover', [selected]));
+          this.addPrimaryActionButton('btnConfirm', _('Confirm'), () =>
+            this.takeAtomicAction(args.action || 'actPlaceRover', [selected])
+          );
         });
       });
     },
@@ -1187,9 +1185,15 @@ define([
     onEnteringStateCollectMeeple(args) {
       let spaces = {};
       args.meeples.forEach((spaceId) => {
-        let t = spaceId.split('_');
-        let oCell = this.getPlanetCell(this.player_id, t[0], t[1]);
-        spaces[spaceId] = oCell;
+        if (spaceId == 'reserve') {
+          elem = $(`lifepod-reserve-${this.player_id}`);
+        } else {
+          let t = spaceId.split('_');
+          elem = $(`corporation-${this.player_id}-${t[0]}-${t[1]}`);
+          if (!elem) elem = this.getPlanetCell(this.player_id, t[0], t[1]);
+        }
+
+        spaces[spaceId] = elem;
       });
 
       this.onSelectN({
@@ -1319,6 +1323,10 @@ define([
       for (let i = 1; i <= args.n; i++) {
         let n = i;
         this.addPrimaryActionButton('btn' + i, i, () => this.takeAtomicAction('actGainBiomassPatch', [n]));
+      }
+
+      if (args.canTakeSynergyInstead) {
+        this.addPrimaryActionButton('btnSynergy', _('Synergy'), () => this.takeAtomicAction('actGainBiomassPatch', [0]));
       }
     },
 

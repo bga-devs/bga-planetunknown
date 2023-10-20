@@ -16,16 +16,15 @@ class EventCard119 extends \PU\Models\Cards\EventCard
 
   public function __construct($player)
   {
-    $this->title = clienttranslate("Too much of any one thing is always a bad thing.");
-    $this->desc = clienttranslate("Tiles cannot be placed next to a matching resource terrains.");
+    $this->title = clienttranslate('Too much of any one thing is always a bad thing.');
+    $this->desc = clienttranslate('Tiles cannot be placed next to a matching resource terrains.');
     parent::__construct($player);
   }
 
-  //ACTION : 
+  //ACTION :
   //CONTRAINT : NoMatching
   public function effect()
   {
     Globals::setTurnSpecialRule(NO_MATCHING_TERRAINS);
-    //TODOTissac "Tiles cannot be placed next to a matching resource terrains."
   }
 }
