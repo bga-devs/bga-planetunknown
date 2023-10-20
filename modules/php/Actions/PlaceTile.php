@@ -169,7 +169,6 @@ class PlaceTile extends \PU\Models\Action
 
     // Place it on the board
     list($tile, $symbols, $coveringWater, $meteor) = $player->planet()->addTile($tileId, $pos, $rotation, $flipped);
-    $meteor = null; // TODOOOO
 
     // Wormhole corpration => check number of biomass zones before and after
     if ($player->getCorporationId() == WORMHOLE) {

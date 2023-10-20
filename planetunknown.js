@@ -1185,9 +1185,15 @@ define([
     onEnteringStateCollectMeeple(args) {
       let spaces = {};
       args.meeples.forEach((spaceId) => {
-        let t = spaceId.split('_');
-        let oCell = this.getPlanetCell(this.player_id, t[0], t[1]);
-        spaces[spaceId] = oCell;
+        if (spaceId == 'reserve') {
+          elem = $(`lifepod-reserve-${this.player_id}`);
+        } else {
+          let t = spaceId.split('_');
+          elem = $(`corporation-${this.player_id}-${t[0]}-${t[1]}`);
+          if (!elem) elem = this.getPlanetCell(this.player_id, t[0], t[1]);
+        }
+
+        spaces[spaceId] = elem;
       });
 
       this.onSelectN({

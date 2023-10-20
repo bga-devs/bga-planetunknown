@@ -58,12 +58,13 @@ class CollectMeeple extends \PU\Models\Action
 
   public function getDescription()
   {
-    $action = ($this->getAction() == 'collect') ? clienttranslate('Collect') : clienttranslate("Destroy");
-    $type = $this->getType() == LIFEPOD
-      ? clienttranslate('lifepod(s)')
-      : ($this->getType() == ROVER
-        ? clienttranslate('rover(s)')
-        : clienttranslate('meteor(s)'));
+    $action = $this->getAction() == 'collect' ? clienttranslate('Collect') : clienttranslate('Destroy');
+    $type =
+      $this->getType() == LIFEPOD
+        ? clienttranslate('lifepod(s)')
+        : ($this->getType() == ROVER
+          ? clienttranslate('rover(s)')
+          : clienttranslate('meteor(s)'));
 
     return [
       'log' => clienttranslate('${action} ${n} ${type} on your ${where}'),
@@ -72,28 +73,39 @@ class CollectMeeple extends \PU\Models\Action
         'n' => $this->getN(),
         'type' => $type,
         'where' => $this->getLocation(),
-        'i18n' => ['action', 'type', 'where']
+        'i18n' => ['action', 'type', 'where'],
       ],
     ];
   }
 
   public function getCollectableMeeples($player)
   {
-    return $player
-      ->getMeeples($this->getType())
-      ->where('location', $this->getLocation())
-      ->getIds();
+    $meeples = $player->getMeeples($this->getType())->where('location', $this->getLocation());
+    $spaceIds = [];
+    foreach ($meeples as $meeple) {
+      $spaceId = $meeple->getX() . '_' . $meeple->getY();
+
+      // Lifepod in reserve
+      if ($spaceId == '_') {
+        $spaceId = 'reserve';
+      }
+
+      $spaceIds[] = $spaceId;
+    }
+
+    return $spaceIds;
   }
 
   public function argsCollectMeeple()
   {
     $player = $this->getPlayer();
     $collectableMeeples = $this->getCollectableMeeples($player);
-    $type = $this->getType() == LIFEPOD
-      ? clienttranslate('lifepod(s)')
-      : ($this->getType() == ROVER
-        ? clienttranslate('rover(s)')
-        : clienttranslate('meteor(s)'));
+    $type =
+      $this->getType() == LIFEPOD
+        ? clienttranslate('lifepod(s)')
+        : ($this->getType() == ROVER
+          ? clienttranslate('rover(s)')
+          : clienttranslate('meteor(s)'));
 
     return [
       'meeples' => $collectableMeeples,
@@ -122,8 +134,12 @@ class CollectMeeple extends \PU\Models\Action
         throw new \BgaVisibleSystemException('You cannot collect here ' . $spaceId . '. Should not happen.');
       }
 
-      $cell = Planet::getCellFromId($spaceId);
-      $meeples[] = $player->getMeepleOnCell($cell, $type);
+      if ($spaceId == 'reserve') {
+        $meeples[] = $player->getLifepodOnTrack('', '')->first();
+      } else {
+        $cell = Planet::getCellFromId($spaceId);
+        $meeples[] = $player->getMeepleOnCell($cell, $type);
+      }
     }
 
     //move them
