@@ -30,20 +30,12 @@ class ChooseTracks extends \PU\Models\Action
     return count($this->getChoosableTypes()) != 0;
   }
 
-  public function isOptional()
-  {
-    return count($this->getChoosableTypes()) == 0;
-  }
-
   public function getChoosableTypes()
   {
     $types = $this->getTypes();
     $player = $this->getPlayer();
 
-    return array_values(array_filter(
-      $types,
-      fn ($type) => $player->corporation()->canMoveTrack($type, $this->getMove())
-    ));
+    return array_values(array_filter($types, fn($type) => $player->corporation()->canMoveTrack($type, $this->getMove())));
   }
 
   //n is the nb of tracks to choose
@@ -81,7 +73,7 @@ class ChooseTracks extends \PU\Models\Action
           'type_name' => 'energy',
         ],
       ];
-    } else if (count($types) == 5) {
+    } elseif (count($types) == 5) {
       $m = $this->getMove();
       return [
         'log' => $m > 0 ? clienttranslate('Advance ${n} track(s)') : clienttranslate('Regress ${n} track(s)'),
@@ -92,7 +84,10 @@ class ChooseTracks extends \PU\Models\Action
     } else {
       $m = $this->getMove();
       return [
-        'log' => $m > 0 ? clienttranslate('Advance ${n} track(s) among ${types_desc}') : clienttranslate('Regress ${n} track(s) among ${type_desc}'),
+        'log' =>
+          $m > 0
+            ? clienttranslate('Advance ${n} track(s) among ${types_desc}')
+            : clienttranslate('Regress ${n} track(s) among ${type_desc}'),
         'args' => [
           'n' => $this->getN(),
           'types_desc' => Utils::getTypesDesc($types),
@@ -133,8 +128,8 @@ class ChooseTracks extends \PU\Models\Action
     }
 
     foreach ($tracks as $key => $type) {
-      if (!in_array($type, $args['types'])) {
-        throw new \BgaVisibleSystemException('You cannot choose $type track. Should not happen');
+      if (!in_array($type, $args['choosableTypes'])) {
+        throw new \BgaVisibleSystemException("You cannot choose $type track. Should not happen");
       }
 
       // if (count($tracks) > 1) {
@@ -148,7 +143,6 @@ class ChooseTracks extends \PU\Models\Action
       //     'args' => ['type' => $type, 'n' => $this->getMove(), 'withBonus' => $this->getWithBonus()],
       //   ]);
       // }
-
 
       // $withBonus = $this->getWithBonus();
       // if ($withBonus) {

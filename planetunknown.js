@@ -1051,6 +1051,8 @@ define([
       let tracks = [];
       args.types.forEach((type) => {
         this.addSecondaryActionButton('btn' + type, this.fsr('${type}', { type, type_name: type }), () => {
+          if (!args.choosableTypes.includes(type)) return;
+
           // Only a single track to resolve => auto confirm
           if (args.n == 1) {
             this.takeAtomicAction('actChooseTracks', [[type]]);
@@ -1070,6 +1072,7 @@ define([
             $('btnConfirmTracks').classList.toggle('disabled', tracks.length != args.n);
           }
         });
+        $('btn' + type).classList.toggle('disabled', !args.choosableTypes.includes(type));
       });
 
       if (args.n > 1) {
@@ -1078,6 +1081,11 @@ define([
         });
         $('btnConfirmTracks').classList.add('disabled');
       }
+    },
+
+    onEnteringStatePlaceMeeple(args) {
+      args.action = 'actPlaceMeeple';
+      this.onEnteringStatePlaceRover(args);
     },
 
     onEnteringStatePlaceRover(args) {
@@ -1093,7 +1101,9 @@ define([
           selected = spaceId;
           selectedCell = oCell;
           oCell.classList.add('selected');
-          this.addPrimaryActionButton('btnConfirm', _('Confirm'), () => this.takeAtomicAction('actPlaceRover', [selected]));
+          this.addPrimaryActionButton('btnConfirm', _('Confirm'), () =>
+            this.takeAtomicAction(args.action || 'actPlaceRover', [selected])
+          );
         });
       });
     },

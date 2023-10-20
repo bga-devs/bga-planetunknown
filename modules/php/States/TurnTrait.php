@@ -82,6 +82,7 @@ trait TurnTrait
     }
 
     Notifications::newEventCard($card);
+    Log::checkpoint();
 
     $this->gamestate->setAllPlayersMultiactive();
     $this->gamestate->nextState('');
