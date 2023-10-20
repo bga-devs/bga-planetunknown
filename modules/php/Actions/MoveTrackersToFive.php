@@ -26,7 +26,7 @@ class MoveTrackersToFive extends \PU\Models\Action
     $player = $this->getPlayer();
     $playableTypes = [];
     foreach (ALL_TYPES as $type) {
-      if ($player->corporation()->getLevelOnTrack($type) < 4) {
+      if ($player->corporation()->getLevelOnTrack($type) < 5) {
         $playableTypes[] = $type;
       }
     }

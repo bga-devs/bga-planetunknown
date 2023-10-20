@@ -114,6 +114,20 @@ define([
 
         //////////////////////
         /// BOARD / PANELS ///
+        planetOverlay: {
+          default: 50,
+          name: _('Buildable cell overlay opacity'),
+          type: 'slider',
+          sliderConfig: {
+            step: 3,
+            padding: 0,
+            range: {
+              min: [30],
+              max: [90],
+            },
+          },
+          section: 'playerBoard',
+        },
 
         //////////////////////
         ///// GAME FLOW //////
@@ -1570,6 +1584,11 @@ define([
       const BOARD_SIZE = (WIDTH * this.settings.boardSizes) / 100;
       let boardScale = BOARD_SIZE / BOARD_WIDTH;
       ROOT.style.setProperty('--planetUnknownBoardScale', boardScale);
+    },
+
+    onChangePlanetOverlaySetting(val) {
+      const ROOT = document.documentElement;
+      ROOT.style.setProperty('--overlayOpacity', val / 100);
     },
 
     ///////////////////////////////////////////////////////////
