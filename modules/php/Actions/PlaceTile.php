@@ -154,7 +154,7 @@ class PlaceTile extends \PU\Models\Action
       return $option['pos']['x'] == $pos['x'] && $option['pos']['y'] == $pos['y'];
     });
     if ($option === false) {
-      throw new \BgaVisibleSystemException('You cannot place the tile here. Should not happen');
+      throw new \BgaVisibleSystemException('You cannot place the tile here. Should not happen ' . var_export($pos, true));
     }
     if (!in_array([$rotation, $flipped], $tileOptions[$option]['r'])) {
       throw new \BgaVisibleSystemException('You cannot place the tile here with that rotation/flip. Should not happen');

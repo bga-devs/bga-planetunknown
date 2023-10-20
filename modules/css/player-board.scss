@@ -138,7 +138,8 @@ $planetGridHeight: 12 * $cellHeight;
                         .planet-grid-cell-overlay {
                             z-index: 1;
                             position: relative;
-                            background: #ffffff60;
+                            background: #ffffff;
+                            opacity: var(--overlayOpacity);
                         }
 
                         .planet-grid-cell {
