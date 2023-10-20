@@ -54,12 +54,12 @@ class CivCard extends \PU\Models\Card
     ];
   }
 
-  public function freePlaceTile()
+  public function freePlaceTile($bonus = false)
   {
     return [
       'action' => PLACE_TILE,
       'args' => [
-        'withBonus' => false,
+        'withBonus' => $bonus,
       ],
     ];
   }

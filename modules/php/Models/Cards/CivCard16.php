@@ -16,14 +16,14 @@ class CivCard16 extends \PU\Models\Cards\CivCard
   public function __construct($player)
   {
     $this->title = clienttranslate('Depot Repair Online');
-    $this->desc = clienttranslate('Take one tile from your depot and place it. Do not advance for its resources.');
+    $this->desc = clienttranslate('Take one tile from your depot and place it.');
     parent::__construct($player);
   }
 
   //free_tile
   public function effect()
   {
-    return $this->freePlaceTile();
+    return $this->freePlaceTile(true);
   }
 
   public function score()
