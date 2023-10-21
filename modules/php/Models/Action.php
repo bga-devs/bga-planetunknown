@@ -173,11 +173,6 @@ class Action
         case TECH:
           $levelTech = $player->corporation()->getTechLevel($this);
 
-          $action = $player->corporation()->getTechAction($levelTech);
-          if ($action) {
-            $actions[] = $action;
-          }
-
           // TODO Waiting for Adam
           // if ($player->corporation()->canUse(TECH_REPOSITION_THREE_LIFEPODS_ONCE)) {
           //   $actions[] = [

@@ -26,6 +26,12 @@ class PlaceMeeple extends \PU\Models\Action
     return $this->getPossibleSpaceIds($player);
   }
 
+  public function isOptional()
+  {
+
+    return !$this->isDoable($this->getPlayer());
+  }
+
   public function getConstraint()
   {
     return $this->getCtxArg('constraint');

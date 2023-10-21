@@ -276,11 +276,6 @@ class Corporation
       ->count();
   }
 
-  public function getTechAction($techLvl)
-  {
-    return false;
-  }
-
   public function getAnytimeActions()
   {
     return [];

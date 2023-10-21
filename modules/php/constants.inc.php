@@ -204,6 +204,24 @@ const CANNOT_PLACE_ON_ICE = 'cannotPlaceOnIce'; //TODOTissac
 const NO_SYNERGY = 'noSynergy';
 
 /*
+* Direction (for placing tile purpose or moving rover)
+*/
+
+
+const DIRECTIONS = [['x' => -1, 'y' => 0], ['x' => 0, 'y' => -1], ['x' => 1, 'y' => 0], ['x' => 0, 'y' => 1]];
+const DIRECTIONS_DIAG = [
+  ['x' => -1, 'y' => 0],
+  ['x' => -1, 'y' => -1],
+  ['x' => -1, 'y' => 1],
+  ['x' => 0, 'y' => -1],
+  ['x' => 1, 'y' => 0],
+  ['x' => 1, 'y' => 1],
+  ['x' => 1, 'y' => -1],
+  ['x' => 0, 'y' => 1],
+];
+
+
+/*
  *	Cards
  */
 

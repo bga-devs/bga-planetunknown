@@ -1,9 +1,8 @@
 <?php
 
 namespace PU\Models\Planets;
-use PU\Helpers\Utils;
 
-const DIRECTIONS = [['x' => -1, 'y' => 0], ['x' => 0, 'y' => -1], ['x' => 1, 'y' => 0], ['x' => 0, 'y' => 1]];
+use PU\Helpers\Utils;
 
 class Planet7 extends \PU\Models\Planet
 {

@@ -14,17 +14,6 @@ use PU\Core\Stats;
  * Planet: all utility functions concerning a Planet
  */
 
-const DIRECTIONS = [['x' => -1, 'y' => 0], ['x' => 0, 'y' => -1], ['x' => 1, 'y' => 0], ['x' => 0, 'y' => 1]];
-const DIRECTIONS_DIAG = [
-  ['x' => -1, 'y' => 0],
-  ['x' => -1, 'y' => -1],
-  ['x' => -1, 'y' => 1],
-  ['x' => 0, 'y' => -1],
-  ['x' => 1, 'y' => 0],
-  ['x' => 1, 'y' => 1],
-  ['x' => 1, 'y' => -1],
-  ['x' => 0, 'y' => 1],
-];
 class Planet
 {
   // STATIC DATA
@@ -170,7 +159,7 @@ class Planet
   public function countSymbolsOnEdge($symbol)
   {
     $cells = $this->getEdgeCells();
-    return array_reduce($cells, fn($result, $cell) => $result + ($this->getSymbol($cell['x'], $cell['y']) == $symbol ? 1 : 0), 0);
+    return array_reduce($cells, fn ($result, $cell) => $result + ($this->getSymbol($cell['x'], $cell['y']) == $symbol ? 1 : 0), 0);
   }
 
   /**
@@ -222,19 +211,19 @@ class Planet
   public function countLargestAdjacent($type)
   {
     $zones = $this->detectZones($type);
-    return $zones ? max(array_map(fn($zone) => count($zone), $zones)) : 0;
+    return $zones ? max(array_map(fn ($zone) => count($zone), $zones)) : 0;
   }
 
   public function countSymbols($type, $zone = null)
   {
-    $cells = array_filter($zone ?? $this->getListOfCells(), fn($cell) => $this->getSymbol($cell['x'], $cell['y']) == $type);
+    $cells = array_filter($zone ?? $this->getListOfCells(), fn ($cell) => $this->getSymbol($cell['x'], $cell['y']) == $type);
     return count($cells);
   }
 
   public function getEmptyMeteorSymbolCells()
   {
     $cells = $this->getListOfCells();
-    Utils::filter($cells, fn($cell) => $this->hasMeteorSymbol($cell['x'], $cell['y']) && !$this->player->getMeteorOnCell($cell));
+    Utils::filter($cells, fn ($cell) => $this->hasMeteorSymbol($cell['x'], $cell['y']) && !$this->player->getMeteorOnCell($cell));
     return $cells;
   }
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace PU\Models\Planets;
 
 class Planet9 extends \PU\Models\Planet
