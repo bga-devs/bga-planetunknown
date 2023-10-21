@@ -169,8 +169,8 @@ class Actions
   public static function pass($actionId, $ctx)
   {
     if (!$ctx->isOptional()) {
-      self::error($ctx->toArray());
-      throw new \BgaVisibleSystemException('This action is not optional');
+      // self::error($ctx->toArray()); //TODOTissac (i commented it, it's not a known function)
+      throw new \BgaVisibleSystemException('This action is not optional, ' . $actionId);
     }
 
     $action = self::get($actionId, $ctx);
