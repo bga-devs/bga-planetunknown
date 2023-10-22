@@ -112,7 +112,7 @@ class Corporation
       return $this->getLevelOnTrack($type) + $n >= 0;
     } else {
       //for positive progression
-      return !$this->isTrackerOnTop($type);
+      return !$this->isTrackerOnTop($type) || $type == ROVER;
     }
   }
 
