@@ -121,9 +121,7 @@ trait EngineTrait
    */
   function actPassOptionalAction($auto = false, $pId = null)
   {
-    if ($auto) {
-      $this->gamestate->checkPossibleAction('actPassOptionalAction');
-    } else {
+    if (!$auto) {
       self::checkAction('actPassOptionalAction');
     }
 
