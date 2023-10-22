@@ -119,7 +119,7 @@ trait EngineTrait
   /**
    * To pass if the action is an optional one
    */
-  function actPassOptionalAction($auto = false)
+  function actPassOptionalAction($auto = false, $pId = null)
   {
     if ($auto) {
       $this->gamestate->checkPossibleAction('actPassOptionalAction');
@@ -127,10 +127,10 @@ trait EngineTrait
       self::checkAction('actPassOptionalAction');
     }
 
-    $pId = Players::getCurrentId();
+    $pId = $pId ?? Players::getCurrentId();
     $action = $this->getCurrentAtomicAction($pId);
     $ctx = Engine::getNextUnresolved($pId);
-    Actions::pass($action, $ctx);
+    Actions::pass($action, $ctx, $auto);
   }
 
   /**
