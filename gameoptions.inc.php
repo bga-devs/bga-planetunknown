@@ -29,9 +29,9 @@ $game_options = [
         'tmdisplay' => totranslate('Symmetric planets'),
       ],
       OPTION_PLANET_B_TOO => [
-        'name' => totranslate('Assymetric planets'),
+        'name' => totranslate('Asymmetric planets'),
         'description' => totranslate('Each player can choose their planet board side'),
-        'tmdisplay' => totranslate('Assymetric planets'),
+        'tmdisplay' => totranslate('Asymmetric planets'),
         'alpha' => true,
       ],
     ],
@@ -45,9 +45,9 @@ $game_options = [
         'tmdisplay' => totranslate('Symmetric corporations'),
       ],
       OPTION_ALL_CORPORATIONS => [
-        'name' => totranslate('Assymetric corporations'),
+        'name' => totranslate('Asymmetric corporations'),
         'description' => totranslate('Each player can choose their corporation board side'),
-        'tmdisplay' => totranslate('Assymetric corporations'),
+        'tmdisplay' => totranslate('Asymmetric corporations'),
         'alpha' => true,
       ],
     ],
