@@ -161,7 +161,7 @@ class Actions
       $action->$methodName();
       $player = self::getPlayer($ctx);
       if ($ctx->isIrreversible($player)) {
-        Engine::checkpoint();
+        Engine::checkpoint($player->getId());
       }
     }
   }

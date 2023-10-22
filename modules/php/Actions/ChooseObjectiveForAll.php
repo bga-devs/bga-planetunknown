@@ -27,11 +27,19 @@ class ChooseObjectiveForAll extends \PU\Models\Action
     return false;
   }
 
+  public function isIrreversible($player = null)
+  {
+    return true;
+  }
+
   public function getDescription()
   {
-    return [
-      'log' => \clienttranslate('Draw 3 objectives and keep one for all players'),
-    ];
+    return clienttranslate('Draw 3 objectives and keep one for all players');
+  }
+
+  public function stPreChooseObjectiveForAll()
+  {
+    // Ensure checkpoint
   }
 
   public function argsChooseObjectiveForAll()
@@ -39,22 +47,20 @@ class ChooseObjectiveForAll extends \PU\Models\Action
     $NOCards = Cards::getTopOf('deck_objectives', 3);
 
     return [
-      'NOCards' => $NOCards->getIds()
+      'NOCards' => $NOCards,
     ];
   }
 
   public function actChooseObjectiveForAll($cardId)
   {
     $player = $this->getPlayer();
-
     $args = $this->argsChooseObjectiveForAll();
-    if (!in_array($cardId, $args['NOCards'])) {
+    if (!array_key_exists($cardId, $args['NOCards'])) {
       throw new BgaVisibleSystemException("You can\'t choose this objective card $cardId. Should not happen");
     }
 
-    foreach ($args['NOCards'] as $cId) {
+    foreach ($args['NOCards'] as $cId => $card) {
       if ($cId == $cardId) {
-        $card = Cards::get($cId);
         Cards::move($cId, 'NOCards');
         Notifications::newObjectiveCard($card, $player);
       } else {

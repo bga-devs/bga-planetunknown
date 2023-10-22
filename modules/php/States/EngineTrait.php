@@ -80,6 +80,7 @@ trait EngineTrait
           'desc' => $flow['desc'] ?? $tree->getDescription(true),
           'optionalAction' => $tree->isOptional(),
           'independentAction' => $tree->isIndependent($player),
+          'irreversibleAction' => $tree->isIrreversible($player),
           'source' => $tree->getSource(),
         ];
       }
@@ -101,6 +102,15 @@ trait EngineTrait
       PGlobals::incEngineChoices($pId);
     }
     Engine::insertBeforeCurrent($pId, $flow);
+
+    // Flag
+    $flag = $flow['flag'] ?? null;
+    if (!is_null($flag)) {
+      $flags = PGlobals::getFlags($pId);
+      $flags[$flag] = true;
+      PGlobals::setFlags($pId, $flags);
+    }
+
     Engine::proceed($pId);
   }
 
