@@ -93,6 +93,14 @@ class Corporation4 extends Corporation
       ];
     }
 
+    if ($this->canUse(TECH_CLAIM_ALL_BENEFITS_IN_A_ROW_ONCE_PER_GAME)) {
+      $actions[] = [
+        'action' => CLAIM_ALL_IN_A_ROW,
+        'source' => $this->name,
+        'flag' => TECH_CLAIM_ALL_BENEFITS_IN_A_ROW_ONCE_PER_GAME,
+      ];
+    }
+
     return $actions;
   }
 }

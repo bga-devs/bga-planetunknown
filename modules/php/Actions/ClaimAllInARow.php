@@ -30,6 +30,7 @@ class ClaimAllInARow extends \PU\Models\Action
   {
     return [
       'log' => \clienttranslate('Claim all benefits from a tracks row'),
+      'args' => []
     ];
   }
 
@@ -50,8 +51,6 @@ class ClaimAllInARow extends \PU\Models\Action
 
   public function argsClaimAllInARow()
   {
-    $player = $this->getPlayer();
-
     return [
       'choosableRows' => $this->getChoosableRows()
     ];
