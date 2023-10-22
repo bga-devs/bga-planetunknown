@@ -763,6 +763,12 @@
     height: 40px;
     box-shadow: none;
     background: none; }
+    .next-objectives .private-objectives .pocard-wrapper.selectable {
+      cursor: pointer; }
+      .next-objectives .private-objectives .pocard-wrapper.selectable:hover {
+        transform: scale(1.1); }
+    .next-objectives .private-objectives .pocard-wrapper.selected, .next-objectives .private-objectives .pocard-wrapper.selected:hover {
+      border-color: green; }
 
 #pending-cards {
   --cardScale: 0.6;

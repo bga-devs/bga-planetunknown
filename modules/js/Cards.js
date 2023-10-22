@@ -240,6 +240,13 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       });
     },
 
+    notif_destroyCard(n) {
+      debug('Notif: destroying a private objective card', n);
+      this.slide(`card-${n.args.cardId}`, this.getVisibleTitleContainer(), {
+        destroy: true,
+      });
+    },
+
     notif_revealCards(n) {
       debug('Notif: revealing cards', n);
       this.gamedatas.players = n.args.playersData;

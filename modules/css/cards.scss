@@ -255,7 +255,23 @@
         border-radius: 0;
         height: 40px;
         box-shadow: none;
-        background: none;
+        background: #f9e5cf;
+
+        &.selectable {
+            cursor: pointer;
+            &:hover {
+                transform: scale(1.1);
+            }
+        }
+
+        &.selected,
+        &.selected:hover {
+            border: 1px solid green;
+            box-shadow: 0px 0px 3px green;
+            margin-top: -1px;
+            margin-right: -1px;
+            background: #d4f9cfcf;
+        }
     }
 }
 

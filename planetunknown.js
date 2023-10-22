@@ -67,6 +67,7 @@ define([
         ['midMessage', 1200],
         ['newCards', 1000],
         ['emptySlot', 1200],
+        ['destroyCard', 1200],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -1338,6 +1339,19 @@ define([
         this.addPrimaryActionButton('btn' + slotId, t[0] == 'interior' ? _('Interior') : _('Exterior'), () =>
           this.takeAtomicAction('actEmptySlot', [slotId])
         );
+      });
+    },
+
+    onEnteringStateDestroyPOCard(args) {
+      let selected = null;
+      args.cardIds.forEach((cardId) => {
+        this.onClick(`card-${cardId}`, () => {
+          if (selected) $(`card-${selected}`).classList.remove('selected');
+          selected = cardId;
+          $(`card-${selected}`).classList.add('selected');
+
+          this.addPrimaryActionButton('btnConfirm', _('Confirm'), () => this.takeAtomicAction('actDestroyPOCard', [selected]));
+        });
       });
     },
 
