@@ -13,6 +13,7 @@ class Corporation7 extends Corporation
     $this->desc = clienttranslate('You must regress another tracker each time you claim a milestone from the civ track. Do not claim benefits from regressing.');
 
     $this->flagsToReset = [TECH_REPUBLIC_MOVE_ROVER_WITH_CIV_TILE, REPUBLIC_TILE_PLACED];
+
     $this->techBonuses = [
       1 => [
         'text' => clienttranslate('Gain movement based on your rover tracker when you select a civ tile.')

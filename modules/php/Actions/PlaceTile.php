@@ -170,9 +170,11 @@ class PlaceTile extends \PU\Models\Action
     // Place it on the board
     list($tile, $symbols, $coveringWater, $meteor) = $player->planet()->addTile($tileId, $pos, $rotation, $flipped);
 
-    // Wormhole corpration => check number of biomass zones before and after
+    // Wormhole corporation => check number of biomass zones before and after
     if ($player->getCorporationId() == WORMHOLE) {
       $cantAdvanceBiomass = $player->planet()->countZoneNb(BIOMASS) > $biomassZones;
+    } elseif ($player->getCorporationId() == REPUBLIC) {
+      $player->corporation()->addFlag(REPUBLIC_TILE_PLACED);
     }
 
     // Record it except if it's a patch
@@ -307,6 +309,8 @@ class PlaceTile extends \PU\Models\Action
       $this->pushParallelChilds($actions);
     }
 
+
+
     Notifications::placeTile($player, $tile, $meteor, $tileTypes, $oldLocation);
 
     if ($destroyedLifepod->count()) {
@@ -326,10 +330,6 @@ class PlaceTile extends \PU\Models\Action
           Meeples::move($meeple->getId(), 'trash');
           Notifications::destroyedMeteorWormholePatch($player, $meeple);
         }
-      }
-
-      // Gain an extra free biomass patch
-      if ($player->corporation()->canUse(TECH_WORMHOLE_GAIN_TWO_BIOMASS_PATCHES)) {
       }
     }
   }
