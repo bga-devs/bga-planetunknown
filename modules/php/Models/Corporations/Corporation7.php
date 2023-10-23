@@ -58,6 +58,7 @@ class Corporation7 extends Corporation
         'n' => 1,
         'move' => -1,
         'from' => $this->name,
+        'withBonus' => false
       ],
     ];
   }
