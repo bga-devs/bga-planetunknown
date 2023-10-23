@@ -95,7 +95,7 @@ class Player extends \PU\Helpers\DB_Model
   {
     $cards = Cards::getAll()
       ->where('pId', $this->id)
-      ->where('location', $current ? ['hand_obj', 'hand_civ', 'playedCivCards', 'playedObjCards'] : ['hand_obj', 'hand_civ']);
+      ->where('location', $current ? ['hand_obj', 'hand_civ', 'playedCivCards', 'playedObjCards'] : ['playedCivCards', 'playedObjCards']);
 
     $result = 0;
     foreach ($cards as $cardId => $card) {
