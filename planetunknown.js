@@ -68,6 +68,8 @@ define([
         ['newCards', 1000],
         ['emptySlot', 1200],
         ['destroyCard', 1200],
+        ['newObjectiveCard', 1200],
+        ['scores', 200],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -75,6 +77,7 @@ define([
       this.cardStatuses = {};
     },
     notif_midMessage(n) {},
+    notif_scores(n) {},
 
     getSettingsSections() {
       return {

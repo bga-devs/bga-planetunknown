@@ -64,10 +64,10 @@ class Log extends \APP_DbObject
   }
 
   // Create a new checkpoint : anything before that checkpoint cannot be undo (unless in studio)
-  public function checkpoint()
+  public function checkpoint($pId = 0)
   {
     self::clearUndoableStepNotifications();
-    return self::addEntry(['type' => 'checkpoint']);
+    return self::addEntry(['type' => 'checkpoint', 'player_id' => $pId]);
   }
 
   // Create a new step to allow undo step-by-step
@@ -87,7 +87,7 @@ class Log extends \APP_DbObject
   }
 
   // Find the last checkpoint
-  public function getLastCheckpoint($includeEngineStarts = false)
+  public function getLastCheckpoint($pId, $includeEngineStarts = false)
   {
     $query = new QueryBuilder('log', null, 'id');
     $query = $query->select(['id']);
@@ -96,6 +96,7 @@ class Log extends \APP_DbObject
     } else {
       $query = $query->where('type', 'checkpoint');
     }
+    $query = $query->whereIn('player_id', [0, $pId]);
 
     $log = $query
       ->orderBy('id', 'DESC')
@@ -109,7 +110,7 @@ class Log extends \APP_DbObject
   // Find all the moments available to undo
   public function getUndoableSteps($pId, $onlyIds = true)
   {
-    $checkpoint = self::getLastCheckpoint();
+    $checkpoint = self::getLastCheckpoint($pId);
     $query = new QueryBuilder('log', null, 'id');
     $query = $query->select(['id', 'move_id'])->where('type', 'step');
     if ($pId != 'all') {

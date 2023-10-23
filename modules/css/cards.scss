@@ -85,6 +85,13 @@
         text-indent: 5px;
     }
 }
+#pending-cards .nocard-wrapper {
+    border-left: none;
+
+    .nocard-indicator {
+        display: none;
+    }
+}
 
 .prev-objectives .nocard-wrapper {
     border-left: none;
@@ -122,9 +129,22 @@
     margin-top: -53px;
     margin-left: -46px;
 }
-#shared-obj {
+#player_config #shared-obj {
     --cardScale: 0.4;
+    padding: 0px;
+    border-bottom: none;
 
+    &:not(:empty) {
+        border-top: 1px solid #80502e;
+        padding-top: 10px;
+        margin-top: 10px;
+    }
+
+    .nocard-wrapper {
+        border-left: none;
+        width: 100%;
+        justify-content: space-between;
+    }
     .planetunknown-card[data-type="NOCard"] {
         width: calc(var(--cardScale) * 275px);
         height: calc(var(--cardScale) * 100px);

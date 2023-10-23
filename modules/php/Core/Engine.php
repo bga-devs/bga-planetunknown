@@ -58,6 +58,7 @@ class Engine
       PGlobals::setEngine($pId, []);
       Game::get()->sendNotifications();
     }
+    Notifications::scores();
     Log::clearUndoableStepNotifications();
   }
 
@@ -195,7 +196,7 @@ class Engine
 
     $player = Players::get($pId);
     if ($confirmedPartial) {
-      Log::checkpoint();
+      Log::checkpoint($pId);
       Globals::setEngineChoices(0);
     }
 
@@ -314,7 +315,7 @@ class Engine
   public function checkpoint($pId)
   {
     PGlobals::setEngineChoices($pId, 0);
-    Log::checkpoint();
+    Log::checkpoint($pId);
   }
 
   /**

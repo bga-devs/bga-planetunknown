@@ -12,14 +12,12 @@
         align-items: center;
         padding: 5px 0px;
         border-bottom: 1px solid #80502e;
-        &:last-child {
-            border-bottom: none;
-            padding-bottom: 0px;
-        }
 
         &#susan-holder {
             height: 355px;
             cursor: zoom-in;
+            border-bottom: none;
+            padding-bottom: 0px;
         }
     }
 

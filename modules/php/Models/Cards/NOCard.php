@@ -45,18 +45,13 @@ class NOCard extends \PU\Models\Card
 
     $scores = [];
     $values = [];
-    foreach ($playersIds as $pId => $player) {
-      $values[$pId] = $this->evalCriteria($player);
+    foreach ($playersIds as $pId => $player2) {
+      $values[$pId] = $this->evalCriteria($player2);
     }
 
     $max = max($values);
-
     $score = array_count_values($values)[$max] == 1 ? $this->win : $this->tie;
-
-    foreach ($values as $pId => $value) {
-      $scores[$pId] = ($value == $max) ? $score : 0;
-    }
-
-    return [$scores[$player->getId()], $values];
+    $v = $values[$player->getId()];
+    return [$v == $max ? $score : 0, $v];
   }
 }

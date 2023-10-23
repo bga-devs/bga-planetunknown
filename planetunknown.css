@@ -463,6 +463,11 @@
     line-height: 19px;
     text-indent: 5px; }
 
+#pending-cards .nocard-wrapper {
+  border-left: none; }
+  #pending-cards .nocard-wrapper .nocard-indicator {
+    display: none; }
+
 .prev-objectives .nocard-wrapper {
   border-left: none;
   border-right: 1px solid black;
@@ -574,13 +579,23 @@
   margin-top: -53px;
   margin-left: -46px; }
 
-#shared-obj {
-  --cardScale: 0.4; }
-  #shared-obj .planetunknown-card[data-type="NOCard"] {
+#player_config #shared-obj {
+  --cardScale: 0.4;
+  padding: 0px;
+  border-bottom: none; }
+  #player_config #shared-obj:not(:empty) {
+    border-top: 1px solid #80502e;
+    padding-top: 10px;
+    margin-top: 10px; }
+  #player_config #shared-obj .nocard-wrapper {
+    border-left: none;
+    width: 100%;
+    justify-content: space-between; }
+  #player_config #shared-obj .planetunknown-card[data-type="NOCard"] {
     width: calc(var(--cardScale) * 275px);
     height: calc(var(--cardScale) * 100px);
     overflow: hidden; }
-  #shared-obj .planetunknown-card[data-type="NOCard"] .card-inner {
+  #player_config #shared-obj .planetunknown-card[data-type="NOCard"] .card-inner {
     margin-top: -53px;
     margin-left: -46px; }
 
@@ -2719,12 +2734,11 @@
     align-items: center;
     padding: 5px 0px;
     border-bottom: 1px solid #80502e; }
-    #player_config .player_config_row:last-child {
-      border-bottom: none;
-      padding-bottom: 0px; }
     #player_config .player_config_row#susan-holder {
       height: 355px;
-      cursor: zoom-in; }
+      cursor: zoom-in;
+      border-bottom: none;
+      padding-bottom: 0px; }
   #player_config #help-mode-switch .checkbox {
     display: none; }
   #player_config #help-mode-switch .label {

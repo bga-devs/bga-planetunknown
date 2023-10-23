@@ -329,5 +329,18 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       if (autoClose) this.wait(2500).then(close);
       else $('card-overlay').addEventListener('click', close);
     },
+
+    notif_newObjectiveCard(n) {
+      debug('Notif: adding new common objective card', n);
+
+      let card = n.args.card;
+      if (!$(`card-${card.id}`)) {
+        this.addCard(card, this.getVisibleTitleContainer());
+      }
+
+      this.slide(`card-${card.id}`, 'shared-obj').then(() => {
+        $('pending-cards').innerHTML = '';
+      });
+    },
   });
 });
