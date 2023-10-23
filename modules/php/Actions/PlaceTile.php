@@ -162,7 +162,7 @@ class PlaceTile extends \PU\Models\Action
 
     // Old location is used to update SUSAN counters in UI
     $oldLocation = Tiles::get($tileId)->getLocation();
-    // Wormhole corpration => check number of biomass zones before and after
+    // Wormhole corporation => check number of biomass zones before and after
     if ($player->getCorporationId() == WORMHOLE) {
       $biomassZones = $player->planet()->countZoneNb(BIOMASS);
     }

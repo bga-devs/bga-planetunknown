@@ -105,11 +105,6 @@ class MoveTrackerByOne extends \PU\Models\Action
 
     $args = $this->argsMoveTrackerByOne();
 
-    //TODO hack to avoid bug on virtual space id in rover track
-    // if (in_array('rover_16', $args['spaceIds'])) {
-    //   $args['spaceIds'] = 'rover_15';
-    // }
-
     if ($type != $args['type']) {
       throw new \BgaVisibleSystemException('You can not move this tracker now. Should not happen ', $type);
     }

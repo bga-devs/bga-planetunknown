@@ -41,12 +41,12 @@ class NOCard extends \PU\Models\Card
 
   public function competeAll($player)
   {
-    $playersIds = Players::getAll()->getIds;
+    $playersIds = Players::getAll();
 
     $scores = [];
     $values = [];
-    foreach ($playersIds as $pId) {
-      $values[$pId] = $this->evalCriteria($pId);
+    foreach ($playersIds as $pId => $player) {
+      $values[$pId] = $this->evalCriteria($player);
     }
 
     $max = max($values);
