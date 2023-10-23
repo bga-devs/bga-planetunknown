@@ -99,7 +99,7 @@ class GainBiomassPatch extends \PU\Models\Action
 
     // Create patch and either store them or place them
     for ($j = 0; $j < $n; $j++) {
-      $patch = Tiles::createBiomassPatch($player);
+      $patch = Tiles::getBiomassPatch($player);
       $action = [
         'action' => PLACE_TILE,
         'args' => [

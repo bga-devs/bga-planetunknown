@@ -52,20 +52,30 @@ class Tiles extends \PU\Helpers\CachedPieces
 
   public static function getOfPlayer($pId)
   {
-    return self::where('pId', $pId);
+    return self::where('pId', $pId)->filter(fn($tile) => $tile->getLocation() != 'box');
   }
 
-  public static function createBiomassPatch($player)
+  public static function getBiomassPatch($player)
   {
-    return static::singleCreate([
-      'type' => BIOMASS_PATCH,
-      'location' => 'corporation',
-      'player_id' => $player->getId(),
-      'x' => -1,
-      'y' => -1,
-      'rotation' => 0,
-      'flipped' => 0,
-    ]);
+    $patch = self::getFiltered($player->getId(), 'box', BIOMASS_PATCH)->first();
+
+    // TODO : REMOVE => LEGACY CODE
+    if (is_null($patch)) {
+      return static::singleCreate([
+        'type' => BIOMASS_PATCH,
+        'location' => 'corporation',
+        'player_id' => $player->getId(),
+        'x' => -1,
+        'y' => -1,
+        'rotation' => 0,
+        'flipped' => 0,
+      ]);
+    }
+
+    $patch->setLocation('corporation');
+    $patch->setX(-1);
+    $patch->setY(-1);
+    return $patch;
   }
 
   ////////////////////////////////////
@@ -98,6 +108,16 @@ class Tiles extends \PU\Helpers\CachedPieces
           'location' => "exterior-$j",
         ];
       }
+    }
+
+    // Create biomass patches for each player
+    foreach ($players as $pId => $player) {
+      $tiles[] = [
+        'type' => \BIOMASS_PATCH,
+        'location' => 'box',
+        'player_id' => $pId,
+        'nbr' => 50,
+      ];
     }
 
     self::create($tiles);

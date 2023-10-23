@@ -73,7 +73,7 @@ class PlaceTile extends \PU\Models\Action
     $tiles = [];
     $forcedTiles = $forcedTiles ?? $this->getForcedTiles();
 
-    $specialRule = Globals::getTurnSpecialRule();
+    $specialRule = null; //Globals::getTurnSpecialRule();
     foreach ($forcedTiles ?? $this->getPossibleTiles($player) as $tile) {
       $placementOptions = $player->planet()->getPlacementOptions($tile, $checkIsDoable, $specialRule);
       if (!empty($placementOptions)) {
@@ -98,7 +98,7 @@ class PlaceTile extends \PU\Models\Action
         $tiles[$tile->getId()] = $placementOptions;
       }
     }
-
+    var_dump($tiles);
     if (!empty($tiles)) {
       return [$tiles, true];
     }

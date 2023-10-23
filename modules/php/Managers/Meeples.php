@@ -60,15 +60,25 @@ class Meeples extends \PU\Helpers\CachedPieces
     return [$destroyedRover, $destroyedLifepod];
   }
 
-  public static function addMeteor($player, $meteor)
+  public static function addMeteor($player, $pos)
   {
-    return static::singleCreate([
-      'type' => METEOR,
-      'location' => 'planet',
-      'player_id' => $player->getId(),
-      'x' => $meteor['x'],
-      'y' => $meteor['y'],
-    ]);
+    $meteor = self::getFiltered($player->getId(), 'box', METEOR)->first();
+
+    // TODO : REMOVE => LEGACY CODE
+    if (is_null($meteor)) {
+      return static::singleCreate([
+        'type' => METEOR,
+        'location' => 'planet',
+        'player_id' => $player->getId(),
+        'x' => $pos['x'],
+        'y' => $pos['y'],
+      ]);
+    }
+
+    $meteor->setLocation('planet');
+    $meteor->setX($pos['x']);
+    $meteor->setY($pos['y']);
+    return $meteor;
   }
 
   public static function add($type, $players)
@@ -108,6 +118,13 @@ class Meeples extends \PU\Helpers\CachedPieces
           'y' => 0,
         ];
       }
+
+      $data[] = [
+        'type' => METEOR,
+        'location' => 'box',
+        'player_id' => $pId,
+        'nbr' => 50,
+      ];
     }
     static::create($data);
   }
