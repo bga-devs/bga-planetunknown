@@ -211,11 +211,11 @@ class Player extends \PU\Helpers\DB_Model
       if (in_array($contraint, array_keys(FORBIDDEN_TERRAINS))) {
         Utils::filter(
           $neighbours,
-          fn($cell) => $this->planet->getVisible($cell['x'], $cell['y']) != FORBIDDEN_TERRAINS[$contraint]
+          fn ($cell) => $this->planet->getVisible($cell['x'], $cell['y']) != FORBIDDEN_TERRAINS[$contraint]
         );
       }
 
-      $spaceIds[$roverId] = array_map(fn($cell) => Planet::getCellId($cell), $neighbours);
+      $spaceIds[$roverId] = array_map(fn ($cell) => Planet::getCellId($cell), $neighbours);
     }
 
     return $spaceIds;
@@ -342,6 +342,15 @@ class Player extends \PU\Helpers\DB_Model
       $result['objectives']['entries'][$NOcard->getType() . '_' . $id] = $NOcard->score($this);
     }
 
+    //for NO Card where all players compete (thanks to jump drive extra power)
+    $commonCard = Cards::getInLocation('NOCards')
+      ->where('pId', '')
+      ->first();
+
+    if ($commonCard) {
+      $result['objectives']['entries'][$commonCard->getType() . '_' . $commonCard->getId()] = $commonCard->competeAll($this);
+    }
+
     foreach ($result as $category => $entries) {
       $score = $this->reduce_entries($entries);
       $result[$category]['total'] = $score;
@@ -374,7 +383,7 @@ class Player extends \PU\Helpers\DB_Model
 
   public static function reduce_entries($array)
   {
-    return array_reduce($array['entries'], fn($sum, $item) => $sum + (is_array($item) ? $item[0] : $item), 0);
+    return array_reduce($array['entries'], fn ($sum, $item) => $sum + (is_array($item) ? $item[0] : $item), 0);
   }
 
   public function addEndOfTurnAction($flow)

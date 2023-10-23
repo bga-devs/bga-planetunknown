@@ -31,6 +31,7 @@ class ChooseObjectiveForAll extends \PU\Models\Action
   {
     return [
       'log' => \clienttranslate('Draw 3 objectives and keep one for all players'),
+      'args' => []
     ];
   }
 

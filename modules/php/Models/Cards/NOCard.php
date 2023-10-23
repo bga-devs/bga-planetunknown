@@ -39,7 +39,7 @@ class NOCard extends \PU\Models\Card
     return [$score, $playerValue, $otherValue];
   }
 
-  public function competeAll()
+  public function competeAll($player)
   {
     $playersIds = Players::getAll()->getIds;
 
@@ -57,6 +57,6 @@ class NOCard extends \PU\Models\Card
       $scores[$pId] = ($value == $max) ? $score : 0;
     }
 
-    return [$scores, $values];
+    return [$scores[$player->getId()], $values];
   }
 }
