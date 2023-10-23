@@ -10,7 +10,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         let card = neighbourObjectives[cardId];
         this.addCard(card);
 
-        if (card.pId1 && card.pId2) {
+        if (card.pId && card.pId2) {
           // Switch pid1 and pid2 and create again
           card.uid = card.id + 'd';
           let tmp = card.pId2;

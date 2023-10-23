@@ -141,6 +141,9 @@ trait TurnTrait
         $endOfGameTriggered = true;
         Notifications::endOfGameTriggered($player);
         Globals::setGameEndTriggered(true);
+        die(
+          'End of game reached: if this is not supposed to be the case, please create a NEW bug report linked to that table so we can find what the issue is. Otherwise, please just wait until we found and patch this nasty bug.'
+        );
       }
 
       $player->corporation()->resetFlags();
