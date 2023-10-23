@@ -100,6 +100,14 @@ class Corporation8 extends Corporation
     return $actions;
   }
 
+  public function isTrackerOnTop($type)
+  {
+    $n = ($type == ROVER || $type == BIOMASS) ? 2 : 1;
+    //if $type == ROVER top is 2 under the steps number (because the very last step is 'virtual')
+    //if $type == BIOMASS top is 2 under the steps number (because the two last steps are the same)
+    return count($this->tracks[$type]) == $this->getLevelOnTrack($type) + $n;
+  }
+
   /**
    * Return an array of all cells this TYPE tracker can reach with a N move.
    * @return Array of CellIDs ('x_y')
@@ -115,6 +123,7 @@ class Corporation8 extends Corporation
     $dy = $n > 0 ? 1 : -1;
     $x = $trackPawn->getX();
     $y = $trackPawn->getY() + $n;
+
     // First find the next SKIP
     while (!$this->isOrIn($this->tracks[$type][$y] ?? '', SKIP)) {
       $y += $dy;
