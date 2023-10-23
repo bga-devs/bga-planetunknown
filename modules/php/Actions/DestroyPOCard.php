@@ -31,24 +31,19 @@ class DestroyPOCard extends \PU\Models\Action
       ->where('pId', $player->getId());
 
     return [
-      'cards' => $cards
+      'cardIds' => $cards->getIds(),
     ];
   }
 
   public function actDestroyPOCard($cardId)
   {
     $player = $this->getPlayer();
-    $cardsIds = Cards::getAll()
-      ->where('location', 'hand_obj')
-      ->where('pId', $player->getId())
-      ->getIds();
-
-    if (!in_array($cardId, $cardsIds)) {
+    $args = $this->argsDestroyPOCard();
+    if (!in_array($cardId, $args['cardIds'])) {
       throw new \BgaVisibleSystemException('You cannot discard this card ' . $cardId . '. Should not happen');
     }
 
     Cards::move($cardId, 'trash');
-
     Notifications::destroyCard($player, $cardId);
   }
 }

@@ -27,15 +27,16 @@ class ChooseTracks extends \PU\Models\Action
 
   public function isDoable($player)
   {
-    return count($this->getChoosableTypes()) != 0;
+    return !empty($this->getChoosableTypes($player));
   }
 
-  public function getChoosableTypes()
+  public function getChoosableTypes($player = null)
   {
+    $player = $player ?? $this->getPlayer();
+    $move = $this->getMove();
     $types = $this->getTypes();
-    $player = $this->getPlayer();
-
-    return array_values(array_filter($types, fn ($type) => $player->corporation()->canMoveTrack($type, $this->getMove())));
+    Utils::filter($types, fn($type) => $player->corporation()->canMoveTrack($type, $move));
+    return $types;
   }
 
   //n is the nb of tracks to choose
@@ -85,9 +86,9 @@ class ChooseTracks extends \PU\Models\Action
       $m = $this->getMove();
       return [
         'log' =>
-        $m > 0
-          ? clienttranslate('Advance ${n} track(s) among ${types_desc}')
-          : clienttranslate('Regress ${n} track(s) among ${types_desc}'),
+          $m > 0
+            ? clienttranslate('Advance ${n} track(s) among ${types_desc}')
+            : clienttranslate('Regress ${n} track(s) among ${types_desc}'),
         'args' => [
           'n' => $this->getN(),
           'types_desc' => Utils::getTypesDesc($types),

@@ -67,6 +67,7 @@ define([
         ['midMessage', 1200],
         ['newCards', 1000],
         ['emptySlot', 1200],
+        ['destroyCard', 1200],
       ];
 
       // Fix mobile viewport (remove CSS zoom)
@@ -185,7 +186,11 @@ define([
     setup(gamedatas) {
       debug('SETUP', gamedatas);
       // Create a new div for "anytime" buttons
-      dojo.place("<div id='anytimeActions' style='display:inline-block;float:right'></div>", $('generalactions'), 'after');
+      dojo.place(
+        "<div id='anytimeActions' style='display:inline-block;float:right'></div>",
+        $('generalactions').parentNode,
+        'beforeend'
+      );
       // Create a new div for "subtitle"
       dojo.place("<div id='pagesubtitle'></div>", 'maintitlebar_content');
 
@@ -388,7 +393,7 @@ define([
             this.addPrimaryActionButton(
               'btnAnytimeAction' + i,
               msg,
-              () => this.takeAction('actAnytimeAction', { id: i }, false),
+              () => this.askConfirmation(action.irreversibleAction, () => this.takeAction('actAnytimeAction', { id: i }, false)),
               'anytimeActions'
             );
           });
@@ -1341,6 +1346,36 @@ define([
       });
     },
 
+    onEnteringStateDestroyPOCard(args) {
+      let selected = null;
+      args.cardIds.forEach((cardId) => {
+        this.onClick(`card-${cardId}`, () => {
+          if (selected) $(`card-${selected}`).classList.remove('selected');
+          selected = cardId;
+          $(`card-${selected}`).classList.add('selected');
+
+          this.addPrimaryActionButton('btnConfirm', _('Confirm'), () => this.takeAtomicAction('actDestroyPOCard', [selected]));
+        });
+      });
+    },
+
+    onEnteringStateChooseObjectiveForAll(args) {
+      let selected = null;
+      Object.keys(args.NOCards).forEach((cardId) => {
+        this.addCard(args.NOCards[cardId], 'pending-cards');
+
+        this.onClick(`card-${cardId}`, () => {
+          if (selected) $(`card-${selected}`).classList.remove('selected');
+          selected = cardId;
+          $(`card-${selected}`).classList.add('selected');
+
+          this.addPrimaryActionButton('btnConfirm', _('Confirm'), () =>
+            this.takeAtomicAction('actChooseObjectiveForAll', [selected])
+          );
+        });
+      });
+    },
+
     ////////////////////////////////////////////////////////////
     // _____                          _   _   _
     // |  ___|__  _ __ _ __ ___   __ _| |_| |_(_)_ __   __ _
@@ -1545,6 +1580,7 @@ define([
            </div>
          </div>
        </div>
+       <div class="player_config_row" id="shared-obj"></div>
      </div>
    </div>
    `

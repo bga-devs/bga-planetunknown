@@ -88,25 +88,16 @@ trait TurnTrait
     $this->gamestate->nextState('');
   }
 
-  function argPlayAfterEventCard()
-  {
-    return [
-      'eventCardId' => Cards::getTopOf('discard_event')
-        ->first()
-        ->getId(),
-    ];
-  }
-
   function stPlayAfterEventCard()
   {
     $pIds = Players::getAll()->getIds();
-    $args = $this->argPlayAfterEventCard();
-    $card = Cards::get($args['eventCardId']);
+    $card = Cards::getTopOf('discard_event')->first();
 
     $effect = $card->effect();
     if (is_array($effect)) {
       //if each player have special flow
-      if (isset($effect['nestedFlows'])) { //TODO bug if action = []
+      if (isset($effect['nestedFlows'])) {
+        //TODO bug if action = []
         Engine::multipleSetup($effect['nestedFlows'], ['method' => 'stEndOfEventTurn'], 'endOfTurn', $pIds);
       } else {
         Engine::setup($effect, ['method' => 'stEndOfEventTurn'], 'endOfTurn', $pIds);

@@ -122,6 +122,19 @@
     margin-top: -53px;
     margin-left: -46px;
 }
+#shared-obj {
+    --cardScale: 0.4;
+
+    .planetunknown-card[data-type="NOCard"] {
+        width: calc(var(--cardScale) * 275px);
+        height: calc(var(--cardScale) * 100px);
+        overflow: hidden;
+    }
+    .planetunknown-card[data-type="NOCard"] .card-inner {
+        margin-top: -53px;
+        margin-left: -46px;
+    }
+}
 
 .planetunknown-card[data-type="POCard"] {
     width: calc(var(--cardScale) * 260px);
@@ -255,7 +268,23 @@
         border-radius: 0;
         height: 40px;
         box-shadow: none;
-        background: none;
+        background: #f9e5cf;
+
+        &.selectable {
+            cursor: pointer;
+            &:hover {
+                transform: scale(1.1);
+            }
+        }
+
+        &.selected,
+        &.selected:hover {
+            border: 1px solid green;
+            box-shadow: 0px 0px 3px green;
+            margin-top: -1px;
+            margin-right: -1px;
+            background: #d4f9cfcf;
+        }
     }
 }
 
@@ -268,6 +297,18 @@
 
     .planetunknown-card {
         margin: 1px 5px 7px;
+    }
+
+    .nocard-wrapper.selectable {
+        border: none;
+        cursor: pointer;
+        &:hover {
+            transform: scale(1.1);
+        }
+
+        &.selected .card-inner {
+            box-shadow: 0px 0px 15px 3px #01ce01;
+        }
     }
 }
 

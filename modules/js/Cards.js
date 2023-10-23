@@ -10,12 +10,14 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         let card = neighbourObjectives[cardId];
         this.addCard(card);
 
-        // Switch pid1 and pid2 and create again
-        card.uid = card.id + 'd';
-        let tmp = card.pId2;
-        card.pId2 = card.pId;
-        card.pId = tmp;
-        this.addCard(card);
+        if (card.pId1 && card.pId2) {
+          // Switch pid1 and pid2 and create again
+          card.uid = card.id + 'd';
+          let tmp = card.pId2;
+          card.pId2 = card.pId;
+          card.pId = tmp;
+          this.addCard(card);
+        }
       });
 
       let eventCard = this.gamedatas.cards.event;
@@ -152,23 +154,46 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       else if (card.type == 'NOCard') {
         let pId1 = card.pId,
           pId2 = card.pId2;
-        return `<div id="card-${uid}" class="nocard-wrapper">
-          <div class='nocard-indicator'>
-            <span class='nocard-indicator-value' id='card-${uid}-${pId1}-value' style="color:#${this.getPlayerColor(
-              pId1
-            )}"></span>
-            <span class='planetunknown-icon icon-medal' id='card-${uid}-${pId1}-medal'></span>
-          </div>
-          <div data-type="${card.type}" class="planetunknown-card icon-only">
-            <div class='card-inner' data-id="${card.id}"></div>
-          </div>
-          <div class='nocard-indicator'>
-            <span class='nocard-indicator-value' id='card-${uid}-${pId2}-value' style="color:#${this.getPlayerColor(
-              pId2
-            )}"></span>
-            <span class='planetunknown-icon icon-medal' id='card-${uid}-${pId2}-medal'></span>
-          </div>
-        </div>`;
+        if (pId1 && pId2) {
+          return `<div id="card-${uid}" class="nocard-wrapper">
+            <div class='nocard-indicator'>
+              <span class='nocard-indicator-value' id='card-${uid}-${pId1}-value' style="color:#${this.getPlayerColor(
+                pId1
+              )}"></span>
+              <span class='planetunknown-icon icon-medal' id='card-${uid}-${pId1}-medal'></span>
+            </div>
+            <div data-type="${card.type}" class="planetunknown-card icon-only">
+              <div class='card-inner' data-id="${card.id}"></div>
+            </div>
+            <div class='nocard-indicator'>
+              <span class='nocard-indicator-value' id='card-${uid}-${pId2}-value' style="color:#${this.getPlayerColor(
+                pId2
+              )}"></span>
+              <span class='planetunknown-icon icon-medal' id='card-${uid}-${pId2}-medal'></span>
+            </div>
+          </div>`;
+        } else {
+          return (
+            `<div id="card-${uid}" class="nocard-wrapper">
+                <div data-type="${card.type}" class="planetunknown-card">
+                  <div class='card-inner' data-id="${card.id}"></div>
+                </div>
+                ` +
+            this.orderedPlayers
+              .map(
+                (player) => `
+                <div class='nocard-indicator'>
+                <span class='nocard-indicator-value' id='card-${uid}-${player.id}-value' style="color:#${this.getPlayerColor(
+                  player.id
+                )}"></span>
+                <span class='planetunknown-icon icon-medal' id='card-${uid}-${player.id}-medal'></span>
+              </div>`
+              )
+              .join('') +
+            `
+            </div>`
+          );
+        }
       }
       // Private objectives
       else if (card.type == 'POCard') {
@@ -193,6 +218,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       if (card.type == 'NOCard' && card.location == 'NOCards') {
         let pId1 = card.pId,
           pId2 = card.pId2;
+
+        if (!pId1 && !pId2) {
+          return $('shared-obj');
+        }
 
         // pId2 is sitting at the right of pId1
         if (this.getDeltaPlayer(pId1, 1) == pId2) {
@@ -237,6 +266,13 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         let counter = card.location == 'playedCivCards' ? 'immediateCiv' : 'endgameCiv';
         this.gamedatas.players[pId][counter]++;
         this._playerCounters[pId][counter].incValue(1);
+      });
+    },
+
+    notif_destroyCard(n) {
+      debug('Notif: destroying a private objective card', n);
+      this.slide(`card-${n.args.cardId}`, this.getVisibleTitleContainer(), {
+        destroy: true,
       });
     },
 

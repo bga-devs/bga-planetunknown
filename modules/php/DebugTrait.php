@@ -38,7 +38,9 @@ trait DebugTrait
   function tp()
   {
     //    Log::clearUndoableStepNotifications(true);
-    $this->actTakeAtomicAction('actPlaceRover', ['4_1']);
+    // $this->actTakeAtomicAction('actPlaceRover', ['4_1']);
+    $player = Players::getCurrent();
+    var_dump($player->canTakeAction(PLACE_TILE, []));
   }
 
   function susan()

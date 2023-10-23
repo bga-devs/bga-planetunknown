@@ -3,6 +3,7 @@
 namespace PU\Models\Corporations;
 
 use PU\Core\Notifications;
+use PU\Core\PGlobals;
 use PU\Managers\Tiles;
 
 class Corporation4 extends Corporation

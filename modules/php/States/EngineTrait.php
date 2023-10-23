@@ -80,6 +80,7 @@ trait EngineTrait
           'desc' => $flow['desc'] ?? $tree->getDescription(true),
           'optionalAction' => $tree->isOptional(),
           'independentAction' => $tree->isIndependent($player),
+          'irreversibleAction' => $tree->isIrreversible($player),
           'source' => $tree->getSource(),
         ];
       }
@@ -101,6 +102,15 @@ trait EngineTrait
       PGlobals::incEngineChoices($pId);
     }
     Engine::insertBeforeCurrent($pId, $flow);
+
+    // Flag
+    $flag = $flow['flag'] ?? null;
+    if (!is_null($flag)) {
+      $flags = PGlobals::getFlags($pId);
+      $flags[$flag] = true;
+      PGlobals::setFlags($pId, $flags);
+    }
+
     Engine::proceed($pId);
   }
 
@@ -119,18 +129,16 @@ trait EngineTrait
   /**
    * To pass if the action is an optional one
    */
-  function actPassOptionalAction($auto = false)
+  function actPassOptionalAction($auto = false, $pId = null)
   {
-    if ($auto) {
-      $this->gamestate->checkPossibleAction('actPassOptionalAction');
-    } else {
+    if (!$auto) {
       self::checkAction('actPassOptionalAction');
     }
 
-    $pId = Players::getCurrentId();
+    $pId = $pId ?? Players::getCurrentId();
     $action = $this->getCurrentAtomicAction($pId);
     $ctx = Engine::getNextUnresolved($pId);
-    Actions::pass($action, $ctx);
+    Actions::pass($action, $ctx, $auto);
   }
 
   /**

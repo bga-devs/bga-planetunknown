@@ -136,7 +136,7 @@ class Actions
         }
       } else {
         // Auto pass if optional and not doable
-        Game::get()->actPassOptionalAction(true);
+        Game::get()->actPassOptionalAction(true, $player->getId());
         return true;
       }
     }
@@ -161,15 +161,15 @@ class Actions
       $action->$methodName();
       $player = self::getPlayer($ctx);
       if ($ctx->isIrreversible($player)) {
-        Engine::checkpoint();
+        Engine::checkpoint($player->getId());
       }
     }
   }
 
-  public static function pass($actionId, $ctx)
+  public static function pass($actionId, $ctx, $auto = false)
   {
     if (!$ctx->isOptional()) {
-      // self::error($ctx->toArray()); //TODOTissac (i commented it, it's not a known function)
+      var_dump($ctx->toArray());
       throw new \BgaVisibleSystemException('This action is not optional, ' . $actionId);
     }
 
@@ -178,7 +178,7 @@ class Actions
     if (\method_exists($action, $methodName)) {
       $action->$methodName();
     } else {
-      Engine::resolveAction(PASS, false, $ctx, false);
+      Engine::resolveAction(PASS, false, $ctx, $auto);
     }
     $player = self::getPlayer($ctx);
     Engine::proceed($player->getId());
