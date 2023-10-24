@@ -1,10 +1,13 @@
 <?php
+
 namespace PU\Core;
+
 use PU\Managers\Players;
 
 /*
  * Statistics
  */
+
 class Stats extends \PU\Helpers\CachedDB_Manager
 {
   protected static $table = 'stats';
@@ -185,31 +188,46 @@ class Stats extends \PU\Helpers\CachedDB_Manager
     return null;
   }
 
-  protected function getLabels()
+  public static function saveStats($result, $player)
   {
-    $labels = [
-      clienttranslate('Number of breaks'),
+    $pId = $player->getId();
+    static::setPlanetPoints($pId, $result['planet']['total']);
+    static::setTracksPoints($pId, $result['tracks']['total']);
+    static::setLifepodsPoints($pId, $result['lifepods']['total']);
+    static::setmeteorsPoints($pId, $result['meteors']['total']);
+    static::setCivCardsPoints($pId, $result['civ']['total']);
+    static::setObjectivesPoints($pId, $result['objectives']['total']);
 
-      clienttranslate('First player'),
-      clienttranslate('Second player'),
-      clienttranslate('Third player'),
-      clienttranslate('Fourth player'),
-
-      clienttranslate('Map A'),
-      clienttranslate('Map 0'),
-      clienttranslate('Map 1: Observation Tower'),
-      clienttranslate('Map 2: Outdoor Areas'),
-      clienttranslate('Map 3: Silver Lake'),
-      clienttranslate('Map 4: Commercial Harbor'),
-      clienttranslate('Map 5: Park Restaurant'),
-      clienttranslate('Map 6: Research Institute'),
-      clienttranslate('Map 7: Ice Cream Parlors'),
-      clienttranslate('Map 8: Hollywood Hills'),
-
-      clienttranslate('No'),
-      clienttranslate('Yes'),
-    ];
+    static::setTechLevel($pId, $player->corporation()->getLevelOnTrack(TECH));
+    static::setWaterLevel($pId, $player->corporation()->getLevelOnTrack(WATER));
+    static::setBiomassLevel($pId, $player->corporation()->getLevelOnTrack(BIOMASS));
+    static::setRoverLevel($pId, $player->corporation()->getLevelOnTrack(ROVER));
+    static::setCivLevel($pId, $player->corporation()->getLevelOnTrack(CIV));
   }
-}
 
-?>
+  // protected function getLabels()
+  // {
+  //   $labels = [
+  //     clienttranslate('Number of breaks'),
+
+  //     clienttranslate('First player'),
+  //     clienttranslate('Second player'),
+  //     clienttranslate('Third player'),
+  //     clienttranslate('Fourth player'),
+
+  //     clienttranslate('Map A'),
+  //     clienttranslate('Map 0'),
+  //     clienttranslate('Map 1: Observation Tower'),
+  //     clienttranslate('Map 2: Outdoor Areas'),
+  //     clienttranslate('Map 3: Silver Lake'),
+  //     clienttranslate('Map 4: Commercial Harbor'),
+  //     clienttranslate('Map 5: Park Restaurant'),
+  //     clienttranslate('Map 6: Research Institute'),
+  //     clienttranslate('Map 7: Ice Cream Parlors'),
+  //     clienttranslate('Map 8: Hollywood Hills'),
+
+  //     clienttranslate('No'),
+  //     clienttranslate('Yes'),
+  //   ];
+  // }
+}

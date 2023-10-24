@@ -170,6 +170,18 @@ class PlaceTile extends \PU\Models\Action
     // Place it on the board
     list($tile, $symbols, $coveringWater, $meteor) = $player->planet()->addTile($tileId, $pos, $rotation, $flipped);
 
+    //statistics
+    if (Globals::getMode() == MODE_APPLY) {
+      $shape = $tile->getShape();
+      if (in_array($shape, SMALL_RING)) {
+        Stats::incInteriorTiles($player->getId(), 1);
+      } elseif (in_array($shape, LARGE_RING)) {
+        Stats::incExteriorTiles($player->getId(), 1);
+      } elseif ($shape ==  BIOMASS_PATCH) {
+        Stats::incBiomassPatches($player->getId(), 1);
+      }
+    }
+
     // Wormhole corporation => check number of biomass zones before and after
     if ($player->getCorporationId() == WORMHOLE) {
       $cantAdvanceBiomass = $player->planet()->countZoneNb(BIOMASS) > $biomassZones;

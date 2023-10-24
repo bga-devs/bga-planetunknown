@@ -117,9 +117,9 @@ class Notifications
 
   public static function getNewRover($player, $rover)
   {
-    static::pnotify($player, 'newRover', clienttranslate('${player_name} receive a new rover to place on their next tile'), [
+    static::pnotify($player, 'addMeeples', clienttranslate('${player_name} receive a new rover to place on their next tile'), [
       'player' => $player,
-      'rover' => $rover,
+      'meeples' => [$rover],
     ]);
   }
 

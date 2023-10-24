@@ -32,9 +32,7 @@ trait SetupTrait
     Tiles::setupNewGame($players, $options);
     Cards::setupNewGame($players, $options);
     Susan::setupNewGame($players, $options);
-    // Stats::checkExistence();
-
-    // Globals::setFirstPlayer($this->getNextPlayerTable()[0]);
+    Stats::checkExistence();
 
     Globals::setSetupChoices([]);
   }

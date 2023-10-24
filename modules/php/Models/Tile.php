@@ -45,6 +45,11 @@ class Tile extends \PU\Helpers\DB_Model
     return $this->getType() == BIOMASS_PATCH;
   }
 
+  public function getShape()
+  {
+    return $this->getType() == BIOMASS_PATCH ? BIOMASS_PATCH : $this->getType() % 12;
+  }
+
   public function getSymbolsForDiscardedTile()
   {
     $datas = $this->getData();

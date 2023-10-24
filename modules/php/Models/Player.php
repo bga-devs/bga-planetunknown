@@ -368,7 +368,7 @@ class Player extends \PU\Helpers\DB_Model
 
     $result['total'] = $total;
 
-    if ($save) {
+    if ($save && $isCurrent) {
       if (Globals::isSolo()) {
         $target = Globals::getTarget();
         $this->setScore($total - $target);
@@ -377,6 +377,8 @@ class Player extends \PU\Helpers\DB_Model
       }
       $this->setScoreAux(10000 - $this->planet()->countEmptySpaces() * 100 - $this->planet()->countMeteors());
     }
+
+    Stats::saveStats($result, $this); //for testing purpose TODO when validated move it inside $save block 
 
     return $result;
   }
@@ -518,7 +520,7 @@ class Player extends \PU\Helpers\DB_Model
 
     return [
       'type' => NODE_SEQ,
-      'childs' => [$actions]
+      'childs' => $actions
     ];
   }
 }

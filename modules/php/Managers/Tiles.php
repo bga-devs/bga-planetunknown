@@ -52,7 +52,7 @@ class Tiles extends \PU\Helpers\CachedPieces
 
   public static function getOfPlayer($pId)
   {
-    return self::where('pId', $pId)->filter(fn($tile) => $tile->getLocation() != 'box');
+    return self::where('pId', $pId)->filter(fn ($tile) => $tile->getLocation() != 'box');
   }
 
   public static function getBiomassPatch($player)
