@@ -314,7 +314,7 @@ $machinestates = [
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
-    'possibleactions' => ['actPositionLifepodOnTrack', 'actRestart'],
+    'possibleactions' => ['actPositionLifepodOnTrack', 'actRestart', 'actPassOptionalAction'],
   ],
 
   ST_POSITION_LIFEPOD_ON_TECH => [
@@ -323,7 +323,7 @@ $machinestates = [
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
-    'possibleactions' => ['actPositionLifepodOnTech', 'actRestart'],
+    'possibleactions' => ['actPositionLifepodOnTech', 'actRestart', 'actPassOptionalAction'],
   ],
 
   ST_MOVE_ROVER => [
