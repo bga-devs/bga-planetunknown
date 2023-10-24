@@ -17,12 +17,12 @@ class EventCard111 extends \PU\Models\Cards\EventCard
   public function __construct($player)
   {
     $this->title = clienttranslate("I don't know. One minute it was there and the next pieces were everywhere.");
-    $this->desc = clienttranslate("Destroy a rover if you have more than one on your planet.");
+    $this->desc = clienttranslate('Destroy a rover if you have more than one on your planet.');
     parent::__construct($player);
   }
 
   //ACTION : DestroyRover
-  //CONTRAINT : 
+  //CONTRAINT :
   public function effect()
   {
     $players = Players::getAll();
@@ -36,13 +36,12 @@ class EventCard111 extends \PU\Models\Cards\EventCard
           'args' => [
             'type' => ROVER_MEEPLE,
             'n' => 1,
-            'action' => 'destroy'
-          ]
+            'action' => 'destroy',
+          ],
         ];
-      } else {
-        $flows[$pId] = [];
       }
     }
+
     return $flows;
   }
 }

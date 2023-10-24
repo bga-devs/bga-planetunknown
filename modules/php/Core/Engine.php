@@ -93,10 +93,15 @@ class Engine
       PGlobals::setEngineChoices($pId, 0);
     }
 
+    $realPIds = [];
     self::$trees = [];
     foreach ($pIds as $pId) {
       // Build the tree while enforcing $pId at root
       $aTree = $aTrees[$pId];
+      if (empty($aTree)) {
+        continue;
+      }
+      $realPIds[] = $pId;
       $aTree['pId'] = $pId;
       $tree = self::buildTree($aTree);
       if (!$tree instanceof \PU\Core\Engine\SeqNode) {
@@ -108,14 +113,18 @@ class Engine
       PGlobals::setEngine($pId, $tree->toArray());
       PGlobals::setEngineChoices($pId, 0);
     }
+    if (empty($realPIds)) {
+      self::callback();
+      return;
+    }
 
     $gm = Game::get()->gamestate;
     $gm->jumpToState(ST_GENERIC_NEXT_PLAYER);
-    $gm->setPlayersMultiactive($pIds, '', true);
+    $gm->setPlayersMultiactive($realPIds, '', true);
     $gm->jumpToState(ST_SETUP_PRIVATE_ENGINE);
-    $gm->initializePrivateStateForPlayers($pIds);
+    $gm->initializePrivateStateForPlayers($realPIds);
     Globals::setMode(MODE_PRIVATE);
-    self::multipleProceed($pIds);
+    self::multipleProceed($realPIds);
     Log::startEngine();
   }
 
