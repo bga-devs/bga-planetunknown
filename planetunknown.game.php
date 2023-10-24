@@ -120,9 +120,9 @@ class planetunknown extends Table
   function getGameProgression()
   {
     if (Globals::getEventCardsGame() == EVENT_CARD_GAME) {
-      return (20 - Cards::countInLocation('deck_event')) * 100 / 20;
+      return ((20 - Cards::countInLocation('deck_event')) * 100) / 20;
     } else {
-      return (12 - Susan::getTilesNumberInMinDeck()) * 100 / 12;
+      return ((24 - Susan::getTilesNumberInMinDeck()) * 100) / 24;
     }
   }
 
