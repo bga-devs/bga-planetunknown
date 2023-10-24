@@ -365,7 +365,7 @@ $machinestates = [
 
   ST_CLAIM_ALL_IN_A_ROW => [
     'name' => CLAIM_ALL_IN_A_ROW,
-    'descriptionmyturn' => clienttranslate('${you} receive all benefits from a tracks row'),
+    'descriptionmyturn' => clienttranslate('${you} must choose a row with a tracker on it to receive all benefits on that row'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',

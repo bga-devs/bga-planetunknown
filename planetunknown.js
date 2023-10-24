@@ -1379,6 +1379,27 @@ define([
       });
     },
 
+    onEnteringStateClaimAllInARow(args) {
+      let selected = null;
+      args.choosableRows.forEach((row) => {
+        ALL_TYPES.forEach((type) => {
+          this.onClick(`corporation-${this.player_id}-${type}-${row}`, () => {
+            if (selected) {
+              ALL_TYPES.forEach((type2) => {
+                $(`corporation-${this.player_id}-${type2}-${selected}`).classList.remove('selected');
+              });
+            }
+            selected = row;
+            ALL_TYPES.forEach((type2) => {
+              $(`corporation-${this.player_id}-${type2}-${selected}`).classList.add('selected');
+            });
+
+            this.addPrimaryActionButton('btnConfirm', _('Confirm'), () => this.takeAtomicAction('actClaimAllInARow', [selected]));
+          });
+        });
+      });
+    },
+
     ////////////////////////////////////////////////////////////
     // _____                          _   _   _
     // |  ___|__  _ __ _ __ ___   __ _| |_| |_(_)_ __   __ _
