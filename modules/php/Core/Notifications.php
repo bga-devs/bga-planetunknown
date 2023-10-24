@@ -115,6 +115,14 @@ class Notifications
     ]);
   }
 
+  public static function getNewRover($player, $rover)
+  {
+    static::pnotify($player, 'newRover', clienttranslate('${player_name} receive a new rover to place on their next tile'), [
+      'player' => $player,
+      'rover' => $rover,
+    ]);
+  }
+
   public static function chooseSetup($player, $args)
   {
     self::notify($player, 'chooseSetup', '', [
@@ -267,8 +275,8 @@ class Notifications
   {
     $message =
       $player == null
-        ? clienttranslate('S.U.S.A.N. rotates.')
-        : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
+      ? clienttranslate('S.U.S.A.N. rotates.')
+      : clienttranslate('${player_name} chooses a new orientation for S.U.S.A.N.');
     $data = [
       'player' => $player,
       'newRotation' => $rotation,

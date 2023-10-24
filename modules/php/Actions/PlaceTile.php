@@ -98,7 +98,7 @@ class PlaceTile extends \PU\Models\Action
         $tiles[$tile->getId()] = $placementOptions;
       }
     }
-    var_dump($tiles);
+
     if (!empty($tiles)) {
       return [$tiles, true];
     }

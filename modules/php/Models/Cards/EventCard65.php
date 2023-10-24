@@ -3,6 +3,7 @@
 namespace PU\Models\Cards;
 
 use PU\Core\Globals;
+use PU\Core\Notifications;
 use PU\Managers\Cards;
 use PU\Managers\Meeples;
 use PU\Managers\Players;
@@ -28,10 +29,12 @@ class EventCard65 extends \PU\Models\Cards\EventCard
   //CONTRAINT :
   public function effect()
   {
-    $player = Players::getAll();
+    $players = Players::getAll();
 
-    Meeples::add(ROVER_MEEPLE, $player);
+    $rover = Meeples::add(ROVER_MEEPLE, $players);
 
     Globals::setTurnSpecialRule(ADD_ROVER);
+
+    Notifications::getNewRover($players->first(), $rover);
   }
 }
