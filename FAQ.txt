@@ -75,14 +75,24 @@ A5] Ah yes an old relic from our digital files. The PDFs below will be fixed.
 
 Q6] Planet Oblivion : where are you allowed to place the first tile ? Because for scoring objective, only the "inner border" is taken into account so does that means the first tile also need to hit that inner border ?
 
+A6] There is an issue with the BGG FAQ which I've been meaning to intercept.  
+Perimeter means the external border, and not the internal border.  
+For oblivion, the perimeter objectives would function the same as other planets, but there are many many more perimeter grid spaces possible giving a slight advantage to these objectives on a very challenging planet.
+TODO: fix it
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 Q7] Planet Pajitnov : what does sliding into position means exactly ? Are you allowed to rotate the tile while you slide it from one side of your board ? Or should I first rotate it and then just slide it from one side ?
 
+A7]  Sliding into position is intuitive in the physical game, but a bit harder to communicate visually in the digital.  
+In the physical game, it literally means you must place the tile onto the surface of your planet interior or exterior and physically be able to maneuver it into position without lifting it or moving other tiles. 
+When placing onto your planet interior or exterior, it does not need to be a legal tile placement, but the end positioning does need to result in a legal tile placement.
+
 ////////////////////////////////////////////////////////////////////////////////////
 
 Q8] Planet Tartarus : the description says 2 points of the chiasm may be crossed diagonally, I assume it's the two corners where the chiasm is fading out ?
+
+A8] Yes correct!  Diagonal movement may cross these two grid intersections where no chasm exists visually.
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -93,15 +103,27 @@ Q9] Corporation Flux :
     => what if I place a tile tech/rover, then move up on tech and enable this tech and change the flux track to biomass and have 1 rover on biomass.
     Do I get 2 extra moves or should we check this condition at the beginning of the turn only ? (in which case I wont get it the turn I am unlocking my tech)
 
+A9]
+ - Yes you should gain all benefits along the way including the next milestone.
+ - This is indeed the intent behind Flux Industries.  You switch the flux track at the moment you advance your tech tracker onto the next tech milestone, and as a result you can gain more than one single tech benefit during these transition turns.
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 Q10] In general, when a corporation tech says "Once per game", do we need to apply this immediately or can we "bank" it for latter ? (eg Cosmos Inc lvl2, Flux lvl 2)
 
+A10] The intent here is to allow the player to choose when to use the ability, but to restrict the powerful ability to a once per game regardless if the tech is unlocked more than once during play through regression/advancement.  
+    However with Flux Industries there is an extra condition that the tech must be unlocked to use the once per game ability.  
+    If the player advances and does not utilize their once per game ability then they would have missed their opportunity.
+
+    Cosmos functions as a more standard because their tech will stay unlocked as long as their tracker exists in a position where the tech is unlocked. 
+    For example if an event regresses the tech tracker then the player would not be able to use this tech if it is not currently unlocked. 
+
 ////////////////////////////////////////////////////////////////////////////////////
 
 Q11] Corpo republic, tech 2 : "'Add a card from the next rank to your choices when you claim a civ milestone.'"
     => that card must be taken from the "deck" of next rank cards only, right ? Not at random from all the civ cards left out at setup ?
+
+A11] Yes taken from the cards currently in play specifically.  In the case where all cards of the higher rank have been claimed, then ignore this ability.
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -109,7 +131,16 @@ Q12] Corpo republic, 1 : "Move your rover when you SELECT a civ tile"
     => what does SELECT means here ? Should it be PLACE instead ?
     In other word, should I be able to select a civ tile, move my rover that just collected a lifepod in previous turn to put it back on a tile, then place the tile on top of that now empty space so I wont destroy my rover ?
 
+A12] Yes this is a fiddly detail but we did intend for this to say select and this operates similar to gaining rover movement during an event card where you can spend the rover movement anytime during your turn, so sometimes spending it ahead of tile placement has a benefit.  
+    This specific tech allows the player to gain rover movement based on the specific position of their rover tracker at the moment of tile selection.
+
 ////////////////////////////////////////////////////////////////////////////////////
+
+Q13] What does this tech mean exactly : "You may treat a tech resource as energy during tile placement" (JumpDrive)
+  => does that mean that tech resource is treated as energy when you compute the types ajacent to the energy zone when you place a tile with energy ?
+  => or does that mean that when you place a tile with tech, you can choose to either advance tech, or to consider the tile as having energy and thus compute the adajcent types to offer track progression correspondingly ?
+
+A13]
 
 
 

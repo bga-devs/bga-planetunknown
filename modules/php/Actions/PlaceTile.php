@@ -73,7 +73,7 @@ class PlaceTile extends \PU\Models\Action
     $tiles = [];
     $forcedTiles = $forcedTiles ?? $this->getForcedTiles();
 
-    $specialRule = null; //Globals::getTurnSpecialRule();
+    $specialRule = Globals::getTurnSpecialRule();
     foreach ($forcedTiles ?? $this->getPossibleTiles($player) as $tile) {
       $placementOptions = $player->planet()->getPlacementOptions($tile, $checkIsDoable, $specialRule);
       if (!empty($placementOptions)) {
@@ -177,7 +177,7 @@ class PlaceTile extends \PU\Models\Action
         Stats::incInteriorTiles($player->getId(), 1);
       } elseif (in_array($shape, LARGE_RING)) {
         Stats::incExteriorTiles($player->getId(), 1);
-      } elseif ($shape ==  BIOMASS_PATCH) {
+      } elseif ($shape == BIOMASS_PATCH) {
         Stats::incBiomassPatches($player->getId(), 1);
       }
     }
@@ -320,8 +320,6 @@ class PlaceTile extends \PU\Models\Action
       //normal case
       $this->pushParallelChilds($actions);
     }
-
-
 
     Notifications::placeTile($player, $tile, $meteor, $tileTypes, $oldLocation);
 
