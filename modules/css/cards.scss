@@ -128,7 +128,12 @@
 .planetunknown-card.icon-only[data-type="NOCard"] .card-inner {
     margin-top: -53px;
     margin-left: -46px;
+
+    &[data-id="60"] {
+        margin-top: -28px;
+    }
 }
+
 #player_config #shared-obj {
     --cardScale: 0.4;
     padding: 0px;

@@ -264,7 +264,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
 
       let arrows = player.name;
       if (player != null && !this.isSolo()) {
-        arrows = `<div class='prev-player-board'>&lt;</div>${player.name}<div class='next-player-board'>&gt;</div>`;
+        arrows = `<div class='prev-player-board'><i class="fa fa-long-arrow-left"></i></div>${player.name}<div class='next-player-board'><i class="fa fa-long-arrow-right"></i></div>`;
       }
 
       return `<div id='player-board-${player.id}' class='pu-player-board-wrapper' style='border-color:#${player.color}'>

@@ -13,9 +13,14 @@
  * Planet Unknown stylesheet
  *
  */
-/*! nouislider - 14.6.0 - 6/27/2020 */
 @import url(https://fonts.googleapis.com/css?family=Permanent+Marker);
 @import url(https://fonts.googleapis.com/css?family=Caveat);
+html {
+  background-image: url("img/background.jpg");
+  background-size: cover;
+  background-attachment: fixed; }
+
+/*! nouislider - 14.6.0 - 6/27/2020 */
 .noUi-target, .noUi-target * {
   -webkit-touch-callout: none;
   -webkit-tap-highlight-color: transparent;
@@ -578,6 +583,8 @@
 .planetunknown-card.icon-only[data-type="NOCard"] .card-inner {
   margin-top: -53px;
   margin-left: -46px; }
+  .planetunknown-card.icon-only[data-type="NOCard"] .card-inner[data-id="60"] {
+    margin-top: -28px; }
 
 #player_config #shared-obj {
   --cardScale: 0.4;
@@ -1630,11 +1637,13 @@
       font-weight: bold;
       font-size: 20px;
       flex-grow: 1; }
-      .pu-player-board-wrapper .pu-player-board-top .player-board-name .prev-player-board,
-      .pu-player-board-wrapper .pu-player-board-top .player-board-name .next-player-board {
+      .pu-player-board-wrapper .pu-player-board-top .player-board-name .prev-player-board, .pu-player-board-wrapper .pu-player-board-top .player-board-name .next-player-board {
         padding: 0px 10px;
         cursor: pointer;
         font-size: 25px; }
+        [data-player-boards-layout="1"] .pu-player-board-wrapper .pu-player-board-top .player-board-name .prev-player-board,
+        [data-player-boards-layout="1"] .pu-player-board-wrapper .pu-player-board-top .player-board-name .next-player-board {
+          display: none; }
     .pu-player-board-wrapper .pu-player-board-top .prev-objectives,
     .pu-player-board-wrapper .pu-player-board-top .next-objectives {
       --cardScale: 0.4;
