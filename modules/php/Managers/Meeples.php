@@ -48,6 +48,7 @@ class Meeples extends \PU\Helpers\CachedPieces
         static::getAll()
           ->where('type', [LIFEPOD, ROVER_MEEPLE])
           ->where('pId', $player->getId())
+          ->where('location', 'planet')
           ->where('x', $cell['x'])
           ->where('y', $cell['y'])
       );

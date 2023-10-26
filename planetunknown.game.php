@@ -122,7 +122,18 @@ class planetunknown extends Table
     if (Globals::getEventCardsGame() == EVENT_CARD_GAME) {
       return ((20 - Cards::countInLocation('deck_event')) * 100) / 20;
     } else {
-      return ((24 - Susan::getTilesNumberInMinDeck()) * 100) / 24;
+      //estimate % of remaining tile in the most advanced depot
+      $tilesCounter = ((24 - Susan::getTilesNumberInMinDeck()) * 100) / 24;
+
+      //compute average % of emptyspace in all players planets
+      $cellsCounter = 0;
+      $players = Players::getAll();
+      foreach ($players as $pId => $player) {
+        $nbCells = count($player->planet()->getListOfCells());
+        $cellsCounter += ($nbCells - $player->planet()->countEmptySpaces()) * 100 / $nbCells;
+      }
+      $cellsCounter = $cellsCounter / count($players);
+      return max($cellsCounter, $tilesCounter);
     }
   }
 
