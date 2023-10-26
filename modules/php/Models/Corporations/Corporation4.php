@@ -104,4 +104,9 @@ class Corporation4 extends Corporation
 
     return $actions;
   }
+
+  public function scoreByLifepods()
+  {
+    return $this->player->getCollectedLifepods()->where('x', '')->where('y', '')->count();
+  }
 }
