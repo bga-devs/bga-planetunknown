@@ -139,7 +139,7 @@ class CollectMeeple extends \PU\Models\Action
         $meeples[] = $player->getLifepodOnTrack('', '')->first();
       } else {
         $cell = Planet::getCellFromId($spaceId);
-        $meeples[] = $player->getMeepleOnCell($cell, $type);
+        $meeples[] = $player->getMeepleOnCell($cell, $type, $this->getLocation() == 'planet');
       }
     }
 
