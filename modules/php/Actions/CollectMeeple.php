@@ -61,10 +61,10 @@ class CollectMeeple extends \PU\Models\Action
     $action = $this->getAction() == 'collect' ? clienttranslate('Collect') : clienttranslate('Destroy');
     $type =
       $this->getType() == LIFEPOD
-        ? clienttranslate('lifepod(s)')
-        : ($this->getType() == ROVER
-          ? clienttranslate('rover(s)')
-          : clienttranslate('meteor(s)'));
+      ? clienttranslate('lifepod(s)')
+      : ($this->getType() == ROVER
+        ? clienttranslate('rover(s)')
+        : clienttranslate('meteor(s)'));
 
     return [
       'log' => clienttranslate('${action} ${n} ${type} on your ${where}'),
@@ -102,15 +102,16 @@ class CollectMeeple extends \PU\Models\Action
     $collectableMeeples = $this->getCollectableMeeples($player);
     $type =
       $this->getType() == LIFEPOD
-        ? clienttranslate('lifepod(s)')
-        : ($this->getType() == ROVER
-          ? clienttranslate('rover(s)')
-          : clienttranslate('meteor(s)'));
+      ? clienttranslate('lifepod(s)')
+      : ($this->getType() == ROVER
+        ? clienttranslate('rover(s)')
+        : clienttranslate('meteor(s)'));
 
     return [
       'meeples' => $collectableMeeples,
       'action' => $this->getAction() == 'destroy' ? clienttranslate('destroy') : clienttranslate('collect'),
       'type' => $type,
+      'where' => $this->getLocation(),
       'n' => min($this->getN(), count($collectableMeeples)),
       'i18n' => ['action', 'type'],
     ];
@@ -138,7 +139,7 @@ class CollectMeeple extends \PU\Models\Action
         $meeples[] = $player->getLifepodOnTrack('', '')->first();
       } else {
         $cell = Planet::getCellFromId($spaceId);
-        $meeples[] = $player->getMeepleOnCell($cell, $type);
+        $meeples[] = $player->getMeepleOnCell($cell, $type, $this->getLocation() == 'planet');
       }
     }
 
@@ -154,6 +155,14 @@ class CollectMeeple extends \PU\Models\Action
         if ($player->corporation()->getId() == COSMOS_INC && $type == LIFEPOD) {
           $this->pushParallelChild([
             'action' => POSITION_LIFEPOD_ON_TRACK,
+            'args' => ['lifepodId' => $meeple->getId()],
+            'optional' => true,
+          ]);
+        }
+
+        if ($player->corporation()->getId() == JUMP_DRIVE && $type == LIFEPOD) {
+          $this->pushParallelChild([
+            'action' => POSITION_LIFEPOD_ON_TECH,
             'args' => ['lifepodId' => $meeple->getId()],
             'optional' => true,
           ]);

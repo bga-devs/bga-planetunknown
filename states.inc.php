@@ -338,7 +338,7 @@ $machinestates = [
 
   ST_COLLECT_MEEPLE => [
     'name' => COLLECT_MEEPLE,
-    'descriptionmyturn' => clienttranslate('${you} must ${action} ${n} ${type} on your planet'),
+    'descriptionmyturn' => clienttranslate('${you} must ${action} ${n} ${type} from your ${where}'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
