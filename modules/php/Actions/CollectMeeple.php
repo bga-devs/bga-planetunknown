@@ -111,6 +111,7 @@ class CollectMeeple extends \PU\Models\Action
       'meeples' => $collectableMeeples,
       'action' => $this->getAction() == 'destroy' ? clienttranslate('destroy') : clienttranslate('collect'),
       'type' => $type,
+      'where' => $this->getLocation(),
       'n' => min($this->getN(), count($collectableMeeples)),
       'i18n' => ['action', 'type'],
     ];
