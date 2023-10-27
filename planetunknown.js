@@ -906,7 +906,7 @@ define([
         $('tile-hover').querySelector('.tile-crosshairs').style.transform = `rotate(${-rotation * 90}deg)`;
 
         let bottomCircle = $('tile-controls').offsetTop + $('tile-controls-circle').offsetHeight / 2;
-        $('tile-controls-circle').classList.toggle('bottom', bottomCircle > $('tile-controls').parentNode.offsetHeight);
+        // $('tile-controls-circle').classList.toggle('bottom', bottomCircle > $('tile-controls').parentNode.offsetHeight);
         $('tile-controls').classList.toggle('invalid', !valid);
 
         if (cell === null) {

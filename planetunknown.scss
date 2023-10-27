@@ -14,9 +14,10 @@
  */
 
 html {
-  // background-image: url("img/wood_background.jpg");
-  // background-size: cover;
-  // background-attachment: fixed;
+  background-image: url("img/background.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center center;
 }
 
 @import "modules/css/nouislider";

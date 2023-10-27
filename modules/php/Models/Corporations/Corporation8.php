@@ -66,14 +66,14 @@ class Corporation8 extends Corporation
       ['move_2', ROVER],
       'move_2',
       ['move_2', 1],
+      'move_2',
+      ['move_2', SYNERGY],
+      'move_2',
+      ['move_2', 2],
       'move_3',
-      ['move_3', SYNERGY],
       'move_3',
-      ['move_3', 2],
-      'move_4',
-      'move_4',
-      ['move_4', 5],
-      ['move_4'],
+      ['move_3', 5],
+      ['move_3'],
     ],
     TECH => [null, null, SYNERGY, TECH, null, TECH, 1, TECH, null, null, TECH, null, SYNERGY, 2, TECH, 5],
   ];
@@ -102,10 +102,10 @@ class Corporation8 extends Corporation
 
   public function isTrackerOnTop($type)
   {
-    $n = ($type == ROVER || $type == BIOMASS) ? 2 : 1;
+    $n = $type == ROVER || $type == BIOMASS ? 2 : 1;
     //if $type == ROVER top is 2 under the steps number (because the very last step is 'virtual')
     //if $type == BIOMASS top is 2 under the steps number (because the two last steps are the same)
-    return count($this->tracks[$type]) == $this->getLevelOnTrack($type) + $n;
+    return count($this->tracks[$type]) <= $this->getLevelOnTrack($type) + $n;
   }
 
   /**

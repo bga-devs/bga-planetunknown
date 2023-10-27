@@ -143,10 +143,11 @@ Q13] What does this tech mean exactly : "You may treat a tech resource as energy
 A13]
 
 
-
 ////////////////////////////////////////////////////////////////////////////////////
 
+Q14] Does JumpDrive also allow you to reposition the collected lifepods you get with a CIV card or an event card or only the lifepods collected by your rover ?
 
+A14]
 
 ////////////////////////////////////////////////////////////////////////////////////
 
