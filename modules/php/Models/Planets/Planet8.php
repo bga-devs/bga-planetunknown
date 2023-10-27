@@ -47,26 +47,26 @@ class Planet8 extends \PU\Models\Planet
     return $this->_borderCells;
   }
 
-  public function getEdgeCells()
-  {
-    if (!isset($this->_edgeCells)) {
-      $grid = self::createGrid(0);
-      $cells = [];
-      foreach (self::getListOfCells() as $cell) {
-        if ($cell['y'] == 0 || $cell['y'] == 11) {
-          continue;
-        }
-        if (($cell['x'] == 0 || $cell['x'] == 11) && !in_array($cell['y'], [5, 6])) {
-          continue;
-        }
+  // public function getEdgeCells()
+  // {
+  //   if (!isset($this->_edgeCells)) {
+  //     $grid = self::createGrid(0);
+  //     $cells = [];
+  //     foreach (self::getListOfCells() as $cell) {
+  //       if ($cell['y'] == 0 || $cell['y'] == 11) {
+  //         continue;
+  //       }
+  //       if (($cell['x'] == 0 || $cell['x'] == 11) && !in_array($cell['y'], [5, 6])) {
+  //         continue;
+  //       }
 
-        if (count(self::getNeighbours($cell)) < 4) {
-          $cells[] = $cell;
-        }
-      }
-      $this->_edgeCells = $cells;
-    }
+  //       if (count(self::getNeighbours($cell)) < 4) {
+  //         $cells[] = $cell;
+  //       }
+  //     }
+  //     $this->_edgeCells = $cells;
+  //   }
 
-    return $this->_edgeCells;
-  }
+  //   return $this->_edgeCells;
+  // }
 }
