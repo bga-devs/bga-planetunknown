@@ -31,7 +31,7 @@ class EventCard65 extends \PU\Models\Cards\EventCard
   {
     $players = Players::getAll();
 
-    $rover = Meeples::add(ROVER_MEEPLE, $players);
+    $rover = Meeples::add(ROVER_MEEPLE, $players)->first();
 
     Globals::setTurnSpecialRule(ADD_ROVER);
 
