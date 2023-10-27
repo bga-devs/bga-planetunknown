@@ -136,6 +136,8 @@ trait TurnTrait
     $endOfGameTriggered = false;
 
     foreach ($players as $pId => $player) {
+      $player->corporation()->resetFlags();
+
       // Check if end of game is triggered or not
       if (!$endOfGameTriggered && !$player->canTakeAction(PLACE_TILE, [])) {
         $endOfGameTriggered = true;
@@ -150,7 +152,6 @@ trait TurnTrait
         }
       }
 
-      $player->corporation()->resetFlags();
       $flows[$pId] = [
         'action' => \PLACE_TILE,
         'args' => ['type' => 'normal'],
