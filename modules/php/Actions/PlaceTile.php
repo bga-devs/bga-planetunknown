@@ -312,10 +312,12 @@ class PlaceTile extends \PU\Models\Action
     }
 
     if (Globals::getTurnSpecialRule() == ONLY_ONE_MOVE_TRACKER) {
-      $this->pushParallelChild([
-        'type' => NODE_XOR,
-        'childs' => $actions,
-      ]);
+      if (!empty($ations)) {
+        $this->pushParallelChild([
+          'type' => NODE_XOR,
+          'childs' => $actions,
+        ]);
+      }
     } else {
       //normal case
       $this->pushParallelChilds($actions);
@@ -380,10 +382,12 @@ class PlaceTile extends \PU\Models\Action
     }
 
     if (Globals::getTurnSpecialRule() == ONLY_ONE_MOVE_TRACKER) {
-      $this->pushParallelChild([
-        'type' => NODE_XOR,
-        'childs' => $actions,
-      ]);
+      if (!empty($ations)) {
+        $this->pushParallelChild([
+          'type' => NODE_XOR,
+          'childs' => $actions,
+        ]);
+      }
     } else {
       $this->pushParallelChilds($actions);
     }

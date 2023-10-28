@@ -195,9 +195,9 @@ class Corporation
     return $this->getNCollected(LIFEPOD);
   }
 
-  public function getCivLevel()
+  public function getCivLevel($y = null)
   {
-    return $this->countLevel(CIV);
+    return $this->countLevel(CIV, $y);
   }
 
   //receive $action when reach the mileston to add an action if needed
@@ -215,10 +215,10 @@ class Corporation
    * count the milestones reached by a tracker
    * to be overriden for some corporations
    */
-  public function countLevel($track)
+  public function countLevel($track, $y = null)
   {
     $result = 0;
-    for ($i = $this->getLevelOnTrack($track); $i > 0; $i--) {
+    for ($i = $y ?? $this->getLevelOnTrack($track); $i > 0; $i--) {
       if ($this->isOrIn($track, $this->tracks[$track][$i])) {
         $result++;
       }

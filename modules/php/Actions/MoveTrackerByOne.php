@@ -114,7 +114,8 @@ class MoveTrackerByOne extends \PU\Models\Action
     }
 
     $bonuses = $player->corporation()->moveTrack($type, $spaceId, $this->getWithBonus());
+    $cell = $player->corporation()->getCoordFromSpaceId($spaceId);
 
-    $this->createActionFromBonus($bonuses, $player);
+    $this->createActionFromBonus($bonuses, $player, $cell);
   }
 }

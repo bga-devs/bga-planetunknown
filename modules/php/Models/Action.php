@@ -123,7 +123,7 @@ class Action
     return $classname;
   }
 
-  public function createActionFromBonus($bonuses, $player)
+  public function createActionFromBonus($bonuses, $player, $cell)
   {
     if (!$bonuses) {
       return;
@@ -137,7 +137,7 @@ class Action
       }
       switch ($bonus) {
         case CIV:
-          $levelCiv = $player->corporation()->getCivLevel();
+          $levelCiv = $player->corporation()->getCivLevel($cell['y']);
 
           if ($player->hasTech(TECH_REPUBLIC_GET_SYNERGY_WITH_CIV_MILESTONE)) {
             $actionCiv = $player->getSynergy();
