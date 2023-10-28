@@ -95,7 +95,10 @@ class Player extends \PU\Helpers\DB_Model
   {
     $cards = Cards::getAll()
       ->where('pId', $this->id)
-      ->where('location', $current ? ['hand_obj', 'hand_civ', 'playedCivCards', 'playedObjCards'] : ['playedCivCards', 'playedObjCards']);
+      ->where(
+        'location',
+        $current ? ['hand_obj', 'hand_civ', 'playedCivCards', 'playedObjCards'] : ['playedCivCards', 'playedObjCards']
+      );
 
     $result = 0;
     foreach ($cards as $cardId => $card) {
@@ -211,11 +214,11 @@ class Player extends \PU\Helpers\DB_Model
       if (in_array($contraint, array_keys(FORBIDDEN_TERRAINS))) {
         Utils::filter(
           $neighbours,
-          fn ($cell) => $this->planet->getVisible($cell['x'], $cell['y']) != FORBIDDEN_TERRAINS[$contraint]
+          fn($cell) => $this->planet->getVisible($cell['x'], $cell['y']) != FORBIDDEN_TERRAINS[$contraint]
         );
       }
 
-      $spaceIds[$roverId] = array_map(fn ($cell) => Planet::getCellId($cell), $neighbours);
+      $spaceIds[$roverId] = array_map(fn($cell) => Planet::getCellId($cell), $neighbours);
     }
 
     return $spaceIds;
@@ -286,7 +289,7 @@ class Player extends \PU\Helpers\DB_Model
       return ['total' => 0];
     }
 
-    $isCurrent = $this->id === $currentPlayerId;
+    $isCurrent = $this->id == $currentPlayerId;
     $result = [];
     $total = 0;
 
@@ -378,14 +381,14 @@ class Player extends \PU\Helpers\DB_Model
       $this->setScoreAux(10000 - $this->planet()->countEmptySpaces() * 100 - $this->planet()->countMeteors());
     }
 
-    Stats::saveStats($result, $this); //for testing purpose TODO when validated move it inside $save block 
+    Stats::saveStats($result, $this); //for testing purpose TODO when validated move it inside $save block
 
     return $result;
   }
 
   public static function reduce_entries($array)
   {
-    return array_reduce($array['entries'], fn ($sum, $item) => $sum + (is_array($item) ? $item[0] : $item), 0);
+    return array_reduce($array['entries'], fn($sum, $item) => $sum + (is_array($item) ? $item[0] : $item), 0);
   }
 
   public function addEndOfTurnAction($flow)
@@ -520,7 +523,7 @@ class Player extends \PU\Helpers\DB_Model
 
     return [
       'type' => NODE_SEQ,
-      'childs' => $actions
+      'childs' => $actions,
     ];
   }
 }

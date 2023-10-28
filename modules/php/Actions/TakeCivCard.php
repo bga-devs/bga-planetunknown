@@ -29,9 +29,16 @@ class TakeCivCard extends \PU\Models\Action
 
   public function getDescription()
   {
-    return ($this->getLevel() == 'all')
-      ? clienttranslate('Take one Civ Card')
-      : clienttranslate('Take 2 civ cards');
+    $lvl = $this->getLevel();
+    return $lvl == 'all'
+      ? clienttranslate('Take one civ card')
+      : [
+        'log' => clienttranslate('Take ${n} civ card of level ${lvl}'),
+        'args' => [
+          'n' => $this->getN(),
+          'lvl' => $lvl,
+        ],
+      ];
   }
 
   public function getLevel()
@@ -66,7 +73,7 @@ class TakeCivCard extends \PU\Models\Action
       'cards' => $this->getPossibleCards(),
       'level' => $this->getLevel(),
       'n' => $this->getN(),
-      'descSuffix' => ($this->getLevel() == 'all') ? 'all' : '',
+      'descSuffix' => $this->getLevel() == 'all' ? 'all' : '',
     ];
   }
 
@@ -80,7 +87,6 @@ class TakeCivCard extends \PU\Models\Action
     }
 
     foreach ($cards as $cardId) {
-
       if (!array_key_exists($cardId, $args['cards'])) {
         throw new \BgaVisibleSystemException("You cannot take this card ($cardId) from this deck. Should not happen");
       }

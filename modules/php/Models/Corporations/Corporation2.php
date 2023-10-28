@@ -165,13 +165,13 @@ class Corporation2 extends Corporation
 
     return $move;
   }
-  public function getCivLevel()
+  public function getCivLevel($y = null)
   {
     if ($this->player->hasTech(TECH_UPGRADED_FLUX_TRACK) && $this->getFluxTrack() == CIV) {
       $civLevels = [0, 2, 3, 4, 4];
       return $civLevels[$this->countLevel(CIV)];
     } else {
-      return $this->countLevel(CIV);
+      return $this->countLevel(CIV, $y);
     }
   }
 

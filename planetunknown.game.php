@@ -93,7 +93,7 @@ class planetunknown extends Table
    */
   public function getAllDatas()
   {
-    $pId = self::getCurrentPId();
+    $pId = (int) self::getCurrentPId();
     $scores = Players::scores($pId);
     $players = Players::getUiData($pId);
     foreach ($players as $pId => &$infos) {
@@ -130,7 +130,7 @@ class planetunknown extends Table
       $players = Players::getAll();
       foreach ($players as $pId => $player) {
         $nbCells = count($player->planet()->getListOfCells());
-        $cellsCounter += ($nbCells - $player->planet()->countEmptySpaces()) * 100 / $nbCells;
+        $cellsCounter += (($nbCells - $player->planet()->countEmptySpaces()) * 100) / $nbCells;
       }
       $cellsCounter = $cellsCounter / count($players);
       return max($cellsCounter, $tilesCounter);
