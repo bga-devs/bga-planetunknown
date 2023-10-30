@@ -91,7 +91,7 @@ class Corporation1 extends Corporation
    * specific for this corpo :
    * do not count milestone hidden under lifepod
    */
-  public function countLevel($track)
+  public function countLevel($track, $y = null)
   {
     $result = 0;
     for ($i = $this->getLevelOnTrack($track); $i > 0; $i--) {
