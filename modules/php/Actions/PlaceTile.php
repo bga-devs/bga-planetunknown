@@ -93,7 +93,7 @@ class PlaceTile extends \PU\Models\Action
       $placementOptions = $player->planet()->getPlacementOptions($tile, $checkIsDoable);
       if (!empty($placementOptions)) {
         if ($checkIsDoable) {
-          return true;
+          return [$tiles, true];
         }
         $tiles[$tile->getId()] = $placementOptions;
       }

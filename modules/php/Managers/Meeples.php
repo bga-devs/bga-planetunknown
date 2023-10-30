@@ -26,15 +26,17 @@ class Meeples extends \PU\Helpers\CachedPieces
   }
   public static function getUiData()
   {
-    return self::getAll()->where('location', ['corporation', 'planet'])->toArray();
+    return self::getAll()
+      ->where('location', ['corporation', 'planet'])
+      ->toArray();
   }
 
   public static function getOfPlayer($player, $type = null)
   {
     return $type
       ? static::getAll()
-      ->where('pId', $player->getId())
-      ->where('type', $type)
+        ->where('pId', $player->getId())
+        ->where('type', $type)
       : static::getAll()->where('pId', $player->getId());
   }
 
@@ -149,14 +151,6 @@ class Meeples extends \PU\Helpers\CachedPieces
       ];
     }
 
-    $data[] = [
-      'type' => METEOR,
-      'location' => 'box',
-      'player_id' => $pId,
-      'nbr' => 50,
-    ];
-
-
     //create lifepods
     $planet = $player->planet();
 
@@ -197,6 +191,16 @@ class Meeples extends \PU\Helpers\CachedPieces
         'y' => 'flux',
       ];
     }
+
+    // create meteor : DONT RETURN THEM
+    static::create([
+      [
+        'type' => METEOR,
+        'location' => 'box',
+        'player_id' => $pId,
+        'nbr' => 50,
+      ],
+    ]);
 
     return static::create($data);
   }

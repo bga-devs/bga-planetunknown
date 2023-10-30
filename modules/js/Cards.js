@@ -132,7 +132,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         return [_('TODO')];
       }
 
-      return [_(card.title), _(card.desc)];
+      return [`<h4>${_(card.title)}</h4>${_(card.desc)}`];
     },
 
     tplCard(card) {
@@ -141,13 +141,19 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
       // CIV CARD
       if (card.type == 'civCard') {
         return `<div id="card-${uid}" data-type="${card.type}" class="planetunknown-card ${card.id < 0 ? 'fake' : ''}">
-          <div class='card-inner' data-id="${card.id}" data-level="${card.level}"></div>
+          <div class='card-inner' data-id="${card.id}" data-level="${card.level}">
+            <div class='card-title'>${_(card.title)}</div>
+            <div class='card-desc'>${_(card.desc)}</div>
+          </div>
         </div>`;
       }
       // EVENT CARD
       else if (card.type == 'EventCard') {
         return `<div id="card-${uid}" data-type="${card.type}" class="planetunknown-card">
-          <div class='card-inner' data-id="${card.id}"></div>
+          <div class='card-inner' data-id="${card.id}">
+            <div class='card-title'>${_(card.title)}</div>
+            <div class='card-desc'>${_(card.desc)}</div>
+          </div>
         </div>`;
       }
       // Neighbour objectives
@@ -237,7 +243,7 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         return $('pending-cards');
       }
 
-      console.error('Trying to get container of a meeple', meeple);
+      console.error('Trying to get container of a card', card);
       return 'game_play_area';
     },
 
