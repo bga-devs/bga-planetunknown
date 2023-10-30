@@ -74,6 +74,9 @@ class Corporation6 extends Corporation
    */
   public function getLevelOnTrack($type)
   {
+    $tracker = $this->player->getTracker($type);
+    if (is_null($tracker)) return 0;
+
     //if $type is not water, or is water and on water track do as usual
     if ($type != WATER || $this->player->getTracker($type)->getX() == WATER) {
       return $this->player->getTracker($type)->getY();

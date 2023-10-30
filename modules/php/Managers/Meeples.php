@@ -104,37 +104,59 @@ class Meeples extends \PU\Helpers\CachedPieces
   //                      |_|
   ////////////////////////////////////
 
-  /* Creation of various meeples */
-  public static function setupNewGame($players, $options)
-  {
-    $data = [];
-    foreach ($players as $pId => $player) {
-      //create trackers
-      foreach (ALL_TYPES as $value) {
-        $data[] = [
-          'type' => $value,
-          'location' => 'corporation',
-          'player_id' => $pId,
-          'x' => $value,
-          'y' => 0,
-        ];
-      }
+  /* Creation of various meeples @deprecated */
+  // public static function setupNewGame($players, $options)
+  // {
+  //   $data = [];
 
-      $data[] = [
-        'type' => METEOR,
-        'location' => 'box',
-        'player_id' => $pId,
-        'nbr' => 50,
-      ];
-    }
-    static::create($data);
-  }
+  //   foreach ($players as $pId => $player) {
+  //     //create trackers
+  //     foreach (ALL_TYPES as $value) {
+  //       $data[] = [
+  //         'type' => $value,
+  //         'location' => 'corporation',
+  //         'player_id' => $pId,
+  //         'x' => $value,
+  //         'y' => 0,
+  //       ];
+  //     }
+
+  //     $data[] = [
+  //       'type' => METEOR,
+  //       'location' => 'box',
+  //       'player_id' => $pId,
+  //       'nbr' => 50,
+  //     ];
+  //   }
+
+  //   static::create($data);
+  // }
 
   /* Creation of lifepods after player has choosen his planet */
   public static function setupPlayer($pId)
   {
     $player = Players::get($pId);
     $data = [];
+
+    //create trackers
+    foreach (ALL_TYPES as $value) {
+      $data[] = [
+        'type' => $value,
+        'location' => 'corporation',
+        'player_id' => $pId,
+        'x' => $value,
+        'y' => 0,
+      ];
+    }
+
+    $data[] = [
+      'type' => METEOR,
+      'location' => 'box',
+      'player_id' => $pId,
+      'nbr' => 50,
+    ];
+
+
     //create lifepods
     $planet = $player->planet();
 

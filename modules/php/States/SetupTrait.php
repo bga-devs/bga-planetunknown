@@ -28,7 +28,7 @@ trait SetupTrait
     Globals::setupNewGame($players, $options);
     Players::setupNewGame($players, $options);
     Preferences::setupNewGame($players, $this->player_preferences);
-    Meeples::setupNewGame($players, $options);
+    // Meeples::setupNewGame($players, $options); useless now
     Tiles::setupNewGame($players, $options);
     Cards::setupNewGame($players, $options);
     Susan::setupNewGame($players, $options);

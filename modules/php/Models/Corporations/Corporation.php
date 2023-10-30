@@ -122,8 +122,10 @@ class Corporation
    */
   public function getLevelOnTrack($type)
   {
+    $tracker = $this->player->getTracker($type);
+    if (is_null($tracker)) return 0;
     // TODO : not working for corporation where trackers can move around
-    return $this->player->getTracker($type)->getY();
+    return $tracker->getY();
   }
 
   // TODO to override for some corporations USELESS

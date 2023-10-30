@@ -142,6 +142,9 @@ class Corporation5 extends Corporation
 
   public function getLevelOnTrack($type)
   {
+    $tracker = $this->player->getTracker($type);
+    if (is_null($tracker)) return 0;
+
     $y = 0;
     foreach (ALL_TYPES as $type2) {
       $trackPawn = $this->player->getTracker($type2);
