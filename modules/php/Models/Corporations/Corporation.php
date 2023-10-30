@@ -38,6 +38,7 @@ class Corporation
       'id' => $this->id,
       'name' => $this->name,
       'desc' => $this->desc,
+      'techBonuses' => $this->techBonuses,
       'tracks' => $this->tracks,
     ];
   }
@@ -123,7 +124,9 @@ class Corporation
   public function getLevelOnTrack($type)
   {
     $tracker = $this->player->getTracker($type);
-    if (is_null($tracker)) return 0;
+    if (is_null($tracker)) {
+      return 0;
+    }
     // TODO : not working for corporation where trackers can move around
     return $tracker->getY();
   }

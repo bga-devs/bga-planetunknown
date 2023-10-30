@@ -1773,6 +1773,38 @@ html {
                 .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-grid .planet-grid-cell .planetunknown-meeple.icon-meteor {
                   top: 3px;
                   left: 1px; }
+          .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-ability {
+            position: absolute;
+            font-family: "HemiHead";
+            color: white;
+            font-size: 10px;
+            display: flex;
+            flex-flow: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 12;
+            top: 887px;
+            left: 748px;
+            width: 220px; }
+            .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-ability .help-marker {
+              color: black; }
+            .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet .planet-ability h4 {
+              font-size: 18px;
+              text-transform: uppercase;
+              margin-bottom: 1px; }
+          .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet[data-id="0"] .planet-ability {
+            top: 867px;
+            left: 824px;
+            width: 144px; }
+          .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet[data-id="2"] .planet-ability {
+            top: 125px;
+            left: 133px;
+            width: 197px;
+            align-items: baseline; }
+          .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-planet .planet[data-id="8"] .planet-ability {
+            top: 940px;
+            left: 523px;
+            width: 220px; }
       .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation {
         width: 510px;
         height: 1000px; }
@@ -1819,7 +1851,7 @@ html {
             height: 608px;
             position: absolute;
             top: 167px;
-            left: 33px;
+            left: 30px;
             column-gap: 25px;
             display: flex; }
             .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-columns:hover .icon-tracker-civ,
@@ -1858,7 +1890,8 @@ html {
                   transition: transform 0.5s;
                   margin-top: -8px; }
             .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-columns .tech-descs {
-              width: 125px;
+              width: 132px;
+              margin-left: -6px;
               position: relative; }
               .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-columns .tech-descs .tech-desc-container {
                 width: 100%;
@@ -1866,7 +1899,28 @@ html {
                 margin-bottom: 29px;
                 margin-top: 6px;
                 box-sizing: border-box;
-                position: relative; }
+                position: relative;
+                color: white;
+                font-family: "HemiHead";
+                font-size: 11px;
+                display: flex;
+                text-align: center;
+                align-items: center;
+                padding: 7px 5px 2px;
+                box-sizing: border-box; }
+                .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-columns .tech-descs .tech-desc-container:nth-child(1) {
+                  margin-bottom: 73px; }
+                .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-columns .tech-descs .tech-desc-container:nth-child(2) {
+                  margin-bottom: 42px; }
+                .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-columns .tech-descs .tech-desc-container:nth-child(3) {
+                  margin-bottom: 36px; }
+                .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-columns .tech-descs .tech-desc-container:nth-child(4) {
+                  margin-bottom: 23px; }
+                .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-columns .tech-descs .tech-desc-container .help-marker {
+                  left: auto;
+                  right: -12px;
+                  top: -12px;
+                  color: black; }
                 .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-columns .tech-descs .tech-desc-container.selectable {
                   box-shadow: 0px 0px 8px 4px white;
                   cursor: pointer; }
@@ -1880,6 +1934,35 @@ html {
                   font-size: 10px;
                   transition: transform 0.5s;
                   bottom: 0; }
+          .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation[data-id="4"] .corporation-columns .tech-descs .tech-desc-container:nth-child(1) {
+            margin-bottom: 28px; }
+          .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation[data-id="4"] .corporation-columns .tech-descs .tech-desc-container:nth-child(2) {
+            margin-bottom: 31px; }
+          .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation[data-id="4"] .corporation-columns .tech-descs .tech-desc-container:nth-child(3) {
+            margin-bottom: 28px; }
+          .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation[data-id="4"] .corporation-columns .tech-descs .tech-desc-container:nth-child(4) {
+            margin-bottom: 28px; }
+          .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation[data-id="4"] .corporation-columns .tech-descs .tech-desc-container:nth-child(5) {
+            margin-bottom: 29px; }
+          .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-desc {
+            position: absolute;
+            top: 844px;
+            left: 186px;
+            width: 285px;
+            height: 113px;
+            font-family: "HemiHead";
+            color: white;
+            font-size: 13px;
+            display: flex;
+            text-align: center;
+            align-items: center;
+            padding: 5px 12px;
+            box-sizing: border-box; }
+            .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .corporation-desc .help-marker {
+              left: auto;
+              right: -12px;
+              top: -12px;
+              color: black; }
           .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .rover-reserve {
             position: absolute;
             bottom: 10px;
@@ -3157,6 +3240,9 @@ html {
   font-weight: bold;
   font-style: italic;
   font-display: swap; }
+.dijitTooltipContainer .midSizeDialog h4 {
+  margin-top: 5px; }
+
 #left-side {
   margin-right: 355px !important; }
 

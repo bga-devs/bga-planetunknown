@@ -510,8 +510,9 @@ define([
           return;
         }
         let container = $(`player-board-corporation-${this.player_id}`);
-        let corpo = container.querySelector('.corporation');
-        corpo.dataset.id = corpoId;
+        let previousCorpo = container.querySelector('.corporation');
+        if (previousCorpo) previousCorpo.remove();
+        container.insertAdjacentHTML('beforeend', this.tplCorporation(CORPOS_DATA[corpoId], { id: this.player_id }));
         $('pagesubtitle').innerHTML = this.formatString(_(CORPOS_DATA[corpoId].desc));
         this.attachRegisteredTooltips();
 
