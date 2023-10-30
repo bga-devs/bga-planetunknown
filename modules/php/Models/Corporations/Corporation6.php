@@ -9,6 +9,8 @@ class Corporation6 extends Corporation
     $this->name = clienttranslate('Oasis Ultd.');
     $this->desc = clienttranslate('Advance your water tracker once for each water terrain square that covers planet ice. Gain the benefits from advancing your water tracker even when it advances onto another track.');
 
+    $this->flagsToReset = [TECH_GET_1_MOVE_STARTING_ON_WATER];
+
     $this->techBonuses = [
       1 => [
         'text' => clienttranslate('Skip over another tracker blocking your advancement.')
