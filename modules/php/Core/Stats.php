@@ -194,7 +194,7 @@ class Stats extends \PU\Helpers\CachedDB_Manager
     static::setPlanetPoints($pId, $result['planet']['total']);
     static::setTracksPoints($pId, $result['tracks']['total']);
     static::setLifepodsPoints($pId, $result['lifepods']['total']);
-    static::setmeteorsPoints($pId, $result['meteors']['total']);
+    static::setMeteorsPoints($pId, $result['meteors']['total']);
     static::setCivCardsPoints($pId, $result['civ']['total']);
     static::setObjectivesPoints($pId, $result['objectives']['total']);
 
