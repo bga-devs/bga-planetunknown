@@ -54,7 +54,8 @@ class Corporation5 extends Corporation
       ['move_2', 2],
       'move_3',
       'move_3',
-      ['move_3', 5], ['move_3']
+      ['move_3', 5],
+      ['move_3'],
     ],
     TECH => [null, null, SYNERGY, TECH, null, TECH, 1, TECH, null, null, TECH, null, SYNERGY, 2, TECH, 5],
   ];
@@ -143,7 +144,9 @@ class Corporation5 extends Corporation
   public function getLevelOnTrack($type)
   {
     $tracker = $this->player->getTracker($type);
-    if (is_null($tracker)) return 0;
+    if (is_null($tracker)) {
+      return 0;
+    }
 
     $y = 0;
     foreach (ALL_TYPES as $type2) {
@@ -158,6 +161,10 @@ class Corporation5 extends Corporation
   public function getBestMedal($trackerType)
   {
     $trackPawn = $this->player->getTracker($trackerType);
+    if (is_null($trackPawn)) {
+      return 0;
+    }
+
     $type = $trackPawn->getX();
     $lvl = $this->player->hasTech(TECH_SCORE_HIGHEST_TRACKER) ? $this->getLevelOnTrack($type) : $trackPawn->getY();
     for ($i = $lvl; $i > 0; $i--) {
