@@ -95,6 +95,11 @@ class Planet12 extends \PU\Models\Planet
       return $this->sides[$c['y']][$c['x']] == $side || (!is_null($otherCorner) && $this->areSameCell($c, $otherCorner));
     });
 
+    // It shouldnt prevent teleport rover civ terrain for corpo
+    if ($this->player->corporation()->canUse(TECH_REPUBLIC_TELEPORT_ROVER_CIV_TERRAIN) && $this->getTypeAtPos($cell) == CIV) {
+      $cells = array_merge($this->getCellsOfType(CIV), $cells);
+    }
+
     return $cells;
   }
 }
