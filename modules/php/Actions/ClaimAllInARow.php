@@ -78,6 +78,7 @@ class ClaimAllInARow extends \PU\Models\Action
       $bonuses = array_merge($bonuses, $player->corporation()->getBonuses($coord, true));
     }
 
-    $this->createActionFromBonus($bonuses, $player);
+    //this will work even if $coord['x'] not matching all bonuses, it's 'y' the important data 
+    $this->createActionFromBonus($bonuses, $player, $coord);
   }
 }
