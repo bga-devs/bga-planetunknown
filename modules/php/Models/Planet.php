@@ -159,7 +159,7 @@ class Planet
   public function countSymbolsOnEdge($symbol)
   {
     $cells = $this->getEdgeCells();
-    return array_reduce($cells, fn($result, $cell) => $result + ($this->getSymbol($cell['x'], $cell['y']) == $symbol ? 1 : 0), 0);
+    return array_reduce($cells, fn ($result, $cell) => $result + ($this->getSymbol($cell['x'], $cell['y']) == $symbol ? 1 : 0), 0);
   }
 
   /**
@@ -211,19 +211,19 @@ class Planet
   public function countLargestAdjacent($type)
   {
     $zones = $this->detectZones($type);
-    return $zones ? max(array_map(fn($zone) => count($zone), $zones)) : 0;
+    return $zones ? max(array_map(fn ($zone) => count($zone), $zones)) : 0;
   }
 
   public function countSymbols($type, $zone = null)
   {
-    $cells = array_filter($zone ?? $this->getListOfCells(), fn($cell) => $this->getSymbol($cell['x'], $cell['y']) == $type);
+    $cells = array_filter($zone ?? $this->getListOfCells(), fn ($cell) => $this->getSymbol($cell['x'], $cell['y']) == $type);
     return count($cells);
   }
 
   public function getEmptyMeteorSymbolCells()
   {
     $cells = $this->getListOfCells();
-    Utils::filter($cells, fn($cell) => $this->hasMeteorSymbol($cell['x'], $cell['y']) && !$this->player->getMeteorOnCell($cell));
+    Utils::filter($cells, fn ($cell) => $this->hasMeteorSymbol($cell['x'], $cell['y']) && !$this->player->getMeteorOnCell($cell));
     return $cells;
   }
 
@@ -474,15 +474,17 @@ class Planet
               continue;
             }
 
-            // EVENTS
-            if ($specialRule == CANNOT_PLACE_ON_EDGE && $this->isIntersectionNonEmpty($cells, $border)) {
-              continue;
-            }
-            if ($specialRule == CANNOT_PLACE_ON_ICE && $this->isIntersectionNonEmpty($cells, $ice)) {
-              continue;
-            }
-            if ($specialRule == NO_MATCHING_TERRAINS && $this->isMatchingTerrainWithNeighbours($tile, $cells)) {
-              continue;
+            // EVENTS (not for biomass patch)
+            if ($tile->getType() != BIOMASS_PATCH) {
+              if ($specialRule == CANNOT_PLACE_ON_EDGE && $this->isIntersectionNonEmpty($cells, $border)) {
+                continue;
+              }
+              if ($specialRule == CANNOT_PLACE_ON_ICE && $this->isIntersectionNonEmpty($cells, $ice)) {
+                continue;
+              }
+              if ($specialRule == NO_MATCHING_TERRAINS && $this->isMatchingTerrainWithNeighbours($tile, $cells)) {
+                continue;
+              }
             }
 
             // Must intersect borders or adjacent to another tile
