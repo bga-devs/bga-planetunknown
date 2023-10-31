@@ -29,6 +29,7 @@ class CivCard22 extends \PU\Models\Cards\CivCard
   {
     return Tiles::getAll()
       ->where('pId', $this->getPId())
+      ->where('location', 'planet')
       ->where('type', BIOMASS_PATCH)
       ->count();
   }
