@@ -444,7 +444,7 @@ class Planet
     $tileType = $tile->getType();
     list($checkingCells, $freeCells) = $this->getPlacementOptionsCachedDatas();
     // WORMHOLE : can place also on cell with tiles on it
-    if ($tile->getType() == BIOMASS_PATCH && $this->player->hasTech(TECH_WORMHOLE_PATCH_ON_TILE)) {
+    if ($tile->getType() === BIOMASS_PATCH && $this->player->hasTech(TECH_WORMHOLE_PATCH_ON_TILE)) {
       $freeCells = self::getListOfCells();
     }
 
@@ -565,7 +565,7 @@ class Planet
 
   public function getCellsOfTileType($tileType)
   {
-    if ($tileType == BIOMASS_PATCH) {
+    if ($tileType === BIOMASS_PATCH) {
       return [[0, 0]];
     }
     $types = [
@@ -610,7 +610,7 @@ class Planet
     }
     $tile = $this->getTileAtPos($cell);
     // Wormhole tech => allow to put biomass patch anywhere
-    if ($tileType == BIOMASS_PATCH && $this->player->hasTech(TECH_WORMHOLE_PATCH_ON_TILE)) {
+    if ($tileType === BIOMASS_PATCH && $this->player->hasTech(TECH_WORMHOLE_PATCH_ON_TILE)) {
       $meeple = $this->player->getMeepleOnCell($cell, METEOR);
       return is_null($meeple) || $this->player->hasTech(TECH_WORMHOLE_CAN_DESTROY_METEOR_WITH_PATCH);
     }

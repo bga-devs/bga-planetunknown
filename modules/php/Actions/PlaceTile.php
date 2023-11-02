@@ -177,7 +177,7 @@ class PlaceTile extends \PU\Models\Action
         Stats::incInteriorTiles($player->getId(), 1);
       } elseif (in_array($shape, LARGE_RING)) {
         Stats::incExteriorTiles($player->getId(), 1);
-      } elseif ($shape == BIOMASS_PATCH) {
+      } elseif ($shape === BIOMASS_PATCH) {
         Stats::incBiomassPatches($player->getId(), 1);
       }
     }
@@ -334,7 +334,7 @@ class PlaceTile extends \PU\Models\Action
 
     ////////////////
     // WORMHOLE
-    if ($tile->getType() == BIOMASS_PATCH) {
+    if ($tile->getType() === BIOMASS_PATCH) {
       // Destroy meteor with biomass patch
       if ($player->hasTech(TECH_WORMHOLE_CAN_DESTROY_METEOR_WITH_PATCH)) {
         $meeple = $player->getMeepleOnCell($pos, METEOR);

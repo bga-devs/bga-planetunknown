@@ -37,17 +37,17 @@ class Tile extends \PU\Helpers\DB_Model
   public function getTerrainTypes()
   {
     $type = $this->getType();
-    return $type == BIOMASS_PATCH ? [BIOMASS] : Tiles::getTypeFamily($type);
+    return $type === BIOMASS_PATCH ? [BIOMASS] : Tiles::getTypeFamily($type);
   }
 
   public function isBiomassPatch()
   {
-    return $this->getType() == BIOMASS_PATCH;
+    return $this->getType() === BIOMASS_PATCH;
   }
 
   public function getShape()
   {
-    return $this->getType() == BIOMASS_PATCH ? BIOMASS_PATCH : $this->getType() % 12;
+    return $this->getType() === BIOMASS_PATCH ? BIOMASS_PATCH : $this->getType() % 12;
   }
 
   public function getSymbolsForDiscardedTile()

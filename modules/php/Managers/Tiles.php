@@ -148,7 +148,7 @@ class Tiles extends \PU\Helpers\CachedPieces
 
   static function getStaticDataFromType($type)
   {
-    if ($type == BIOMASS_PATCH) {
+    if ($type === BIOMASS_PATCH) {
       $shape = Tiles::$shapes[BIOMASS_PATCH];
       $tileFamily = 5; //hack to indicate BIOMASS
       $hasMeteor = false;
