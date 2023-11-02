@@ -33,7 +33,7 @@ class Planet9 extends \PU\Models\Planet
   public function isValidPlacementOption($tile, $cells, $pos, $rotation, $flipped)
   {
     //biomass patch don't need to follow the specific rule of this planet
-    if ($tile->getType() == BIOMASS_PATCH) return true;
+    if ($tile->getType() === BIOMASS_PATCH) return true;
 
     foreach (DIRECTIONS as $dir) {
       $newPos = [
