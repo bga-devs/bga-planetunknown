@@ -253,8 +253,8 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
       grid += '<div class="tech-descs">';
       let maxY = Math.max(...Object.keys(corpo.techBonuses));
       for (let y = maxY; y > 0; y--) {
-        grid += `<div class='tech-desc-container' id='corporation-${pId}-tech-nb-${y - 1}'>${_(corpo.techBonuses[y].text)}</div>`;
-        this.registerCustomTooltip(_(corpo.techBonuses[y].text), `corporation-${pId}-tech-nb-${y - 1}`);
+        grid += `<div class='tech-desc-container' id='corporation-${pId}-tech-nb-${y}'>${_(corpo.techBonuses[y].text)}</div>`;
+        this.registerCustomTooltip(_(corpo.techBonuses[y].text), `corporation-${pId}-tech-nb-${y}`);
       }
       grid += '</div></div>';
 

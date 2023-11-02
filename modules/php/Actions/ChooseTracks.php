@@ -35,7 +35,7 @@ class ChooseTracks extends \PU\Models\Action
     $player = $player ?? $this->getPlayer();
     $move = $this->getMove();
     $types = $this->getTypes();
-    Utils::filter($types, fn($type) => $player->corporation()->canMoveTrack($type, $move));
+    Utils::filter($types, fn ($type) => $player->corporation()->canMoveTrack($type, $move));
     return $types;
   }
 
@@ -86,9 +86,9 @@ class ChooseTracks extends \PU\Models\Action
       $m = $this->getMove();
       return [
         'log' =>
-          $m > 0
-            ? clienttranslate('Advance ${n} track(s) among ${types_desc}')
-            : clienttranslate('Regress ${n} track(s) among ${types_desc}'),
+        $m > 0
+          ? clienttranslate('Advance ${n} track(s) among ${types_desc}')
+          : clienttranslate('Regress ${n} track(s) among ${types_desc}'),
         'args' => [
           'n' => $this->getN(),
           'types_desc' => Utils::getTypesDesc($types),
@@ -133,32 +133,29 @@ class ChooseTracks extends \PU\Models\Action
         throw new \BgaVisibleSystemException("You cannot choose $type track. Should not happen");
       }
 
-      // if (count($tracks) > 1) {
-      $this->pushParallelChild([
-        'action' => MOVE_TRACK,
-        'args' => ['type' => $type, 'n' => $this->getMove(), 'withBonus' => $this->getWithBonus()],
-      ]);
-      // } else {
-      //   $this->insertAsChild([
-      //     'action' => MOVE_TRACK,
-      //     'args' => ['type' => $type, 'n' => $this->getMove(), 'withBonus' => $this->getWithBonus()],
-      //   ]);
-      // }
-
-      // $withBonus = $this->getWithBonus();
-      // if ($withBonus) {
-      //   for ($i = 0; $i < $this->getMove(); $i++) {
-      //     $this->insertAsChild([
-      //       'action' => MOVE_TRACK,
-      //       'args' => ['type' => $type, 'n' => 1, 'withBonus' => $withBonus],
-      //     ]);
-      //   }
-      // } else {
-      //   $this->insertAsChild([
-      //     'action' => MOVE_TRACK,
-      //     'args' => ['type' => $type, 'n' => $this->getMove(), 'withBonus' => $withBonus],
-      //   ]);
-      // }
+      // to receive synergy twice with jump drive power
+      if ($this->getFrom() == SYNERGY && $this->getPlayer()->corporation()->canUse(TECH_TWICE_SYNERGY_ONCE_PER_ROUND)) {
+        $this->pushParallelChild([
+          'type' => NODE_XOR,
+          'childs' => [
+            [
+              'action' => MOVE_TRACK,
+              'args' => ['type' => $type, 'n' => 1, 'withBonus' => $this->getWithBonus()],
+            ],
+            [
+              'action' => MOVE_TRACK,
+              'args' => ['type' => $type, 'n' => 2, 'withBonus' => $this->getWithBonus(),],
+              'source' => $this->getPlayer()->corporation()->name,
+              'flag' => TECH_TWICE_SYNERGY_ONCE_PER_ROUND,
+            ]
+          ]
+        ]);
+      } else {
+        $this->pushParallelChild([
+          'action' => MOVE_TRACK,
+          'args' => ['type' => $type, 'n' => $this->getMove(), 'withBonus' => $this->getWithBonus()],
+        ]);
+      }
     }
   }
 }
