@@ -103,7 +103,7 @@ class CollectMeeple extends \PU\Models\Action
     $type =
       $this->getType() == LIFEPOD
       ? clienttranslate('lifepod(s)')
-      : ($this->getType() == ROVER
+      : ($this->getType() == ROVER_MEEPLE
         ? clienttranslate('rover(s)')
         : clienttranslate('meteor(s)'));
 
