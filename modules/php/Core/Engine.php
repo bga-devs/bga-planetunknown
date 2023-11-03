@@ -108,10 +108,11 @@ class Engine
         $tree = new \PU\Core\Engine\SeqNode(['pId' => $pId], [$tree]);
       }
 
-      // Savee it
+      // Save it
       self::$trees[$pId] = $tree;
       PGlobals::setEngine($pId, $tree->toArray());
       PGlobals::setEngineChoices($pId, 0);
+      Game::get()->giveExtraTime($pId);
     }
     if (empty($realPIds)) {
       self::callback();
