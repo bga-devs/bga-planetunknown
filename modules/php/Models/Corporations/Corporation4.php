@@ -32,7 +32,6 @@ class Corporation4 extends Corporation
         'text' => clienttranslate('Advance the tracker twice when using a synergy boost. Once per round.'),
       ],
       4 => [
-        //TODO ASK
         'text' => clienttranslate('You may treat a tech resource as energy during tile placement'),
       ],
       5 => [
@@ -107,6 +106,10 @@ class Corporation4 extends Corporation
 
   public function scoreByLifepods()
   {
-    return $this->player->getCollectedLifepods()->where('x', '')->where('y', '')->count();
+    return $this->player
+      ->getCollectedLifepods()
+      ->where('x', '')
+      ->where('y', '')
+      ->count();
   }
 }

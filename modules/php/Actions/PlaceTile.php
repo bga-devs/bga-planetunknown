@@ -175,7 +175,7 @@ class PlaceTile extends \PU\Models\Action
       $shape = $tile->getShape();
       if ($shape === BIOMASS_PATCH) {
         Stats::incBiomassPatches($player->getId(), 1);
-      } else if (in_array($shape, SMALL_RING)) {
+      } elseif (in_array($shape, SMALL_RING)) {
         Stats::incInteriorTiles($player->getId(), 1);
       } elseif (in_array($shape, LARGE_RING)) {
         Stats::incExteriorTiles($player->getId(), 1);
@@ -269,6 +269,28 @@ class PlaceTile extends \PU\Models\Action
             return $type != BIOMASS;
           });
         }
+
+        $actions[] = [
+          'action' => CHOOSE_TRACKS,
+          'args' => [
+            'types' => $types,
+            'n' => 1,
+            'energy' => true,
+            'from' => ENERGY,
+          ],
+        ];
+        continue;
+      }
+      // Weird energy of JumpDrive
+      elseif ($player->hasTech(TECH_TREAT_TECH_AS_ENERGY) && $type == TECH) {
+        $types = [];
+        foreach ($player->planet()->getTileCoveredCells($tile, false) as $i => $cell) {
+          if ($player->planet()->getVisible($cell['x'], $cell['y']) != TECH) {
+            continue;
+          }
+          $types = array_merge($types, $player->planet()->getTypesAdjacentToEnergy($cell));
+        }
+        $types = array_unique($types);
 
         $actions[] = [
           'action' => CHOOSE_TRACKS,
