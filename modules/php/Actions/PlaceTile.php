@@ -173,12 +173,12 @@ class PlaceTile extends \PU\Models\Action
     //statistics
     if (Globals::getMode() == MODE_APPLY) {
       $shape = $tile->getShape();
-      if (in_array($shape, SMALL_RING)) {
+      if ($shape === BIOMASS_PATCH) {
+        Stats::incBiomassPatches($player->getId(), 1);
+      } else if (in_array($shape, SMALL_RING)) {
         Stats::incInteriorTiles($player->getId(), 1);
       } elseif (in_array($shape, LARGE_RING)) {
         Stats::incExteriorTiles($player->getId(), 1);
-      } elseif ($shape === BIOMASS_PATCH) {
-        Stats::incBiomassPatches($player->getId(), 1);
       }
     }
 
