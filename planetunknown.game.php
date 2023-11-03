@@ -63,6 +63,7 @@ class planetunknown extends Table
   {
     parent::__construct();
     self::$instance = $this;
+    $this->bSelectGlobalsForUpdate = true;
     self::initGameStateLabels([
       'mode' => 10, // DO NOT TOUCH, USED FOR SIMULATING DB MODIFICATION
       'option_planet' => 105,

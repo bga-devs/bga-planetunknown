@@ -379,9 +379,9 @@ class Player extends \PU\Helpers\DB_Model
         $this->setScore($total);
       }
       $this->setScoreAux(10000 - $this->planet()->countEmptySpaces() * 100 - $this->planet()->countMeteors());
+      Stats::saveStats($result, $this);
     }
 
-    Stats::saveStats($result, $this); //for testing purpose TODO when validated move it inside $save block
 
     return $result;
   }
