@@ -43,6 +43,7 @@ class Log extends \APP_DbObject
   /**
    * Add an entry
    */
+  static $moveId = null;
   public function addEntry($entry)
   {
     if (isset($entry['affected'])) {
@@ -58,7 +59,10 @@ class Log extends \APP_DbObject
       $entry['player_id'] = Players::getCurrentId(true) ?? 0;
     }
 
-    $entry['move_id'] = self::getUniqueValueFromDB('SELECT global_value FROM global WHERE global_id = 3');
+    if (is_null(static::$moveId)) {
+      static::$moveId = self::getUniqueValueFromDB('SELECT global_value FROM global WHERE global_id = 3');
+    }
+    $entry['move_id'] = static::$moveId;
     $query = new QueryBuilder('log', null, 'id');
     return $query->insert($entry);
   }
