@@ -47,8 +47,12 @@ trait EngineTrait
   function argsAtomicAction($pId)
   {
     $player = Players::get($pId);
-    $action = $this->getCurrentAtomicAction($pId);
     $node = Engine::getNextUnresolved($pId);
+    if (is_null($node)) {
+      return [];
+    }
+
+    $action = $this->getCurrentAtomicAction($pId);
     $args = Actions::getArgs($action, $node);
     $args['automaticAction'] = Actions::get($action, $node)->isAutomatic($player);
     $this->addCommonArgs($pId, $args);

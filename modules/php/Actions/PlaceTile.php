@@ -290,7 +290,7 @@ class PlaceTile extends \PU\Models\Action
           }
           $types = array_merge($types, $player->planet()->getTypesAdjacentToEnergy($cell));
         }
-        $types = array_unique($types);
+        $types = array_values(array_unique($types));
 
         $actions[] = [
           'action' => CHOOSE_TRACKS,
