@@ -59,12 +59,7 @@ class CollectMeeple extends \PU\Models\Action
   public function getDescription()
   {
     $action = $this->getAction() == 'collect' ? clienttranslate('Collect') : clienttranslate('Destroy');
-    $type =
-      $this->getType() == LIFEPOD
-      ? clienttranslate('lifepod(s)')
-      : ($this->getType() == ROVER
-        ? clienttranslate('rover(s)')
-        : clienttranslate('meteor(s)'));
+    $type = Meeples::getTranslatableType($this->getType());
 
     return [
       'log' => clienttranslate('${action} ${n} ${type} on your ${where}'),
@@ -100,12 +95,7 @@ class CollectMeeple extends \PU\Models\Action
   {
     $player = $this->getPlayer();
     $collectableMeeples = $this->getCollectableMeeples($player);
-    $type =
-      $this->getType() == LIFEPOD
-      ? clienttranslate('lifepod(s)')
-      : ($this->getType() == ROVER_MEEPLE
-        ? clienttranslate('rover(s)')
-        : clienttranslate('meteor(s)'));
+    $type = Meeples::getTranslatableType($this->getType());
 
     return [
       'meeples' => $collectableMeeples,

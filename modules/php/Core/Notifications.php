@@ -468,6 +468,7 @@ class Notifications
       'player' => $player,
       'type' => $type,
       'value' => $arg,
+      'i18n' => ['type']
     ];
     static::pnotify($player, 'milestone', $message, $data);
   }

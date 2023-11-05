@@ -86,6 +86,7 @@ class MoveTrack extends \PU\Models\Action
       'type' => $type,
       'n' => $n,
       'withBonus' => $withBonus,
+      'i18n' => ['type_name']
     ];
   }
 

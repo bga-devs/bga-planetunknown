@@ -35,8 +35,8 @@ class Meeples extends \PU\Helpers\CachedPieces
   {
     return $type
       ? static::getAll()
-        ->where('pId', $player->getId())
-        ->where('type', $type)
+      ->where('pId', $player->getId())
+      ->where('type', $type)
       : static::getAll()->where('pId', $player->getId());
   }
 
@@ -95,6 +95,22 @@ class Meeples extends \PU\Helpers\CachedPieces
       ];
     }
     return static::create($toCreate);
+  }
+
+  public static function getTranslatableType($type)
+  {
+    switch ($type) {
+      case LIFEPOD:
+        return clienttranslate('lifepod(s)');
+      case ROVER:
+      case ROVER_MEEPLE:
+        return clienttranslate('rover(s)');
+      case METEOR:
+        return clienttranslate('meteor(s)');
+      default:
+        //should never happen
+        return clienttranslate('meeple(s)');
+    }
   }
 
   ////////////////////////////////////

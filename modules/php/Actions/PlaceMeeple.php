@@ -63,7 +63,9 @@ class PlaceMeeple extends \PU\Models\Action
 
     return [
       'spaceIds' => $this->getPossibleSpaceIds($player),
-      'type' => $this->getType()
+      'type' => $this->getType(),
+      'type_name' => Meeples::getTranslatableType($this->getType()),
+      'i18n' => ['type_name']
     ];
   }
 

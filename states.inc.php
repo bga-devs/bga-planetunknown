@@ -392,7 +392,7 @@ $machinestates = [
 
   ST_PLACE_MEEPLE => [
     'name' => PLACE_MEEPLE,
-    'descriptionmyturn' => clienttranslate('${you} must place a ${type} on your planet'),
+    'descriptionmyturn' => clienttranslate('${you} must place 1 ${type} on your planet'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',

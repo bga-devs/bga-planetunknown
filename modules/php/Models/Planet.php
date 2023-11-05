@@ -133,8 +133,10 @@ class Planet
       } else {
         $score['row_' . $rowId] = $value;
         foreach ($this->columnMedals as $columnId => $_) {
-          if ($this->isCoveredCoord($columnId, $rowId)) {
+          if (!$this->isCoveredCoord($columnId, $rowId)) {
+
             $score['row_' . $rowId] = 0;
+            break;
           }
         }
       }
@@ -146,8 +148,9 @@ class Planet
       } else {
         $score['column_' . $columnId] = $value;
         foreach ($this->rowMedals as $rowId => $_) {
-          if ($this->isCoveredCoord($columnId, $rowId)) {
+          if (!$this->isCoveredCoord($columnId, $rowId)) {
             $score['column_' . $columnId] = 0;
+            break;
           }
         }
       }
@@ -620,7 +623,7 @@ class Planet
 
   public function isCoveredCoord($x, $y)
   {
-    return $this->isPlanet($x, $y) && !$this->hasTileAtCoord($x, $y);
+    return !$this->isPlanet($x, $y) || $this->hasTileAtCoord($x, $y);
   }
 
   /**
