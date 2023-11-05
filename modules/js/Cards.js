@@ -140,10 +140,15 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
 
       // CIV CARD
       if (card.type == 'civCard') {
+        let effect = '';
+        if (card.id >= 0) {
+          effect = card.effectType == 'immediate' ? _('Immediate') : _('End Game');
+        }
         return `<div id="card-${uid}" data-type="${card.type}" class="planetunknown-card ${card.id < 0 ? 'fake' : ''}">
           <div class='card-inner' data-id="${card.id}" data-level="${card.level}">
-            <div class='card-title'>${_(card.title)}</div>
-            <div class='card-desc'>${_(card.desc)}</div>
+            <div class='card-title'>${_(card.title || '')}</div>
+            <div class='card-desc'>${_(card.desc || '')}</div>
+            <div class='card-effect'>${effect}</div>
           </div>
         </div>`;
       }

@@ -474,6 +474,15 @@ html {
     align-items: center;
     text-align: center;
     justify-content: center; }
+  .planetunknown-card[data-type="civCard"] .card-inner .card-effect {
+    position: absolute;
+    font-family: "HemiHead";
+    top: 150px;
+    left: 25px;
+    width: 160px;
+    font-size: 15px;
+    color: white;
+    height: 78px; }
   .planetunknown-card[data-type="civCard"] .card-inner[data-id="29"] .card-desc, .planetunknown-card[data-type="civCard"] .card-inner[data-id="30"] .card-desc, .planetunknown-card[data-type="civCard"] .card-inner[data-id="31"] .card-desc, .planetunknown-card[data-type="civCard"] .card-inner[data-id="32"] .card-desc, .planetunknown-card[data-type="civCard"] .card-inner[data-id="33"] .card-desc, .planetunknown-card[data-type="civCard"] .card-inner[data-id="34"] .card-desc, .planetunknown-card[data-type="civCard"] .card-inner[data-id="35"] .card-desc, .planetunknown-card[data-type="civCard"] .card-inner[data-id="36"] .card-desc {
     width: 265px;
     top: 2px; }

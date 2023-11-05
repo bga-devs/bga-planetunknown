@@ -188,12 +188,6 @@ define([
      */
     setup(gamedatas) {
       debug('SETUP', gamedatas);
-      // Create a new div for "anytime" buttons
-      dojo.place(
-        "<div id='anytimeActions' style='display:inline-block;float:right'></div>",
-        $('generalactions').parentNode,
-        'beforeend'
-      );
       // Create a new div for "subtitle"
       dojo.place("<div id='pagesubtitle'></div>", 'maintitlebar_content');
 
@@ -211,6 +205,8 @@ define([
       this.updateSusanCounters();
       // this.setupTour();
       this.inherited(arguments);
+      // Create a new div for "anytime" buttons
+      dojo.place("<div id='anytimeActions' style='display:inline-block'></div>", $('customActions'), 'after');
     },
 
     onLoadingComplete() {

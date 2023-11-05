@@ -88,6 +88,17 @@
         justify-content: center;
     }
 
+    .card-effect {
+        position: absolute;
+        font-family: "HemiHead";
+        top: 181px;
+        left: 62px;
+        width: 160px;
+        font-size: 11px;
+        color: white;
+        height: 78px;
+    }
+
     &[data-id="29"],
     &[data-id="30"],
     &[data-id="31"],
