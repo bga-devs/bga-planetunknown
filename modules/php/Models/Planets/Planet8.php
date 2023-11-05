@@ -6,7 +6,7 @@ class Planet8 extends \PU\Models\Planet
 {
   protected $id = '8';
   protected $columnMedals = [3, 2, 2, 1, 1, 1, 1, 1, 1, 2, 2, 3];
-  protected $rowMedals = [3, 3, 1, 1, 1, 0, 0, 1, 1, 1, 3, 3];
+  protected $rowMedals = [3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3];
   protected $level = 3;
   protected $terrains = [
     [ICE, ICE, ICE, LAND, LAND, LAND, LAND, LAND, LAND, ICE, ICE, ICE],
