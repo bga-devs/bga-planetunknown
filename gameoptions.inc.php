@@ -58,13 +58,13 @@ $game_options = [
       OPTION_EVENT_CARDS_GAME => [
         'name' => totranslate('On'),
         'description' => totranslate('With event cards'),
-        'tmdisplay' => totranslate('On'),
+        'tmdisplay' => totranslate('Event cards'),
         'alpha' => true,
       ],
       OPTION_NO_EVENT_CARDS_GAME => [
         'name' => totranslate('Off'),
         'description' => totranslate('Without event cards'),
-        'tmdisplay' => totranslate('Off'),
+        'tmdisplay' => totranslate('No event cards'),
       ],
     ],
     'default' => OPTION_NO_EVENT_CARDS_GAME,
@@ -83,12 +83,12 @@ $game_options = [
       OPTION_PRIVATE_OBJECTIVE_CARDS_GAME => [
         'name' => totranslate('On'),
         'description' => totranslate('With private objective cards'),
-        'tmdisplay' => totranslate('On'),
+        'tmdisplay' => totranslate('Private objectives'),
       ],
       OPTION_NO_PRIVATE_OBJECTIVE_CARDS_GAME => [
         'name' => totranslate('Off'),
         'description' => totranslate('Without private objective cards'),
-        'tmdisplay' => totranslate('Off'),
+        'tmdisplay' => totranslate('No private objectives'),
       ],
     ],
     'default' => OPTION_NO_PRIVATE_OBJECTIVE_CARDS_GAME,
