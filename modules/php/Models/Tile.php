@@ -52,6 +52,10 @@ class Tile extends \PU\Helpers\DB_Model
 
   public function getSymbolsForDiscardedTile()
   {
+    if ($this->isBiomassPatch()) {
+      return [];
+    }
+
     $datas = $this->getData();
     $result = [];
     foreach ($datas as $cell) {

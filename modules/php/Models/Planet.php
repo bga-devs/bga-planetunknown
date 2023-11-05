@@ -423,7 +423,8 @@ class Planet
   public function getPlacementOptionsCachedDatas()
   {
     if (is_null($this->checkingCells)) {
-      $this->checkingCells = $this->tiles->empty() ? $this->getInitialPlacementCells() : $this->getConnectedCells(false);
+      $isEmpty = $this->tiles->whereNot('location', 'pending')->empty();
+      $this->checkingCells = $isEmpty ? $this->getInitialPlacementCells() : $this->getConnectedCells(false);
     }
     if (is_null($this->freeCells)) {
       $cells = self::getListOfCells();
@@ -463,8 +464,8 @@ class Planet
     foreach ($freeCells as $pos) {
       $rotations = [];
       // Compute which rotations are valid
-      for ($rotation = 0; $rotation < 4; $rotation++) {
-        foreach ([false, true] as $flipped) {
+      for ($rotation = 0; $rotation < ($tile->isBiomassPatch() ? 1 : 4); $rotation++) {
+        foreach ($tile->isBiomassPatch() ? [false] : [false, true] as $flipped) {
           $cells = self::getCoveredCells($tileType, $pos, $rotation, $flipped);
           // Are all the cells valid to build upon ?
           if ($cells === false) {
@@ -477,7 +478,7 @@ class Planet
             }
 
             // EVENTS (not for biomass patch)
-            if ($tile->getType() != BIOMASS_PATCH) {
+            if ($tile->getType() !== BIOMASS_PATCH) {
               if ($specialRule == CANNOT_PLACE_ON_EDGE && $this->isIntersectionNonEmpty($cells, $border)) {
                 continue;
               }

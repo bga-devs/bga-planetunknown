@@ -81,7 +81,8 @@ trait DebugTrait
 
   function engProceed()
   {
-    Engine::proceed();
+    $pId = Players::getCurrentId();
+    Engine::proceed($pId);
   }
 
   /*

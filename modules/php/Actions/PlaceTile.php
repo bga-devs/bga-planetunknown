@@ -147,6 +147,11 @@ class PlaceTile extends \PU\Models\Action
     $tiles = $args['tiles'];
     $tileOptions = $tiles[$tileId] ?? null;
 
+    if (!is_array($tileOptions)) {
+      var_dump($this->getPlayableTiles($player));
+      var_dump($player->getId(), $tileOptions, $pos, $rotation, $flipped);
+      die('test');
+    }
     if (is_null($tileOptions)) {
       throw new \BgaVisibleSystemException('You cannot place that tile. Should not happen ' . $tileId);
     }
