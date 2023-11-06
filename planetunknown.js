@@ -159,6 +159,17 @@ define([
 
         //////////////////////
         /////// OTHER ////////
+        depotIndicator: {
+          default: 1,
+          name: _('Personal depot indicator'),
+          type: 'select',
+          attribute: 'depot-indicator',
+          values: {
+            0: _('At the top'),
+            1: _('At the bottom'),
+          },
+          section: 'other',
+        },
       };
     },
 
@@ -1613,12 +1624,17 @@ define([
     },
 
     rotateSusan() {
-      let rotation = -this.gamedatas.susan.rotation + (this._baseRotation || 0);
+      let depotIndicator = (this.settings ? this.settings.depotIndicator : 0) * 3;
+      let rotation = -this.gamedatas.susan.rotation + (this._baseRotation || 0) + depotIndicator;
       $('susan-exterior').style.transform = `rotate(${60 * rotation}deg)`;
 
       let modRotation = ((-rotation % 6) + 6) % 6;
       $('susan-exterior').dataset.rotation = modRotation;
       $('susan-interior').dataset.rotation = (modRotation + this.gamedatas.susan.shift) % 6;
+    },
+
+    onChangeDepotIndicatorSetting(v) {
+      this.rotateSusan();
     },
 
     updatePlayerOrdering() {
