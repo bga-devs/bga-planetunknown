@@ -282,7 +282,7 @@ $machinestates = [
   ST_TAKE_CIV_CARD => [
     'name' => TAKE_CIV_CARD,
     'descriptionmyturn' => clienttranslate('${you} must take a civ card from the deck ${level}'),
-    'descriptionmyturnalldeck' => clienttranslate('${you} must take 2 civ cards in the remaining cards from all decks'),
+    'descriptionmyturnall' => clienttranslate('${you} must take 2 civ cards in the remaining cards from all decks'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',
@@ -393,7 +393,7 @@ $machinestates = [
 
   ST_PLACE_MEEPLE => [
     'name' => PLACE_MEEPLE,
-    'descriptionmyturn' => clienttranslate('${you} must place 1 ${type} on your planet'),
+    'descriptionmyturn' => clienttranslate('${you} must place 1 ${meeple_type_name} on your planet'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',

@@ -28,7 +28,6 @@ class PlaceMeeple extends \PU\Models\Action
 
   public function isOptional()
   {
-
     return !$this->isDoable($this->getPlayer());
   }
 
@@ -54,7 +53,7 @@ class PlaceMeeple extends \PU\Models\Action
         break;
     }
 
-    return array_map(fn ($cell) => Planet::getCellId($cell), $possibleCells);
+    return array_map(fn($cell) => Planet::getCellId($cell), $possibleCells);
   }
 
   public function argsPlaceMeeple()
@@ -64,8 +63,8 @@ class PlaceMeeple extends \PU\Models\Action
     return [
       'spaceIds' => $this->getPossibleSpaceIds($player),
       'type' => $this->getType(),
-      'type_name' => Meeples::getTranslatableType($this->getType()),
-      'i18n' => ['type_name']
+      'meeple_type_name' => Meeples::getTranslatableType($this->getType()),
+      'i18n' => ['meeple_type_name'],
     ];
   }
 
@@ -84,7 +83,7 @@ class PlaceMeeple extends \PU\Models\Action
         $meeple = Meeples::addMeteor($player, $cell);
         Notifications::placeMeeple($player, $args['type'], $meeple);
 
-        //TODO is it possible to place directly on a rover ??
+      //TODO is it possible to place directly on a rover ??
     }
   }
 }

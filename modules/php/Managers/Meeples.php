@@ -35,8 +35,8 @@ class Meeples extends \PU\Helpers\CachedPieces
   {
     return $type
       ? static::getAll()
-      ->where('pId', $player->getId())
-      ->where('type', $type)
+        ->where('pId', $player->getId())
+        ->where('type', $type)
       : static::getAll()->where('pId', $player->getId());
   }
 
@@ -111,9 +111,12 @@ class Meeples extends \PU\Helpers\CachedPieces
         //should never happen
         return clienttranslate('meeple(s)');
     }
+
+    // Code just for the parsing script
+    $str = [clienttranslate('lifepod'), clienttranslate('meteor')];
   }
 
-  ////////////////////////////////////
+  //////////////////////////////////////
   //  ____       _
   // / ___|  ___| |_ _   _ _ __
   // \___ \ / _ \ __| | | | '_ \
