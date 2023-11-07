@@ -265,6 +265,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         <div class='lifepod-reserve' id='lifepod-reserve-${pId}'></div>
         <div class='biomass-patch-holder' id='biomass-reserve-${pId}'></div>
         <div class='corporation-desc' id='corporation-${pId}-desc'>${_(corpo.desc)}</div>
+        <div class='per-meteor-text'>${_('/ 3 Meteorites')}</div>
       </div>`;
       this.registerCustomTooltip(`<h4>${_(corpo.name)}</h4><p>${_(corpo.desc)}</p>`, `corporation-${pId}-desc`);
       return content;

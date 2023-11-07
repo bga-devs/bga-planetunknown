@@ -1903,6 +1903,12 @@ html {
           position: relative;
           background-image: url("img/corporations.jpg");
           background-size: 500% 200%; }
+          .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .per-meteor-text {
+            position: absolute;
+            left: 200px;
+            top: 200px;
+            font-family: "HemiHead";
+            color: gold; }
           .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation[data-id="0"] {
             background-position-x: 0%;
             background-position-y: 0%; }
