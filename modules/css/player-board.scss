@@ -275,6 +275,16 @@ $planetGridHeight: 12 * $cellHeight;
                     background-image: url("img/corporations.jpg");
                     background-size: 500% 200%;
 
+                    .per-meteor-text {
+                        position: absolute;
+                        left: 372px;
+                        top: 123px;
+                        font-family: "HemiHead";
+                        color: #db9002;
+                        font-variant: small-caps;
+                        font-size: 13px;
+                    }
+
                     @for $i from 0 to 10 {
                         &[data-id="#{$i}"] {
                             background-position-x: ($i % 5) * 100% / 4;

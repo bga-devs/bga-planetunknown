@@ -30,15 +30,13 @@ class TakeCivCard extends \PU\Models\Action
   public function getDescription()
   {
     $lvl = $this->getLevel();
-    return $lvl == 'all'
-      ? clienttranslate('Take one civ card')
-      : [
-        'log' => clienttranslate('Take ${n} civ card of level ${lvl}'),
-        'args' => [
-          'n' => $this->getN(),
-          'lvl' => $lvl,
-        ],
-      ];
+    return [
+      'log' => $lvl == 'all' ? clienttranslate('Take ${n} civ card(s)') : clienttranslate('Take ${n} civ card of level ${lvl}'),
+      'args' => [
+        'n' => $this->getN(),
+        'lvl' => $lvl,
+      ],
+    ];
   }
 
   public function getLevel()

@@ -1180,20 +1180,48 @@ define([
         autoShow: true,
       });
 
-      let selectedCard = null;
+      let nbr = args.n;
+      let selectedCards = [];
       Object.values(args.cards).forEach((card) => {
         this.addCard(card, 'planetunknown-choose-card');
         this.onClick(`card-${card.id}`, () => {
-          if (selectedCard) $(`card-${selectedCard}`).classList.remove('selected');
-          selectedCard = card.id;
-          $(`card-${selectedCard}`).classList.add('selected');
+          if (nbr == 1) {
+            selectedCards.forEach((cardId) => $(`card-${cardId}`).classList.remove('selected'));
+            selectedCards = [];
+          }
 
-          this.addPrimaryActionButton(
-            'btnConfirm',
-            _('Confirm'),
-            () => this.takeAtomicAction('actTakeCivCard', [selectedCard]),
-            'planetunknown-choose-card-footer'
-          );
+          let index = selectedCards.indexOf(card.id);
+          if (index === -1) {
+            if (selectedCards.length >= nbr) return;
+
+            selectedCards.push(card.id);
+            $(`card-${card.id}`).classList.add('selected');
+          } else {
+            selectedCards.splice(index, 1);
+            $(`card-${card.id}`).classList.remove('selected');
+          }
+
+          if (selectedCards.length == nbr) {
+            this.addPrimaryActionButton(
+              'btnConfirm',
+              _('Confirm'),
+              () => this.takeAtomicAction('actTakeCivCard', [selectedCards]),
+              'planetunknown-choose-card-footer'
+            );
+          } else if ($('btnConfirm')) $('btnConfirm').remove();
+
+          if (selectedCards.length > 0 && nbr > 1) {
+            this.addSecondaryActionButton(
+              'btnCancel',
+              _('Cancel'),
+              () => {
+                selectedCards.forEach((cardId) => $(`card-${cardId}`).classList.remove('selected'));
+                selectedCards = [];
+                $('btnCancel').remove();
+              },
+              'planetunknown-choose-card-footer'
+            );
+          } else if ($('btnCancel')) $('btnCancel').remove();
         });
       });
 

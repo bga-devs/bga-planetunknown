@@ -123,6 +123,9 @@ class Corporation8 extends Corporation
     $dy = $n > 0 ? 1 : -1;
     $x = $trackPawn->getX();
     $y = $trackPawn->getY() + $n;
+    if ($this->isTrackerOnTop(BIOMASS) && $this->player->hasTech(TECH_WORMHOLE_RESET_BIOMASS) && $n > 0) {
+      $y = $n;
+    }
 
     // First find the next SKIP
     while (!$this->isOrIn($this->tracks[$type][$y] ?? '', SKIP)) {

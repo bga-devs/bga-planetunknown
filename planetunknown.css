@@ -1903,6 +1903,14 @@ html {
           position: relative;
           background-image: url("img/corporations.jpg");
           background-size: 500% 200%; }
+          .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .per-meteor-text {
+            position: absolute;
+            left: 372px;
+            top: 123px;
+            font-family: "HemiHead";
+            color: #db9002;
+            font-variant: small-caps;
+            font-size: 13px; }
           .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation[data-id="0"] {
             background-position-x: 0%;
             background-position-y: 0%; }
@@ -2135,7 +2143,7 @@ html {
   justify-content: center;
   align-items: center;
   pointer-events: none;
-  z-index: 12; }
+  z-index: 20; }
   #tile-controls.inactive, [data-rotation-arrows="1"] #tile-controls, [data-rotation-arrows="2"] #tile-controls {
     display: none; }
   #tile-controls #tile-controls-circle {

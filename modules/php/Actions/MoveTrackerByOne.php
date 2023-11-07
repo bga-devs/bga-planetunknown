@@ -55,7 +55,13 @@ class MoveTrackerByOne extends \PU\Models\Action
 
   public function isOptional()
   {
-    return !$this->isDoable($this->getPlayer());
+    $player = $this->getPlayer();
+    return !$this->isDoable($player) ||
+      // WEIRD EDGE CASE FOR WORMHOLE
+      ($this->getType() == BIOMASS &&
+        $this->getN() > 0 &&
+        $player->hasTech(TECH_WORMHOLE_RESET_BIOMASS) &&
+        $player->corporation()->isTrackerOnTop(BIOMASS));
   }
 
   public function getDescription()

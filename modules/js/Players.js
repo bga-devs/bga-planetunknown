@@ -223,15 +223,15 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
             planetGrid += `<div class='planet-grid-cell-overlay ${className}' style='${style}'></div>`;
         }
       }
+      planetGrid += `<div class='planet-ability' id='planet-${pId}-ability'>
+        <h4 class='player-name'>${_(planet.name)}</h4>
+        <div class='planet-desc'>${_(planet.desc)}</div>
+      </div>`;
       planetGrid += '</div>';
 
       let content = `<div class='planet' data-id='${planet.id}' id='planet-${pId}'>
         <div class='pending-tiles'></div>
         ${planetGrid}
-        <div class='planet-ability' id='planet-${pId}-ability'>
-          <h4 class='player-name'>${_(planet.name)}</h4>
-          <div class='planet-desc'>${_(planet.desc)}</div>
-        </div>
       </div>`;
       this.registerCustomTooltip(`<h4>${_(planet.name)}</h4><p>${_(planet.desc)}</p>`, `planet-${pId}-ability`);
 
@@ -265,6 +265,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         <div class='lifepod-reserve' id='lifepod-reserve-${pId}'></div>
         <div class='biomass-patch-holder' id='biomass-reserve-${pId}'></div>
         <div class='corporation-desc' id='corporation-${pId}-desc'>${_(corpo.desc)}</div>
+        <div class='per-meteor-text'>${_('/ 3 Meteorites')}</div>
       </div>`;
       this.registerCustomTooltip(`<h4>${_(corpo.name)}</h4><p>${_(corpo.desc)}</p>`, `corporation-${pId}-desc`);
       return content;
