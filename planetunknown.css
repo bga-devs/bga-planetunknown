@@ -2135,7 +2135,7 @@ html {
   justify-content: center;
   align-items: center;
   pointer-events: none;
-  z-index: 12; }
+  z-index: 20; }
   #tile-controls.inactive, [data-rotation-arrows="1"] #tile-controls, [data-rotation-arrows="2"] #tile-controls {
     display: none; }
   #tile-controls #tile-controls-circle {
