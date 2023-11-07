@@ -973,7 +973,7 @@ define([
         let offsetH = cross.offsetTop + cross.offsetHeight / 2;
         let dx = Math.max(offsetW, w - offsetW);
         let dy = Math.max(offsetH, h - offsetH);
-        let radius = Math.sqrt(dx * dx + dy * dy) + 60;
+        let radius = Math.sqrt(dx * dx + dy * dy) + 10;
         $('tile-controls-circle').style.width = 2 * radius + 'px';
         $('tile-controls-circle').style.height = 2 * radius + 'px';
 

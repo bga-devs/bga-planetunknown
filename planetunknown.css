@@ -1905,10 +1905,12 @@ html {
           background-size: 500% 200%; }
           .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation .per-meteor-text {
             position: absolute;
-            left: 200px;
-            top: 200px;
+            left: 372px;
+            top: 123px;
             font-family: "HemiHead";
-            color: gold; }
+            color: #db9002;
+            font-variant: small-caps;
+            font-size: 13px; }
           .pu-player-board-wrapper .pu-player-board-resizable .pu-player-board-fixed-size .pu-player-board-corporation .corporation[data-id="0"] {
             background-position-x: 0%;
             background-position-y: 0%; }
