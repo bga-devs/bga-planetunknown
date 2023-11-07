@@ -45,6 +45,7 @@ class LeafNode extends AbstractNode
     if (parent::isOptional() || !isset($this->infos['action'])) {
       return parent::isOptional();
     }
+
     return Actions::get($this->infos['action'], $this)->isOptional();
   }
 

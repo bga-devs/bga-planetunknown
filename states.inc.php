@@ -272,6 +272,7 @@ $machinestates = [
   ST_MOVE_TRACKER_BY_ONE => [
     'name' => 'moveTrackerByOne',
     'descriptionmyturn' => clienttranslate('${you} must move your tracker ${type} by one'),
+    'descriptionmyturnskippable' => clienttranslate('${you} may move your tracker ${type} by one'),
     'type' => 'private',
     'args' => 'argsAtomicAction',
     'action' => 'stAtomicAction',

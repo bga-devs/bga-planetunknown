@@ -215,6 +215,7 @@ class Engine
     // If node with choice, switch to choice state
     $choices = $node->getChoices($player);
     $allChoices = $node->getChoices($player, true);
+
     if (!empty($allChoices) && $node->getType() != NODE_LEAF) {
       // Only one choice : auto choose
       $id = array_keys($choices)[0] ?? null;
@@ -360,12 +361,11 @@ class Engine
       else {
         $node2 = self::buildTree([
           'type' => NODE_SEQ,
-          'childs' => [$t->toArray()],
+          'childs' => [$node->toArray()],
         ]);
         $parent = $node->replace($node2);
         $index = -1;
         $parent->insertChildAtPos(self::buildTree($t), $index);
-        die('NOT TESTED : INSERT BEFORE CURRENT');
       }
     }
 
