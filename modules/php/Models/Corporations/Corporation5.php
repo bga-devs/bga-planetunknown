@@ -63,6 +63,9 @@ class Corporation5 extends Corporation
 
   public function moveRoverBy($n)
   {
+    if (!$this->canUse(TECH_PLUS_1_ROVER_IF_MULTIPLE_TRACKERS)) {
+      return $n;
+    }
     $nTrackersOnRover = 0;
     foreach (ALL_TYPES as $type) {
       $trackPawn = $this->player->getTracker($type);

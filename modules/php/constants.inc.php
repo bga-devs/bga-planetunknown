@@ -198,9 +198,9 @@ const FORBIDDEN_TERRAINS = [
 const ADD_ROVER = 'addRover';
 const ONLY_ONE_MOVE_TRACKER = 'onlyOneMoveTracker';
 const CANNOT_PLACE_ON_EDGE = 'cannotPlaceOnEdge';
-const NO_MILESTONE = 'noMilestone'; //TODO
+const NO_MILESTONE = 'noMilestone';
 const NO_MATCHING_TERRAINS = 'noMatchingTerrains';
-const CANNOT_PLACE_ON_ICE = 'cannotPlaceOnIce'; //TODOTissac
+const CANNOT_PLACE_ON_ICE = 'cannotPlaceOnIce';
 const NO_SYNERGY = 'noSynergy';
 
 /*
