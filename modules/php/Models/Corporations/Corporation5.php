@@ -27,7 +27,7 @@ class Corporation5 extends Corporation
         'text' => clienttranslate('Regress any one tracker. Once per round.'),
       ],
       5 => [
-        'text' => clienttranslate('Scoring each tracker as the highest scoring tracker on the track it occupies.'),
+        'text' => clienttranslate('Score each tracker as the highest scoring tracker on the track it occupies.'),
       ],
     ];
     parent::__construct($player);
