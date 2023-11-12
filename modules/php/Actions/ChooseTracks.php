@@ -27,16 +27,28 @@ class ChooseTracks extends \PU\Models\Action
 
   public function isDoable($player)
   {
-    return !empty($this->getChoosableTypes($player));
+    return !empty($this->getChoosableTypesAndMove($player)[0]);
   }
 
-  public function getChoosableTypes($player = null)
+
+  //return choosableTypes AND move that can be downgraded if needed (the max possible move downward)
+  public function getChoosableTypesAndMove($player = null)
   {
     $player = $player ?? $this->getPlayer();
     $move = $this->getMove();
-    $types = $this->getTypes();
-    Utils::filter($types, fn ($type) => $player->corporation()->canMoveTrack($type, $move));
-    return $types;
+    if ($move > 0) {
+      $types = $this->getTypes();
+      Utils::filter($types, fn ($type) => $player->corporation()->canMoveTrack($type, $move));
+    } else {
+      for ($m = $move; $move < 0; $m++) {
+        $types = $this->getTypes();
+        Utils::filter($types, fn ($type) => $player->corporation()->canMoveTrack($type, $m));
+        if (!empty($types)) {
+          return [$types, $m];
+        }
+      }
+    }
+    return [$types, $move];
   }
 
   //n is the nb of tracks to choose
@@ -53,7 +65,7 @@ class ChooseTracks extends \PU\Models\Action
 
   public function getWithBonus()
   {
-    return $this->getCtxArg('withBonus') ?? true;
+    return $this->getCtxArg('withBonus') ?? ($this->getMove() > 0);
   }
 
   public function getFrom()
@@ -99,13 +111,13 @@ class ChooseTracks extends \PU\Models\Action
 
   public function argsChooseTracks()
   {
-    $choosableTypes = $this->getChoosableTypes();
-    $m = $this->getMove();
+    [$choosableTypes, $m] = $this->getChoosableTypesAndMove();
 
     return [
       'types' => $this->getTypes(),
       'choosableTypes' => $choosableTypes,
       'n' => min($this->getN(), count($choosableTypes)), //if you can't move N types, you don't HAVE TO, just do your best
+      'm' => $m,
       'descSuffix' => $m < 0 ? 'regress' : '',
       'from' => $this->getFrom(),
       'source' => $this->ctx->getSource(),
@@ -153,7 +165,7 @@ class ChooseTracks extends \PU\Models\Action
       } else {
         $this->pushParallelChild([
           'action' => MOVE_TRACK,
-          'args' => ['type' => $type, 'n' => $this->getMove(), 'withBonus' => $this->getWithBonus()],
+          'args' => ['type' => $type, 'n' => $args['m'], 'withBonus' => $this->getWithBonus()],
         ]);
       }
     }

@@ -147,9 +147,7 @@ trait TurnTrait
 
         if ($this->getGameProgression() < 50) {
           $name = $player->getName();
-          die(
-            "The end of game would be triggered in the next round because $name wont be able to place any tile. Since the overall progression is low, this might be a bug. If indeed THIS IS NOT SUPPOSED to trigger end of game, please create a NEW bug report linked to that table so we can find what the issue is. Otherwise, please just wait AND DONT CREATE ANY BUG REPORT."
-          );
+          die("The end of game would be triggered in the next round because $name wont be able to place any tile. Since the overall progression is low, this might be a bug. If indeed THIS IS NOT SUPPOSED to trigger end of game, please create a NEW bug report linked to that table so we can find what the issue is. Otherwise, please just wait AND DONT CREATE ANY BUG REPORT.");
         }
       }
 

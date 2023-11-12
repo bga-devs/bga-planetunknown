@@ -2,6 +2,8 @@
 
 namespace PU\Models\Corporations;
 
+use PU\Managers\Meeples;
+
 class Corporation5 extends Corporation
 {
   public function __construct($player)
@@ -27,7 +29,7 @@ class Corporation5 extends Corporation
         'text' => clienttranslate('Regress any one tracker. Once per round.'),
       ],
       5 => [
-        'text' => clienttranslate('Scoring each tracker as the highest scoring tracker on the track it occupies.'),
+        'text' => clienttranslate('Score each tracker as the highest scoring tracker on the track it occupies.'),
       ],
     ];
     parent::__construct($player);
@@ -63,6 +65,9 @@ class Corporation5 extends Corporation
 
   public function moveRoverBy($n)
   {
+    if (!$this->canUse(TECH_PLUS_1_ROVER_IF_MULTIPLE_TRACKERS)) {
+      return $n;
+    }
     $nTrackersOnRover = 0;
     foreach (ALL_TYPES as $type) {
       $trackPawn = $this->player->getTracker($type);
@@ -87,6 +92,7 @@ class Corporation5 extends Corporation
           'types' => ALL_TYPES,
           'n' => 1,
           'move' => -1,
+          'from' => clienttranslate('corporation tech')
         ],
         'source' => $this->name,
         'flag' => TECH_REGRESS_TRACKER,
@@ -139,6 +145,26 @@ class Corporation5 extends Corporation
     }
 
     return $spaces;
+  }
+
+  public function canMoveTrack($type, $n)
+  {
+    //for negative move be sure it's fully possible
+    if ($n < 0) {
+      $tracker = $this->player->getTracker($type);
+      //if it can regress
+      if ($tracker->getY() + $n >= 0) {
+        //check if there is nothing under it
+        return Meeples::getOfPlayer($this->player)
+          ->where('location', 'corporation')
+          ->where('x', $tracker->getX())
+          ->where('y', range($tracker->getY() - 1, $tracker->getY() + $n))
+          ->count() == 0;
+      } else return false;
+    } else {
+      //for positive progression
+      return !$this->isTrackerOnTop($type) || $type == ROVER;
+    }
   }
 
   public function getLevelOnTrack($type)
