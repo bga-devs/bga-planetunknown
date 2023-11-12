@@ -100,6 +100,11 @@ class Planet12 extends \PU\Models\Planet
       $cells = array_merge($this->getCellsOfType(CIV), $cells);
     }
 
+    if ($this->player->corporation()->canUse(TECH_TELEPORT_ROVER_SAME_TERRAIN_ONCE_PER_ROUND)) {
+      $tileType = $this->getTypeAtPos($cell);
+      $cells = array_merge($this->getCellsOfType($tileType), $cells);
+    }
+
     return $cells;
   }
 }
