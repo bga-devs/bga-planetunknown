@@ -92,7 +92,7 @@ class Corporation5 extends Corporation
           'types' => ALL_TYPES,
           'n' => 1,
           'move' => -1,
-          'from' => clienttranslate('corporation tech')
+          'from' => clienttranslate('corporation tech'),
         ],
         'source' => $this->name,
         'flag' => TECH_REGRESS_TRACKER,
@@ -160,10 +160,12 @@ class Corporation5 extends Corporation
           ->where('x', $tracker->getX())
           ->where('y', range($tracker->getY() - 1, $tracker->getY() + $n))
           ->count() == 0;
-      } else return false;
+      } else {
+        return false;
+      }
     } else {
       //for positive progression
-      return !$this->isTrackerOnTop($type) || $type == ROVER;
+      return !empty($this->getNextSpaceIds($type, $n)) || $type == ROVER;
     }
   }
 
