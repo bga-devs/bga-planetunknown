@@ -423,7 +423,10 @@ class Planet
   public function getPlacementOptionsCachedDatas()
   {
     if (is_null($this->checkingCells)) {
-      $isEmpty = $this->tiles->whereNot('location', 'pending')->empty();
+      $isEmpty = $this->tiles
+        ->whereNot('location', 'pending')
+        ->whereNot('location', 'corporation')
+        ->empty();
       $this->checkingCells = $isEmpty ? $this->getInitialPlacementCells() : $this->getConnectedCells(false);
     }
     if (is_null($this->freeCells)) {

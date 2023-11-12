@@ -78,7 +78,6 @@ Q6] Planet Oblivion : where are you allowed to place the first tile ? Because fo
 A6] There is an issue with the BGG FAQ which I've been meaning to intercept.  
 Perimeter means the external border, and not the internal border.  
 For oblivion, the perimeter objectives would function the same as other planets, but there are many many more perimeter grid spaces possible giving a slight advantage to these objectives on a very challenging planet.
-TODO: fix it
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -140,14 +139,15 @@ Q13] What does this tech mean exactly : "You may treat a tech resource as energy
   => does that mean that tech resource is treated as energy when you compute the types ajacent to the energy zone when you place a tile with energy ?
   => or does that mean that when you place a tile with tech, you can choose to either advance tech, or to consider the tile as having energy and thus compute the adajcent types to offer track progression correspondingly ?
 
-A13]
+A13] If the tech is active and you're placing a tile with a tech resource, you may treat the tech resource the terrain underneath on this tile as an energy resource instead (and energy terrain underneath it).  
+    For example, my Tech / Rover tile could choose rover and rover as advancements, or whatever the Tech terrain is adjacent to (with normal terrain area extension if adjacent to energy terrain).
 
 
 ////////////////////////////////////////////////////////////////////////////////////
 
 Q14] Does JumpDrive also allow you to reposition the collected lifepods you get with a CIV card or an event card or only the lifepods collected by your rover ?
 
-A14]
+A14] Lifepods collected (via rover or civ card) can be placed to unlock tech.  The key here is the word collect or collected.
 
 ////////////////////////////////////////////////////////////////////////////////////
 

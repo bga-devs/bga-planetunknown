@@ -95,7 +95,7 @@ class Actions
   {
     $player = self::getPlayer($ctx);
     if (!self::isDoable($actionId, $ctx, $player)) {
-      throw new \BgaUserException(self::getErrorMessage($actionId));
+      throw new \BgaUserException(self::getErrorMessage($actionId) . ' / ' . $actionName . ' / ' . var_export($args, true));
     }
 
     // Check action
