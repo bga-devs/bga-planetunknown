@@ -295,6 +295,10 @@ define(['dojo', 'dojo/_base/declare'], (dojo, declare) => {
         Object.values(player.playedCiv).forEach((card) => {
           this.addCard(card, `cards-${player.id}`);
         });
+
+        Object.values(player.playedObj).forEach((card) => {
+          this.addCard(card, `private-objectives-${player.id}`);
+        });
       });
 
       this.updatePlayersCounters();

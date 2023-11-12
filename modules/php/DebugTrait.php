@@ -70,7 +70,10 @@ trait DebugTrait
 
   function flagGameEnded()
   {
+    $mode = Globals::getMode();
+    Globals::setMode(MODE_APPLY);
     Globals::setGameEndTriggered(true);
+    Globals::setMode($mode);
   }
 
   function resetEngine()
