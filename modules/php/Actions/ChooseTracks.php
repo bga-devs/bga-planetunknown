@@ -40,7 +40,7 @@ class ChooseTracks extends \PU\Models\Action
       $types = $this->getTypes();
       Utils::filter($types, fn ($type) => $player->corporation()->canMoveTrack($type, $move));
     } else {
-      for ($m = $move; $move < 0; $m++) {
+      for ($m = $move; $m < 0; $m++) {
         $types = $this->getTypes();
         Utils::filter($types, fn ($type) => $player->corporation()->canMoveTrack($type, $m));
         if (!empty($types)) {

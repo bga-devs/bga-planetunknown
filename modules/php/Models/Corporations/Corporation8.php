@@ -108,6 +108,28 @@ class Corporation8 extends Corporation
     return count($this->tracks[$type]) <= $this->getLevelOnTrack($type) + $n;
   }
 
+
+  public function canMoveTrack($type, $n)
+  {
+    if ($type != BIOMASS) {
+      return parent::canMoveTrack($type, $n);
+    }
+
+    //for negative move be sure it's fully possible
+    if ($n < 0) {
+      $count = 0;
+      for ($i = 0; $i < $this->getLevelOnTrack(BIOMASS); $i++) {
+        if ($this->isOrIn($this->tracks[BIOMASS][$i], SKIP)) {
+          $count++;
+        }
+      }
+      return (abs($n) <= $count);
+    } else {
+      //for positive progression
+      return !$this->isTrackerOnTop($type) || $type == ROVER;
+    }
+  }
+
   /**
    * Return an array of all cells this TYPE tracker can reach with a N move.
    * @return Array of CellIDs ('x_y')
@@ -130,7 +152,9 @@ class Corporation8 extends Corporation
     // First find the next SKIP
     while (!$this->isOrIn($this->tracks[$type][$y] ?? '', SKIP)) {
       $y += $dy;
+      if ($y < 0 || $y >= count($this->tracks[$type])) break;
     }
+
     // Then move one more step
     $y += $dy;
 
@@ -143,7 +167,10 @@ class Corporation8 extends Corporation
     $spaces = [];
     $spaces[] = $x . '_' . $y;
     $y += $dy;
-    $spaces[] = $x . '_' . $y;
+    //except if $y was at 0;
+    if ($y >= 0) {
+      $spaces[] = $x . '_' . $y;
+    }
     return $spaces;
   }
 }
