@@ -307,7 +307,7 @@ class Corporation
   {
     $pId = $this->player->getId();
     $flags = PGlobals::getFlags($pId);
-    return $flags[$flag];
+    return $flags[$flag] ?? 0;
   }
 
   public function resetFlags()

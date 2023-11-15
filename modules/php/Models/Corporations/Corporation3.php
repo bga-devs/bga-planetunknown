@@ -2,6 +2,8 @@
 
 namespace PU\Models\Corporations;
 
+use PU\Core\PGlobals;
+
 class Corporation3 extends Corporation
 {
   public function __construct($player)
@@ -61,24 +63,6 @@ class Corporation3 extends Corporation
   ];
   protected $level = 2;
 
-  /*
-  * Provides actions that are given at start of the turn
-  */
-  public function getStartingRoundActions()
-  {
-    $actions = [];
-
-    //TODO add
-    if ($this->canUse(TECH_GET_1_MOVE_CARRYING_METEOR)) {
-      $action = $this->get1MoveCarryingMeteor();
-      if (is_array($action)) {
-        $actions[] = $action;
-      }
-    }
-
-    return $actions;
-  }
-
   public function getAnytimeActions()
   {
     $actions = [];
@@ -95,11 +79,17 @@ class Corporation3 extends Corporation
       ];
     }
 
-    //TODO remove
     if ($this->canUse(TECH_GET_1_MOVE_CARRYING_METEOR)) {
-      $action = $this->get1MoveCarryingMeteor();
-      if (is_array($action)) {
-        $actions[] = $action;
+      $move = $this->getFlagValue(ROVER_CARRYING_METEOR_NUMBER);
+      if ($move) {
+        $actions[] = [
+          'action' => MOVE_ROVER,
+          'args' => [
+            'remaining' => $move,
+          ],
+          'source' => $this->name,
+          'flag' => TECH_GET_1_MOVE_CARRYING_METEOR
+        ];
       }
     }
 
@@ -116,15 +106,18 @@ class Corporation3 extends Corporation
       }
     }
 
-    if ($move > 0) {
-      return [
-        'action' => MOVE_ROVER,
-        'args' => [
-          'remaining' => $move,
-        ],
-        'source' => $this->name,
-        'flag' => TECH_GET_1_MOVE_CARRYING_METEOR
-      ];
+    return $move;
+  }
+
+
+
+  public function resetFlags()
+  {
+    $flags = PGlobals::getFlags($this->pId);
+    foreach ($this->flagsToReset as $flag) {
+      unset($flags[$flag]);
     }
+    $flags[ROVER_CARRYING_METEOR_NUMBER] = $this->get1MoveCarryingMeteor();
+    PGlobals::setFlags($this->pId, $flags);
   }
 }
