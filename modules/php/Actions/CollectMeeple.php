@@ -53,7 +53,7 @@ class CollectMeeple extends \PU\Models\Action
   public function getForcedMeeple()
   {
     $forcedMeeples = $this->getCtxArg('forcedMeeples');
-    return $forcedMeeples ? Tiles::getMany($forcedMeeples) : null;
+    return $forcedMeeples ? Meeples::getMany($forcedMeeples) : null;
   }
 
   public function getDescription()
@@ -75,7 +75,7 @@ class CollectMeeple extends \PU\Models\Action
 
   public function getCollectableMeeples($player)
   {
-    $meeples = $player->getMeeples($this->getType())->where('location', $this->getLocation());
+    $meeples = $this->getForcedMeeple() ?? $player->getMeeples($this->getType())->where('location', $this->getLocation());
     $spaceIds = [];
     foreach ($meeples as $meeple) {
       $spaceId = $meeple->getX() . '_' . $meeple->getY();
