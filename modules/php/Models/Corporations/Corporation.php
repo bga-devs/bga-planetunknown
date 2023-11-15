@@ -294,6 +294,22 @@ class Corporation
     PGlobals::setFlags($pId, $flags);
   }
 
+  //unused for now
+  public function addFlagValue($flag, $value)
+  {
+    $pId = $this->player->getId();
+    $flags = PGlobals::getFlags($pId);
+    $flags[$flag] = $value;
+    PGlobals::setFlags($pId, $flags);
+  }
+
+  public function getFlagValue($flag)
+  {
+    $pId = $this->player->getId();
+    $flags = PGlobals::getFlags($pId);
+    return $flags[$flag];
+  }
+
   public function resetFlags()
   {
     $flags = PGlobals::getFlags($this->pId);
