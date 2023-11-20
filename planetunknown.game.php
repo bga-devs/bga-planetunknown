@@ -274,6 +274,8 @@ class planetunknown extends Table
         $this->actConfirmTurn(true);
       } elseif ($stateName == 'confirmPartialTurn') {
         $this->actConfirmPartialTurn(true);
+      } elseif ($stateName == 'chooseRotation') {
+        $this->actChooseRotation(bga_rand(0, 5));
       }
       // Clear all node of player
       elseif (Engine::getNextUnresolved() != null) {
@@ -283,16 +285,8 @@ class planetunknown extends Table
         $this->gamestate->nextState('zombiePass');
       }
     } elseif ($state['type'] == 'multipleactiveplayer') {
-      if ($stateName == 'breakDiscard') {
-        $selection = Globals::getBreakDiscardSelection();
-        $selection[$activePlayer] = [];
-        Globals::setBreakDiscardSelection($selection);
-        $this->updateActivePlayersBreakDiscardSelection();
-      }
       // Make sure player is in a non blocking status for role turn
-      else {
-        $this->gamestate->setPlayerNonMultiactive($activePlayer, 'zombiePass');
-      }
+      $this->gamestate->setPlayerNonMultiactive($activePlayer, 'zombiePass');
     }
   }
 
