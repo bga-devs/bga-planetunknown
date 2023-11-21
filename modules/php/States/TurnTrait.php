@@ -99,7 +99,7 @@ trait TurnTrait
     if (is_array($effect)) {
       //if each player have special flow
       if (isset($effect['nestedFlows'])) {
-        Engine::multipleSetup($effect['nestedFlows'], ['method' => 'stEndOfEventTurn'], 'endOfTurn', $pIds);
+        Engine::multipleSetup($effect['nestedFlows'], ['method' => 'stEndOfEventTurn'], 'endOfTurn');
       } else {
         Engine::setup($effect, ['method' => 'stEndOfEventTurn'], 'endOfTurn', $pIds);
       }
@@ -113,8 +113,7 @@ trait TurnTrait
    */
   function stEndOfEventTurn()
   {
-    $this->gamestate->setAllPlayersMultiactive();
-    $this->gamestate->jumpToState(ST_START_TURN_ENGINE);
+    $this->initCivCardTurn(ST_START_TURN_ENGINE);
   }
 
   /////////////////////////////////////////////////////////////////
@@ -138,6 +137,7 @@ trait TurnTrait
 
     foreach ($players as $pId => $player) {
       $player->corporation()->resetFlags();
+      $player->emptyEndOfTurnActions(); //because it should have been used after the event card
 
       // Check if end of game is triggered or not
       if (!$endOfGameTriggered && !$player->canTakeAction(PLACE_TILE, [])) {
@@ -177,6 +177,11 @@ trait TurnTrait
     Susan::refill();
     Notifications::endOfTurn();
 
+    $this->initCivCardTurn(ST_END_TURN);
+  }
+
+  public function initCivCardTurn($nextState)
+  {
     // Compute the list of players with endOfTurn actions and wake themp up in turn order
     $order = [];
     $firstPlayer = Globals::getFirstPlayer();
@@ -188,7 +193,7 @@ trait TurnTrait
       $pId = Players::getNextId($pId);
     } while ($pId != $firstPlayer);
 
-    $this->initCustomTurnOrder('civCardTurn', $order, 'stChooseCivCard', ST_END_TURN);
+    $this->initCustomTurnOrder('civCardTurn', $order, 'stChooseCivCard', $nextState);
   }
 
   // Boot the engine for that single awaken player

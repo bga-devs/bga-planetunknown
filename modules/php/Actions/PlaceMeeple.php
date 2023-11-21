@@ -28,7 +28,9 @@ class PlaceMeeple extends \PU\Models\Action
 
   public function isOptional()
   {
-    return !$this->isDoable($this->getPlayer());
+    $player = $this->getPlayer();
+    if ($player->hasTech(TECH_NO_METEOR) && $this->getType() == METEOR) return true;
+    return !$this->isDoable($player);
   }
 
   public function getConstraint()
@@ -53,7 +55,7 @@ class PlaceMeeple extends \PU\Models\Action
         break;
     }
 
-    return array_map(fn($cell) => Planet::getCellId($cell), $possibleCells);
+    return array_map(fn ($cell) => Planet::getCellId($cell), $possibleCells);
   }
 
   public function argsPlaceMeeple()
@@ -83,7 +85,7 @@ class PlaceMeeple extends \PU\Models\Action
         $meeple = Meeples::addMeteor($player, $cell);
         Notifications::placeMeeple($player, $args['type'], $meeple);
 
-      //TODO is it possible to place directly on a rover ??
+        //TODO is it possible to place directly on a rover ??
     }
   }
 }
