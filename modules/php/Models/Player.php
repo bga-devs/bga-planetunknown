@@ -214,11 +214,11 @@ class Player extends \PU\Helpers\DB_Model
       if (in_array($contraint, array_keys(FORBIDDEN_TERRAINS))) {
         Utils::filter(
           $neighbours,
-          fn ($cell) => $this->planet->getVisible($cell['x'], $cell['y']) != FORBIDDEN_TERRAINS[$contraint]
+          fn($cell) => $this->planet->getVisible($cell['x'], $cell['y']) != FORBIDDEN_TERRAINS[$contraint]
         );
       }
 
-      $spaceIds[$roverId] = array_map(fn ($cell) => Planet::getCellId($cell), $neighbours);
+      $spaceIds[$roverId] = array_map(fn($cell) => Planet::getCellId($cell), $neighbours);
     }
 
     return $spaceIds;
@@ -273,7 +273,7 @@ class Player extends \PU\Helpers\DB_Model
 
   public function getStat($name)
   {
-    $name = 'get' . \ucfirst($name);
+    $name = 'get' . Utils::ucfirst($name);
     return Stats::$name($this->id);
   }
 
@@ -382,13 +382,12 @@ class Player extends \PU\Helpers\DB_Model
       Stats::saveStats($result, $this);
     }
 
-
     return $result;
   }
 
   public static function reduce_entries($array)
   {
-    return array_reduce($array['entries'], fn ($sum, $item) => $sum + (is_array($item) ? $item[0] : $item), 0);
+    return array_reduce($array['entries'], fn($sum, $item) => $sum + (is_array($item) ? $item[0] : $item), 0);
   }
 
   public function addEndOfTurnAction($flow)

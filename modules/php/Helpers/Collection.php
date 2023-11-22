@@ -1,5 +1,6 @@
 <?php
 namespace PU\Helpers;
+use Utils;
 
 class Collection extends \ArrayObject
 {
@@ -95,7 +96,7 @@ class Collection extends \ArrayObject
     return is_null($value)
       ? $this
       : $this->filter(function ($obj) use ($field, $value) {
-        $method = 'get' . ucfirst($field);
+        $method = 'get' . Utils::ucfirst($field);
         $objValue = $obj->$method();
         return is_array($value)
           ? in_array($objValue, $value)
@@ -110,7 +111,7 @@ class Collection extends \ArrayObject
     return is_null($value)
       ? $this
       : $this->filter(function ($obj) use ($field, $value) {
-        $method = 'get' . ucfirst($field);
+        $method = 'get' . Utils::ucfirst($field);
         $objValue = $obj->$method();
         return is_array($value)
           ? !in_array($objValue, $value)
@@ -123,7 +124,7 @@ class Collection extends \ArrayObject
   public function whereNull($field)
   {
     return $this->filter(function ($obj) use ($field) {
-      $method = 'get' . ucfirst($field);
+      $method = 'get' . Utils::ucfirst($field);
       $objValue = $obj->$method();
       return is_null($objValue);
     });
@@ -132,14 +133,14 @@ class Collection extends \ArrayObject
   public function orderBy($field, $asc = 'ASC')
   {
     return $this->order(function ($a, $b) use ($field, $asc) {
-      $method = 'get' . ucfirst($field);
+      $method = 'get' . Utils::ucfirst($field);
       return $asc == 'ASC' ? $a->$method() - $b->$method() : $b->$method() - $a->$method();
     });
   }
 
   public function update($field, $value)
   {
-    $method = 'set' . ucfirst($field);
+    $method = 'set' . Utils::ucfirst($field);
     foreach ($this->getArrayCopy() as $obj) {
       $obj->$method($value);
     }

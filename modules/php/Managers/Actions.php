@@ -7,6 +7,7 @@ use PU\Core\Engine;
 use PU\Core\Globals;
 use PU\Core\Notifications;
 use PU\Helpers\Log;
+use PU\Helpers\Utils;
 use PU\Managers\Players;
 
 /* Class to manage all the Actions */
@@ -68,7 +69,7 @@ class Actions
 
   public static function getErrorMessage($actionId)
   {
-    $actionId = ucfirst(mb_strtolower($actionId));
+    $actionId = Utils::ucfirst(mb_strtolower($actionId));
     $msg = sprintf(
       Game::get()::translate(
         'Attempting to take an action (%s) that is not possible. Either another card erroneously flagged this action as possible, or this action was possible until another card interfered.'

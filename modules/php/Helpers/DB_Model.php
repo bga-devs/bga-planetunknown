@@ -2,6 +2,7 @@
 namespace PU\Helpers;
 use PU\Core\Game;
 use PU\Core\Globals;
+use Utils;
 
 abstract class DB_Model extends \APP_DbObject implements \JsonSerializable
 {
@@ -166,7 +167,7 @@ abstract class DB_Model extends \APP_DbObject implements \JsonSerializable
       if (is_array($attribute)) {
         $attribute = $attribute[0];
       }
-      $getter = 'get' . ucfirst($attribute);
+      $getter = 'get' . Utils::ucfirst($attribute);
       $data[$attribute] = $this->$getter();
     }
 

@@ -5,6 +5,13 @@ use PU\Managers\ActionCards;
 
 abstract class Utils extends \APP_DbObject
 {
+  // COMPATIBLE WITH TURKISH I
+  public static function ucfirst($str)
+  {
+    $tmp = preg_split('//u', $str, 2, PREG_SPLIT_NO_EMPTY);
+    return mb_convert_case(str_replace('i', 'İ', $tmp[0]), MB_CASE_TITLE, 'UTF-8') . $tmp[1];
+  }
+
   public static function filterPrivateDatas($cards)
   {
     $t = [];
