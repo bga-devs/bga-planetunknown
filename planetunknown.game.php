@@ -278,9 +278,8 @@ class planetunknown extends Table
         $this->actChooseRotation(bga_rand(0, 5));
       }
       // Clear all node of player
-      elseif (Engine::getNextUnresolved() != null) {
+      elseif (Engine::getNextUnresolved($activePlayer) != null) {
         Engine::clearZombieNodes($activePlayer);
-        Engine::proceed();
       } else {
         $this->gamestate->nextState('zombiePass');
       }

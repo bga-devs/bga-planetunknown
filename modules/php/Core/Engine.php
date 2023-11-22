@@ -502,10 +502,9 @@ class Engine
 
   /**
    * Clear all nodes related to the current active zombie player
-   *
+   */
   public function clearZombieNodes($pId)
   {
-    self::$tree->clearZombieNodes($pId);
+    Game::get()->gamestate->setPlayerNonMultiactive($pId, 'done');
   }
-   */
 }
