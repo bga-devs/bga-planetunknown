@@ -37,6 +37,10 @@ class Planet10 extends \PU\Models\Planet
     $datas = $tile->getData();
     foreach ($cells as $i => $cell) {
       $type = $datas[$i]['type'];
+      if (!$datas[$i]['symbol']) {
+        continue;
+      }
+
       if ($cell['x'] <= 5 && $cell['y'] <= 5 && $type == CIV) {
         return false;
       }
