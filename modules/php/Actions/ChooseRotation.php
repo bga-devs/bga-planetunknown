@@ -24,10 +24,7 @@ class ChooseRotation extends \PU\Models\Action
   public function actChooseRotation($rotation)
   {
     $player = $this->getPlayer();
-
-    if ($rotation < 0 || $rotation > 5) {
-      throw new \BgaVisibleSystemException('You cannot rotate Susan in position ' . $rotation . '. Should not happen');
-    }
+    $rotation = (($rotation % 6) + 6) % 6;
     Susan::rotate($rotation, $player);
   }
 }
