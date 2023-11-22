@@ -103,7 +103,7 @@ class CollectMeeple extends \PU\Models\Action
       'type' => $type,
       'where' => $this->getLocation(),
       'n' => min($this->getN(), count($collectableMeeples)),
-      'i18n' => ['action', 'type'],
+      'i18n' => ['action', 'type', 'where'],
     ];
   }
 
