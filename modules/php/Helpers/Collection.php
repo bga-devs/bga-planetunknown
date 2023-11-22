@@ -1,6 +1,6 @@
 <?php
 namespace PU\Helpers;
-use Utils;
+use PU\Helpers\Utils;
 
 class Collection extends \ArrayObject
 {

@@ -2,7 +2,7 @@
 namespace PU\Helpers;
 use PU\Core\Game;
 use PU\Core\Globals;
-use Utils;
+use PU\Helpers\Utils;
 
 abstract class DB_Model extends \APP_DbObject implements \JsonSerializable
 {

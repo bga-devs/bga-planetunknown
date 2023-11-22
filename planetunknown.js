@@ -1051,7 +1051,7 @@ define([
       // Click on flip to mirror
       let flipTile = () => {
         flipped = !flipped;
-        if (rotation % 2 == 1) rotation += 2;
+        if (((rotation % 2) + 2) % 2 == 1) rotation += 2;
         updateSelection();
       };
       this.onClick('tile-flip', () => flipTile());
