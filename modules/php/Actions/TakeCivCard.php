@@ -67,10 +67,11 @@ class TakeCivCard extends \PU\Models\Action
 
   public function argsTakeCivCard()
   {
+    $cards = $this->getPossibleCards();
     return [
       'cards' => $this->getPossibleCards(),
       'level' => $this->getLevel(),
-      'n' => $this->getN(),
+      'n' => min($this->getN(), $cards->count()),
       'descSuffix' => $this->getLevel() == 'all' ? 'all' : '',
     ];
   }
@@ -82,6 +83,10 @@ class TakeCivCard extends \PU\Models\Action
 
     if (!is_array($cards)) {
       $cards = [$cards];
+    }
+
+    if (count($cards) > $args['n']) {
+      throw new \BgaVisibleSystemException("You cannot take so many civ cards. Should not happen");
     }
 
     foreach ($cards as $cardId) {
