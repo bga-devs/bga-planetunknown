@@ -29,6 +29,13 @@ class action_planetunknown extends APP_GameAction
     }
   }
 
+  public function actUnstuckGame()
+  {
+    self::setAjaxMode();
+    $this->game->actUnstuckGame();
+    self::ajaxResponse();
+  }
+
   public function actChooseRotation()
   {
     self::setAjaxMode();

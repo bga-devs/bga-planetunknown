@@ -49,7 +49,7 @@ trait EngineTrait
     $player = Players::get($pId);
     $node = Engine::getNextUnresolved($pId);
     if (is_null($node)) {
-      return [];
+      return ['noNode' => true];
     }
 
     $action = $this->getCurrentAtomicAction($pId);
@@ -275,5 +275,15 @@ trait EngineTrait
   {
     Engine::apply();
     Engine::callback();
+  }
+
+  public function actUnstuckGame()
+  {
+    $pId = Players::getCurrentId();
+    $node = Engine::getNextUnresolved($pId);
+    if (!is_null($node)) {
+      throw new \BgaVisibleSystemException('You are not stuck!');
+    }
+    Engine::confirm($pId);
   }
 }
