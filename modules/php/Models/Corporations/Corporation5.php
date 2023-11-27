@@ -140,6 +140,13 @@ class Corporation5 extends Corporation
       if (!is_null($meeple)) {
         continue;
       }
+      //if spaceId is rover_16, rover_15 must be free too
+      if ($y == 16 && $x == ROVER) {
+        $meeple = $this->player->getMeepleOnCell(['x' => $x, 'y' => $y - 1], null, false);
+        if (!is_null($meeple)) {
+          continue;
+        }
+      }
 
       $spaces[] = $x . '_' . $y;
     }
@@ -152,6 +159,7 @@ class Corporation5 extends Corporation
     //for negative move be sure it's fully possible
     if ($n < 0) {
       $tracker = $this->player->getTracker($type);
+      if (is_null($tracker)) return false;
       //if it can regress
       if ($tracker->getY() + $n >= 0) {
         //check if there is nothing under it
