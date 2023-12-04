@@ -95,6 +95,7 @@ class Corporation6 extends Corporation
       //for water, find the last medal crossed specificaly on water track 
       //take the water track
       $waterTracker = $this->player->getTracker($type);
+      if (is_null($waterTracker)) return 0;
       for ($y = $this->convertWaterPositionToY($waterTracker); $y > 0; $y--) {
         $previousPositionOnWaterTrack = $this->convertYToWaterPosition($y);
         if ($previousPositionOnWaterTrack['x'] == WATER) {
