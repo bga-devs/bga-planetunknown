@@ -224,8 +224,9 @@ trait EngineTrait
   {
     // Check user preference to bypass if DISABLED is picked
     $pref = Players::get($pId)->getPref(OPTION_CONFIRM);
-    if ($pref == OPTION_CONFIRM_DISABLED) {
+    if ($pref == OPTION_CONFIRM_DISABLED && (!isset($this->_isCancel) || !$this->_isCancel)) {
       $this->actConfirmTurn(true, $pId);
+      return true; // SKIP ENTERING STATE IN UI
     }
   }
 
@@ -267,6 +268,7 @@ trait EngineTrait
   {
     $pId = Players::getCurrentId();
     $this->gamestate->setPlayersMultiactive([$pId], '');
+    $this->_isCancel = true;
     $state = PGlobals::getState($pId);
     $this->gamestate->setPrivateState($pId, $state);
   }
