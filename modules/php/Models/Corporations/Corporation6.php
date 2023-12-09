@@ -78,19 +78,46 @@ class Corporation6 extends Corporation
     if (is_null($tracker)) return 0;
 
     //if $type is not water, or is water and on water track do as usual
-    if ($type != WATER || $this->player->getTracker($type)->getX() == WATER) {
-      return $this->player->getTracker($type)->getY();
-    } else { // search for last postion of waterTracker on the watertrack
-      $waterTracker = $this->player->getTracker($type);
-      $y = $this->convertWaterPositionToY($waterTracker) - 1;
-      $lastPositionOnWaterTrack = $this->convertYToWaterPosition($y);
-      while ($lastPositionOnWaterTrack['x'] != WATER) {
-        $y -= 1;
-        $lastPositionOnWaterTrack = $this->convertYToWaterPosition($y);
-      }
-      return $lastPositionOnWaterTrack['y'];
+    if ($type != WATER) {
+      return $tracker->getY();
+    } else {
+      return $this->convertWaterPositionToY($tracker);
     }
   }
+
+  //overide due to this very special water track
+  public function getBestMedal($type)
+  {
+    //for other types, nothing changes
+    if ($type != WATER) {
+      return parent::getBestMedal($type);
+    } else {
+      //for water, find the last medal crossed specificaly on water track 
+      //take the water track
+      $waterTracker = $this->player->getTracker($type);
+      if (is_null($waterTracker)) return 0;
+      for ($y = $this->convertWaterPositionToY($waterTracker); $y > 0; $y--) {
+        $previousPositionOnWaterTrack = $this->convertYToWaterPosition($y);
+        if ($previousPositionOnWaterTrack['x'] == WATER) {
+          $medal = $this->extractMedal($this->tracks[WATER][$previousPositionOnWaterTrack['y']]);
+          if ($medal) {
+            return $medal;
+          }
+        }
+      }
+      return 0;
+    };
+  }
+
+  public function isTrackerOnTop($type)
+  {
+    if ($type == WATER) {
+      return count($this->waterTrack) == $this->getLevelOnTrack(WATER) + 1;
+    } else {
+      return parent::isTrackerOnTop($type);
+    }
+  }
+
 
   /**
    * Return cell corresponding to a level in water track, 
