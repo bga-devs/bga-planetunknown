@@ -248,6 +248,9 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         for (let y = 15; y >= 0; y--) {
           grid += `<div class='corpo-cell' id='corporation-${pId}-${track}-${y}'></div>`;
         }
+        if (track == 'rover') {
+          grid += `<div class='corpo-cell max-rover' id='corporation-${pId}-${track}-16'></div>`;
+        }
         grid += '</div>';
       });
       grid += '<div class="tech-descs">';
