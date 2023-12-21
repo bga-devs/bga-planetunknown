@@ -130,6 +130,9 @@ trait TurnTrait
    */
   function stStartTurnEngine()
   {
+    Susan::refill();
+    Notifications::endOfTurn(); // Send notif
+
     $players = Players::getAll();
 
     $flows = [];
