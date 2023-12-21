@@ -143,7 +143,7 @@ class Corporation5 extends Corporation
       //if spaceId is rover_16, rover_15 must be free too
       if ($y == 16 && $x == ROVER) {
         $meeple = $this->player->getMeepleOnCell(['x' => $x, 'y' => $y - 1], null, false);
-        if (!is_null($meeple)) {
+        if (!is_null($meeple) && $meeple != $trackPawn) {
           continue;
         }
       }
