@@ -626,7 +626,7 @@ class Planet
 
   public function isCoveredCoord($x, $y)
   {
-    return !$this->isPlanet($x, $y) || $this->hasTileAtCoord($x, $y);
+    return !$this->isPlanet($x, $y) || $this->hasTileAtCoord($x, $y) || $this->isEnergy($x, $y);
   }
 
   /**
