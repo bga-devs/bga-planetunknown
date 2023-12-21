@@ -130,6 +130,20 @@ class Notifications
     ]);
   }
 
+  public static function destroyedMeeplesByMeteor($player, $destroyedMeeples)
+  {
+    self::pnotify(
+      $player,
+      'destroyedMeeples',
+      clienttranslate('By placing the new meteor, ${player_name} destroys his rover'),
+      [
+        'player' => $player,
+        'nb' => 1,
+        'meeples' => [$destroyedMeeples],
+      ]
+    );
+  }
+
   public static function destroyedMeeples($player, $destroyedMeeples, $type)
   {
     self::pnotify(

@@ -85,7 +85,11 @@ class PlaceMeeple extends \PU\Models\Action
         $meeple = Meeples::addMeteor($player, $cell);
         Notifications::placeMeeple($player, $args['type'], $meeple);
 
-        //TODO is it possible to place directly on a rover ??
+        $destroyedRover = $player->getRoverOnCell($cell);
+        if (!is_null($destroyedRover)) {
+          Meeples::move($destroyedRover->getId(), 'trash');
+          Notifications::destroyedMeeplesByMeteor($player, $destroyedRover, ROVER);
+        }
     }
   }
 }

@@ -70,7 +70,6 @@ $game_options = [
       // Note: only display for non-solo mode
       [
         'type' => 'minplayers',
-        // 'value' => [2, 3, 4, 5, 6],//TODO change
         'value' => [1, 2, 3, 4, 5, 6],
       ],
     ],
