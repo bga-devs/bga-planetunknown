@@ -398,9 +398,9 @@ class PlaceTile extends \PU\Models\Action
       $type = $symbol['type'];
       $tileTypes[] = $type;
       $n = 1;
-      if ($type == WATER && $player->hasTech(TECH_WATER_ADVANCE_TWICE)) {
-        $n *= 2;
-      }
+      // if ($type == WATER && $player->hasTech(TECH_WATER_ADVANCE_TWICE)) {
+      //   $n *= 2;
+      // }
 
       $actions[] = [
         'action' => MOVE_TRACK,
