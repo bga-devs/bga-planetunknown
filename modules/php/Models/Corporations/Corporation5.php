@@ -146,6 +146,7 @@ class Corporation5 extends Corporation
         if (!is_null($meeple) && $meeple != $trackPawn) {
           continue;
         }
+        $y = 15;
       }
 
       $spaces[] = $x . '_' . $y;
