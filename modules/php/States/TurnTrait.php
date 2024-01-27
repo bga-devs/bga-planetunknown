@@ -133,6 +133,7 @@ trait TurnTrait
     Susan::refill();
     Notifications::endOfTurn(); // Send notif
 
+    Globals::setPhase(NORMAL_PHASE);
     $players = Players::getAll();
 
     $flows = [];
