@@ -55,7 +55,7 @@ class ChooseObjectiveForAll extends \PU\Models\Action
   {
     $player = $this->getPlayer();
     $args = $this->argsChooseObjectiveForAll();
-    if (!array_key_exists($cardId, $args['NOCards'])) {
+    if (!($args['NOCards'][$cardId] ?? null)) {
       throw new BgaVisibleSystemException("You can\'t choose this objective card $cardId. Should not happen");
     }
 

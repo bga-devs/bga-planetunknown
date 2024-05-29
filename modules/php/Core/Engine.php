@@ -18,13 +18,13 @@ class Engine
   public static $trees = null;
   public static $replayed = false;
 
-  public function invalidate()
+  public static function invalidate()
   {
     static::$replayed = false;
-    self::boot();
+    static::boot();
   }
 
-  public function boot()
+  public static function boot()
   {
     $cPId = Players::getCurrentId(true) ?? 0;
 
@@ -49,7 +49,7 @@ class Engine
     }
   }
 
-  public function apply()
+  public static function apply()
   {
     Log::clearCache(false);
     Globals::setMode(MODE_APPLY);
@@ -68,7 +68,7 @@ class Engine
    * Save current tree into Globals table
    */
 
-  public function save($pId)
+  public static function save($pId)
   {
     $t = self::$trees[$pId]->toArray();
     PGlobals::setEngine($pId, $t);
@@ -78,7 +78,7 @@ class Engine
    * Setup the engine, given an array representing a tree
    * @param array $t
    */
-  public function multipleSetup($aTrees, $callback, $descPrefix = '')
+  public static function multipleSetup($aTrees, $callback, $descPrefix = '')
   {
     Globals::setEngineWaitingDescriptionSuffix($descPrefix);
     Globals::setCallbackEngineResolved($callback);
@@ -131,7 +131,7 @@ class Engine
     Log::startEngine();
   }
 
-  public function setup($t, $callback, $descPrefix = '', $pIds = null)
+  public static function setup($t, $callback, $descPrefix = '', $pIds = null)
   {
     $allPIds = Players::getAll()->getIds();
     $pIds = $pIds ?? $allPIds;
@@ -147,7 +147,7 @@ class Engine
    * Convert an array into a tree
    * @param array $t
    */
-  public function buildTree($t)
+  public static function buildTree($t)
   {
     $t['childs'] = $t['childs'] ?? [];
     $type = $t['type'] ?? (empty($t['childs']) ? NODE_LEAF : NODE_SEQ);
@@ -165,7 +165,7 @@ class Engine
   /**
    * Recursively compute the next unresolved node we are going to address
    */
-  public function getNextUnresolved($pId)
+  public static function getNextUnresolved($pId)
   {
     return isset(self::$trees[$pId]) ? self::$trees[$pId]->getNextUnresolved() : null;
   }
@@ -173,7 +173,7 @@ class Engine
   /**
    * Change state
    */
-  protected function setState($pId, $newState, $globalOnly = false)
+  protected static function setState($pId, $newState, $globalOnly = false)
   {
     PGlobals::setState($pId, $newState);
     if (!$globalOnly) {
@@ -184,14 +184,14 @@ class Engine
   /**
    * Proceed to next unresolved part of tree
    */
-  public function multipleProceed($pIds)
+  public static function multipleProceed($pIds)
   {
     foreach ($pIds as $pId) {
       self::proceed($pId);
     }
   }
 
-  public function proceed($pId, $confirmedPartial = false, $isUndo = false)
+  public static function proceed($pId, $confirmedPartial = false, $isUndo = false)
   {
     $node = self::getNextUnresolved($pId);
 
@@ -237,7 +237,7 @@ class Engine
     }
   }
 
-  public function proceedToAction($pId, $node, $isUndo = false)
+  public static function proceedToAction($pId, $node, $isUndo = false)
   {
     $actionId = $node->getAction();
     if (is_null($actionId)) {
@@ -260,7 +260,7 @@ class Engine
   /**
    * Get the list of choices of current node
    */
-  public function getNextChoice($player, $displayAllChoices = false)
+  public static function getNextChoice($player, $displayAllChoices = false)
   {
     $node = self::getNextUnresolved($player->getId());
     return $node->getChoices($player, $displayAllChoices);
@@ -269,7 +269,7 @@ class Engine
   /**
    * Choose one option
    */
-  public function chooseNode($player, $nodeId, $auto = false)
+  public static function chooseNode($player, $nodeId, $auto = false)
   {
     $pId = $player->getId();
     $node = self::getNextUnresolved($pId);
@@ -301,7 +301,7 @@ class Engine
   /**
    * Resolve action : resolve the action of a leaf action node
    */
-  public function resolveAction($args = [], $checkpoint = false, &$node = null, $automatic = false)
+  public static function resolveAction($args = [], $checkpoint = false, &$node = null, $automatic = false)
   {
     if (is_null($node)) {
       die('Not possible');
@@ -325,7 +325,7 @@ class Engine
     }
   }
 
-  public function checkpoint($pId)
+  public static function checkpoint($pId)
   {
     PGlobals::setEngineChoices($pId, 0);
     Log::checkpoint($pId);
@@ -334,7 +334,7 @@ class Engine
   /**
    * Insert a new node right before current pending node
    */
-  public function insertBeforeCurrent($pId, $t)
+  public static function insertBeforeCurrent($pId, $t)
   {
     $node = self::getNextUnresolved($pId);
 
@@ -375,7 +375,7 @@ class Engine
   /**
    * insertAsChild: turn the node into a SEQ if needed, then insert the flow tree as a child
    */
-  public function insertAsChild($t, &$node)
+  public static function insertAsChild($t, &$node)
   {
     if (is_null($t)) {
       return;
@@ -401,7 +401,7 @@ class Engine
    *  - otherwise, make the action a parallel node
    */
 
-  public function insertOrUpdateParallelChilds($childs, &$node)
+  public static function insertOrUpdateParallelChilds($childs, &$node)
   {
     if (empty($childs)) {
       return;
@@ -447,7 +447,7 @@ class Engine
   /**
    * Confirm the full resolution of current flow
    */
-  public function confirm($pId)
+  public static function confirm($pId)
   {
     $node = self::getNextUnresolved($pId);
     // Are we done ?
@@ -460,7 +460,7 @@ class Engine
     Game::get()->gamestate->setPlayerNonMultiactive($pId, 'done');
   }
 
-  public function callback()
+  public static function callback()
   {
     // Callback
     $callback = Globals::getCallbackEngineResolved();
@@ -477,7 +477,7 @@ class Engine
   /**
    * Restart the whole flow
    */
-  public function restart($pId)
+  public static function restart($pId)
   {
     Log::undoTurn($pId);
 
@@ -491,7 +491,7 @@ class Engine
   /**
    * Restart at a given step
    */
-  public function undoToStep($pId, $stepId)
+  public static function undoToStep($pId, $stepId)
   {
     Log::undoToStep($pId, $stepId);
 
@@ -503,7 +503,7 @@ class Engine
   /**
    * Clear all nodes related to the current active zombie player
    */
-  public function clearZombieNodes($pId)
+  public static function clearZombieNodes($pId)
   {
     Game::get()->gamestate->setPlayerNonMultiactive($pId, 'done');
   }

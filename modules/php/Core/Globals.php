@@ -12,26 +12,26 @@ use PU\Helpers\Utils;
 class Globals extends \PU\Helpers\DB_Manager
 {
   protected static $isReplayMode = false;
-  public function setReplayMode()
+  public static function setReplayMode()
   {
     static::$isReplayMode = true;
   }
-  public function unsetReplayMode()
+  public static function unsetReplayMode()
   {
     static::$isReplayMode = false;
   }
 
   protected static $isDebugMode = false;
-  public function setDebugMode()
+  public static function setDebugMode()
   {
     static::$isDebugMode = true;
   }
-  public function unsetDebugMode()
+  public static function unsetDebugMode()
   {
     static::$isDebugMode = false;
   }
 
-  public function setMode($v)
+  public static function setMode($v)
   {
     if ($v == \MODE_REPLAY) {
       static::$isReplayMode = true;
@@ -40,7 +40,7 @@ class Globals extends \PU\Helpers\DB_Manager
     }
   }
 
-  public function getMode()
+  public static function getMode()
   {
     if (static::$isReplayMode) {
       return \MODE_REPLAY;

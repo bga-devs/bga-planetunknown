@@ -74,7 +74,7 @@ trait ChooseSetupTrait
     if (!in_array($corporationId, $args['corporations'])) {
       throw new \BgaVisibleSystemException('You can\'t choose this corporation. Should not happen');
     }
-    if (count($args['POCards']) > 0 && !array_key_exists($rejectedCardId, $args['POCards'])) {
+    if (count($args['POCards']) > 0 && !($args['POCards'][$rejectedCardId] ?? null)) {
       throw new \BgaVisibleSystemException('You have to reject a card that you have in hand!! Should not happen');
     }
     if ($corporationId == FLUX && !in_array($flux, ALL_TYPES)) {

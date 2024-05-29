@@ -315,13 +315,13 @@ class planetunknown extends Table
   /////////////////////////////////////////////////////////////
 
   // Exposing protected method getCurrentPlayerId
-  public static function getCurrentPId($bReturnNullIfNotLogged = false)
+  public function getCurrentPId($bReturnNullIfNotLogged = false)
   {
     return self::getCurrentPlayerId($bReturnNullIfNotLogged);
   }
 
   // Exposing protected method translation
-  public static function translate($text)
+  public function translate($text)
   {
     return self::_($text);
   }

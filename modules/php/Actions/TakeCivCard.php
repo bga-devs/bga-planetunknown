@@ -90,12 +90,12 @@ class TakeCivCard extends \PU\Models\Action
     }
 
     foreach ($cards as $cardId) {
-      if (!array_key_exists($cardId, $args['cards'])) {
+      $card = $args['cards'][$cardId] ?? null;
+      if (!$card) {
         throw new \BgaVisibleSystemException("You cannot take this card ($cardId) from this deck. Should not happen");
       }
 
       // Place it on the player board or hand
-      $card = $args['cards'][$cardId];
       $player->takeCivCard($card);
       Notifications::takeCivCard($player, $card, $args['level']);
 

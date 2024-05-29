@@ -589,7 +589,7 @@ class Notifications
   }
 
   // Remove extra information from cards
-  protected function filterCardDatas($card)
+  protected static function filterCardDatas($card)
   {
     return [
       'id' => $card['id'],

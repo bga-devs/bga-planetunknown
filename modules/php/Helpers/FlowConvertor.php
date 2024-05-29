@@ -1,5 +1,7 @@
 <?php
+
 namespace PU\Helpers;
+
 use PU\Core\Globals;
 use PU\Managers\Players;
 
@@ -14,7 +16,7 @@ abstract class FlowConvertor
    *      [BONUS_TYPE => BONUS_N]
    *    ]
    */
-  public function getFlow($bonuses, $source = '', $sourceType = null, $sourceId = null)
+  public static function getFlow($bonuses, $source = '', $sourceType = null, $sourceId = null)
   {
     $immediateBonuses = [];
     $afterFinishingBonuses = [];
