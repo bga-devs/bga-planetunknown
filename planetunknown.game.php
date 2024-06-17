@@ -272,8 +272,6 @@ class planetunknown extends Table
     if ($state['type'] == 'activeplayer') {
       if ($stateName == 'confirmTurn') {
         $this->actConfirmTurn(true);
-      } elseif ($stateName == 'confirmPartialTurn') {
-        $this->actConfirmPartialTurn(true);
       } elseif ($stateName == 'chooseRotation') {
         $this->actChooseRotation(bga_rand(0, 5));
       }
@@ -317,12 +315,12 @@ class planetunknown extends Table
   // Exposing protected method getCurrentPlayerId
   public function getCurrentPId($bReturnNullIfNotLogged = false)
   {
-    return self::getCurrentPlayerId($bReturnNullIfNotLogged);
+    return self::get()->getCurrentPlayerId($bReturnNullIfNotLogged);
   }
 
   // Exposing protected method translation
   public function translate($text)
   {
-    return self::_($text);
+    return self::get()->_($text);
   }
 }

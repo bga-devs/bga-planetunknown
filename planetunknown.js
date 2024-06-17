@@ -797,10 +797,6 @@ define([
       this.addConfirmTurn(args, 'actConfirmTurn');
     },
 
-    onEnteringStateConfirmPartialTurn(args) {
-      this.addConfirmTurn(args, 'actConfirmPartialTurn');
-    },
-
     askConfirmation(warning, callback) {
       if (warning === false || this.prefs[104].value == 0) {
         callback();

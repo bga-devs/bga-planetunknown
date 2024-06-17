@@ -535,7 +535,7 @@ class Pieces extends DB_Manager
    *     "state" => <state>             // Optional argument specifies integer state, if not specified and $token_state_global is not specified auto-increment is used
    */
 
-  static function create($pieces, $globalLocation = null, $globalState = null, $globalId = null)
+  public static function create($pieces, $globalLocation = null, $globalState = null, $globalId = null)
   {
     $pos = is_null($globalLocation) ? 0 : self::getExtremePosition(true, $globalLocation) + 1;
 
@@ -597,7 +597,7 @@ class Pieces extends DB_Manager
   /*
    * Create a single token
    */
-  static function singleCreate($token)
+  public static function singleCreate($token)
   {
     $tokens = self::create([$token]);
     return self::getSingle(is_array($tokens) ? $tokens[0] : $tokens);

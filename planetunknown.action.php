@@ -87,13 +87,6 @@ class action_planetunknown extends APP_GameAction
     self::ajaxResponse();
   }
 
-  public function actConfirmPartialTurn()
-  {
-    self::setAjaxMode();
-    $this->game->actConfirmPartialTurn();
-    self::ajaxResponse();
-  }
-
   public function actRestart()
   {
     self::setAjaxMode();

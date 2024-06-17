@@ -200,16 +200,6 @@ $machinestates = [
     'possibleactions' => ['actConfirmTurn', 'actRestart'],
   ],
 
-  ST_CONFIRM_PARTIAL_TURN => [
-    'name' => 'confirmPartialTurn',
-    'description' => clienttranslate('${actplayer} must confirm the switch of player'),
-    'descriptionmyturn' => clienttranslate('${you} must confirm the switch of player. You will not be able to restart turn'),
-    'type' => 'private',
-    'args' => 'argsConfirmTurn',
-    // 'action' => 'stConfirmPartialTurn',
-    'possibleactions' => ['actConfirmPartialTurn', 'actRestart'],
-  ],
-
   ST_RESOLVE_CHOICE => [
     'name' => 'resolveChoice',
     'description' => clienttranslate('${actplayer} must choose which effect to resolve'),

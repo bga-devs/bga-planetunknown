@@ -48,8 +48,8 @@ class PGlobals extends \PU\Helpers\DB_Manager
     self::$log = false;
 
     foreach (self::DB()
-        ->select(['value', 'name'])
-        ->get(false)
+      ->select(['value', 'name'])
+      ->get(false)
       as $uid => $variable) {
       list($name, $pId) = explode('-', $uid);
 
@@ -166,7 +166,7 @@ class PGlobals extends \PU\Helpers\DB_Manager
       }
     }
     throw new \feException(print_r(debug_print_backtrace()));
-    return undefined;
+    return null;
   }
 
   /*

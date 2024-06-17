@@ -203,7 +203,7 @@ class Globals extends \PU\Helpers\DB_Manager
       }
     }
     throw new \feException(print_r(debug_print_backtrace()));
-    return undefined;
+    return null;
   }
 
   /*

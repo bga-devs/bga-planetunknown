@@ -43,6 +43,7 @@ class CachedPieces extends DB_Manager
   // If defined, tell the name of the deck and what is the corresponding discard (ex : "mydeck" => "mydiscard")
   protected static $autoreshuffleCustom = [];
   protected static $customFields = [];
+  protected static $datas = null;
 
   public static function DB($table = null)
   {
@@ -462,7 +463,7 @@ class CachedPieces extends DB_Manager
    *     "state" => <state>             // Optional argument specifies integer state, if not specified and $token_state_global is not specified auto-increment is used
    */
 
-  static function create($pieces, $globalLocation = null, $globalState = null, $globalId = null)
+  public static function create($pieces, $globalLocation = null, $globalState = null, $globalId = null)
   {
     $pos = is_null($globalLocation) ? 0 : self::getExtremePosition(true, $globalLocation) + 1;
 
@@ -573,7 +574,7 @@ class CachedPieces extends DB_Manager
   /*
    * Create a single token
    */
-  static function singleCreate($token)
+  public static function singleCreate($token)
   {
     return self::create([$token])->first();
   }

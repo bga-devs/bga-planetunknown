@@ -136,34 +136,7 @@ abstract class Utils extends \APP_DbObject
 
   public static function die($args = null)
   {
-    if (is_null($args)) {
-      throw new \BgaVisibleSystemException(implode('<br>', self::$logmsg));
-    }
     throw new \BgaVisibleSystemException(json_encode($args));
-  }
-
-  /**
-   * Return a string corresponding to an assoc array of resources
-   */
-  public static function resourcesToStr($resources, $keepZero = false)
-  {
-    $descs = [];
-    foreach ($resources as $resource => $amount) {
-      if (in_array($resource, ['sources', 'sourcesDesc', 'cardId', 'cId', 'pId', 'income'])) {
-        continue;
-      }
-
-      if ($amount == 0 && !$keepZero) {
-        continue;
-      }
-
-      if (in_array($resource, [REPUTATION, CONSERVATION, APPEAL, MONEY])) {
-        $descs[] = '<' . strtoupper($resource) . ':' . $amount . '>';
-      } else {
-        $descs[] = $amount . '<' . strtoupper($resource) . '>';
-      }
-    }
-    return implode(',', $descs);
   }
 
   public static function tagTree($t, $tags)
@@ -185,25 +158,6 @@ abstract class Utils extends \APP_DbObject
     return [
       'fees' => [$cost],
     ];
-  }
-
-  public static function reduceResources($meeples)
-  {
-    $allResources = [XTOKEN, REPUTATION, APPEAL, MONEY];
-    $t = [];
-    foreach ($allResources as $resource) {
-      $t[$resource] = 0;
-    }
-
-    foreach ($meeples as $meeple) {
-      if ($meeple['type'] == SCORE) {
-        continue;
-      }
-
-      $t[$meeple['type']]++;
-    }
-
-    return $t;
   }
 
   public static function uniqueZones($arr1)

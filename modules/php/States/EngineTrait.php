@@ -239,14 +239,6 @@ trait EngineTrait
     Engine::confirm($pId);
   }
 
-  public function actConfirmPartialTurn($auto = false)
-  {
-    if (!$auto) {
-      self::checkAction('actConfirmPartialTurn');
-    }
-    Engine::confirmPartialTurn();
-  }
-
   public function actRestart()
   {
     self::checkAction('actRestart');
