@@ -3341,26 +3341,18 @@ html {
 .dijitTooltipContainer .midSizeDialog h4 {
   margin-top: 5px; }
 
-#left-side {
-  margin-right: 355px !important; }
-
-.mobile_version #left-side {
-  margin-right: 2px !important; }
-
 #right-side {
-  float: left;
-  margin-left: -350px;
   margin-top: 5px;
   width: 350px; }
 
 .logs_on_additional_column #right-side {
-  margin-left: -600px;
+  grid-template-columns: 350px 240px;
   width: 600px; }
 .logs_on_additional_column #right-side-first-part {
-  float: left;
   width: 350px; }
-.logs_on_additional_column #left-side {
-  margin-right: 610px !important; }
+
+.mobile_version #player_boards {
+  grid-template-columns: minmax(350px, 1fr) repeat(auto-fit, minmax(240px, 1fr)); }
 
 .notransition {
   -webkit-transition: none !important;
