@@ -47,6 +47,7 @@ trait EndGameTrait
     Globals::setPhase(END_OF_GAME_PHASE);
     $flows = [];
     foreach ($players as $pId => $player) {
+      $player->corporation()->resetFlags();
       $actions = $player->getEndOfGameActions();
 
       if ($player->hasTech(TECH_REPUBLIC_GET_2_CIV_CARDS_END_OF_GAME)) {
