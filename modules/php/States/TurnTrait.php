@@ -204,6 +204,7 @@ trait TurnTrait
   public function stChooseCivCard()
   {
     $player = Players::getActive();
+    $player->corporation()->resetFlags();
     Globals::setPhase(END_OF_TURN_PHASE);
     Engine::setup(
       [
