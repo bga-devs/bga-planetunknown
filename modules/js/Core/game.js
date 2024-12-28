@@ -54,7 +54,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
     unsetModeInstantaneous() {
       if (this.instantaneousMode) {
         this.instantaneousMode = false;
-        dojo.style('leftright_page_wrapper', 'display', 'block');
+        $('leftright_page_wrapper').style.removeProperty('display');
         dojo.style('loader_mask', 'display', 'none');
         this.updateLayout();
       }
