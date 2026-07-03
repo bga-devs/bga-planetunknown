@@ -186,13 +186,9 @@ trait EngineTrait
     Engine::chooseNode($player, $choiceId);
   }
 
-  public function stResolveStack()
-  {
-  }
+  public function stResolveStack() {}
 
-  public function stResolveChoice()
-  {
-  }
+  public function stResolveChoice() {}
 
   function argsImpossibleAction($pId)
   {

@@ -3,15 +3,7 @@
 namespace PU\Actions;
 
 use PU\Managers\Meeples;
-use PU\Managers\Players;
-use PU\Managers\Tiles;
 use PU\Core\Notifications;
-use PU\Core\Engine;
-use PU\Core\Stats;
-use PU\Helpers\Utils;
-use PU\Helpers\FlowConvertor;
-use PU\Managers\Susan;
-use PU\Models\Meeple;
 use PU\Models\Planet;
 
 class PlaceMeeple extends \PU\Models\Action
@@ -55,7 +47,7 @@ class PlaceMeeple extends \PU\Models\Action
         break;
     }
 
-    return array_map(fn ($cell) => Planet::getCellId($cell), $possibleCells);
+    return array_map(fn($cell) => Planet::getCellId($cell), $possibleCells);
   }
 
   public function argsPlaceMeeple()
