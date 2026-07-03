@@ -389,7 +389,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
 
       return `<div id="${id}" data-id="${tile.id}" class='tile-container' 
         data-type='${tile.type}' data-shape='${+tile.type % 12}' data-sprite='${parseInt(+tile.type / 48)}'
-        data-state='${tile.state}' data-rotation='${tile.rotation}' data-flipped='${tile.flipped}'>
+        data-state='${tile.state}' data-rotation='${tile.rotation === null? 0 : tile.rotation}' data-flipped='${tile.flipped === null? 0 : tile.flipped}'>
       <div class='tile-inner'></div>
       <div class='tile-border'></div>
       <div class='tile-crosshairs'>
@@ -410,7 +410,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
 
     updateTileObj(o, tile) {
       ['state', 'rotation', 'flipped'].forEach((key) => {
-        o.dataset[key] = tile[key];
+        o.dataset[key] = tile[key] === null? 0 : tile[key];
       });
       if (tile.location == 'planet') {
         this.placeTile(o, tile.x, tile.y, tile.pId);
