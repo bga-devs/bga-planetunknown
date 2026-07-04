@@ -6,6 +6,7 @@ use PU\Core\Game;
 use PU\Core\Engine;
 use PU\Core\Globals;
 use PU\Core\Notifications;
+use PU\Core\PGlobals;
 use PU\Helpers\Log;
 use PU\Helpers\Utils;
 use PU\Managers\Players;
@@ -53,8 +54,8 @@ class Actions
   public static function get($actionId, &$ctx = null)
   {
     if (!in_array($actionId, self::$classes)) {
-      // throw new \feException(print_r(debug_print_backtrace()));
-      // throw new \feException(print_r(Globals::getEngine()));
+      // debug_print_backtrace();
+      // var_dump(PGlobals::getEngine(Players::getCurrentId()));
       throw new \BgaVisibleSystemException('Trying to get an atomic action not defined in Actions.php : ' . $actionId);
     }
     $name = '\PU\Actions\\' . $actionId;

@@ -53,6 +53,10 @@ trait EngineTrait
     }
 
     $action = $this->getCurrentAtomicAction($pId);
+    if (is_null($action)) {
+      return ['noNode' => true];
+    }
+
     $args = Actions::getArgs($action, $node);
     $args['automaticAction'] = Actions::get($action, $node)->isAutomatic($player);
     $this->addCommonArgs($pId, $args);
