@@ -94,7 +94,6 @@ class Engine
 
     $realPIds = [];
     self::$trees = [];
-    var_dump($aTrees);
     foreach ($pIds as $pId) {
       // Build the tree while enforcing $pId at root
       $aTree = $aTrees[$pId];

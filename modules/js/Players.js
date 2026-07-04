@@ -413,7 +413,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/data.js'], (d
         o.dataset[key] = tile[key] === null? 0 : tile[key];
       });
       if (tile.location == 'planet') {
-        this.placeTile(o, tile.x, tile.y, tile.pId);
+        this.placeTile(o, tile.x || 0, tile.y || 0, tile.pId);
       }
     },
 
