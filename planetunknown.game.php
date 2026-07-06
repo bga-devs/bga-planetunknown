@@ -306,6 +306,10 @@ class planetunknown extends Table
     //   $sql = 'ALTER TABLE `DBPREFIX_player` ADD `new_score` INT(10) NOT NULL DEFAULT 0';
     //   self::applyDbUpgradeToAllDB($sql);
     // }
+
+    if ($from_version <= 2607061617) {
+      $this->debug_unblock();
+    }
   }
 
   /////////////////////////////////////////////////////////////

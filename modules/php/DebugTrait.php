@@ -35,13 +35,51 @@ trait DebugTrait
     Globals::setMode($mode);
   }
 
-  function tp()
+  function debug_unblock()
   {
-    //    Log::clearUndoableStepNotifications(true);
-    // $this->actTakeAtomicAction('actPlaceRover', ['4_1']);
-    // $player = Players::getCurrent();
-    // var_dump($player->canTakeAction(PLACE_TILE, []));
-    var_dump(Globals::getTurnSpecialRule());
+    $flows = PGlobals::getAll('engine');
+    $realPIds = [];
+    foreach ($flows as $pId => $t) {
+      if (empty($t)) {
+        continue;
+      }
+
+      $realPIds[] = $pId;
+      $node = $t;
+      if ($node['type'] == NODE_SEQ) {
+        $node = $node['childs'][0];
+      }
+
+      if (!isset($node['action'])) {
+        die("CANNOT FIND ACTION FOR RESETTING THE ENGINE, PLEASE REPORT AS A BUG");
+      }
+
+      $newTree = [
+        'type' => NODE_SEQ,
+        'pId' => $pId,
+        'childs' => [
+          [
+            'action' => $node['action'],
+            'args' => $node['args'] ?? [],
+            'pId' => $pId
+          ]
+        ]
+      ];
+
+      PGlobals::setEngine($pId, $newTree);
+      PGlobals::setEngineChoices($pId, 0);
+    }
+    if (!empty($realPIds)) {
+      Engine::boot();
+      $gm = Game::get()->gamestate;
+      $gm->jumpToState(ST_GENERIC_NEXT_PLAYER);
+      $gm->setPlayersMultiactive($realPIds, '', true);
+      $gm->jumpToState(ST_SETUP_PRIVATE_ENGINE);
+      $gm->initializePrivateStateForPlayers($realPIds);
+      Globals::setMode(MODE_PRIVATE);
+      Engine::multipleProceed($realPIds);
+      Log::startEngine();
+    }
   }
 
   function susan()
