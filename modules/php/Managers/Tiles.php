@@ -52,26 +52,12 @@ class Tiles extends \PU\Helpers\CachedPieces
 
   public static function getOfPlayer($pId)
   {
-    return self::where('pId', $pId)->filter(fn ($tile) => $tile->getLocation() != 'box');
+    return self::where('pId', $pId)->filter(fn($tile) => $tile->getLocation() != 'box');
   }
 
   public static function getBiomassPatch($player)
   {
     $patch = self::getFiltered($player->getId(), 'box', BIOMASS_PATCH)->first();
-
-    // TODO : REMOVE => LEGACY CODE
-    if (is_null($patch)) {
-      return static::singleCreate([
-        'type' => BIOMASS_PATCH,
-        'location' => 'corporation',
-        'player_id' => $player->getId(),
-        'x' => -1,
-        'y' => -1,
-        'rotation' => 0,
-        'flipped' => 0,
-      ]);
-    }
-
     $patch->setLocation('corporation');
     $patch->setX(-1);
     $patch->setY(-1);
@@ -98,6 +84,8 @@ class Tiles extends \PU\Helpers\CachedPieces
         $tiles[] = [
           'type' => $i * 12 + $shapeId,
           'location' => "interior-$j",
+          'rotation' => 0,
+          'flipped' => 0,
         ];
       }
     }
@@ -106,6 +94,8 @@ class Tiles extends \PU\Helpers\CachedPieces
         $tiles[] = [
           'type' => $i * 12 + $shapeId,
           'location' => "exterior-$j",
+          'rotation' => 0,
+          'flipped' => 0,
         ];
       }
     }
